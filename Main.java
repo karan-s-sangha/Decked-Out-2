@@ -1,6 +1,5 @@
-Class Main
-{
-    public static void main(String[] arts){
-        System.out.println("hello")
+class Main {
+    public static void main(String[] args) {
+        System.out.println("hello");
     }
 }
