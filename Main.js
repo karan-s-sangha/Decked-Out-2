@@ -2,34 +2,23 @@
 var ASSET_MANAGER = new AssetManager();
 
 // spritesheets
-ASSET_MANAGER.queueDownload("./sprites/mario.png");
-ASSET_MANAGER.queueDownload("./sprites/luigi.png");
-ASSET_MANAGER.queueDownload("./sprites/enemies.png");
-ASSET_MANAGER.queueDownload("./sprites/tiles.png");
-ASSET_MANAGER.queueDownload("./sprites/ground.png");
-ASSET_MANAGER.queueDownload("./sprites/bricks.png");
-ASSET_MANAGER.queueDownload("./sprites/items.png");
-ASSET_MANAGER.queueDownload("./sprites/coins.png");
-ASSET_MANAGER.queueDownload("./sprites/firebar_fire.png");
-ASSET_MANAGER.queueDownload("./sprites/title.png");
-ASSET_MANAGER.queueDownload("./sprites/underground_stuff.png");
-ASSET_MANAGER.queueDownload("./sprites/title_mushroom.png");
-ASSET_MANAGER.queueDownload("./sprites/mouse_wheel.png");
-ASSET_MANAGER.queueDownload("./sprites/castle_big.png");
-ASSET_MANAGER.queueDownload("./sprites/flag.png");
+ASSET_MANAGER.queueDownload("Level_1_LowerView.png");
+ASSET_MANAGER.queueDownload("Level_1_MiddleView.png");
+ASSET_MANAGER.queueDownload("Level_1_UpperView.png");
 
-// music
-ASSET_MANAGER.queueDownload("./music/overworld.mp3");
-ASSET_MANAGER.queueDownload("./music/underworld.mp3");
-ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
-ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
 
-// sound effects
-ASSET_MANAGER.queueDownload("./audio/small-jump.mp3");
-ASSET_MANAGER.queueDownload("./audio/super-jump.mp3");
-ASSET_MANAGER.queueDownload("./audio/stomp.mp3");
-ASSET_MANAGER.queueDownload("./audio/block.mp3");
-ASSET_MANAGER.queueDownload("./audio/bump.wav");
+// // music
+// ASSET_MANAGER.queueDownload("./music/overworld.mp3");
+// ASSET_MANAGER.queueDownload("./music/underworld.mp3");
+// ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
+// ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
+
+// // sound effects
+// ASSET_MANAGER.queueDownload("./audio/small-jump.mp3");
+// ASSET_MANAGER.queueDownload("./audio/super-jump.mp3");
+// ASSET_MANAGER.queueDownload("./audio/stomp.mp3");
+// ASSET_MANAGER.queueDownload("./audio/block.mp3");
+// ASSET_MANAGER.queueDownload("./audio/bump.wav");
 
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
