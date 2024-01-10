@@ -28,7 +28,7 @@ ASSET_MANAGER.downloadAll(function () {
 	ASSET_MANAGER.autoRepeat("./music/overworld-hurry.mp3");
 	ASSET_MANAGER.autoRepeat("./music/underworld-hurry.mp3");
 
-	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
+	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;  // used for scaling the map
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
