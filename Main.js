@@ -23,18 +23,18 @@ ASSET_MANAGER.queueDownload("Level_1_UpperView.png");
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
 
-	ASSET_MANAGER.autoRepeat("./music/overworld.mp3");
-	ASSET_MANAGER.autoRepeat("./music/underworld.mp3");
-	ASSET_MANAGER.autoRepeat("./music/overworld-hurry.mp3");
-	ASSET_MANAGER.autoRepeat("./music/underworld-hurry.mp3");
+	// ASSET_MANAGER.autoRepeat("./music/overworld.mp3");
+	// ASSET_MANAGER.autoRepeat("./music/underworld.mp3");
+	// ASSET_MANAGER.autoRepeat("./music/overworld-hurry.mp3");
+	// ASSET_MANAGER.autoRepeat("./music/underworld-hurry.mp3");
 
-	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;  // used for scaling the map
+	//PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;  // used for scaling the map
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 
-	PARAMS.CANVAS_WIDTH = canvas.width;
-	PARAMS.CANVAS_HEIGHT = canvas.height;
+	//PARAMS.CANVAS_WIDTH = canvas.width;
+	//PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
 		
