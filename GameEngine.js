@@ -29,7 +29,7 @@ class GameEngine {
         var that = this;
         (function gameLoop() {
             that.loop();
-            requestAnimFrame(gameLoop, that.ctx.canvas);
+            //requestAnimFrame(gameLoop, that.ctx.canvas);
         })();
     };
 
@@ -48,7 +48,6 @@ class GameEngine {
         }
         function mouseClickListener (e) {
             that.click = getXandY(e);
-            if (PARAMS.DEBUG) console.log(that.click);
         }
         function wheelListener (e) {
             e.preventDefault(); // Prevent Scrolling
