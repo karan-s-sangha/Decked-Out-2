@@ -26,12 +26,17 @@ class GameEngine {
     };
 
     start() {
-        var that = this;
-        (function gameLoop() {
-            that.loop();
-            //requestAnimFrame(gameLoop, that.ctx.canvas);
-        })();
-    };
+        this.running = true;
+        debugger;
+    
+        const gameLoop = () => {
+            this.loop();
+        };
+    
+        setInterval(gameLoop, 1000 / 60); // 60 frames per second (adjust the interval as needed)
+    }
+    
+    
 
     startInput() {
         this.keyboardActive = false;
@@ -157,23 +162,10 @@ class GameEngine {
         this.camera.draw(this.ctx);
     };
 
-    gamepadUpdate() {
-        this.gamepad = navigator.getGamepads()[0];
-        let gamepad = this.gamepad;
-        if (gamepad != null && !this.keyboardActive) {
-            this.A = gamepad.buttons[0].pressed;
-            this.B = gamepad.buttons[1].pressed;
-            this.left = gamepad.buttons[14].pressed || gamepad.axes[0] < -0.3;
-            this.right = gamepad.buttons[15].pressed || gamepad.axes[0] > 0.3;
-            this.up = gamepad.buttons[12].pressed || gamepad.axes[1] < -0.3;
-            this.down = gamepad.buttons[13].pressed || gamepad.axes[1] > 0.3;
-        }
-    }
-
     update() {
         var entitiesCount = this.entities.length;
         
-        this.gamepadUpdate();
+       
         
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
@@ -199,5 +191,6 @@ class GameEngine {
         this.draw();
 
         this.click = null;
+           
     };
 };
