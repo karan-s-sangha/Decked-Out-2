@@ -62,6 +62,7 @@ class SceneManager {
 
     draw(ctx) {
         let image = ASSET_MANAGER.cache[this.level];
+        this.ctx.imageSmoothingEnabled = false;
         this.ctx.drawImage(image,this.levelX,this.levelY, image.width*this.scale, image.height*this.scale);
     };
 };
