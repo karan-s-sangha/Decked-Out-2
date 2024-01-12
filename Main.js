@@ -2,9 +2,9 @@
 var ASSET_MANAGER = new AssetManager();
 
 // spritesheets
-ASSET_MANAGER.queueDownload("Level_1_LowerView.png");
-ASSET_MANAGER.queueDownload("Level_1_MiddleView.png");
-ASSET_MANAGER.queueDownload("Level_1_UpperView.png");
+ASSET_MANAGER.queueDownload("./Level_1_LowerView.png");
+ASSET_MANAGER.queueDownload("./Level_1_MiddleView.png");
+ASSET_MANAGER.queueDownload("./Level_1_UpperView.png");
 
 
 // // music
