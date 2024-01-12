@@ -3,9 +3,9 @@ class SceneManager {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
-        this.level = "Level_1_UpperView.png";
+        this.level = "./Level_1_UpperView.png";
         this.scale = 1.5;
-        this.levelX=-1500;
+        this.levelX=-1900;
         this.levelY=0;
     
         this.menuButtonCooldown = 0.15;
