@@ -27,13 +27,13 @@ class GameEngine {
 
     start() {
         this.running = true;
-        debugger;
+    
     
         const gameLoop = () => {
             this.loop();
         };
     
-        setInterval(gameLoop, 1000 / 60); // 60 frames per second (adjust the interval as needed)
+        setInterval(gameLoop); // 60 frames per second (adjust the interval as needed)
     }
     
     
