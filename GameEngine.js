@@ -15,6 +15,9 @@ class GameEngine {
         this.B = false;
 
         this.gamepad = null;
+        this.scale = 2.5;
+        this.x=0;
+        this.y=0;
     };
 
     init(ctx) { // called after page has loaded
@@ -165,8 +168,21 @@ class GameEngine {
     update() {
         var entitiesCount = this.entities.length;
         
-       
-        
+        if(this.right){
+            this.x -=8;
+        }
+        if(this.left){
+            this.x +=8;
+        }
+        if(this.up){
+            this.y +=8;
+
+        }
+        if(this.down){
+            this.y -=8;
+
+        }
+            
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
 
