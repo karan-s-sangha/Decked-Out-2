@@ -2,9 +2,26 @@
 var ASSET_MANAGER = new AssetManager();
 
 // spritesheets
+<<<<<<< HEAD
 ASSET_MANAGER.queueDownload("./Level_1_LowerView.png");
 ASSET_MANAGER.queueDownload("./Level_1_MiddleView.png");
 ASSET_MANAGER.queueDownload("./Level_1_UpperView.png");
+=======
+
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png");
+
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/enchanttable.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fire.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/firecamp.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
+
+
+>>>>>>> origin/main
 
 
 // // music
@@ -32,6 +49,10 @@ ASSET_MANAGER.downloadAll(function () {
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
+<<<<<<< HEAD
+=======
+	ctx.imageSmoothingEnabled = false;
+>>>>>>> origin/main
 
 	//PARAMS.CANVAS_WIDTH = canvas.width;
 	//PARAMS.CANVAS_HEIGHT = canvas.height;
