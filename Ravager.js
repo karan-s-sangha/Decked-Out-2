@@ -8,13 +8,13 @@ class Ravager {
 
     update(player, walls) {
         if (this.canSeePlayer(player, walls)) {
-            this.playerInView = true;
-            this.lastSeenPlayerTime = new Date();
-            this.followPlayer(player);
+            this.playerInView = true; // if player is visible then change a flag
+            this.lastSeenPlayerTime = new Date(); // assign to the current time that player has been seen
+            this.followPlayer(player); // follow the player
         } else {
-            if (this.playerInView && new Date() - this.lastSeenPlayerTime > 2000) {
+            if (this.playerInView && new Date() - this.lastSeenPlayerTime > 2000) { // check if player has not seen more than 2 secs
                 this.playerInView = false;
-                this.wander();
+                this.wander(); // wander around
             }
         }
     }
