@@ -3,15 +3,9 @@ class SceneManager {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
-<<<<<<< HEAD
-        this.level = "./Level_1_UpperView.png";
-        this.scale = 1.5;
-        this.levelX=-1900;
-=======
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
        
         this.levelX=0;
->>>>>>> origin/main
         this.levelY=0;
     
         this.menuButtonCooldown = 0.15;
@@ -27,15 +21,6 @@ class SceneManager {
         });
     };
     
-<<<<<<< HEAD
-    // loadLevel is supposed to have the introduction or title screen of the map
-
-    loadLevel(level, x, y) {
-        if(level == this.level){
-            let image = ASSET_MANAGER.cache[level];
-            this.ctx.drawImage(image,-1500,0, image.width*this.scale, image.height*this.scale);
-        }
-=======
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(level, x, y) {
@@ -81,7 +66,6 @@ class SceneManager {
         let candles = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/candles.png"];
         let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
->>>>>>> origin/main
 
     };
 
@@ -94,22 +78,6 @@ class SceneManager {
 
     };
 
-<<<<<<< HEAD
-    update() {
-    
-        if(this.game.right){
-            this.levelX -=4;
-        }
-        if(this.game.left){
-            this.levelX +=4;
-        }
-        if(this.game.up){
-            this.levelY +=4;
-
-        }
-        if(this.game.down){
-            this.levelY -=4;
-=======
     // This update is for the whole website including the HTML 
     update() {
     
@@ -125,19 +93,12 @@ class SceneManager {
         }
         if(this.game.down){
             this.levelY -=8;
->>>>>>> origin/main
 
         }
 
         
     };
 
-<<<<<<< HEAD
-    draw(ctx) {
-        let image = ASSET_MANAGER.cache[this.level];
-        this.ctx.imageSmoothingEnabled = false;
-        this.ctx.drawImage(image,this.levelX,this.levelY, image.width*this.scale, image.height*this.scale);
-=======
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
     
@@ -152,6 +113,5 @@ class SceneManager {
        
         //this.waterAnimation.drawFrame(this.game.clockTick,this.ctx,this.levelX,this.levelY,this.scale)   
         //this.ctx.imageSmoothingEnabled = false;
->>>>>>> origin/main
     };
 };

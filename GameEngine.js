@@ -15,12 +15,9 @@ class GameEngine {
         this.B = false;
 
         this.gamepad = null;
-<<<<<<< HEAD
-=======
         this.scale = 2.5;
         this.x=0;
         this.y=0;
->>>>>>> origin/main
     };
 
     init(ctx) { // called after page has loaded
@@ -33,21 +30,13 @@ class GameEngine {
 
     start() {
         this.running = true;
-<<<<<<< HEAD
-        debugger;
-=======
     
->>>>>>> origin/main
     
         const gameLoop = () => {
             this.loop();
         };
     
-<<<<<<< HEAD
-        setInterval(gameLoop, 1000 / 60); // 60 frames per second (adjust the interval as needed)
-=======
         setInterval(gameLoop); // 60 frames per second (adjust the interval as needed)
->>>>>>> origin/main
     }
     
     
@@ -179,10 +168,6 @@ class GameEngine {
     update() {
         var entitiesCount = this.entities.length;
         
-<<<<<<< HEAD
-       
-        
-=======
         if(this.right){
             this.x -=8;
         }
@@ -198,7 +183,6 @@ class GameEngine {
 
         }
             
->>>>>>> origin/main
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
 
