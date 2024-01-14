@@ -1,4 +1,4 @@
-class Revenger {
+class Ravager {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -24,8 +24,19 @@ class Revenger {
         // considering walls and line of sight
     }
 
-    followPlayer(player) {
-        // Implement logic to move towards the player
+    followPlayer(playerX, playerY) {
+        // Calculate the vector from the revenger to the player
+        let dx = playerX - this.x;
+        let dy = playerY - this.y;
+
+        // Normalize the vector (to get the direction)
+        let magnitude = Math.sqrt(dx * dx + dy * dy);
+        let dirX = dx / magnitude;
+        let dirY = dy / magnitude;
+
+        // Move the revenger towards the player
+        this.x += dirX * this.speed;
+        this.y += dirY * this.speed;
     }
 
     wander() {
