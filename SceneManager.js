@@ -52,7 +52,7 @@ class SceneManager {
         this.game.addEntity(new DynamicArt(this.game, level, x, y, fireinhallAnimation));
 
         let firecamp = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/firecamp.png"];
-        let firecampAnimation =  new Animator(firecamp,0,0,1308,1860,24,120/1000,0,false,true);
+        let firecampAnimation =  new Animator(firecamp,0,2,1308,1860,24,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, firecampAnimation));
 
         let fire = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/fire.png"];
