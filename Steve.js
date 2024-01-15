@@ -3,7 +3,7 @@ class Steve {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.speed = 0;
+        this.speed = 3;
         this.luigi = luigi;
         this.spritesheet = null;  // Placeholder for the image
       
