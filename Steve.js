@@ -56,9 +56,9 @@ class Steve {
             var offscreenCtx = offscreenCanvas.getContext('2d');
             
             offscreenCtx.save();
-            offscreenCtx.translate(12,32);
+            offscreenCtx.translate(12,28);
             offscreenCtx.rotate(radian);
-            offscreenCtx.translate(-12,-32);
+            offscreenCtx.translate(-12,-28);
             offscreenCtx.drawImage(this.spritesheet, 211, 0, 12, 16, 0, 13, 24,32);
             offscreenCtx.restore();
             this.cashe[angle] = offscreenCanvas;
