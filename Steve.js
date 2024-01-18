@@ -6,7 +6,8 @@ class Steve {
         this.speed = 3;
         this.luigi = luigi;
         this.spritesheet = null;  // Placeholder for the image
-      
+        this.dir = "right";
+
         this.loadAnimations();
     };
 
@@ -20,25 +21,50 @@ class Steve {
 
     update() {
         if (this.game.left) {
-            this.x -= this.speed;
+            this.dir = "left";
+            //this.x -= this.speed;
         }
         if (this.game.right) {
-            this.x += this.speed;
+            this.dir = "right";
+            //this.x += this.speed;
         }
         if (this.game.up) {
-            this.y -= this.speed;
+            this.dir = "up";
+            //this.y += this.speed;
         }
         if (this.game.down) {
-            this.y += this.speed;
+            this.dir = "down";
+           // this.y -= this.speed;
         }
-        
+
     };
 
 
     draw(ctx) {
-             // Draw the Mario image on top of the black background
-         //  ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x, this.y, 64,32);
-         this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
-
+        // Working Code
+        if (this.game.left) {
+            ctx.save();
+            ctx.scale(-1, 1);
+            this.animations.drawFrame(this.game.clockTick, ctx, -this.x - 32, this.y, 2);
+            ctx.restore();
+        } else if (this.dir == "left") {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.spritesheet, 209, 0, 32, 16, -this.x-32, this.y, 64,32);
+            ctx.restore();
+        }
+        else if (this.game.right) {
+            this.animations.drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+            
+        } 
+        else if (this.dir == "right") {
+            ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x , this.y, 64,32);
+        }
+        if (this.game.up) {
+            // this.y -= this.speed;
+        }
+        if (this.game.down) {
+            // this.y += this.speed;
+        }
     };
 };
