@@ -22,22 +22,22 @@ class Steve {
 
 
     update() {
-        // if (this.game.left) {
-        //     this.dir = "left";
-        //     //this.x -= this.speed;
-        // }
-        // if (this.game.right) {
-        //     this.dir = "right";
-        //     //this.x += this.speed;
-        // }
-        // if (this.game.up) {
-        //     this.dir = "up";
-        //     //this.y += this.speed;
-        // }
-        // if (this.game.down) {
-        //     this.dir = "down";
-        //    // this.y -= this.speed;
-        // }
+        if (this.game.left) {
+            this.dir = "left";
+            //this.x -= this.speed;
+        }
+        if (this.game.right) {
+            this.dir = "right";
+            //this.x += this.speed;
+        }
+        if (this.game.up) {
+            this.dir = "up";
+            //this.y += this.speed;
+        }
+        if (this.game.down) {
+            this.dir = "down";
+           // this.y -= this.speed;
+        }
 
     };
 
@@ -62,22 +62,6 @@ class Steve {
             offscreenCtx.drawImage(this.spritesheet, 211, 0, 12, 16, 0, 13, 24,32);
             offscreenCtx.restore();
             this.cashe[angle] = offscreenCanvas;
-
-
-
-        //    var offscreenCanvas = document.createElement('canvas');
-        // offscreenCanvas.width = 64;
-        // offscreenCanvas.height = 64;
-        // var offscreenCtx = offscreenCanvas.getContext('2d');
-        // offscreenCtx.save();
-        // offscreenCtx.translate(32,32);
-        // offscreenCtx.rotate(Math.PI/1);
-        // offscreenCtx.translate(-32,-32);
-        // offscreenCtx.drawImage(this.spritesheet, 209, 0, 32, 16, 8, 0, 64,32);
-        // offscreenCtx.restore();
-
-        // ctx.drawImage(offscreenCanvas,this.x-16, this.y, 64, 64);
-
 
         }
         ctx.drawImage(this.cashe[angle],this.x + 4, this.y - 12);
