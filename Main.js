@@ -17,7 +17,6 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravenger.png");
-
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 
 
