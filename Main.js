@@ -4,6 +4,8 @@ var ASSET_MANAGER = new AssetManager();
 // spritesheets
 
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
+
 
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
@@ -16,6 +18,7 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravenger.png");
 
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 
 
 
