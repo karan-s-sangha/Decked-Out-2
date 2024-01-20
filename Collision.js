@@ -2,10 +2,10 @@ class Collision {
     constructor(game) {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
-        this.game.camera = this; // Ensure this is intentional
+        this.game.camera = this; 
     }
 
-    // Function to get color of a pixel
+    // Function to check the collision
     isCollision(x, y) {
 
         let pixelData = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png"].getImageData(x, y, 1, 1).data;
