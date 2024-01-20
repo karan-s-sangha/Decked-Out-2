@@ -30,11 +30,11 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-walking-running.png";
-        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 665, 95, 0.2, 14, false, true  );
+        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 809, 40, 0.2, 14, false, true  );
 
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-atacking.png";
-        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 665, 40, 0.2, 14, false, true );
+        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true );
         console.log("passed");
     }
 
