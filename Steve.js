@@ -6,39 +6,74 @@ class Steve {
         this.speed = 3;
         this.luigi = luigi;
         this.spritesheet = null;  // Placeholder for the image
-      
+        this.move = 0;
+        this.cashe = [];
+        this.mousex = 0;
+        this.mousey = 0;
         this.loadAnimations();
     };
 
     loadAnimations() {
         this.spritesheet = new Image();
         this.spritesheet.src = "./Art/Level_1_UpperView_Art/mario.png";
-        this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
+        this.animations = new Animator(this.spritesheet, 211, 0, 16, 16, 3, 0.2, 14, false, true);
     };
 
 
 
     update() {
-        if (this.game.left) {
-            this.x -= this.speed;
+        if (this.game.left || this.game.right || this.game.up || this.game.down) {
+            this.move = 1;
+        } else {
+            this.move = 0;
         }
-        if (this.game.right) {
-            this.x += this.speed;
-        }
-        if (this.game.up) {
-            this.y -= this.speed;
-        }
-        if (this.game.down) {
-            this.y += this.speed;
-        }
-        
+
     };
 
 
+    drawAngle(ctx, angle){
+        if(angle < 0 || angle > 359) {
+            return;
+        }
+
+        if(!this.cashe[angle]) {
+            let radian = angle / 360 * 2 * Math.PI;
+            var offscreenCanvas = document.createElement('canvas');
+
+            offscreenCanvas.width = 64;
+            offscreenCanvas.height = 64;
+
+            var offscreenCtx = offscreenCanvas.getContext('2d');
+            
+            offscreenCtx.save();
+            offscreenCtx.translate(12,28);
+            offscreenCtx.rotate(radian);
+            offscreenCtx.translate(-12,-28);
+            offscreenCtx.drawImage(this.spritesheet, 211, 0, 12, 16, 0, 13, 24,32);
+            offscreenCtx.restore();
+            this.cashe[angle] = offscreenCanvas;
+
+        }
+        
+        ctx.drawImage(this.cashe[angle],this.x + 4, this.y - 12);
+    }
+
     draw(ctx) {
-             // Draw the Mario image on top of the black background
-         //  ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x, this.y, 64,32);
-         this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
+        let angle = Math.atan2(this.game.mouse.y - this.y, this.game.mouse.x - this.x);
+        if(angle < 0) {
+            angle += Math.PI * 2;
+        }
+        let degrees = Math.floor(angle / Math.PI / 2 * 360);    
+   
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.x, this.y, 32, 32);
+        ctx.save();
+
+        if(this.move == 1) {
+            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 2,angle);
+        } else {
+            this.drawAngle(ctx, degrees);
+        }
 
     };
 };
