@@ -19,6 +19,7 @@ class GameEngine {
         this.scale = 2.5;
         this.x=0;
         this.y=0;
+        this.Collsion = new Collision();
     };
 
     init(ctx) { // called after page has loaded

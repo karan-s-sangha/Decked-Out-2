@@ -1,9 +1,4 @@
 class Collision {
-    constructor(game) {
-        this.game = game; // game = GameEngine
-        this.ctx = game.ctx;
-        this.game.camera = this; 
-    }
 
     // Function to check the collision
     isCollision(x, y) {
@@ -13,5 +8,5 @@ class Collision {
 
         let collsionColor = "rgba(116,29,50,255)";
         return pixelColor == collsionColor;
-    }
+    };
 }

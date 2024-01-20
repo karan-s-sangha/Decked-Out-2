@@ -22,7 +22,6 @@ class Ravager {
         this.animations = new Animator(this.spritesheet, 239, 0, 47, 68, 1, 0.5, 14, false, true);
         //this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
         
-        
     }
 
     draw(ctx) {
