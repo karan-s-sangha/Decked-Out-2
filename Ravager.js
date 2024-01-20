@@ -35,6 +35,7 @@ class Ravager {
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-atacking.png";
         this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 665, 40, 0.2, 14, false, true );
+        console.log("passed");
     }
 
     //draw(ctx) {
