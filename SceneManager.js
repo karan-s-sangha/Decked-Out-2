@@ -32,7 +32,6 @@ class SceneManager {
         // Adding the first upper level
         this.game.addEntity(new StaticArt(this.game, level, x, y));
 
-        
 
         // Adding the water Animation
         let water = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/water.png"];
