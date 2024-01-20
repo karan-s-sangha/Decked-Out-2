@@ -18,6 +18,7 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
+console.log("pas");
 
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 

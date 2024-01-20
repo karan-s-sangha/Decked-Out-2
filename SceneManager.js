@@ -73,6 +73,7 @@ class SceneManager {
 
     
         this.game.addEntity(steve);
+        console.log("this is passed");
         this.game.addEntity(ravager);
     };
 
