@@ -1,8 +1,9 @@
 const LOW_HEALTH = 10; // constant value for palyer health
 
 class Ravager {
-    constructor(game, x, y, walkSpeed, runSpeed, size) {
+    constructor(game, steve, x, y, walkSpeed, runSpeed, size) {
         this.game = game;
+        this.steve = steve;
         this.x = x;
         this.y = y;
         this.walkSpeed = walkSpeed;
@@ -13,44 +14,97 @@ class Ravager {
         this.lastPlayerPosition = { x: null, y: null }; // Stores the last known position of the player
 
         this.loadAnimations();
+        this.state = 'idle';
         
         //this.collisions = collisions;
     }
+    // loadAnimations() {
+    //     this.spritesheet = new Image();
+    //     this.spritesheet.src = "./Art/Level_1_UpperView_Art/ravenger.png";
+    //     this.animations = new Animator(this.spritesheet, 239, 0, 47, 68, 1, 0.5, 14, false, true);
+    //     //this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
+        
+        
+    // }
+
     loadAnimations() {
-        this.spritesheet = new Image();
-        this.spritesheet.src = "./Art/Level_1_UpperView_Art/ravenger.png";
-        this.animations = new Animator(this.spritesheet, 239, 0, 47, 68, 1, 0.5, 14, false, true);
-        //this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
-        
-        
+        this.walkingSpriteSheet = new Image();
+        this.walkingSpriteSheet.src = "./Art/Level_1_UpperView_Art/Ravager_Animations/ravager-walking-running.png";
+        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 723, 95, 0.2, 14, false, true  );
+
+        this.attackingSpriteSheet = new Image();
+        this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/Ravager_Animations/ravager-atacking.png";
+        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true );
     }
 
-    draw(ctx) {
+    //draw(ctx) {
         // Draw the Mario image on top of the black background
     //  ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x, this.y, 64,32);
-    this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
-    console.log("pass");
-
-}
+    // this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
+    // console.log("pass"); let angle = 0; // Default angle for 'idle' and 'wandering'
+    draw(ctx) {
+        let angle = 0; // Default angle if not 'moving' or 'running'
+    
+        if (this.state === 'moving' || this.state === 'running') {
+            // Calculate angle towards the player
+            angle = Math.atan2(this.lastPlayerPosition.y - this.y, this.lastPlayerPosition.x - this.x);
+            if (angle < 0) angle += Math.PI * 2;
+        }
+    
+        // Optionally, include different logic for 'attacking' or other states
+    
+        // Choose the appropriate animator based on the state
+        if (this.state === 'attacking') {
+            // Use attackingAnimations
+            this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
+        } else {
+            // Default to walkingAnimations for other states
+            this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
+        }
+    }
+    
 
     //update(player, collisions) {
+    // update(player) {
+    //     if (this.canSeePlayer(player)) {
+    //         this.playerInView = true; // if player is in view
+    //         this.lastSeenPlayerTime = new Date(); // get a time that ravagener sees player
+    //         this.lastPlayerPosition = { x: player.x, y: player.y }; // Update the last known position
+    //         this.followPlayer(player);
+    //         this.state = 'moving';
+    //     } else {
+    //         if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {// if it is more than 2 secs
+    //             this.playerInView = false;
+    //             // Only move to the last known position if it's set
+    //             if (this.lastPlayerPosition.x !== null && this.lastPlayerPosition.y !== null) {
+    //                 this.moveLastPlayerPosition(this.lastPlayerPosition);
+    //                 this.state = 'idle';
+    //             } else {
+    //                 //this.wander(collisions);
+    //             }
+    //         } else {
+    //            // this.wander(collisions);// fallback
+    //         }
+    //     }
+    // }
     update(player) {
         if (this.canSeePlayer(player)) {
-            this.playerInView = true; // if player is in view
-            this.lastSeenPlayerTime = new Date(); // get a time that ravagener sees player
-            this.lastPlayerPosition = { x: player.x, y: player.y }; // Update the last known position
-            this.followPlayer(player);
+            this.playerInView = true;
+            this.lastSeenPlayerTime = new Date();
+            this.lastPlayerPosition = { x: player.x, y: player.y };
+
+            // Determine state based on conditions
+            this.state = (player.health <= LOW_HEALTH) ? 'running' : 'moving';
+
+            this.followPlayer(player); // Call followPlayer
         } else {
-            if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {// if it is more than 2 secs
+            // Logic for when the player is out of view
+            if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {
                 this.playerInView = false;
-                // Only move to the last known position if it's set
-                if (this.lastPlayerPosition.x !== null && this.lastPlayerPosition.y !== null) {
-                    this.moveLastPlayerPosition(this.lastPlayerPosition);
-                } else {
-                    //this.wander(collisions);
-                }
+                this.state = 'wandering';
+                this.wander();
             } else {
-               // this.wander(collisions);// fallback
+                this.state = 'idle';
             }
         }
     }
