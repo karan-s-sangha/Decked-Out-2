@@ -1,0 +1,3 @@
+ravager attacking size frames = 40     width = 286 pixels  Height = 723
+ravager walking size   frames = 40     width = 286 pixels  Height = 809
+ravager standing size  frames = 1      width = 286 pixels  Height = 679
