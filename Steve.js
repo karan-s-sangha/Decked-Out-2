@@ -16,7 +16,7 @@ class Steve {
     loadAnimations() {
         this.spritesheet = new Image();
         this.spritesheet.src = "./Art/Level_1_UpperView_Art/mario.png";
-        this.animations = new Animator(this.spritesheet, 211, 0, 16, 16, 3, 0.5, 14, false, true);
+        this.animations = new Animator(this.spritesheet, 211, 0, 16, 16, 3, 0.2, 14, false, true);
     };
 
 
