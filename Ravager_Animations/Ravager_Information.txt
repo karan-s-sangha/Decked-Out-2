@@ -1,0 +1,2 @@
+ravager walking size frames = 95     width = 286 pixels
+ravager attacking size frames = 40   width = 286 pixels
