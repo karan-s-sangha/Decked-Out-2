@@ -6,8 +6,9 @@ class GameEngine {
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
-
+        this.mouse = null;
         this.left = false;
+        
         this.right = false;
         this.up = false;
         this.down = false;

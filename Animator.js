@@ -9,7 +9,6 @@ class Animator {
 
     drawFrame(tick, ctx, x, y, scale) {
         this.elapsedTime += tick;
-
         if (this.isDone()) {
             if (this.loop) {
                 this.elapsedTime -= this.totalTime;
