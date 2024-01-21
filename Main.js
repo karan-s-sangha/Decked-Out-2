@@ -1,10 +1,13 @@
 
 var ASSET_MANAGER = new AssetManager();
 
-// spritesheets
-
+// Image for the Upper Level One
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png");
 
+// Image for the Upper Level One Collision
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
+
+// Animation for the Upper Level One
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/enchanttable.png");
@@ -14,8 +17,21 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravenger.png");
 
+// Animation for the Ravager
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-walking-running.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/Ravager-standing.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-attacking.png");
+
+// Animation for the Steve
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - walking-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - walking.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - standing.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
 
@@ -50,7 +66,6 @@ ASSET_MANAGER.downloadAll(function () {
 	//PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-		
 	new SceneManager(gameEngine);
 
 	gameEngine.start();
