@@ -4,7 +4,7 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game,384,384,null);
+        this.steve = new Steve(this.game,384,384);
         this.ravager = new Ravager (this.game, 100, 384, 5, 10,50);
        // this.ravager = new Ravager ()
         this.levelX=0;

@@ -17,7 +17,7 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravenger.png");
 
 
-
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
 
 // // music
 // ASSET_MANAGER.queueDownload("./music/overworld.mp3");
