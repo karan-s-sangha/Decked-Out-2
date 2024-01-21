@@ -70,7 +70,10 @@ class SceneManager {
         let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
 
-    
+        //Adding the Compass Entity
+        let compass = new compass();
+        this.game.addEntity(compass);
+
         this.game.addEntity(steve);
         this.game.addEntity(ravager);
     };
