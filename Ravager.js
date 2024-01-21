@@ -30,13 +30,17 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-walking-running.png";
-        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 809, 40, 0.2, 14, false, true  );
+        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 809, 40, 0.2, 14, false, true);
 
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-atacking.png";
-        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true );
-        console.log("passed");
+        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true);
+        
+        this.standingSpriteSheet = new Image();
+        this.standingSpriteSheet.src = "./Art/Level_1_UpperView_Art/Ravager-standing.png";
+        this.standingAnimations = new Animator(this.standingSpriteSheet, 290, 0, 286, 679, 1, 0.2, 14, false, true);
     }
+    
 
     //draw(ctx) {
         // Draw the Mario image on top of the black background
@@ -44,26 +48,20 @@ class Ravager {
     // this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
     // console.log("pass"); let angle = 0; // Default angle for 'idle' and 'wandering'
     draw(ctx) {
-        let angle = 0; // Default angle if not 'moving' or 'running'
-    
+        let angle = 0;
         if (this.state === 'moving' || this.state === 'running') {
-            // Calculate angle towards the player
             angle = Math.atan2(this.lastPlayerPosition.y - this.y, this.lastPlayerPosition.x - this.x);
             if (angle < 0) angle += Math.PI * 2;
         }
-    
-        // Optionally, include different logic for 'attacking' or other states
-    
-        // Choose the appropriate animator based on the state
+
         if (this.state === 'attacking') {
-            // Use attackingAnimations
-            this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
-        } else {
-            // Default to walkingAnimations for other states
-            this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
+            this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 1, angle);
+        } else if (this.state === 'moving' || this.state === 'running') {
+            this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 1, angle);
+        } else { // 'idle' or 'wandering'
+            this.standingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
-    
 
     //update(player, collisions) {
     // update(player) {
@@ -88,18 +86,22 @@ class Ravager {
     //         }
     //     }
     // }
-    update(player) {
-        if (this.canSeePlayer(player)) {
+    update() {
+        if (this.canSeePlayer(this.steve)) {
             this.playerInView = true;
             this.lastSeenPlayerTime = new Date();
-            this.lastPlayerPosition = { x: player.x, y: player.y };
-
-            // Determine state based on conditions
-            this.state = (player.health <= LOW_HEALTH) ? 'running' : 'moving';
-
-            this.followPlayer(player); // Call followPlayer
+            this.lastPlayerPosition = { x: this.steve.x, y: this.steve.y };
+    
+            // Additional condition to check if the Ravager should attack
+            if (this.shouldAttackPlayer(this.steve)) {
+                this.state = 'attacking';
+            } else {
+                // Determine state based on player's health
+                this.state = (this.steve.health <= LOW_HEALTH) ? 'running' : 'moving';
+            }
+    
+            this.followPlayer(this.steve);
         } else {
-            // Logic for when the player is out of view
             if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {
                 this.playerInView = false;
                 this.state = 'wandering';
@@ -109,6 +111,16 @@ class Ravager {
             }
         }
     }
+    
+    shouldAttackPlayer(player) {
+        // Implement logic to decide if the Ravager should attack
+        // Example: Attack if within a certain distance
+        const attackDistance = 50; // Example distance
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        return Math.sqrt(dx * dx + dy * dy) < attackDistance;
+    }
+    
 
     canSeePlayer(player) {
         
