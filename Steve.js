@@ -1,10 +1,13 @@
 class Steve {
-    constructor(game, x, y, luigi) {
+    constructor(game, x, y) {
+        this.scale = 0.1;
+        this.width = 241;
+        this.height = 340;
+
         this.game = game;
         this.x = x;
         this.y = y;
         this.speed = 3;
-        this.luigi = luigi;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
         this.cashe = [];
@@ -15,8 +18,9 @@ class Steve {
 
     loadAnimations() {
         this.spritesheet = new Image();
-        this.spritesheet.src = "./Art/Level_1_UpperView_Art/mario.png";
-        this.animations = new Animator(this.spritesheet, 211, 0, 16, 16, 3, 0.2, 14, false, true);
+        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
+        // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
+        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.03, 0, false, true);
     };
 
 
@@ -31,7 +35,7 @@ class Steve {
     };
 
 
-    drawAngle(ctx, angle){
+    drawAngle(ctx, angle, scale){
         // Make sure it's a valid angle.
         if(angle < 0 || angle > 359) {
             return;
@@ -49,22 +53,32 @@ class Steve {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
 
-            offscreenCanvas.width = 64;
-            offscreenCanvas.height = 64;
+            if(this.width > this.height) {
+                offscreenCanvas.width = this.width * scale;
+                offscreenCanvas.height = this.width * scale;
+            } else {
+                offscreenCanvas.width = this.height * scale;
+                offscreenCanvas.height = this.height * scale;
+            }
 
             var offscreenCtx = offscreenCanvas.getContext('2d');
-            
             offscreenCtx.save();
-            offscreenCtx.translate(12,28);
+            offscreenCtx.translate(offscreenCanvas.width/2, offscreenCanvas.height/2);
             offscreenCtx.rotate(radian);
-            offscreenCtx.translate(-12,-28);
-            offscreenCtx.drawImage(this.spritesheet, 211, 0, 12, 16, 0, 13, 24,32);
+            offscreenCtx.translate(-offscreenCanvas.width/2 , -offscreenCanvas.height/2);
+            offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, (offscreenCanvas.width - (this.width * scale)) / 2
+                                   ,(offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
             offscreenCtx.restore();
+            offscreenCtx.save();
+
+            // Debug
+            // offscreenCtx.strokeStyle="red";
+            // offscreenCtx.strokeRect(0,0,offscreenCanvas.width, offscreenCanvas.height);
+
             this.cashe[angle] = offscreenCanvas;
 
         }
-        
-        ctx.drawImage(this.cashe[angle],this.x + 4, this.y - 12);
+        ctx.drawImage(this.cashe[angle],this.x - this.cashe[angle].width / 2, this.y - this.cashe[angle].height / 2);
     }
 
     draw(ctx) {
@@ -81,7 +95,7 @@ class Steve {
                     steve        cursor(0 or 2*pi)
 
         */
-        let angle = Math.atan2(this.game.mouse.y - this.y, this.game.mouse.x - this.x);
+        let angle = Math.atan2(this.game.y - this.y, this.game.x - this.x) - (Math.PI/2);
         /*
         Because we don't to have negative angle, if the angle is negative, you have to convert into positive.
 
@@ -101,7 +115,7 @@ class Steve {
         let degrees = Math.floor(angle / Math.PI / 2 * 360);    
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x, this.y, 32, 32);
+        ctx.strokeRect(this.x, this.y, 1, 1);
         ctx.save();
 
         /*
@@ -111,12 +125,13 @@ class Steve {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
-            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 2,angle);
+            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, this.scale,angle);
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
             */
-            this.drawAngle(ctx, degrees);
+           this.drawAngle(ctx, degrees, this.scale);
+           this.animations.elapsedTime = 0;
         }
 
     };

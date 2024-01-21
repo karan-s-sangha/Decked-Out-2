@@ -1,7 +1,7 @@
 const LOW_HEALTH = 10; // constant value for palyer health
 
 class Ravager {
-    constructor(game, steve, x, y, walkSpeed, runSpeed, size) {
+    constructor(game, steve, collisions, x, y, walkSpeed, runSpeed,size) {
         this.game = game;
         this.steve = steve;
         this.x = x;
@@ -15,8 +15,9 @@ class Ravager {
 
         this.loadAnimations();
         this.state = 'idle';
+        this.angle=0;
         
-        //this.collisions = collisions;
+        this.collisions = collisions;
     }
     // loadAnimations() {
     //     this.spritesheet = new Image();
@@ -28,20 +29,19 @@ class Ravager {
     // }
 
     loadAnimations() {
-        this.spritesheet = new Image();
-        this.spritesheet.src = "./Art/Level_1_UpperView_Art/ravenger.png";
-        this.animations = new Animator(this.spritesheet, 239, 0, 47, 68, 1, 0.5, 14, false, true);
-        //this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
-        
         this.walkingSpriteSheet = new Image();
-        this.walkingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-walking-running.png";
-        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 809, 40, 0.2, 14, false, true  );
+        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
+        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.2, 0, false, true  );
 
         this.attackingSpriteSheet = new Image();
-        this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-atacking.png";
-        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true );
-        console.log("passed");
+        this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
+        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.2, 0, false, true );
+        
+        this.standingSpriteSheet = new Image();
+        this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
+        this.standingAnimations = new Animator(this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
     }
+
 
     //draw(ctx) {
         // Draw the Mario image on top of the black background
@@ -49,23 +49,18 @@ class Ravager {
     // this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
     // console.log("pass"); let angle = 0; // Default angle for 'idle' and 'wandering'
     draw(ctx) {
-        let angle = 0; // Default angle if not 'moving' or 'running'
-    
-        if (this.state === 'moving' || this.state === 'running') {
-            // Calculate angle towards the player
-            angle = Math.atan2(this.lastPlayerPosition.y - this.y, this.lastPlayerPosition.x - this.x);
-            if (angle < 0) angle += Math.PI * 2;
-        }
-    
-        // Optionally, include different logic for 'attacking' or other states
-    
-        // Choose the appropriate animator based on the state
-        if (this.state === 'attacking') {
-            // Use attackingAnimations
-            this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
-        } else {
-            // Default to walkingAnimations for other states
-            this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
+        let scale = 0.07;
+        switch(this.state) {
+            case 'attacking':
+                this.attackingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
+                break;
+            case 'moving':
+            case 'running':
+                this.walkingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
+                break;
+            case 'idle':
+                this.standingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
+                break;
         }
     }
     
@@ -93,42 +88,76 @@ class Ravager {
     //         }
     //     }
     // }
-    update(player) {
-        if (this.canSeePlayer(player)) {
+    update() {
+        if (this.canSeePlayer(this.steve)) {
             this.playerInView = true;
             this.lastSeenPlayerTime = new Date();
-            this.lastPlayerPosition = { x: player.x, y: player.y };
+            this.lastPlayerPosition = { x: this.steve.x, y: this.steve.y };
 
-            // Determine state based on conditions
-            this.state = (player.health <= LOW_HEALTH) ? 'running' : 'moving';
+            if (this.shouldAttackPlayer(this.steve)) {
+                this.state = 'attacking';
+            } else {
+                this.state = this.steve.isRunning ? 'running' : 'moving';
+            }
 
-            this.followPlayer(player); // Call followPlayer
+            this.followPlayer(this.steve, this.collisions);
         } else {
-            // Logic for when the player is out of view
             if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {
                 this.playerInView = false;
-                this.state = 'wandering';
-                this.wander();
+                this.state = 'idle';
             } else {
                 this.state = 'idle';
             }
         }
-    }
 
-    canSeePlayer(player) {
-        
-        return false;
+        this.updateAnimation();
     }
 
 
-   followPlayer(player) {
+    updateAnimation() {
+        switch (this.state) {
+            case 'moving':
+                // Adjust animation for walking
+                this.walkingAnimations.frameDuration = 0.3; // Slower frame rate for walking
+                break;
+            case 'running':
+                // Adjust animation for running
+                this.walkingAnimations.frameDuration = 0.1; // Faster frame rate for running
+                break;
+            case 'attacking':
+               this.attackingAnimations.frameDuration = 0.2;
+                break;
+            case 'idle':
+                // Use idle animation
+                this.standingAnimations.frameDuration = 0.4;
+                break;
+        }
+    }
+    shouldAttackPlayer() {
+        // Example: Attack if within a certain distance
+        const attackDistance = 50;
+        const dx = this.steve.x - this.x;
+        const dy = this.steve.y - this.y;
+        return Math.sqrt(dx * dx + dy * dy) < attackDistance;
+    }
+
+    canSeePlayer() {
+        // Basic visibility logic (e.g., based on distance)
+        const visibilityDistance = 300; // example distance
+        const dx = this.steve.x - this.x;
+        const dy = this.steve.y - this.y;
+        return Math.sqrt(dx * dx + dy * dy) < visibilityDistance;
+    }
+
+
+   followPlayer() {
    // followPlayer(player, collisions) {
         // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = (player.isRunning || player.health <= LOW_HEALTH) ? this.runSpeed : this.walkSpeed;
+        const ravagerSpeed = (this.steve.isRunning || this.steve.health <= LOW_HEALTH) ? this.runSpeed : this.walkSpeed;
 
         // Calculate the vector from the Ravager to the player
-        let dx = player.x - this.x;
-        let dy = player.y - this.y;
+        let dx = this.steve.x - this.x;
+        let dy = this.steve.y - this.y;
     
         // Normalize the vector
         let magnitude = Math.sqrt(dx * dx + dy * dy);
@@ -140,10 +169,10 @@ class Ravager {
         let newY = this.y + dirY * ravagerSpeed;
 
         // Check for collision
-        // if (!collisions.checkCollision(newX, newY, this.size)) {
-        //     this.x = newX;
-        //     this.y = newY;
-        // }
+         if (!this.collisions.isCollision(newX, newY)) {
+            this.x = newX;
+            this.y = newY;
+         }
     }
 
     // wander(collisions) {
