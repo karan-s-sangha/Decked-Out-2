@@ -75,18 +75,14 @@ class SceneManager {
         let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
 
-<<<<<<<<< Temporary merge branch 1
+
     
     this.game.addEntity(steve);
     this.game.addEntity(ravager);
-=========
+
         //Adding the Compass Entity
         let compass = new Compass();
         //this.game.addEntity(compass);
-
-        this.game.addEntity(steve);
-        this.game.addEntity(ravager);
->>>>>>>>> Temporary merge branch 2
     };
 
     updateAudio() {
