@@ -18,7 +18,7 @@ class Steve {
 
     loadAnimations() {
         this.spritesheet = new Image();
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"]
+        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
         this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.03, 0, false, true);
     };
@@ -95,7 +95,7 @@ class Steve {
                     steve        cursor(0 or 2*pi)
 
         */
-        let angle = Math.atan2(this.game.mouse.y - this.y, this.game.mouse.x - this.x) - (Math.PI/2);
+        let angle = Math.atan2(this.game.y - this.y, this.game.x - this.x) - (Math.PI/2);
         /*
         Because we don't to have negative angle, if the angle is negative, you have to convert into positive.
 
