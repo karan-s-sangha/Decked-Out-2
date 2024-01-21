@@ -30,14 +30,14 @@ class Steve {
             this.dir = "right";
             //this.x += this.speed;
         }
-        if (this.game.up) {
-            this.dir = "up";
-            //this.y += this.speed;
-        }
-        if (this.game.down) {
-            this.dir = "down";
-           // this.y -= this.speed;
-        }
+        // if (this.game.up) {
+        //     this.dir = "up";
+        //     //this.y += this.speed;
+        // }
+        // if (this.game.down) {
+        //     this.dir = "down";
+        //    // this.y -= this.speed;
+        // }
 
     };
 
@@ -70,30 +70,30 @@ class Steve {
 
     draw(ctx) {
         // // Working Code
-        // if (this.game.left) {
-        //     ctx.save();
-        //     ctx.scale(-1, 1);
-        //     this.animations.drawFrame(this.game.clockTick, ctx, -this.x - 32, this.y, 2);
-        //     ctx.restore();
-        // } else if (this.dir == "left") {
-        //     ctx.save();
-        //     ctx.scale(-1, 1);
-        //     ctx.drawImage(this.spritesheet, 209, 0, 32, 16, -this.x-32, this.y, 64,32);
-        //     ctx.restore();
-        // }
-        // else if (this.game.right) {
-        //     this.animations.drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
+        if (this.game.left) {
+            ctx.save();
+            ctx.scale(-1, 1);
+            this.animations.drawFrame(this.game.clockTick, ctx, -this.x - 32, this.y, 2);
+            ctx.restore();
+        } else if (this.dir == "left") {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.spritesheet, 209, 0, 32, 16, -this.x-32, this.y, 64,32);
+            ctx.restore();
+        }
+        else if (this.game.right) {
+            this.animations.drawFrame(this.game.clockTick, ctx, this.x, this.y, 2);
             
-        // } 
-        // else if (this.dir == "right") {
-        //     ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x , this.y, 64,32);
-        // }
-        // if (this.game.up) {
-        //     // this.y -= this.speed;
-        // }
-        // if (this.game.down) {
-        //     // this.y += this.speed;
-        // }
+        } 
+        else if (this.dir == "right") {
+            ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x , this.y, 64,32);
+        }
+        if (this.game.up) {
+            // this.y -= this.speed;
+        }
+        if (this.game.down) {
+            // this.y += this.speed;
+        }
 
 
         ////////////////////////////////////////////////////////
@@ -117,15 +117,15 @@ class Steve {
         ////////////////////////////////////////////////////////
         // Rotate 360
         ////////////////////////////////////////////////////////
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x, this.y, 32, 32);
-        ctx.save();
-        let angle = Math.atan2(this.game.mouse.y - this.y, this.game.mouse.x - this.x);
-        if(angle < 0) {
-            angle += Math.PI * 2;
-        }
-        let degrees = Math.floor(angle / Math.PI / 2 * 360);    
-        this.drawAngle(ctx, degrees);
+        // ctx.strokeStyle = "red";
+        // ctx.strokeRect(this.x, this.y, 32, 32);
+        // ctx.save();
+        // let angle = Math.atan2(this.game.mouse.y - this.y, this.game.mouse.x - this.x);
+        // if(angle < 0) {
+        //     angle += Math.PI * 2;
+        // }
+        // let degrees = Math.floor(angle / Math.PI / 2 * 360);    
+        // this.drawAngle(ctx, degrees);
 
     };
 };
