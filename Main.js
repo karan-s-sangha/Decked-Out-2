@@ -33,6 +33,8 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 
+// Image for the compass
+ASSET_MANAGER.queueDownload("./Art/Arrow.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
 
 // // music
@@ -61,6 +63,7 @@ ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 	ctx.imageSmoothingEnabled = false;
+	
 
 	//PARAMS.CANVAS_WIDTH = canvas.width;
 	//PARAMS.CANVAS_HEIGHT = canvas.height;
