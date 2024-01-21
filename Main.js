@@ -35,7 +35,7 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 
 // Image for the compass
 ASSET_MANAGER.queueDownload("./Art/Arrow.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
+
 
 // // music
 // ASSET_MANAGER.queueDownload("./music/overworld.mp3");
