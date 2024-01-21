@@ -14,11 +14,11 @@ class GameEngine {
         this.down = false;
         this.A = false;
         this.B = false;
-
         this.gamepad = null;
-        this.scale = 2.5;
+        this.scale = 4;
         this.x=0;
         this.y=0;
+        this.Collsion = new Collision();
     };
 
     init(ctx) { // called after page has loaded

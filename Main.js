@@ -1,12 +1,13 @@
 
 var ASSET_MANAGER = new AssetManager();
 
-// spritesheets
-
+// Image for the Upper Level One
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png");
+
+// Image for the Upper Level One Collision
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
 
-
+// Animation for the Upper Level One
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/enchanttable.png");
@@ -20,6 +21,23 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png")
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 
+// Animation for the Ravager
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-walking-running.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/Ravager-standing.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-attacking.png");
+
+// Animation for the Steve
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - walking-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - walking.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - standing.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
+
+// Image for the compass
+ASSET_MANAGER.queueDownload("./Art/Arrow.png");
 
 
 // // music
@@ -48,12 +66,12 @@ ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 	ctx.imageSmoothingEnabled = false;
+	
 
 	//PARAMS.CANVAS_WIDTH = canvas.width;
 	//PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-		
 	new SceneManager(gameEngine);
 
 	gameEngine.start();

@@ -5,7 +5,9 @@ class SceneManager {
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
         this.steve = new Steve(this.game,384,384,null);
+
         this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,100);
+        this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,50);
        // this.ravager = new Ravager ()
         this.levelX=0;
         this.levelY=0;
@@ -32,7 +34,6 @@ class SceneManager {
         // Adding the first upper level
         this.game.addEntity(new StaticArt(this.game, level, x, y));
 
-        
 
         // Adding the water Animation
         let water = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/water.png"];
@@ -71,7 +72,10 @@ class SceneManager {
         let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
 
-    
+        //Adding the Compass Entity
+        let compass = new Compass();
+        //this.game.addEntity(compass);
+
         this.game.addEntity(steve);
         console.log("this is passed");
         this.game.addEntity(ravager);
