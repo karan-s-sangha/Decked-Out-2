@@ -63,6 +63,7 @@ ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 	ctx.imageSmoothingEnabled = false;
+	
 
 	//PARAMS.CANVAS_WIDTH = canvas.width;
 	//PARAMS.CANVAS_HEIGHT = canvas.height;
