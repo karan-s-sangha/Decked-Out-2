@@ -28,13 +28,6 @@ class Ravager {
     // }
 
     loadAnimations() {
-<<<<<<< HEAD
-        this.spritesheet = new Image();
-        this.spritesheet.src = "./Art/Level_1_UpperView_Art/ravenger.png";
-        this.animations = new Animator(this.spritesheet, 239, 0, 47, 68, 1, 0.5, 14, false, true);
-        //this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
-        
-=======
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-walking-running.png";
         this.walkingAnimations = new Animator(this.walkingSpriteSheet, 290, 0, 286, 809, 40, 0.2, 14, false, true  );
@@ -43,7 +36,6 @@ class Ravager {
         this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-atacking.png";
         this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true );
         console.log("passed");
->>>>>>> dad5ddca17878507937064e9043f66a67e1fa44f
     }
 
     //draw(ctx) {
