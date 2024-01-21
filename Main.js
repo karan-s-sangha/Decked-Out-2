@@ -17,7 +17,13 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
+<<<<<<< HEAD
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravenger.png");
+=======
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
+
+>>>>>>> dad5ddca17878507937064e9043f66a67e1fa44f
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 
 // Animation for the Ravager
