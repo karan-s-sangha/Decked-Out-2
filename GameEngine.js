@@ -171,6 +171,7 @@ class GameEngine {
         
         if(this.right && !this.Collision.isCollision(this.x, this.y)){
             this.x -=8;
+            console.log(this.Collision.isCollision(this.x, this.y));
         }
         if (this.left && !this.Collision.isCollision(this.x, this.y)) {
             this.x += 8;

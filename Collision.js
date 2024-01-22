@@ -17,18 +17,18 @@ class Collision {
         console.log("y:", y);
 
         // Ensure the coordinates are within the bounds of the canvas
-        // if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
-        //     // Get the pixel data from the temporary canvas
-        //     let pixelData = context.getImageData(Math.floor(x), Math.floor(y), 1, 1).data;
-        //     let pixelColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] / 255})`;
+        //if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+            // Get the pixel data from the temporary canvas
+            let pixelData = context.getImageData(Math.floor(x), Math.floor(y), 1, 1).data;
+            let pixelColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] / 255})`;
 
-        //     let collisionColor = "rgba(116, 29, 50, 1)"; // Corrected the collision color
+            let collisionColor = "rgba(116,29,50,255)"; // Corrected the collision color
 
-        //     if (pixelColor === collisionColor) {
-        //         return true; // Collision detected
-        //     } else {
-        //         return false; // No collision
-        //     }
+            if (pixelColor === collisionColor) {
+                return true; // Collision detected
+            } else {
+                return false; // No collision
+            }
         // } else {
         //     console.error("Coordinates are out of bounds.");
         //     return false; // Return false for out-of-bounds coordinates
