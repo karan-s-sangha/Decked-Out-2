@@ -24,220 +24,78 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
-        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.2, 0, false, true  );
+        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.2, 0, false, true);
 
         this.attackingSpriteSheet = new Image();
-        this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
-        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.2, 0, false, true );
-        
-        this.standingSpriteSheet = new Image();
-        this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
-        this.standingAnimations = new Animator(this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
+        this.attackingSpriteSheet.src = "./Art/Level_1_UpperView_Art/ravager-atacking.png";
+        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 290, 0, 286, 723, 40, 0.2, 14, false, true );
+        console.log("passed");
     }
 
+    //draw(ctx) {
+        // Draw the Mario image on top of the black background
+    //  ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x, this.y, 64,32);
+    // this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
+    // console.log("pass"); let angle = 0; // Default angle for 'idle' and 'wandering'
     draw(ctx) {
-        let scale = 0.07; // Example scale, adjust as necessary
-
-        switch(this.state) {
-            case 'attacking':
-                // Draw attacking animation
-                this.attackingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
-                break;
-            case 'moving':
-            case 'running':
-                // Draw walking/running animation
-                this.walkingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
-                break;
-            case 'idle':
-            case 'wandering':
-                // Draw idle or wandering animation
-                this.standingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
-                break;
-            default:
-                // If state is unknown, you might want to log an error or handle it in some way
-                console.error("Unknown state:", this.state);
-                break;
+        let angle = 0; // Default angle if not 'moving' or 'running'
+    
+        if (this.state === 'moving' || this.state === 'running') {
+            // Calculate angle towards the player
+            angle = Math.atan2(this.lastPlayerPosition.y - this.y, this.lastPlayerPosition.x - this.x);
+            if (angle < 0) angle += Math.PI * 2;
         }
-    }
-
-    update() {
-        switch (this.state) {
-            case 'idle':
-                this.wander(); // Optionally wander or stay still
-                break;
-            case 'moving':
-            case 'running':
-                if (this.canSeePlayer()) {
-                    this.followPlayer();
-                } else {
-                    this.state = 'wandering';
-                }
-                break;
-            case 'attacking':
-                // Implement attacking behavior (e.g., stay in place or move towards player)
-                break;
-            case 'wandering':
-                this.wander();
-                break;
-        }
-
-        this.applyMovement();
-        this.updateAnimation();
-    }
-
-    handlePlayerVisibility() {
-        this.playerInView = true;
-        this.lastSeenPlayerTime = new Date();
-        this.lastPlayerPosition = { x: this.steve.x, y: this.steve.y };
-
-        // Check if the Ravager should attack the player
-        if (this.shouldAttackPlayer()) {
-            this.state = 'attacking';
+    
+        // Optionally, include different logic for 'attacking' or other states
+    
+        // Choose the appropriate animator based on the state
+        if (this.state === 'attacking') {
+            // Use attackingAnimations
+            this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
         } else {
-            this.state = this.steve.isRunning ? 'running' : 'moving';
-            this.followPlayer();
+            // Default to walkingAnimations for other states
+            this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, 3, angle);
         }
     }
+    
 
-    handlePlayerInvisibility() {
-        this.playerInView = false;
-        const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
-        if (timeSinceLastSeen <= 2000) { // 2 seconds threshold
-            this.moveTowardsLastSeenPosition();
-        } else {
-            this.state = 'wandering';
-            this.wander();
-        }
-    }
-
-    applyMovement() {
-        // Initialize speed variable.
-        let speed = 0;
-
-        // Check and ensure direction is an object before accessing its properties.
-        if (typeof this.direction !== 'object' || this.direction === null) {
-            this.direction = { x: 0, y: 0 }; // Reinitialize direction if it's not an object.
-        }
-
-        // Determine the speed and update direction based on the current state.
-        switch (this.state) {
-            case 'moving':
-                speed = this.walkSpeed;
-                // Update direction towards the player.
-                this.direction = this.updateDirectionTowardsPlayer();
-                break;
-            case 'running':
-                speed = this.runSpeed;
-                // Update direction towards the player.
-                this.direction = this.updateDirectionTowardsPlayer();
-                break;
-            case 'attacking':
-                // The Ravager might not move when attacking, hence speed remains 0.
-                break;
-            case 'wandering':
-                speed = this.walkSpeed;
-                // Update direction for wandering.
-                this.direction = this.updateWanderingDirection();
-                break;
-            case 'idle':
-                // No movement when idle.
-                break;
-            default:
-                console.error("Unhandled state:", this.state);
-                break;
-        }
-
-        // Apply the movement if speed is greater than 0.
-        if (speed > 0) {
-            this.x += this.direction.x * speed;
-            this.y += this.direction.y * speed;
-        }
-
-        // Check for boundary and collision.
-        this.handleBoundaryAndCollision();
-    }
-
-    updateDirectionTowardsPlayer() {
-        // Calculate the vector pointing from the Ravager to the player
-        const dx = this.steve.x - this.x;
-        const dy = this.steve.y - this.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        // Normalize the vector to get the direction
-        return {
-            x: distance > 0 ? dx / distance : 0,
-            y: distance > 0 ? dy / distance : 0
-        };
-    }
-
-
-    updateWanderingDirection() {
-        // Update direction randomly for wandering
-        // This can be a simple random direction change at intervals
-        if (this.shouldChangeDirection()) { // Implement this logic as needed
-            this.adjustDirection(Math.random() * 360); // Random angle
-        }
-    }
-
-    handleBoundaryAndCollision() {
-        if (!this.isWithinBounds(this.x, this.y) || this.collisions.isCollision(this.x, this.y)) {
-            this.handleCollision();
-        }
-    }
-
-    hhandleCollision() {
-        // Strategy 1: Fallback slightly
-        this.fallback();
-
-        // Strategy 2: Adjust direction by 45 degrees
-       // this.adjustDirection(45);
-
-        // Strategy 3: Move around the object (more complex)
-        //this.navigateAroundObstacle();
-    }
-
-    fallback() {
-        // Move back slightly in the opposite direction
-        this.x -= this.direction.x * this.walkSpeed;
-        this.y -= this.direction.y * this.walkSpeed;
-    }
-
-    adjustDirection(degree) {
-        // Convert degree to radians and adjust the current angle
-        let radians = degree * (Math.PI / 180);
-        this.angle += radians;
-
-        // Update direction based on the new angle
-        this.direction = {
-            x: Math.cos(this.angle),
-            y: Math.sin(this.angle)
-        };
-    }
- 
-    /*update() {
-        //console.log("Ravager update called");
-        // Check if the Ravager can see the player
-        if (this.canSeePlayer()) {
+    //update(player, collisions) {
+    // update(player) {
+    //     if (this.canSeePlayer(player)) {
+    //         this.playerInView = true; // if player is in view
+    //         this.lastSeenPlayerTime = new Date(); // get a time that ravagener sees player
+    //         this.lastPlayerPosition = { x: player.x, y: player.y }; // Update the last known position
+    //         this.followPlayer(player);
+    //         this.state = 'moving';
+    //     } else {
+    //         if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {// if it is more than 2 secs
+    //             this.playerInView = false;
+    //             // Only move to the last known position if it's set
+    //             if (this.lastPlayerPosition.x !== null && this.lastPlayerPosition.y !== null) {
+    //                 this.moveLastPlayerPosition(this.lastPlayerPosition);
+    //                 this.state = 'idle';
+    //             } else {
+    //                 //this.wander(collisions);
+    //             }
+    //         } else {
+    //            // this.wander(collisions);// fallback
+    //         }
+    //     }
+    // }
+    update(player) {
+        if (this.canSeePlayer(player)) {
             this.playerInView = true;
             this.lastSeenPlayerTime = new Date();
-            this.lastPlayerPosition = { x: this.steve.x, y: this.steve.y };
+            this.lastPlayerPosition = { x: player.x, y: player.y };
 
-            // Check if the Ravager should attack the player
-            if (this.shouldAttackPlayer()) {
-                this.state = 'attacking';
-            } else {
-                // Follow the player
-                this.state = this.steve.isRunning ? 'running' : 'moving';
-                this.followPlayer();
-            }
+            // Determine state based on conditions
+            this.state = (player.health <= LOW_HEALTH) ? 'running' : 'moving';
+
+            this.followPlayer(player); // Call followPlayer
         } else {
-            // Logic when the player is not visible
-            this.playerInView = false;
-            if (this.isPlayerRecentlySeen()) {
-                // Move towards the last known position of the player
-                this.moveTowardsLastSeenPosition();
-            } else {
-                // Wander around if the player hasn't been seen recently
+            // Logic for when the player is out of view
+            if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {
+                this.playerInView = false;
                 this.state = 'wandering';
                 this.wander();
             }
@@ -251,6 +109,16 @@ class Ravager {
         const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
         return timeSinceLastSeen <= 2000; // 2 seconds threshold
     }
+    
+    shouldAttackPlayer(player) {
+        // Implement logic to decide if the Ravager should attack
+        // Example: Attack if within a certain distance
+        const attackDistance = 50; // Example distance
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        return Math.sqrt(dx * dx + dy * dy) < attackDistance;
+    }
+    
 
     updateAnimation() {
         switch (this.state) {

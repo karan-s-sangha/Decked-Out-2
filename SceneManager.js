@@ -8,6 +8,8 @@ class SceneManager {
         this.collision = new Collision();
         this.ravager = new Ravager (this.game, this.steve, this.collision, 700, 384, 5, 10,50);
         this.steve = new Steve(this.game,384,384,null);
+
+        this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,100);
      
        
         this.levelX=0;
@@ -82,6 +84,9 @@ class SceneManager {
         //Adding the Compass Entity
         let compass = new Compass();
         //this.game.addEntity(compass);
+
+        this.game.addEntity(steve);
+        this.game.addEntity(ravager);
     };
 
     updateAudio() {
