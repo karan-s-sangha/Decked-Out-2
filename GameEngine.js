@@ -18,7 +18,6 @@ class GameEngine {
         this.scale = 4;
         this.x=0;
         this.y=0;
-        this.Collision  = new Collision ();
     };
 
     init(ctx) { // called after page has loaded
@@ -170,20 +169,32 @@ class GameEngine {
     update() {
         var entitiesCount = this.entities.length;   
         
-        if(this.right && !this.Collision.isCollision(this.x, this.y)){
+        // if(this.right && !this.Collision.isCollision(this.x, this.y)){
+        //     this.x -=8;
+        //     console.log(this.Collision.isCollision(this.x, this.y));
+        // }
+        // if (this.left && !this.Collision.isCollision(this.x, this.y)) {
+        //     this.x += 8;
+        // }
+        // if(this.up && !this.Collision.isCollision(this.x, this.y)){
+        //     this.y +=8;
+        // }
+        // if(this.down && !this.Collision.isCollision(this.x, this.y)){
+        //     this.y -=8;
+        // }
+        if(this.right){
             this.x -=8;
-            console.log(this.Collision.isCollision(this.x, this.y));
+            //console.log(this.Collision.isCollision(this.x, this.y));
         }
-        if (this.left && !this.Collision.isCollision(this.x, this.y)) {
+        if (this.left) {
             this.x += 8;
         }
-        if(this.up && !this.Collision.isCollision(this.x, this.y)){
+        if(this.up ){
             this.y +=8;
         }
-        if(this.down && !this.Collision.isCollision(this.x, this.y)){
+        if(this.down){
             this.y -=8;
-        }
-         
+        }       
       
 
         for (var i = 0; i < entitiesCount; i++) {

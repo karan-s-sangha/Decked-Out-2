@@ -18,7 +18,7 @@ class Compass {
         this.radius = 10;
     }
 
-    // Function to check the collision
+    // Function
     update(axisX, axisY, artX, artY) {
        
         this.axisX = -1 * this.game.x;

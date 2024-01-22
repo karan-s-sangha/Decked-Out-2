@@ -5,13 +5,12 @@ class SceneManager {
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
         this.steve = new Steve(this.game,game.x,game.y);
-        this.collision = new Collision();
+        this.collision = new Collision(game);
         this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
 
 
         this.levelX=0;
         this.levelY=0;
-        this.collision = new Collision();
         this.menuButtonCooldown = 0.15;
         
         // Checking the Compass and the Artifact
