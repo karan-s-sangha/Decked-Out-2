@@ -63,6 +63,7 @@ class GameEngine {
             that.wheel = e.deltaY;
         }
         function keydownListener (e) {
+            console.log("Key pressed:", e.code); // Debugging lo
             that.keyboardActive = true;
             switch (e.code) {
                 case "ArrowLeft":
@@ -187,13 +188,15 @@ class GameEngine {
 
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-
+            //console.log("Updating entity type:", entity.constructor.name);
             if (!entity.removeFromWorld) {
                 entity.update();
+                console.log(this.x + " calling from game class" + this.y);
             }
         }
 
         this.camera.update();
+       
         
         for (var i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
