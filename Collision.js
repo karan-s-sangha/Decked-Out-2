@@ -13,14 +13,14 @@ class Collision {
         canvas.width = 2;
         canvas.height = 2;
         let context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0,image.width*this.game.scale,canvas.height*this.game.scale );
+        context.drawImage(image, 0, 0,image.width*this.game.scale,image.height*this.game.scale );
 
         // Check the values of x and y
         //console.log("x:", x);
         //console.log("y:", y);
 
         // Ensure the coordinates are within the bounds of the canvas
-        if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+        if (x >= 0 && x < image.width*this.game.scale && y >= 0 && y < image.height*this.game.scale) {
             // Get the pixel data from the temporary canvas
             let pixelData = context.getImageData(Math.floor(x), Math.floor(y), 1, 1).data;
             let pixelColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3]})`;
