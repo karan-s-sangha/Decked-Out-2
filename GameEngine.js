@@ -18,7 +18,7 @@ class GameEngine {
         this.scale = 4;
         this.x=0;
         this.y=0;
-        this.Collsion = new Collision();
+        this.Collision  = new Collision ();
     };
 
     init(ctx) { // called after page has loaded
@@ -167,23 +167,23 @@ class GameEngine {
     };
 
     update() {
-        var entitiesCount = this.entities.length;
+        var entitiesCount = this.entities.length;   
         
-        if(this.right){
+        if(this.right && !this.Collision.isCollision(this.x, this.y)){
             this.x -=8;
         }
-        if(this.left){
-            this.x +=8;
+        if (this.left && !this.Collision.isCollision(this.x, this.y)) {
+            this.x += 8;
         }
-        if(this.up){
+        if(this.up && !this.Collision.isCollision(this.x, this.y)){
             this.y +=8;
-
         }
-        if(this.down){
+        if(this.down && !this.Collision.isCollision(this.x, this.y)){
             this.y -=8;
-
         }
-            
+         
+      
+
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
 
