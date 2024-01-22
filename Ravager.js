@@ -339,7 +339,7 @@ class Ravager {
     }
 
     wander() {
-        
+        console.log(this.x + "calling from ravager class" + this.y);
         // Random movement logic and need to update more advance wander method
         const moveAmount = 2; // speed of wandering
         let newX = this.x + (Math.random() - 0.5) * moveAmount;

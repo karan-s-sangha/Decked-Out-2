@@ -110,7 +110,7 @@ class SceneManager {
             this.levelY -=8;
 
         }
-       // this.ravager.update();
+      
 
         
     };

@@ -31,6 +31,7 @@ class Steve {
         } else {
             this.move = 0;
         }
+        console.log(this.x + " calling from player class" + this.y);
 
     };
 
