@@ -4,7 +4,7 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game,game.x,game.y);
+        this.steve = new Steve(this.game,game.camreaWorldTopLeftX,game.camreaWorldTopLeftY);
         this.collision = new Collision(game);
         this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
 
@@ -18,7 +18,7 @@ class SceneManager {
         this.compass = new Compass(this.artifact,this.steve, this.game);
 
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
-        this.loadLevel(this.steve, this.ravager, this.level, 0, 0);
+        this.loadLevel(this.steve, this.ravager, this.level, game.camreaWorldTopLeftX, game.camreaWorldTopLeftY);
         
     };
 
@@ -81,7 +81,7 @@ class SceneManager {
         this.game.addEntity(ravager);
 
         //Adding the Compass Entity
-        this.game.addEntity(this.compass);
+        //this.game.addEntity(this.compass);
     };
 
     updateAudio() {
@@ -108,7 +108,7 @@ class SceneManager {
         // if(this.game.down){
         //     this.levelY -=8;
         // }
-        this.ravager.update();
+        //this.ravager.update();
 
         
     };
