@@ -4,12 +4,11 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game,384,384);
+        this.steve = new Steve(this.game,game.x,game.y);
         this.collision = new Collision();
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 700, 384, 5, 10,50);
-        //this.steve = new Steve(this.game,384,384,null);
-     
-       
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
+
+
         this.levelX=0;
         this.levelY=0;
         this.collision = new Collision();
@@ -78,7 +77,7 @@ class SceneManager {
         this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
 
 
-    
+            
         this.game.addEntity(steve);
         this.game.addEntity(ravager);
 
@@ -98,21 +97,19 @@ class SceneManager {
     // This update is for the whole website including the HTML 
     update() {
         
-        if(this.game.right && !this.collision.isCollision(this.steve.x, this.steve.y)){
-            this.levelX -=8;
-        }
-        if(this.game.left && !this.collision.isCollision(this.steve.x, this.steve.y)){
-            this.levelX +=8;
-        }
-        if(this.game.up && !this.collision.isCollision(this.steve.x, this.steve.y)){
-            this.levelY +=8;
-
-        }
-        if(this.game.down && !this.collision.isCollision(this.steve.x, this.steve.y)){
-            this.levelY -=8;
-
-        }
-       // this.ravager.update();
+        // if(this.game.right){
+        //     this.levelX -=8;
+        // }
+        // if(this.game.left ){
+        //     this.levelX +=8;
+        // }
+        // if(this.game.up){
+        //     this.levelY +=8;
+        // }
+        // if(this.game.down){
+        //     this.levelY -=8;
+        // }
+        this.ravager.update();
 
         
     };
@@ -120,8 +117,8 @@ class SceneManager {
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
         //this.ravager.draw(ctx);
-    
-      
+        
+        
         // Drawing the Level one Map
         //let levelImage = ASSET_MANAGER.cache[this.level];
         //this.ctx.drawImage(levelImage,this.levelX,this.levelY, levelImage.width*this.scale, levelImage.height*this.scale);

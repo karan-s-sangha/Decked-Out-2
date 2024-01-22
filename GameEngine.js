@@ -190,10 +190,12 @@ class GameEngine {
             //console.log("Updating entity type:", entity.constructor.name);
             if (!entity.removeFromWorld) {
                 entity.update();
+                console.log(this.x + " calling from game class" + this.y);
             }
         }
 
         this.camera.update();
+       
         
         // for (var i = this.entities.length - 1; i >= 0; --i) {
         //     if (this.entities[i].removeFromWorld) {

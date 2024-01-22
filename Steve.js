@@ -1,12 +1,14 @@
 class Steve {
-    constructor(game, x, y) {
+    constructor(game, playerX, playerY) {
+        this.x = playerX;
+        this.y = playerY;
+       
         this.scale = 0.1;
         this.width = 241;
-        this.height = 340;
-
+        this.height = 340; 
         this.game = game;
-        this.x = x;
-        this.y = y;
+        this.screenX = 384;
+        this.screenY = 384;
         this.speed = 3;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -26,11 +28,28 @@ class Steve {
 
 
     update() {
-        if (this.game.left || this.game.right || this.game.up || this.game.down) {
+        if (this.game.left) {
             this.move = 1;
-        } else {
+            this.x -= 8;
+        } 
+        if (this.game.right) {
+            this.move = 1;
+            this.x += 8;
+        }
+        if (this.game.up) {
+            this.move = 1;
+            this.y += 8;
+        }
+        if (this.game.down) {
+            this.move = 1;
+            this.y -= 8;
+        } 
+        if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
+
+
+        console.log("steve x: " + this.x + " steve y: " + this.y)
 
     };
 
@@ -78,7 +97,7 @@ class Steve {
             this.cashe[angle] = offscreenCanvas;
 
         }
-        ctx.drawImage(this.cashe[angle],this.x - this.cashe[angle].width / 2, this.y - this.cashe[angle].height / 2);
+        ctx.drawImage(this.cashe[angle],this.screenX - this.cashe[angle].width / 2, this.screenY - this.cashe[angle].height / 2);
     }
 
     draw(ctx) {
@@ -95,7 +114,7 @@ class Steve {
                     steve        cursor(0 or 2*pi)
 
         */
-        let angle = Math.atan2(this.game.y - this.y, this.game.x - this.x) - (Math.PI/2);
+        let angle = Math.atan2(this.game.mouse.y - this.screenY, this.game.mouse.x - this.screenX) - (Math.PI/2);
         /*
         Because we don't to have negative angle, if the angle is negative, you have to convert into positive.
 
@@ -115,7 +134,7 @@ class Steve {
         let degrees = Math.floor(angle / Math.PI / 2 * 360);    
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x, this.y, 1, 1);
+        ctx.strokeRect(this.screenX, this.screenY, 1, 1);
         ctx.save();
 
         /*
@@ -125,7 +144,7 @@ class Steve {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
-            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, this.scale,angle);
+            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
