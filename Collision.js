@@ -10,10 +10,10 @@ class Collision {
         
         // Create a temporary canvas
         let canvas = document.createElement("canvas");
-        canvas.width = image.width*this.game.scale;
-        canvas.height = image.height*this.game.scale;
+        canvas.width = 2;
+        canvas.height = 2;
         let context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0,canvas.width,canvas.height );
+        context.drawImage(image, 0, 0,image.width*this.game.scale,canvas.height*this.game.scale );
 
         // Check the values of x and y
         //console.log("x:", x);
