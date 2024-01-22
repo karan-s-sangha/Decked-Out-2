@@ -16,6 +16,9 @@ class SceneManager {
     
         this.menuButtonCooldown = 0.15;
         
+        // Checking the Compass and the Artifact
+        this.artifact = new Artifact(game);
+        this.compass = new Compass(this.artifact,this.steve);
 
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.ravager, this.level, 0, 0);
