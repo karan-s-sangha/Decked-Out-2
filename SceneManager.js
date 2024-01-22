@@ -6,11 +6,10 @@ class SceneManager {
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
         this.steve = new Steve(this.game,384,384);
         this.collision = new Collision();
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 700, 384, 5, 10,50);
         this.steve = new Steve(this.game,384,384,null);
+     
        
-       // this.ravager = new Ravager ()
-       this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
         this.levelX=0;
         this.levelY=0;
     
@@ -114,7 +113,7 @@ class SceneManager {
             this.levelY -=8;
 
         }
-        this.ravager.update();
+       // this.ravager.update();
 
         
     };
