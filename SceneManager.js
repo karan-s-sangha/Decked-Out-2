@@ -7,7 +7,7 @@ class SceneManager {
         this.steve = new Steve(this.game,384,384);
         this.collision = new Collision();
         this.ravager = new Ravager (this.game, this.steve, this.collision, 700, 384, 5, 10,50);
-        this.steve = new Steve(this.game,384,384,null);
+        //this.steve = new Steve(this.game,384,384,null);
      
        
         this.levelX=0;
@@ -16,8 +16,8 @@ class SceneManager {
         this.menuButtonCooldown = 0.15;
         
         // Checking the Compass and the Artifact
-        this.artifact = new Artifact(game);
-        this.compass = new Compass(this.artifact,this.steve);
+        this.artifact = new Artifact(this.game);
+        this.compass = new Compass(this.artifact,this.steve, this.game);
 
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.ravager, this.level, 0, 0);
@@ -79,12 +79,11 @@ class SceneManager {
 
 
     
-    this.game.addEntity(steve);
-    this.game.addEntity(ravager);
+        this.game.addEntity(steve);
+        this.game.addEntity(ravager);
 
         //Adding the Compass Entity
-        let compass = new Compass();
-        //this.game.addEntity(compass);
+        this.game.addEntity(this.compass);
     };
 
     updateAudio() {
@@ -102,7 +101,7 @@ class SceneManager {
         if(this.game.right && !this.collision.isCollision(this.steve.x, this.steve.y)){
             this.levelX -=8;
         }
-        if(this.game.left && !this.collision.isCollision(this.steve.x, this.steve, y)){
+        if(this.game.left && !this.collision.isCollision(this.steve.x, this.steve.y)){
             this.levelX +=8;
         }
         if(this.game.up && !this.collision.isCollision(this.steve.x, this.steve.y)){

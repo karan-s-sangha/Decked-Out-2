@@ -187,7 +187,7 @@ class GameEngine {
             
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-            console.log("Updating entity type:", entity.constructor.name);
+            //console.log("Updating entity type:", entity.constructor.name);
             if (!entity.removeFromWorld) {
                 entity.update();
             }
@@ -195,11 +195,11 @@ class GameEngine {
 
         this.camera.update();
         
-        for (var i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
-            }
-        }
+        // for (var i = this.entities.length - 1; i >= 0; --i) {
+        //     if (this.entities[i].removeFromWorld) {
+        //         this.entities.splice(i, 1);
+        //     }
+        // }
         this.wheel = 0;
     };
 

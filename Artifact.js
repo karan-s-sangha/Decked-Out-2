@@ -4,12 +4,9 @@ class Artifact{
         this.y = 500;
     }
     getX(){
-        let x= this.x;
-        return x;
+        return this.x;
     }
     getY(){
-        let y= this.y;
-        return y;
+        return this.y;
     }
-
 }
