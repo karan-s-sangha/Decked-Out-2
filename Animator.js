@@ -26,6 +26,9 @@ class Animator {
             x, y,
             this.width * scale,
             this.height * scale);
+
+            //console.log("Drawing frame at:", x, y, "with frame index:", frame);
+
     };
 
     drawFrameAngle(tick, ctx, x, y, scale, angle) {
