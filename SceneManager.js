@@ -5,10 +5,10 @@ class SceneManager {
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
         this.steve = new Steve(this.game,384,384);
-       this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,50);
+        this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,50);
         this.levelX=0;
         this.levelY=0;
-    
+        this.collision = new Collision();
         this.menuButtonCooldown = 0.15;
         
 
@@ -86,18 +86,18 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-    
-        if(this.game.right){
+        
+        if(this.game.right && !this.collision.isCollision(this.steve.x, this.steve.y)){
             this.levelX -=8;
         }
-        if(this.game.left){
+        if(this.game.left && !this.collision.isCollision(this.steve.x, this.steve, y)){
             this.levelX +=8;
         }
-        if(this.game.up){
+        if(this.game.up && !this.collision.isCollision(this.steve.x, this.steve.y)){
             this.levelY +=8;
 
         }
-        if(this.game.down){
+        if(this.game.down && !this.collision.isCollision(this.steve.x, this.steve.y)){
             this.levelY -=8;
 
         }
