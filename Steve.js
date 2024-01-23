@@ -25,25 +25,25 @@ class Steve {
         this.spritesheet = new Image();
         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
-        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.03, 0, false, true);
+        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.001, 0, false, true);
     };
 
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.left && !this.collision.isCollision(this.playerX - 16, this.playerY)) {
             this.move = 1;
             this.game.camreaWorldTopLeftX += 8;
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.right && !this.collision.isCollision(this.playerX + 16, this.playerY)) {
             this.move = 1;
             this.game.camreaWorldTopLeftX -= 8;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 16)) {
             this.move = 1;
             this.game.camreaTopLeftY += 8;
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 16)) {
             this.move = 1;
             this.game.camreaTopLeftY -= 8;
         } 
