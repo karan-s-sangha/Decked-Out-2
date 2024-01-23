@@ -4,8 +4,8 @@ class Ravager {
     constructor(game, steve,collisions, x, y, walkSpeed, runSpeed,size) {
         this.game = game;
         this.steve = steve;
-        this.x = x;
-        this.y = y;
+        this.x = 0;
+        this.y = 0;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.size = size;
@@ -61,29 +61,29 @@ class Ravager {
     }
 
     update() {
-        switch (this.state) {
-            case 'idle':
-                this.wander(); // Optionally wander or stay still
-                break;
-            case 'moving':
-            case 'running':
-                if (this.canSeePlayer()) {
-                    this.followPlayer();
-                } else {
-                    this.state = 'wandering';
-                }
-                break;
-            case 'attacking':
-                // Implement attacking behavior (e.g., stay in place or move towards player)
-                break;
-            case 'wandering':
-                this.wander();
-                break;
-        }
+        // switch (this.state) {
+        //     case 'idle':
+        //         this.wander(); // Optionally wander or stay still
+        //         break;
+        //     case 'moving':
+        //     case 'running':
+        //         if (this.canSeePlayer()) {
+        //             this.followPlayer();
+        //         } else {
+        //             this.state = 'wandering';
+        //         }
+        //         break;
+        //     case 'attacking':
+        //         // Implement attacking behavior (e.g., stay in place or move towards player)
+        //         break;
+        //     case 'wandering':
+        //         this.wander();
+        //         break;
+        // }
 
-        this.applyMovement();
-        this.updateAnimation();
-        console.log(this.x + "calling from ravager class" + this.y);
+        // this.applyMovement();
+        // this.updateAnimation();
+        // console.log(this.x + "calling from ravager class" + this.y);
     }
 
     handlePlayerVisibility() {

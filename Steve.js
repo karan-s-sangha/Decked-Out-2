@@ -1,7 +1,7 @@
 class Steve {
     constructor(game, playerX, playerY) {
-        this.x = playerX;
-        this.y = playerY;
+        this.x = -playerX;
+        this.y = -playerY;
        
         this.scale = 0.1;
         this.width = 241;
@@ -38,11 +38,11 @@ class Steve {
         }
         if (this.game.up) {
             this.move = 1;
-            this.y += 8;
+            this.y -= 8;
         }
         if (this.game.down) {
             this.move = 1;
-            this.y -= 8;
+            this.y += 8;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;

@@ -16,8 +16,8 @@ class GameEngine {
         this.B = false;
         this.gamepad = null;
         this.scale = 4;
-        this.x=0;
-        this.y=0;
+        this.x=-200;
+        this.y=-200;
         this.Collision  = new Collision ();
     };
 

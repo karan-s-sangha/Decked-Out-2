@@ -7,7 +7,7 @@ class SceneManager {
         this.steve = new Steve(this.game,game.x,game.y);
         this.collision = new Collision();
         this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
-
+       // this.steve = new Steve(this.game,384,384,null);
 
         this.levelX=0;
         this.levelY=0;
