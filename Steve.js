@@ -2,7 +2,7 @@ class Steve {
     constructor(game) {
        
        
-        this.scale = 0.1;
+        this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
         this.game = game;
@@ -15,9 +15,9 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
-
+        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
+        this.collision = new Collision(this.game);
         this.loadAnimations();
     };
 
@@ -31,33 +31,32 @@ class Steve {
 
 
     update() {
-        if (this.game.left) {
+        if (this.game.left && !this.collision.isCollision(this.playerX, this.playerY)) {
             this.move = 1;
             this.game.cameraWorldTopLeftX += 8;
         } 
-        if (this.game.right) {
+        if (this.game.right && !this.collision.isCollision(this.playerX, this.playerY)) {
             this.move = 1;
             this.game.cameraWorldTopLeftX -= 8;
         }
-        if (this.game.up) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftY += 8;
+            this.game.camreaWorldTopLeftY += 8;
         }
-        if (this.game.down) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftY -= 8;
+            this.game.camreaWorldTopLeftY -= 8;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
-        // In Steve update method
-console.log("Steve class updating camera position:", this.game.camera.cameraWorldTopLeftX, this.game.camera.cameraWorldTopLeftY);
+        
+        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
 
-        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
+        console.log(this.collision.isCollision(this.playerX, this.playerY));
 
-
-        //console.log("steve x: " + this.x + " steve y: " + this.y)
+        console.log("steve x: " + this.playerX + " steve y: " + this.playerY)
 
     };
 
@@ -160,6 +159,10 @@ console.log("Steve class updating camera position:", this.game.camera.cameraWorl
            this.drawAngle(ctx, degrees, this.scale);
            this.animations.elapsedTime = 0;
         }
+
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.screenX, this.screenY, 1, 1);
+        ctx.save();
 
     };
 };
