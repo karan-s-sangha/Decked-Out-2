@@ -81,9 +81,9 @@ class Ravager {
         //         break;
         // }
 
-        // this.applyMovement();
-        // this.updateAnimation();
-        // console.log(this.x + "calling from ravager class" + this.y);
+        this.applyMovement();
+        this.updateAnimation();
+        //console.log(this.x + "calling from ravager class" + this.y);
     }
 
     handlePlayerVisibility() {
@@ -354,7 +354,7 @@ class Ravager {
         if (this.isWithinBounds(newX, newY) && !this.collisions.isCollision(newX, newY)) {// need ot add collision
             this.x = newX;
             this.y = newY;
-            console.log(this.x + "X" + this.y + "Y");
+            //console.log(this.x + "X" + this.y + "Y");
         }
     }
     isWithinBounds(x, y) {

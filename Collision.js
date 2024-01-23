@@ -1,4 +1,7 @@
 class Collision {
+    constructor(game){
+        this.game = game;
+    }
 
     // Function to check the collision
     isCollision(x, y) {
@@ -8,20 +11,20 @@ class Collision {
         this.y = -y;
         // Create a temporary canvas
         let canvas = document.createElement("canvas");
-        canvas.width = image.width;
-        canvas.height = image.height;
+        canvas.width = 2;
+        canvas.height = 2;
         let context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0);
+        context.drawImage(image, 0, 0,image.width*this.game.scale,image.height*this.game.scale );
 
         // Check the values of x and y
-        console.log("x:", this.x);
-        console.log("y:", this.y);
+        //console.log("x:", x);
+        //console.log("y:", y);
 
         // Ensure the coordinates are within the bounds of the canvas
-        if (this.x >= 0 && this.x < 4 * canvas.width && this.x >= 0 && this.x < 4 * canvas.height) {
+        if (x >= 0 && x < image.width*this.game.scale && y >= 0 && y < image.height*this.game.scale) {
             // Get the pixel data from the temporary canvas
-            let pixelData = context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
-            let pixelColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] / 255})`;
+            let pixelData = context.getImageData(Math.floor(x), Math.floor(y), 1, 1).data;
+            let pixelColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3]})`;
 
             let collisionColor = "rgba(116,29,50,255)"; // Corrected the collision color
 
@@ -30,9 +33,9 @@ class Collision {
             } else {
                 return false; // No collision
             }
-        } else {
-            console.error("Coordinates are out of bounds.");
-            return false; // Return false for out-of-bounds coordinates
-        }
+         } else {
+             console.error("Coordinates are out of bounds.");
+             return false; // Return false for out-of-bounds coordinates
+         }
     };
 }

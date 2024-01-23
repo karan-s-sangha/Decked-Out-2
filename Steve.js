@@ -1,7 +1,6 @@
 class Steve {
-    constructor(game, playerX, playerY) {
-        this.x = -playerX;
-        this.y = -playerY;
+    constructor(game) {
+       
        
         this.scale = 0.1;
         this.width = 241;
@@ -15,6 +14,10 @@ class Steve {
         this.cashe = [];
         this.mousex = 0;
         this.mousey = 0;
+
+        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
+
         this.loadAnimations();
     };
 
@@ -30,26 +33,29 @@ class Steve {
     update() {
         if (this.game.left) {
             this.move = 1;
-            this.x -= 8;
+            this.game.camreaWorldTopLeftX += 8;
         } 
         if (this.game.right) {
             this.move = 1;
-            this.x += 8;
+            this.game.camreaWorldTopLeftX -= 8;
         }
         if (this.game.up) {
             this.move = 1;
-            this.y -= 8;
+            this.game.camreaTopLeftY += 8;
         }
         if (this.game.down) {
             this.move = 1;
-            this.y += 8;
+            this.game.camreaTopLeftY -= 8;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
+        
+        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
 
 
-        console.log("steve x: " + this.x + " steve y: " + this.y)
+        //console.log("steve x: " + this.x + " steve y: " + this.y)
 
     };
 
