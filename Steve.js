@@ -133,6 +133,6 @@ class Steve {
            this.drawAngle(ctx, degrees, this.scale);
            this.animations.elapsedTime = 0;
         }
-
+w
     };
 };

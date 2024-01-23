@@ -4,16 +4,21 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game,384,384);
-       this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,50);
+        this.steve = new Steve(this.game,game.cameraWorldTopLeftX,game.cameraWorldTopLeftY);
+        this.collision = new Collision(game);
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
+       // this.steve = new Steve(this.game,384,384,null);
+
         this.levelX=0;
         this.levelY=0;
-    
         this.menuButtonCooldown = 0.15;
         
+        // Checking the Compass and the Artifact
+        this.artifact = new Artifact(this.game);
+        this.compass = new Compass(this.artifact,this.steve, this.game);
 
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
-        this.loadLevel(this.steve, this.ravager, this.level, 0, 0);
+        this.loadLevel(this.steve, this.ravager, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
     };
 
@@ -70,9 +75,13 @@ class SceneManager {
         let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
 
-    
+
+            
         this.game.addEntity(steve);
-        // this.game.addEntity(ravager);
+        this.game.addEntity(ravager);
+
+        //Adding the Compass Entity
+        this.game.addEntity(this.compass);
     };
 
     updateAudio() {
@@ -86,22 +95,20 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-    
-        if(this.game.right){
-            this.levelX -=8;
-        }
-        if(this.game.left){
-            this.levelX +=8;
-        }
-        if(this.game.up){
-            this.levelY +=8;
-
-        }
-        if(this.game.down){
-            this.levelY -=8;
-
-        }
-        this.ravager.update();
+        
+        // if(this.game.right){
+        //     this.levelX -=8;
+        // }
+        // if(this.game.left ){
+        //     this.levelX +=8;
+        // }
+        // if(this.game.up){
+        //     this.levelY +=8;
+        // }
+        // if(this.game.down){
+        //     this.levelY -=8;
+        // }
+       //this.ravager.update();
 
         
     };
@@ -109,8 +116,8 @@ class SceneManager {
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
         //this.ravager.draw(ctx);
-    
-      
+        
+        
         // Drawing the Level one Map
         //let levelImage = ASSET_MANAGER.cache[this.level];
         //this.ctx.drawImage(levelImage,this.levelX,this.levelY, levelImage.width*this.scale, levelImage.height*this.scale);

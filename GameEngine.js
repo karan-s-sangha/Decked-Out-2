@@ -14,12 +14,10 @@ class GameEngine {
         this.down = false;
         this.A = false;
         this.B = false;
-
         this.gamepad = null;
-        this.scale = 2.5;
-        this.x=0;
-        this.y=0;
-        this.Collsion = new Collision();
+        this.scale = 4;
+        this.cameraWorldTopLeftX = -200;
+        this.cameraWorldTopLeftY = -200;
     };
 
     init(ctx) { // called after page has loaded
@@ -64,6 +62,7 @@ class GameEngine {
             that.wheel = e.deltaY;
         }
         function keydownListener (e) {
+            console.log("Key pressed:", e.code); // Debugging lo
             that.keyboardActive = true;
             switch (e.code) {
                 case "ArrowLeft":
@@ -161,45 +160,64 @@ class GameEngine {
 
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+       
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx);
         }
+      
         this.camera.draw(this.ctx);
     };
 
     update() {
-        var entitiesCount = this.entities.length;
+        var entitiesCount = this.entities.length;   
         
-        if(this.right){
-            this.x -=8;
-        }
-        if(this.left){
-            this.x +=8;
-        }
-        if(this.up){
-            this.y +=8;
+        // if(this.right && !this.Collision.isCollision(this.x, this.y)){
+        //     this.x -=8;
+        //     console.log(this.Collision.isCollision(this.x, this.y));
+        // }
+        // if (this.left && !this.Collision.isCollision(this.x, this.y)) {
+        //     this.x += 8;
+        // }
+        // if(this.up && !this.Collision.isCollision(this.x, this.y)){
+        //     this.y +=8;
+        // }
+        // if(this.down && !this.Collision.isCollision(this.x, this.y)){
+        //     this.y -=8;
+        // }
+        // if(this.right){
+        //     this.x -=8;
+        //     //console.log(this.Collision.isCollision(this.x, this.y));
+        // }
+        // if (this.left) {
+        //     this.x += 8;
+        // }
+        // if(this.up ){
+        //     this.y +=8;
+        // }
+        // if(this.down){
+        //     this.y -=8;
+        // }       
+      
 
-        }
-        if(this.down){
-            this.y -=8;
-
-        }
-            
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-
+            //console.log("Updating entity type:", entity.constructor.name);
             if (!entity.removeFromWorld) {
                 entity.update();
+                //console.log(this.x + " calling from game class" + this.y);
             }
         }
 
+       // console.log("Camera position:", this.camera.x, this.camera.y);
+
         this.camera.update();
+       
         
-        for (var i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
-            }
-        }
+        // for (var i = this.entities.length - 1; i >= 0; --i) {
+        //     if (this.entities[i].removeFromWorld) {
+        //         this.entities.splice(i, 1);
+        //     }
+        // }
         this.wheel = 0;
     };
 
