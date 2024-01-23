@@ -13,7 +13,7 @@ class Compass {
         this.cache = [];
 
         this.image = ASSET_MANAGER.cache["./Art/Arrow.png"];
-        this.scale = 0.1;
+        this.scale = 0.4;
         this.angleRadians = 0;
         this.radius = 10;
     }
@@ -33,16 +33,28 @@ class Compass {
         //console.log(this.artX);
         //console.log(this.artY);
 
-        this.angleRadians = this.findAngleBetweenLines(this.axisX, this.axisY, this.axisX, this.axisY - 10, this.axisX, this.axisY, this.artX, this.artY);
-       
+        // Update the angle pointing towards the artifact
+        this.angleRadians = this.findAngle(
+        this.steve.playerX, this.steve.playerY,
+        this.artifact.getX(), this.artifact.getY());        
+      
+        console.log(this.angleRadians * (180 / Math.PI));
         // Calculate the new coordinates
-        this.drawX +=  this.screenX + this.radius * Math.cos(this.angleRadians);
-        this.drawY +=  this.screenY + this.radius * Math.sin(this.angleRadians);
+        this.drawX +=  this.steve.screenX + this.radius * Math.cos(this.angleRadians);
+        this.drawY +=  this.steve.screenY + this.radius * Math.sin(this.angleRadians);
     }
 
     draw(ctx) {
+        // Set the color of the square
+        ctx.fillStyle = 'red';
+
+        // Draw the squaresd
+        ctx.fillRect(this.artX + this.game.camreaWorldTopLeftX , this.artY + this.game.camreaWorldTopLeftY  , 20, 20);
+        console.log("x "+ this.artX + this.game.camreaWorldTopLeftX)
+        console.log("y "+ this.artY + this.game.camreaWorldTopLeftY)
+
         this.drawAngle(ctx, this.angleRadians * (180 / Math.PI), this.scale);
-        console.log("Trying to draw the compass");
+        //console.log("Trying to draw the compass");
     }
 
     drawAngle(ctx, angle, scale) {
@@ -82,14 +94,8 @@ class Compass {
         return (y2 - y1) / (x2 - x1);
     }
 
-    findAngleBetweenLines(x1, y1, x2, y2, x3, y3, x4, y4) {
-        let m1 = this.calculateSlope(x1, y1, x2, y2);
-        let m2 = this.calculateSlope(x3, y3, x4, y4);
-
-        if (m1 === Infinity && m2 === Infinity) return 0; // Parallel vertical lines
-        if (m1 === Infinity || m2 === Infinity) return Math.PI / 2; // One vertical line
-
-        let angleRadians = Math.atan(Math.abs((m1 - m2) / (1 + m1 * m2)));
-        return angleRadians;
+    // Find the angle in radians towards a target point from the player's position
+    findAngle(playerX, playerY, targetX, targetY) {
+        return Math.atan2(targetY - playerY, targetX - playerX);
     }
 }

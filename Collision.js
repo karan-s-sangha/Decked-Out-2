@@ -19,7 +19,6 @@ class Collision {
         if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
             // Get the pixel data from the canvas
             let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
-            console.log("x: " + this.x + " y: " + this.y);
 
             // Define the collision color (RGBA values)
             let collisionColor = [116, 29, 50, 255]; // Assuming alpha value as well
