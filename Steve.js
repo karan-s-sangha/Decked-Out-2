@@ -15,8 +15,8 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -51,8 +51,8 @@ class Steve {
             this.move = 0;
         }
         
-        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
     };
 
 

@@ -13,54 +13,46 @@ class Compass {
         this.cache = [];
 
         this.image = ASSET_MANAGER.cache["./Art/Arrow.png"];
-        this.scale = 0.4;
+        this.scale = 0.1;
         this.angleRadians = 0;
-        this.radius = 10;
+        this.angleDegree = 0;
+        this.radius = 70;
     }
 
     // Function
-    update(axisX, axisY, artX, artY) {
-       
+    update() {
         this.axisX = this.steve.playerX;
         this.axisY = this.steve.playerY;
- 
-        //console.log(this.axisX);
-        //console.log(this.axisY);
-
- 
+    
         this.artX = this.artifact.getX();
         this.artY = this.artifact.getY();
-        //console.log(this.artX);
-        //console.log(this.artY);
-
-        // Update the angle pointing towards the artifact
+    
         this.angleRadians = this.findAngle(
-        this.steve.playerX, this.steve.playerY,
-        this.artifact.getX(), this.artifact.getY());        
-      
-        console.log(this.angleRadians * (180 / Math.PI));
-        // Calculate the new coordinates
-        this.drawX +=  this.steve.screenX + this.radius * Math.cos(this.angleRadians);
-        this.drawY +=  this.steve.screenY + this.radius * Math.sin(this.angleRadians);
-    }
-
+            this.steve.playerX, this.steve.playerY,
+            this.artifact.getX(), this.artifact.getY()
+        );
+    
+        this.drawX = 0;
+        this.drawY = 0;
+    
+        // Calculate the new coordinates for drawing the arrow
+        this.drawX = this.steve.screenX + this.radius * Math.cos(this.angleRadians);
+        this.drawY = this.steve.screenY + this.radius * Math.sin(this.angleRadians);
+    
+        }
     draw(ctx) {
-        // Set the color of the square
         ctx.fillStyle = 'red';
-
-        // Draw the squaresd
-        ctx.fillRect(this.artX + this.game.camreaWorldTopLeftX , this.artY + this.game.camreaWorldTopLeftY  , 20, 20);
-        console.log("x "+ this.artX + this.game.camreaWorldTopLeftX)
-        console.log("y "+ this.artY + this.game.camreaWorldTopLeftY)
-
-        this.drawAngle(ctx, this.angleRadians * (180 / Math.PI), this.scale);
-        //console.log("Trying to draw the compass");
+        ctx.fillRect(this.artX + this.game.cameraWorldTopLeftX, this.artY + this.game.cameraWorldTopLeftY, 20, 20);
+        this.angleDegree = Math.floor(this.angleRadians * (180 / Math.PI));
+    
+        this.drawAngle(ctx, this.angleDegree, this.scale);
     }
+    
 
     drawAngle(ctx, angle, scale) {
-        if (angle < 0 || angle > 359) {
-            return;
-        }
+        // if (angle < 0 || angle > 359) {
+        //     return;
+        // }s
         //angle = 180;
         //console.log("angle",angle);
         if (!this.cache[angle]) {

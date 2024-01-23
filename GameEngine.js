@@ -16,8 +16,8 @@ class GameEngine {
         this.B = false;
         this.gamepad = null;
         this.scale = 4;
-        this.camreaWorldTopLeftX = -200;
-        this.camreaWorldTopLeftX = -200;
+        this.cameraWorldTopLeftX = -200;
+        this.cameraWorldTopLeftY = -200;
     };
 
     init(ctx) { // called after page has loaded
@@ -159,7 +159,6 @@ class GameEngine {
     };
 
     draw() {
-       console.log(this.cameraWorldTopLeftX  + " camera X" + this.cameraWorldTopLeftY + " cameraY");
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
        
         for (var i = 0; i < this.entities.length; i++) {

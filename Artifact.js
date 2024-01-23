@@ -1,7 +1,7 @@
 class Artifact{
     constructor(game){
-        this.x = 500;
-        this.y = 500;
+        this.x = 750;
+        this.y = 750;
     }
     getX(){
         return this.x;
