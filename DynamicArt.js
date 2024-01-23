@@ -8,6 +8,6 @@ class DynamicArt {
 
     draw(ctx) {
 
-        this.gifAnimation.drawFrame(this.game.clockTick,ctx,this.game.x,this.game.y,this.game.scale)
+        this.gifAnimation.drawFrame(this.game.clockTick,ctx,this.game.cameraWorldTopLeftX,this.game.cameraWorldTopLeftY,this.game.scale)
     };
 };

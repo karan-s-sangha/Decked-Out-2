@@ -17,6 +17,9 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 
 // Animation for the Ravager
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-walking-running.png");
@@ -33,7 +36,9 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
+// Image for the compass
+ASSET_MANAGER.queueDownload("./Art/Arrow.png");
+
 
 // // music
 // ASSET_MANAGER.queueDownload("./music/overworld.mp3");
@@ -61,6 +66,7 @@ ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 	ctx.imageSmoothingEnabled = false;
+	
 
 	//PARAMS.CANVAS_WIDTH = canvas.width;
 	//PARAMS.CANVAS_HEIGHT = canvas.height;

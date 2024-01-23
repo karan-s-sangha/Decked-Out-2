@@ -1,37 +1,58 @@
 class Steve {
-    constructor(game, x, y) {
-        this.scale = 0.1;
+    constructor(game) {
+       
+       
+        this.scale = 0.2;
         this.width = 241;
-        this.height = 340;
-
+        this.height = 340; 
         this.game = game;
-        this.x = x;
-        this.y = y;
+        this.screenX = 384;
+        this.screenY = 384;
         this.speed = 3;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
         this.cashe = [];
         this.mousex = 0;
         this.mousey = 0;
+
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
+        this.collision = new Collision(this.game);
         this.loadAnimations();
     };
 
     loadAnimations() {
         this.spritesheet = new Image();
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"]
+        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
-        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.03, 0, false, true);
+        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.008, 0, false, true);
     };
 
 
 
     update() {
-        if (this.game.left || this.game.right || this.game.up || this.game.down) {
+        if (this.game.left && !this.collision.isCollision(this.playerX - 8, this.playerY)) {
             this.move = 1;
-        } else {
+            this.game.cameraWorldTopLeftX += 8;
+        } 
+        if (this.game.right && !this.collision.isCollision(this.playerX + 8, this.playerY)) {
+            this.move = 1;
+            this.game.cameraWorldTopLeftX -= 8;
+        }
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 8)) {
+            this.move = 1;
+            this.game.cameraWorldTopLeftY += 8;
+        }
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 8)) {
+            this.move = 1;
+            this.game.cameraWorldTopLeftY -= 8;
+        } 
+        if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
-
+        
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
     };
 
 
@@ -78,7 +99,7 @@ class Steve {
             this.cashe[angle] = offscreenCanvas;
 
         }
-        ctx.drawImage(this.cashe[angle],this.x - this.cashe[angle].width / 2, this.y - this.cashe[angle].height / 2);
+        ctx.drawImage(this.cashe[angle],this.screenX - this.cashe[angle].width / 2, this.screenY - this.cashe[angle].height / 2);
     }
 
     draw(ctx) {
@@ -95,7 +116,7 @@ class Steve {
                     steve        cursor(0 or 2*pi)
 
         */
-        let angle = Math.atan2(this.game.mouse.y - this.y, this.game.mouse.x - this.x) - (Math.PI/2);
+        let angle = Math.atan2(this.game.mouse.y - this.screenY, this.game.mouse.x - this.screenX) - (Math.PI/2);
         /*
         Because we don't to have negative angle, if the angle is negative, you have to convert into positive.
 
@@ -115,7 +136,7 @@ class Steve {
         let degrees = Math.floor(angle / Math.PI / 2 * 360);    
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x, this.y, 1, 1);
+        ctx.strokeRect(this.screenX, this.screenY, 1, 1);
         ctx.save();
 
         /*
@@ -125,7 +146,7 @@ class Steve {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
-            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.x, this.y, this.scale,angle);
+            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
@@ -133,6 +154,10 @@ class Steve {
            this.drawAngle(ctx, degrees, this.scale);
            this.animations.elapsedTime = 0;
         }
+
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.screenX, this.screenY, 1, 1);
+        ctx.save();
 
     };
 };
