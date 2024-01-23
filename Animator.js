@@ -4,12 +4,11 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = this.frameCount * this.frameDuration;
-
+        this.cashe = [0];
     };
 
     drawFrame(tick, ctx, x, y, scale) {
         this.elapsedTime += tick;
-
         if (this.isDone()) {
             if (this.loop) {
                 this.elapsedTime -= this.totalTime;
@@ -27,6 +26,42 @@ class Animator {
             x, y,
             this.width * scale,
             this.height * scale);
+    };
+
+    drawFrameAngle(tick, ctx, x, y, scale, angle) {
+        this.elapsedTime += tick;
+        if (this.isDone()) {
+            if (this.loop) {
+                this.elapsedTime -= this.totalTime;
+            } else {
+                return;
+            }
+        }
+
+        let frame = this.currentFrame();
+        if (this.reverse) frame = this.frameCount - frame - 1;
+       
+
+        var offscreenCanvas = document.createElement('canvas');
+        if(this.width > this.height) {
+            offscreenCanvas.width = this.width * scale;
+            offscreenCanvas.height = this.width * scale;
+        } else {
+            offscreenCanvas.width = this.height * scale;
+            offscreenCanvas.height = this.height * scale;
+        }
+
+        var offscreenCtx = offscreenCanvas.getContext('2d');
+        offscreenCtx.save();
+        offscreenCtx.translate(offscreenCanvas.width/2, offscreenCanvas.height/2);
+        offscreenCtx.rotate(angle);
+        offscreenCtx.translate(-offscreenCanvas.width/2 , -offscreenCanvas.height/2);
+        offscreenCtx.drawImage(this.spritesheet, this.xStart + frame * (this.width + this.framePadding), this.yStart 
+                               ,this.width,this.height, (offscreenCanvas.width - (this.width * scale)) / 2
+                               ,(offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
+        offscreenCtx.restore();
+        ctx.drawImage(offscreenCanvas, x - offscreenCanvas.width / 2, y - offscreenCanvas.height / 2);
+
     };
 
     currentFrame() {

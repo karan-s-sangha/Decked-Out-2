@@ -4,8 +4,8 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game,384,384,null);
-
+        this.steve = new Steve(this.game,384,384);
+       this.ravager = new Ravager (this.game, this.steve, 100, 384, 5, 10,50);
         this.levelX=0;
         this.levelY=0;
     
@@ -13,7 +13,7 @@ class SceneManager {
         
 
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
-        this.loadLevel(this.steve, this.level, 0, 0);
+        this.loadLevel(this.steve, this.ravager, this.level, 0, 0);
         
     };
 
@@ -25,7 +25,7 @@ class SceneManager {
     
     // loadLevel is supposed to add the entities of the first level
 
-    loadLevel(steve, level, x, y) {
+    loadLevel(steve, ravager, level, x, y) {
 
        
         // Adding the first upper level
@@ -55,7 +55,7 @@ class SceneManager {
         this.game.addEntity(new DynamicArt(this.game, level, x, y, fireinhallAnimation));
 
         let firecamp = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/firecamp.png"];
-        let firecampAnimation =  new Animator(firecamp,0,0,1308,1860,24,120/1000,0,false,true);
+        let firecampAnimation =  new Animator(firecamp,0,26,1308,1860,24,120/1000,0,false,true);
         this.game.addEntity(new DynamicArt(this.game, level, x, y, firecampAnimation));
 
         let fire = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/fire.png"];
@@ -72,6 +72,7 @@ class SceneManager {
 
     
         this.game.addEntity(steve);
+        // this.game.addEntity(ravager);
     };
 
     updateAudio() {
@@ -100,12 +101,14 @@ class SceneManager {
             this.levelY -=8;
 
         }
+        this.ravager.update();
 
         
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
+        //this.ravager.draw(ctx);
     
       
         // Drawing the Level one Map
