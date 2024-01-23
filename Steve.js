@@ -31,19 +31,19 @@ class Steve {
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.left && !this.collision.isCollision(this.playerX-8, this.playerY)) {
             this.move = 1;
             this.game.camreaWorldTopLeftX += 8;
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.right && !this.collision.isCollision(this.playerX+8, this.playerY)) {
             this.move = 1;
             this.game.camreaWorldTopLeftX -= 8;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY-8)) {
             this.move = 1;
             this.game.camreaTopLeftY += 8;
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY+8)) {
             this.move = 1;
             this.game.camreaTopLeftY -= 8;
         } 
