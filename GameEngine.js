@@ -159,10 +159,13 @@ class GameEngine {
     };
 
     draw() {
+       console.log(this.cameraWorldTopLeftX  + " camera X" + this.cameraWorldTopLeftY + " cameraY");
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+       
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx);
         }
+      
         this.camera.draw(this.ctx);
     };
 
@@ -205,6 +208,8 @@ class GameEngine {
                 //console.log(this.x + " calling from game class" + this.y);
             }
         }
+
+       // console.log("Camera position:", this.camera.x, this.camera.y);
 
         this.camera.update();
        

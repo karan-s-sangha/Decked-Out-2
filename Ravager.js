@@ -186,7 +186,7 @@ class Ravager {
         }
     }
 
-    hhandleCollision() {
+    handleCollision() {
         // Strategy 1: Fallback slightly
         this.fallback();
 
@@ -354,7 +354,7 @@ class Ravager {
         if (this.isWithinBounds(newX, newY) && !this.collisions.isCollision(newX, newY)) {// need ot add collision
             this.x = newX;
             this.y = newY;
-            //console.log(this.x + "X" + this.y + "Y");
+            console.log(this.x + "X" + this.y + "Y");
         }
     }
     isWithinBounds(x, y) {
