@@ -16,9 +16,8 @@ class GameEngine {
         this.B = false;
         this.gamepad = null;
         this.scale = 4;
-        this.x=0;
-        this.y=0;
-        this.Collsion = new Collision();
+        this.camreaWorldTopLeftX = 0;
+        this.camreaWorldTopLeftY = 0;
     };
 
     init(ctx) { // called after page has loaded
@@ -168,29 +167,42 @@ class GameEngine {
     };
 
     update() {
-        var entitiesCount = this.entities.length;
+        var entitiesCount = this.entities.length;   
         
-        if(this.right){
-            this.x -=8;
-        }
-        if(this.left){
-            this.x +=8;
-        }
-        if(this.up){
-            this.y +=8;
+        // if(this.right && !this.Collision.isCollision(this.x, this.y)){
+        //     this.x -=8;
+        //     console.log(this.Collision.isCollision(this.x, this.y));
+        // }
+        // if (this.left && !this.Collision.isCollision(this.x, this.y)) {
+        //     this.x += 8;
+        // }
+        // if(this.up && !this.Collision.isCollision(this.x, this.y)){
+        //     this.y +=8;
+        // }
+        // if(this.down && !this.Collision.isCollision(this.x, this.y)){
+        //     this.y -=8;
+        // }
+        // if(this.right){
+        //     this.x -=8;
+        //     //console.log(this.Collision.isCollision(this.x, this.y));
+        // }
+        // if (this.left) {
+        //     this.x += 8;
+        // }
+        // if(this.up ){
+        //     this.y +=8;
+        // }
+        // if(this.down){
+        //     this.y -=8;
+        // }       
+      
 
-        }
-        if(this.down){
-            this.y -=8;
-
-        }
-            
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
             //console.log("Updating entity type:", entity.constructor.name);
             if (!entity.removeFromWorld) {
                 entity.update();
-                console.log(this.x + " calling from game class" + this.y);
+                //console.log(this.x + " calling from game class" + this.y);
             }
         }
 
@@ -199,11 +211,11 @@ class GameEngine {
         this.camera.update();
        
         
-        for (var i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
-            }
-        }
+        // for (var i = this.entities.length - 1; i >= 0; --i) {
+        //     if (this.entities[i].removeFromWorld) {
+        //         this.entities.splice(i, 1);
+        //     }
+        // }
         this.wheel = 0;
     };
 
