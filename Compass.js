@@ -50,11 +50,7 @@ class Compass {
     
 
     drawAngle(ctx, angle, scale) {
-        // if (angle < 0 || angle > 359) {
-        //     return;
-        // }s
-        //angle = 180;
-        //console.log("angle",angle);
+       
         if (!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
@@ -79,11 +75,6 @@ class Compass {
             this.cache[angle] = offscreenCanvas;
         }
         ctx.drawImage(this.cache[angle], this.drawX - this.cache[angle].width / 2, this.drawY - this.cache[angle].height / 2);
-    }
-
-    calculateSlope(x1, y1, x2, y2) {
-        if (x2 - x1 === 0) return Infinity; // Avoid division by zero
-        return (y2 - y1) / (x2 - x1);
     }
 
     // Find the angle in radians towards a target point from the player's position
