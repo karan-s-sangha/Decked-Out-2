@@ -11,7 +11,6 @@ class SceneManager {
 
         this.levelX=0;
         this.levelY=0;
-        this.collision = new Collision();
         this.menuButtonCooldown = 0.15;
         
 

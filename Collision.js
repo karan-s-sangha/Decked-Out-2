@@ -13,8 +13,8 @@ class Collision {
         context.drawImage(image, 0, 0);
 
         // Check the values of x and y
-        console.log("x:", x);
-        console.log("y:", y);
+        // console.log("x:", x);
+        // console.log("y:", y);
 
         // Ensure the coordinates are within the bounds of the canvas
         if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {

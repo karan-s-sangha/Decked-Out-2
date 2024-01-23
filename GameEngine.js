@@ -194,6 +194,8 @@ class GameEngine {
             }
         }
 
+        console.log("Camera position:", this.camera.x, this.camera.y);
+
         this.camera.update();
        
         
