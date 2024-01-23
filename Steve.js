@@ -1,13 +1,9 @@
 class Steve {
     constructor(game) {
-       
-       
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
         this.game = game;
-        this.screenX = 384;
-        this.screenY = 384;
         this.speed = 3;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -15,8 +11,8 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
+        this.playerX = 560;
+        this.playerY = 560;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -31,28 +27,26 @@ class Steve {
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX - 8, this.playerY)) {
+        if (this.game.left && !this.collision.isCollision(this.playerX - 1, this.playerY)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftX += 8;
+            this.playerX -= 1;
+            console.log("steve is moving");
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX + 8, this.playerY)) {
+        if (this.game.right && !this.collision.isCollision(this.playerX + 1, this.playerY)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftX -= 8;
+            this.playerX += 1;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 8)) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 1)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftY += 8;
+            this.playerY -= 1;
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 8)) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 1)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftY -= 8;
+            this.playerY += 1;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
-        
-        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
     };
 
 
@@ -99,7 +93,9 @@ class Steve {
             this.cashe[angle] = offscreenCanvas;
 
         }
-        ctx.drawImage(this.cashe[angle],this.screenX - this.cashe[angle].width / 2, this.screenY - this.cashe[angle].height / 2);
+        //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
+        ctx.drawImage(this.cashe[angle],this.playerX , this.playerY);
+
     }
 
     draw(ctx) {

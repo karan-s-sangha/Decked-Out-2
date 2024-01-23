@@ -3,11 +3,12 @@ class SceneManager {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
+        this.cameraX=0;
+        this.cameraY=0;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game,game.cameraWorldTopLeftX,game.cameraWorldTopLeftY);
-        this.collision = new Collision(game);
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
-       // this.steve = new Steve(this.game,384,384,null);
+        this.steve = new Steve(this.game);
+        //this.collision = new Collision(game);
+        //this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
 
         this.levelX=0;
         this.levelY=0;
@@ -78,7 +79,7 @@ class SceneManager {
 
             
         this.game.addEntity(steve);
-        this.game.addEntity(ravager);
+        //this.game.addEntity(ravager);
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
@@ -95,38 +96,13 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-        
-        // if(this.game.right){
-        //     this.levelX -=8;
-        // }
-        // if(this.game.left ){
-        //     this.levelX +=8;
-        // }
-        // if(this.game.up){
-        //     this.levelY +=8;
-        // }
-        // if(this.game.down){
-        //     this.levelY -=8;
-        // }
-       //this.ravager.update();
-
-        
+       this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
+       this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
+             
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
-        //this.ravager.draw(ctx);
-        
-        
-        // Drawing the Level one Map
-        //let levelImage = ASSET_MANAGER.cache[this.level];
-        //this.ctx.drawImage(levelImage,this.levelX,this.levelY, levelImage.width*this.scale, levelImage.height*this.scale);
-
-        //constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, framePadding, reverse, loop) {
-        //    Object.assign(this, { spritesheet, xStart, yStart, height, width, frameCount, frameDuration, framePadding, reverse, loop });
-        //drawFrame(tick, ctx, x, y, scale) {
        
-        //this.waterAnimation.drawFrame(this.game.clockTick,this.ctx,this.levelX,this.levelY,this.scale)   
-        //this.ctx.imageSmoothingEnabled = false;
     };
 };
