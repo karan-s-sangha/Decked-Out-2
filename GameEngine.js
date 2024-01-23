@@ -16,8 +16,8 @@ class GameEngine {
         this.B = false;
         this.gamepad = null;
         this.scale = 4;
-        this.camreaWorldTopLeftX = 0;
-        this.camreaTopLeftY = 0;
+        this.camreaWorldTopLeftX = -200;
+        this.camreaTopLeftY = -200;
     };
 
     init(ctx) { // called after page has loaded
