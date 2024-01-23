@@ -15,8 +15,8 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
 
         this.loadAnimations();
     };
@@ -33,26 +33,28 @@ class Steve {
     update() {
         if (this.game.left) {
             this.move = 1;
-            this.game.camreaWorldTopLeftX += 8;
+            this.game.cameraWorldTopLeftX += 8;
         } 
         if (this.game.right) {
             this.move = 1;
-            this.game.camreaWorldTopLeftX -= 8;
+            this.game.cameraWorldTopLeftX -= 8;
         }
         if (this.game.up) {
             this.move = 1;
-            this.game.camreaWorldTopLeftY += 8;
+            this.game.cameraWorldTopLeftY += 8;
         }
         if (this.game.down) {
             this.move = 1;
-            this.game.camreaWorldTopLeftY -= 8;
+            this.game.cameraWorldTopLeftY -= 8;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
-        
-        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        // In Steve update method
+console.log("Steve class updating camera position:", this.game.camera.cameraWorldTopLeftX, this.game.camera.cameraWorldTopLeftY);
+
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
 
 
         //console.log("steve x: " + this.x + " steve y: " + this.y)

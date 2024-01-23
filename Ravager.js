@@ -36,23 +36,12 @@ class Ravager {
     }
 
     draw(ctx) {
-    let scale = 0.7;
-    let screenX = this.x - this.game.camera.x;
-    let screenY = this.y - this.game.camera.y;
-    
-    // Check if the Ravager is within the canvas view
-    if (!isNaN(screenX) && !isNaN(screenY)) {
-        ctx.fillStyle = '#FF0000'; // Red color for the rectangle
-        ctx.fillRect(screenX, screenY, 150 * 0.7, 100 * 0.7); // Ravager's position on the screen and scaled size
-    } else {
-        console.log("Invalid Ravager screen position:", screenX, screenY);
-    }
+        let scale = 0.07; // Example scale, adjust as necessary
 
-        /*switch(this.state) {
+        switch(this.state) {
             case 'attacking':
                 // Draw attacking animation
                 this.attackingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
-                console.log (this.x + "for x" + this.y + "for y");
                 break;
             case 'moving':
             case 'running':
@@ -63,13 +52,12 @@ class Ravager {
             case 'wandering':
                 // Draw idle or wandering animation
                 this.standingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
-                console.log (this.x + "for x" + this.y + "for y");
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
                 console.error("Unknown state:", this.state);
                 break;
-        }*/
+        }
     }
 
     update() {
@@ -198,7 +186,7 @@ class Ravager {
         }
     }
 
-    hhandleCollision() {
+    handleCollision() {
         // Strategy 1: Fallback slightly
         this.fallback();
 
@@ -366,7 +354,7 @@ class Ravager {
         if (this.isWithinBounds(newX, newY) && !this.collisions.isCollision(newX, newY)) {// need ot add collision
             this.x = newX;
             this.y = newY;
-            //console.log(this.x + "X" + this.y + "Y");
+            console.log(this.x + "X" + this.y + "Y");
         }
     }
     isWithinBounds(x, y) {
