@@ -16,7 +16,7 @@ class Steve {
         this.mousey = 0;
 
         this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
 
         this.loadAnimations();
     };
@@ -41,18 +41,18 @@ class Steve {
         }
         if (this.game.up) {
             this.move = 1;
-            this.game.camreaWorldTopLeftY += 8;
+            this.game.camreaTopLeftY += 8;
         }
         if (this.game.down) {
             this.move = 1;
-            this.game.camreaWorldTopLeftY -= 8;
+            this.game.camreaTopLeftY -= 8;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
         
         this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
 
 
         //console.log("steve x: " + this.x + " steve y: " + this.y)

@@ -21,12 +21,11 @@ class Compass {
     // Function
     update(axisX, axisY, artX, artY) {
        
-        this.axisX = -1 * this.game.x;
-        this.axisY = -1 * this.game.y;
+        this.axisX = this.steve.playerX;
+        this.axisY = this.steve.playerY;
  
-
-        console.log(this.axisX);
-        console.log(this.axisY);
+        //console.log(this.axisX);
+        //console.log(this.axisY);
 
  
         this.artX = this.artifact.getX();
@@ -35,18 +34,15 @@ class Compass {
         //console.log(this.artY);
 
         this.angleRadians = this.findAngleBetweenLines(this.axisX, this.axisY, this.axisX, this.axisY - 10, this.axisX, this.axisY, this.artX, this.artY);
-        //console.log(this.angleRadians);
-        //this.angleRadians %= (2 * Math.PI);
-        this.drawX = this.steve.x;
-        this.drawY = this.steve.y;
-
+       
         // Calculate the new coordinates
-        this.drawX +=  this.radius * Math.cos(this.angleRadians);
-        this.drawY +=  this.radius * Math.sin(this.angleRadians);
+        this.drawX +=  this.screenX + this.radius * Math.cos(this.angleRadians);
+        this.drawY +=  this.screenY + this.radius * Math.sin(this.angleRadians);
     }
 
     draw(ctx) {
         this.drawAngle(ctx, this.angleRadians * (180 / Math.PI), this.scale);
+        console.log("Trying to draw the compass");
     }
 
     drawAngle(ctx, angle, scale) {

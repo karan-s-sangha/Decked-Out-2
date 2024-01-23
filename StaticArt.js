@@ -10,7 +10,7 @@ class StaticArt {
     draw(ctx) {
 
         let levelImage = ASSET_MANAGER.cache[this.level];
-        ctx.drawImage(levelImage,this.game.camreaWorldTopLeftX,this.game.camreaWorldTopLeftY, 
+        ctx.drawImage(levelImage,this.game.camreaWorldTopLeftX,this.game.camreaTopLeftY, 
             levelImage.width*this.game.scale, levelImage.height*this.game.scale); 
     };
 };

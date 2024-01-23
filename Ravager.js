@@ -83,7 +83,7 @@ class Ravager {
 
         this.applyMovement();
         this.updateAnimation();
-        console.log(this.x + "calling from ravager class" + this.y);
+        //console.log(this.x + "calling from ravager class" + this.y);
     }
 
     handlePlayerVisibility() {
