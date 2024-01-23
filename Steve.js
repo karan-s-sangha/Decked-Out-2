@@ -33,19 +33,19 @@ class Steve {
     update() {
         if (this.game.left) {
             this.move = 1;
-            this.game.camreaWorldTopLeftX += 8;
+            this.game.camreaWorldTopLeftX -= 8;
         } 
         if (this.game.right) {
             this.move = 1;
-            this.game.camreaWorldTopLeftX -= 8;
+            this.game.camreaWorldTopLeftX += 8;
         }
         if (this.game.up) {
             this.move = 1;
-            this.game.camreaTopLeftY += 8;
+            this.game.camreaTopLeftY -= 8;
         }
         if (this.game.down) {
             this.move = 1;
-            this.game.camreaTopLeftY -= 8;
+            this.game.camreaTopLeftY += 8;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
