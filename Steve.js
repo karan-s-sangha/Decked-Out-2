@@ -1,13 +1,9 @@
 class Steve {
-    constructor(game) {
-       
-       
+    constructor(game,playerX ,playerY ) {
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
         this.game = game;
-        this.screenX = 384;
-        this.screenY = 384;
         this.speed = 3;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -15,8 +11,12 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
+        this.playerX = playerX;
+        this.playerY = playerY;
+        this.screenX = this.game.ctx.canvas.width/2;
+        this.screenY = this.game.ctx.canvas.height/2;
+
+        this.playerSpeed = 8;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -31,28 +31,25 @@ class Steve {
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX - 8, this.playerY)) {
+        if (this.game.left && !this.collision.isCollision(this.playerX - this.playerSpeed, this.playerY)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftX += 8;
+            this.playerX -= this.playerSpeed;
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX + 8, this.playerY)) {
+        if (this.game.right && !this.collision.isCollision(this.playerX + this.playerSpeed, this.playerY)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftX -= 8;
+            this.playerX += this.playerSpeed;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 8)) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerSpeed)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftY += 8;
+            this.playerY -= this.playerSpeed;
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 8)) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerSpeed)) {
             this.move = 1;
-            this.game.cameraWorldTopLeftY -= 8;
+            this.playerY += this.playerSpeed;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
-        
-        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
     };
 
 
@@ -99,7 +96,9 @@ class Steve {
             this.cashe[angle] = offscreenCanvas;
 
         }
-        ctx.drawImage(this.cashe[angle],this.screenX - this.cashe[angle].width / 2, this.screenY - this.cashe[angle].height / 2);
+        //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
+        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX , this.playerY - this.game.camera.cameraY);
+
     }
 
     draw(ctx) {
