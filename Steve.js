@@ -41,38 +41,18 @@ class Steve {
         }
         if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 8)) {
             this.move = 1;
-<<<<<<<<< Temporary merge branch 1
-            this.game.camreaTopLeftY += 8;
-=========
             this.game.cameraWorldTopLeftY += 8;
->>>>>>>>> Temporary merge branch 2
         }
         if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 8)) {
             this.move = 1;
-<<<<<<<<< Temporary merge branch 1
-            this.game.camreaTopLeftY -= 8;
-=========
             this.game.cameraWorldTopLeftY -= 8;
->>>>>>>>> Temporary merge branch 2
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
         
-        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
-=========
-        // In Steve update method
-console.log("Steve class updating camera position:", this.game.camera.cameraWorldTopLeftX, this.game.camera.cameraWorldTopLeftY);
-
         this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
         this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
->>>>>>>>> Temporary merge branch 2
-
-        console.log(this.collision.isCollision(this.playerX, this.playerY));
-
-        console.log("steve x: " + this.playerX + " steve y: " + this.playerY)
-
     };
 
 

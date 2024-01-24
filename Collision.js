@@ -12,12 +12,14 @@ class Collision {
     }
 
     isCollision(x, y) {
+        console.log (x, + "X value for iscollision class" + y + "Y value for iscollision class");
         this.x = x / this.game.scale;
         this.y = y / this.game.scale;
 
         // Ensure the coordinates are within the bounds of the canvas
         if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
-            // Get the pixel data from the canvas
+            
+            // Get the pixel data from the canvas 
             let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
 
             // Define the collision color (RGBA values)

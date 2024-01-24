@@ -8,10 +8,6 @@ class DynamicArt {
 
     draw(ctx) {
 
-<<<<<<<<< Temporary merge branch 1
-        this.gifAnimation.drawFrame(this.game.clockTick,ctx,this.game.camreaWorldTopLeftX,this.game.camreaTopLeftY,this.game.scale)
-=========
         this.gifAnimation.drawFrame(this.game.clockTick,ctx,this.game.cameraWorldTopLeftX,this.game.cameraWorldTopLeftY,this.game.scale)
->>>>>>>>> Temporary merge branch 2
     };
 };

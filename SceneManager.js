@@ -4,20 +4,10 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-<<<<<<<<< Temporary merge branch 1
-        this.steve = new Steve(this.game,game.camreaWorldTopLeftX,game.camreaTopLeftY);
-        this.collision = new Collision(game);
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
-       // this.steve = new Steve(this.game,384,384,null);
-=========
         this.steve = new Steve(this.game,game.cameraWorldTopLeftX,game.cameraWorldTopLeftY);
         this.collision = new Collision(game);
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
-        // this.cameraWorldTopLeftX = 0;
-        // this.cameraWorldTopLeftY = 0;
-        //console.log("SceneManager camera position initialized:", this.cameraWorldTopLeftX, this.cameraWorldTopLeftY);
-
->>>>>>>>> Temporary merge branch 2
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 400, 250, 5, 10,50);
+       // this.steve = new Steve(this.game,384,384,null);
 
         this.levelX=0;
         this.levelY=0;
