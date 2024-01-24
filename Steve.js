@@ -1,5 +1,5 @@
 class Steve {
-    constructor(game) {
+    constructor(game,playerX ,playerY ) {
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
@@ -11,8 +11,9 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = 560;
-        this.playerY = 560;
+        this.playerX = playerX;
+        this.playerY = playerY;
+        this.playerSpeed = 8;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -27,22 +28,21 @@ class Steve {
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX - 1, this.playerY)) {
+        if (this.game.left && !this.collision.isCollision(this.playerX - this.playerSpeed, this.playerY)) {
             this.move = 1;
-            this.playerX -= 1;
-            console.log("steve is moving");
+            this.playerX -= this.playerSpeed;
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX + 1, this.playerY)) {
+        if (this.game.right && !this.collision.isCollision(this.playerX + this.playerSpeed, this.playerY)) {
             this.move = 1;
-            this.playerX += 1;
+            this.playerX += this.playerSpeed;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 1)) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerSpeed)) {
             this.move = 1;
-            this.playerY -= 1;
+            this.playerY -= this.playerSpeed;
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 1)) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerSpeed)) {
             this.move = 1;
-            this.playerY += 1;
+            this.playerY += this.playerSpeed;
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
@@ -94,7 +94,7 @@ class Steve {
 
         }
         //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
-        ctx.drawImage(this.cashe[angle],this.playerX , this.playerY);
+        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX , this.playerY - this.game.camera.cameraY);
 
     }
 

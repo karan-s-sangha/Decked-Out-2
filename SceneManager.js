@@ -3,10 +3,11 @@ class SceneManager {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
-        this.cameraX=0;
-        this.cameraY=0;
-        this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
-        this.steve = new Steve(this.game);
+        
+
+        this.steve = new Steve(this.game , 500, 500);
+        this.cameraX= 500 - this.ctx.canvas.width/2;
+        this.cameraY= 500 -this.ctx.canvas.height/2;
         //this.collision = new Collision(game);
         //this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
 
@@ -34,47 +35,48 @@ class SceneManager {
     loadLevel(steve, ravager, level, x, y) {
 
        
-        // Adding the first upper level
-        this.game.addEntity(new StaticArt(this.game, level, x, y));
+        // Adding the first upper level static art
+        this.game.addEntity(new StaticArt(this.game));
 
-        
+        // Adding the first upper level dynamic art
+        this.game.addEntity(new DynamicArt(this.game));
 
-        // Adding the water Animation
-        let water = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/water.png"];
-        let waterAnimation =  new Animator(water,0,0,1308,1860,24,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, waterAnimation));
+        // // Adding the water Animation
+        // let water = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/water.png"];
+        // let waterAnimation =  new Animator(water,0,0,1308,1860,24,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, waterAnimation));
 
-        let smokeinhallright = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/smokeinhallright.png"];
-        let smokeinhallrightAnimation =  new Animator(smokeinhallright,0,0,1308,1860,24,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, smokeinhallrightAnimation));
+        // let smokeinhallright = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/smokeinhallright.png"];
+        // let smokeinhallrightAnimation =  new Animator(smokeinhallright,0,0,1308,1860,24,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, smokeinhallrightAnimation));
 
-        let smokeinhallleft = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/smokeinhallleft.png"];
-        let smokeinhallleftAnimation =  new Animator(smokeinhallleft,0,0,1308,1860,24,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, smokeinhallleftAnimation));
+        // let smokeinhallleft = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/smokeinhallleft.png"];
+        // let smokeinhallleftAnimation =  new Animator(smokeinhallleft,0,0,1308,1860,24,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, smokeinhallleftAnimation));
 
-        let lava = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/lava.png"];
-        let lavaAnimation =  new Animator(lava,0,0,1308,1860,24,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, lavaAnimation));
+        // let lava = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/lava.png"];
+        // let lavaAnimation =  new Animator(lava,0,0,1308,1860,24,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, lavaAnimation));
 
-        let fireinhall = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/fireinhall.png"];
-        let fireinhallAnimation =  new Animator(fireinhall,0,0,1308,1860,3,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, fireinhallAnimation));
+        // let fireinhall = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/fireinhall.png"];
+        // let fireinhallAnimation =  new Animator(fireinhall,0,0,1308,1860,3,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, fireinhallAnimation));
 
-        let firecamp = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/firecamp.png"];
-        let firecampAnimation =  new Animator(firecamp,0,26,1308,1860,24,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, firecampAnimation));
+        // let firecamp = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/firecamp.png"];
+        // let firecampAnimation =  new Animator(firecamp,0,26,1308,1860,24,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, firecampAnimation));
 
-        let fire = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/fire.png"];
-        let fireAnimation =  new Animator(fire,0,0,1308,1860,6,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, fireAnimation));
+        // let fire = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/fire.png"];
+        // let fireAnimation =  new Animator(fire,0,0,1308,1860,6,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, fireAnimation));
 
-        let enchanttable = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/enchanttable.png"];
-        let enchanttableAnimation =  new Animator(enchanttable,0,0,1308,1860,29,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, enchanttableAnimation));
+        // let enchanttable = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/enchanttable.png"];
+        // let enchanttableAnimation =  new Animator(enchanttable,0,0,1308,1860,29,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, enchanttableAnimation));
 
-        let candles = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/candles.png"];
-        let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
-        this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
+        // let candles = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/candles.png"];
+        // let candlesAnimation =  new Animator(candles,0,0,1308,1860,13,120/1000,0,false,true);
+        // this.game.addEntity(new DynamicArt(this.game, level, x, y, candlesAnimation));
 
 
             

@@ -15,7 +15,7 @@ class GameEngine {
         this.A = false;
         this.B = false;
         this.gamepad = null;
-        this.scale = 4;
+        this.GameScale = 4;
     };
 
     init(ctx) { // called after page has loaded
@@ -171,7 +171,7 @@ class GameEngine {
 
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-            console.log("Updating entity type:", entity.constructor.name);
+            //console.log("Updating entity type:", entity.constructor.name);
             if (!entity.removeFromWorld) {
                 entity.update();
                 //console.log(this.x + " calling from game class" + this.y);
