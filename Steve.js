@@ -1,15 +1,16 @@
 class Steve {
-    constructor(game,playerX ,playerY ) {
+    constructor(game,playerX ,playerY, scene) {
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
         this.game = game;
-        this.speed = 3;
+        this.speed = 1;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
         this.cashe = [];
         this.mousex = 0;
         this.mousey = 0;
+        this.scene = scene;
 
         this.playerX = playerX;
         this.playerY = playerY;
@@ -97,7 +98,8 @@ class Steve {
 
         }
         //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
-        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX , this.playerY - this.game.camera.cameraY);
+        ctx.drawImage(this.cashe[angle],this.playerX - this.scene.cameraX -  this.height * this.scale / 2, this.playerY - this.scene.cameraY - this.height * this.scale / 2);
+       console.log("x: " + (this.playerX - this.scene.cameraX -  this.height * this.scale / 2) + " y: " + (this.scale / 2, this.playerY - this.scene.cameraY - this.height * this.scale / 2));
 
     }
 
@@ -145,13 +147,14 @@ class Steve {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
-            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
+            this.animations.drawMap(this.game.clockTick, ctx, 350, 350);
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
             */
-           this.drawAngle(ctx, degrees, this.scale);
-           this.animations.elapsedTime = 0;
+          this.drawAngle(ctx, degrees, this.scale);
+          
+          // this.animations.elapsedTime = 0;
         }
 
         ctx.strokeStyle = "red";
