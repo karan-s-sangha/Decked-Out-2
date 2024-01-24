@@ -15,42 +15,42 @@ class Compass {
         this.image = ASSET_MANAGER.cache["./Art/Arrow.png"];
         this.scale = 0.1;
         this.angleRadians = 0;
-        this.radius = 10;
+        this.angleDegree = 0;
+        this.radius = 70;
     }
 
     // Function
-    update(axisX, axisY, artX, artY) {
-       
+    update() {
         this.axisX = this.steve.playerX;
         this.axisY = this.steve.playerY;
- 
-        //console.log(this.axisX);
-        //console.log(this.axisY);
-
- 
+    
         this.artX = this.artifact.getX();
         this.artY = this.artifact.getY();
-        //console.log(this.artX);
-        //console.log(this.artY);
-
-        this.angleRadians = this.findAngleBetweenLines(this.axisX, this.axisY, this.axisX, this.axisY - 10, this.axisX, this.axisY, this.artX, this.artY);
-       
-        // Calculate the new coordinates
-        this.drawX +=  this.screenX + this.radius * Math.cos(this.angleRadians);
-        this.drawY +=  this.screenY + this.radius * Math.sin(this.angleRadians);
-    }
-
+    
+        this.angleRadians = this.findAngle(
+            this.steve.playerX, this.steve.playerY,
+            this.artifact.getX(), this.artifact.getY()
+        );
+    
+        this.drawX = 0;
+        this.drawY = 0;
+    
+        // Calculate the new coordinates for drawing the arrow
+        this.drawX = this.steve.screenX + this.radius * Math.cos(this.angleRadians);
+        this.drawY = this.steve.screenY + this.radius * Math.sin(this.angleRadians);
+    
+        }
     draw(ctx) {
-        this.drawAngle(ctx, this.angleRadians * (180 / Math.PI), this.scale);
-        console.log("Trying to draw the compass");
+        ctx.fillStyle = 'red';
+        ctx.fillRect(this.artX + this.game.cameraWorldTopLeftX, this.artY + this.game.cameraWorldTopLeftY, 20, 20);
+        this.angleDegree = Math.floor(this.angleRadians * (180 / Math.PI));
+    
+        this.drawAngle(ctx, this.angleDegree, this.scale);
     }
+    
 
     drawAngle(ctx, angle, scale) {
-        if (angle < 0 || angle > 359) {
-            return;
-        }
-        //angle = 180;
-        //console.log("angle",angle);
+       
         if (!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
@@ -77,19 +77,8 @@ class Compass {
         ctx.drawImage(this.cache[angle], this.drawX - this.cache[angle].width / 2, this.drawY - this.cache[angle].height / 2);
     }
 
-    calculateSlope(x1, y1, x2, y2) {
-        if (x2 - x1 === 0) return Infinity; // Avoid division by zero
-        return (y2 - y1) / (x2 - x1);
-    }
-
-    findAngleBetweenLines(x1, y1, x2, y2, x3, y3, x4, y4) {
-        let m1 = this.calculateSlope(x1, y1, x2, y2);
-        let m2 = this.calculateSlope(x3, y3, x4, y4);
-
-        if (m1 === Infinity && m2 === Infinity) return 0; // Parallel vertical lines
-        if (m1 === Infinity || m2 === Infinity) return Math.PI / 2; // One vertical line
-
-        let angleRadians = Math.atan(Math.abs((m1 - m2) / (1 + m1 * m2)));
-        return angleRadians;
+    // Find the angle in radians towards a target point from the player's position
+    findAngle(playerX, playerY, targetX, targetY) {
+        return Math.atan2(targetY - playerY, targetX - playerX);
     }
 }

@@ -15,8 +15,8 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
 
-        this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -25,34 +25,49 @@ class Steve {
         this.spritesheet = new Image();
         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
-        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.03, 0, false, true);
+        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.001, 0, false, true);
     };
 
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.left && !this.collision.isCollision(this.playerX - 8, this.playerY)) {
             this.move = 1;
             this.game.cameraWorldTopLeftX += 8;
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.right && !this.collision.isCollision(this.playerX + 8, this.playerY)) {
             this.move = 1;
             this.game.cameraWorldTopLeftX -= 8;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - 8)) {
             this.move = 1;
-            this.game.camreaWorldTopLeftY += 8;
+<<<<<<<<< Temporary merge branch 1
+            this.game.camreaTopLeftY += 8;
+=========
+            this.game.cameraWorldTopLeftY += 8;
+>>>>>>>>> Temporary merge branch 2
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY)) {
+        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + 8)) {
             this.move = 1;
-            this.game.camreaWorldTopLeftY -= 8;
+<<<<<<<<< Temporary merge branch 1
+            this.game.camreaTopLeftY -= 8;
+=========
+            this.game.cameraWorldTopLeftY -= 8;
+>>>>>>>>> Temporary merge branch 2
         } 
         if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
             this.move = 0;
         }
         
         this.playerX = this.screenX + -1*this.game.camreaWorldTopLeftX;
-        this.playerY = this.screenY + -1*this.game.camreaWorldTopLeftY;
+        this.playerY = this.screenY + -1*this.game.camreaTopLeftY;
+=========
+        // In Steve update method
+console.log("Steve class updating camera position:", this.game.camera.cameraWorldTopLeftX, this.game.camera.cameraWorldTopLeftY);
+
+        this.playerX = this.screenX + -1*this.game.cameraWorldTopLeftX;
+        this.playerY = this.screenY + -1*this.game.cameraWorldTopLeftY;
+>>>>>>>>> Temporary merge branch 2
 
         console.log(this.collision.isCollision(this.playerX, this.playerY));
 

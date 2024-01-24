@@ -4,14 +4,20 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         this.level = "./Art/Level_1_UpperView_Art/Level_1_UpperView.png";
+<<<<<<<<< Temporary merge branch 1
         this.steve = new Steve(this.game,game.camreaWorldTopLeftX,game.camreaTopLeftY);
+        this.collision = new Collision(game);
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
+       // this.steve = new Steve(this.game,384,384,null);
+=========
         this.steve = new Steve(this.game,game.cameraWorldTopLeftX,game.cameraWorldTopLeftY);
         this.collision = new Collision(game);
         this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
         // this.cameraWorldTopLeftX = 0;
         // this.cameraWorldTopLeftY = 0;
         //console.log("SceneManager camera position initialized:", this.cameraWorldTopLeftX, this.cameraWorldTopLeftY);
-       // this.steve = new Steve(this.game,384,384,null);
+
+>>>>>>>>> Temporary merge branch 2
 
         this.levelX=0;
         this.levelY=0;
@@ -22,7 +28,7 @@ class SceneManager {
         this.compass = new Compass(this.artifact,this.steve, this.game);
 
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
-        this.loadLevel(this.steve, this.ravager, this.level, game.camreaWorldTopLeftX, game.camreaTopLeftY);
+        this.loadLevel(this.steve, this.ravager, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
     };
 
