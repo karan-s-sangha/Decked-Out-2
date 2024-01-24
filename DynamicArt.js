@@ -40,57 +40,30 @@ class DynamicArt {
 
     draw(ctx) {
         //
-        this.waterAnimation.drawMap(this.game.clockTick,ctx,
-                                      this.dynamicArtX - this.game.camera.cameraX,
-                                      this.dynamicArtY - this.game.camera.cameraY,
-                                      this.game.GameScale)
+        this.waterAnimation.drawMap(this.game.clockTick,ctx,0,0);
         
         //-----
-        this.smokeinhallrightAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.smokeinhallrightAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
         //-----
-        this.smokeinhallleftAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.smokeinhallleftAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
         //
-        this.lavaAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.lavaAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
-        this.fireinhallAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.fireinhallAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
         //------------
-        this.firecampAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.firecampAnimation.drawMap(this.game.clockTick,ctx,0,-26);
 
         //------------
-        this.fireAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.fireAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
         //------------
-        this.enchanttableAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.enchanttableAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
         //------------
-        this.candlesAnimation.drawMap(this.game.clockTick,ctx,
-            this.dynamicArtX - this.game.camera.cameraX,
-            this.dynamicArtY - this.game.camera.cameraY,
-            this.game.GameScale)
+        this.candlesAnimation.drawMap(this.game.clockTick,ctx,0,0);
     };
 };
 
