@@ -97,7 +97,7 @@ class Steve {
 
         }
         //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
-        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX , this.playerY - this.game.camera.cameraY);
+        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
 
