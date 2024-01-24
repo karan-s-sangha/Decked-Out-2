@@ -12,27 +12,26 @@ class Collision {
     }
 
     isCollision(x, y) {
-        return false;
-        // this.x = x / this.game.scale;
-        // this.y = y / this.game.scale;
+        this.x = x / this.game.scale;
+        this.y = y / this.game.scale;
 
-        // // Ensure the coordinates are within the bounds of the canvas
-        // if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
-        //     // Get the pixel data from the canvas
-        //     let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
+        // Ensure the coordinates are within the bounds of the canvas
+        if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
+            // Get the pixel data from the canvas
+            let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
 
-        //     // Define the collision color (RGBA values)
-        //     let collisionColor = [116, 29, 50, 255]; // Assuming alpha value as well
+            // Define the collision color (RGBA values)
+            let collisionColor = [116, 29, 50, 255]; // Assuming alpha value as well
 
-        //     // Compare pixel data directly
-        //     if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
-        //         return true; // Collision detected
-        //     } else {
-        //         return false; // No collision
-        //     }
-        // } else {
-        //     console.error("Coordinates are out of bounds.");
-        //     return false; // Return false for out-of-bounds coordinates
-        // }
+            // Compare pixel data directly
+            if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
+                return true; // Collision detected
+            } else {
+                return false; // No collision
+            }
+        } else {
+            console.error("Coordinates are out of bounds.");
+            return false; // Return false for out-of-bounds coordinates
+        }
     }
 }
