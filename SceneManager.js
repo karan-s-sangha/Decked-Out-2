@@ -4,10 +4,11 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         
-
-        this.steve = new Steve(this.game , 500, 500);
-        this.cameraX= 500 - this.ctx.canvas.width/2;
-        this.cameraY= 500 -this.ctx.canvas.height/2;
+        this.steveInitialX = 700;
+        this.steveInitialY = 700;
+        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY);
+        this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
+        this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         //this.collision = new Collision(game);
         //this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
 
