@@ -12,9 +12,10 @@ class Ravager {
         this.playerInView = false;
         this.lastSeenPlayerTime = null;
         this.lastPlayerPosition = { x: null, y: null }; // Stores the last known position of the player
-        this.direction = { x: 0, y: 0 };
+        this.directionX = 0;
+        this.directionY =  0;
         this.loadAnimations();
-        this.state = 'idle';
+        this.state = 'wandering';
         this.angle=0;
         
         this.collisions = collisions;
@@ -24,19 +25,22 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
-        this.walkingAnimations = new Animator(this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.2, 0, false, true  );
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.2, 0, false, true  );
 
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
-        this.attackingAnimations = new Animator(this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.2, 0, false, true );
+        this.attackingAnimations = new Animator(this.game, this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.2, 0, false, true );
         
         this.standingSpriteSheet = new Image();
         this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
-        this.standingAnimations = new Animator(this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
+        this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
     }
 
     draw(ctx) {
         let scale = 0.07; // Example scale, adjust as necessary
+        let scaleX = this.x - this.game.camera.cameraX;
+        let scaleY = this.y - this.game.camera.cameraY;
+       // console.log("scalex   " + scaleX + "scaley   " + scaleY);
 
         switch(this.state) {
             case 'attacking':
@@ -48,10 +52,11 @@ class Ravager {
                 // Draw walking/running animation
                 this.walkingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
                 break;
-            case 'idle':
+            //case 'idle':
             case 'wandering':
                 // Draw idle or wandering animation
-                this.standingAnimations.drawFrame(this.game.clockTick, ctx, this.x, this.y, scale);
+                this.standingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+                console.log("scalex   " + scaleX + "scaley   " + scaleY);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
@@ -62,9 +67,6 @@ class Ravager {
 
     update() {
         switch (this.state) {
-            case 'idle':
-                this.wander(); // Optionally wander or stay still
-                break;
             case 'moving':
             case 'running':
                 if (this.canSeePlayer()) {
@@ -73,12 +75,12 @@ class Ravager {
                     this.state = 'wandering';
                 }
                 break;
-            case 'attacking':
-                // Implement attacking behavior (e.g., stay in place or move towards player)
-                break;
-            case 'wandering':
-                this.wander();
-                break;
+            // case 'attacking':
+            //     // Implement attacking behavior (e.g., stay in place or move towards player)
+            //     break;
+            // case 'wandering':
+            //     this.wander();
+            //     break;
         }
 
         this.applyMovement();
@@ -89,7 +91,7 @@ class Ravager {
     handlePlayerVisibility() {
         this.playerInView = true;
         this.lastSeenPlayerTime = new Date();
-        this.lastPlayerPosition = { x: this.steve.x, y: this.steve.y };
+        this.lastPlayerPosition = { x: this.steve.playerX, y: this.steve.playerY };
 
         // Check if the Ravager should attack the player
         if (this.shouldAttackPlayer()) {
@@ -117,7 +119,7 @@ class Ravager {
 
         // Check and ensure direction is an object before accessing its properties.
         if (typeof this.direction !== 'object' || this.direction === null) {
-            this.direction = { x: 0, y: 0 }; // Reinitialize direction if it's not an object.
+            this.directionX = 0; this.directionY =   0 ; // Reinitialize direction if it's not an object.
         }
 
         // Determine the speed and update direction based on the current state.
@@ -132,17 +134,18 @@ class Ravager {
                 // Update direction towards the player.
                 this.direction = this.updateDirectionTowardsPlayer();
                 break;
-            case 'attacking':
-                // The Ravager might not move when attacking, hence speed remains 0.
-                break;
+            // case 'attacking':
+            //     // The Ravager might not move when attacking, hence speed remains 0.
+            //     break;
             case 'wandering':
                 speed = this.walkSpeed;
                 // Update direction for wandering.
-                this.direction = this.updateWanderingDirection();
+                //this.direction = this.updateWanderingDirection();
+                this.direction = this.handleBoundaryAndCollision();
                 break;
-            case 'idle':
-                // No movement when idle.
-                break;
+            // case 'idle':
+            //     // No movement when idle.
+            //     break;
             default:
                 console.error("Unhandled state:", this.state);
                 break;
@@ -150,8 +153,8 @@ class Ravager {
 
         // Apply the movement if speed is greater than 0.
         if (speed > 0) {
-            this.x += this.direction.x * speed;
-            this.y += this.direction.y * speed;
+            this.x += this.directionX * speed;
+            this.y += this.directionY * speed;
         }
 
         // Check for boundary and collision.
@@ -160,8 +163,8 @@ class Ravager {
 
     updateDirectionTowardsPlayer() {
         // Calculate the vector pointing from the Ravager to the player
-        const dx = this.steve.x - this.x;
-        const dy = this.steve.y - this.y;
+        const dx = this.steve.playerX - this.x;
+        const dy = this.steve.playerY - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         // Normalize the vector to get the direction
@@ -260,23 +263,23 @@ class Ravager {
             case 'attacking':
                this.attackingAnimations.frameDuration = 0.2;
                 break;
-            case 'idle':
-                // Use idle animation
-                this.standingAnimations.frameDuration = 0.4;
-                break;
+            // case 'idle':
+            //     // Use idle animation
+            //     this.standingAnimations.frameDuration = 0.4;
+            //     break;
         }
     }
     shouldAttackPlayer() {
         const attackDistance = 50;
-        const dx = this.steve.x - this.x;
-        const dy = this.steve.y - this.y;
+        const dx = this.steve.playerX - this.x;
+        const dy = this.steve.playerY - this.y;
         return Math.sqrt(dx * dx + dy * dy) < attackDistance;
     }
 
     canSeePlayer() {
-        const visibilityDistance = 300; // example distance
-        const dx = this.steve.x - this.x;
-        const dy = this.steve.y - this.y;
+        const visibilityDistance = 50; // example distance
+        const dx = this.steve.playerX - this.x;
+        const dy = this.steve.playerY - this.y;
         return Math.sqrt(dx * dx + dy * dy) < visibilityDistance;
     }
 
@@ -313,8 +316,8 @@ class Ravager {
         const ravagerSpeed = (this.steve.isRunning || this.steve.health <= LOW_HEALTH) ? this.runSpeed : this.walkSpeed;
 
         // Calculate the vector from the Ravager to the player
-        let dx = this.steve.x - this.x;
-        let dy = this.steve.y - this.y;
+        let dx = this.steve.playerX - this.x;
+        let dy = this.steve.playerY - this.y;
     
         // Normalize the vector
         let magnitude = Math.sqrt(dx * dx + dy * dy);
