@@ -4,7 +4,7 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = this.frameCount * this.frameDuration;
-        this.cashe = [0];
+        this.cache = [0];
     };
 
     drawFrame(tick, ctx, x, y, scale) {
@@ -57,7 +57,6 @@ class Animator {
     };
 
     drawFrameAngle(tick, ctx, x, y, scale, angle) {
-        console.log("hello");
         this.elapsedTime += tick;
         if (this.isDone()) {
             if (this.loop) {
@@ -66,7 +65,6 @@ class Animator {
                 return;
             }
         }
-        console.log("world");
         let frame = this.currentFrame();
         if (this.reverse) frame = this.frameCount - frame - 1;
        

@@ -8,73 +8,78 @@ class Ravager {
         this.ravagerY = y;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
-        this.size = size;
-        this.playerInView = false;
-        this.lastSeenPlayerTime = null;
-        this.lastPlayerPosition = { x: null, y: null }; // Stores the last known position of the player
-        this.directionX = 0;
-        this.directionY =  0;
+        this.size = size;      
+   
         this.loadAnimations();
         this.state = 'wandering';
         this.collisions = collisions;
+        this.wanderMove = 0;
 
         this.angle = Math.random() * 2 * Math.PI;
-        
-
-        this.stuckTime = 0;
-        this.maxStuckTime = 2000;
+    
 
     }
-    
+    findAngle() {
+        return Math.atan2(this.steve.playerY - this.ravagerY, this.steve.playerX - this.ravagerX);
+    }
 
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.03, 0, false, true  );
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.02, 0, false, true  );
 
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
-        this.attackingAnimations = new Animator(this.game, this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.03, 0, false, true );
+        this.attackingAnimations = new Animator(this.game, this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.02, 0, false, true );
         
         this.standingSpriteSheet = new Image();
         this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
-        this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
+        this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.02, 0, false, true);
     }
 
     draw(ctx) {
-        let scale = 0.07; 
+        let scale = 0.25; 
         let scaleX = this.ravagerX - this.game.camera.cameraX;
         let scaleY = this.ravagerY - this.game.camera.cameraY;
+        
         switch(this.state) {
             case 'attacking':
+                this.angle = this.findAngle();
                 // Draw attacking animation
-                this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+                this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
                 break;
             case 'running':
+                this.angle = this.findAngle();
                 // Draw walking/running animation
-                this.walkingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
                 break;
             case 'wandering':
                 // Draw idle or wandering animation
-                this.standingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
                 console.error("Unknown state:", this.state);
                 break;
         }
+
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(scaleX, scaleY, 3, 3);
+        ctx.save();
     }
 
     update() {
         if (this.canSeePlayer()){
-            if (this.shouldAttackPlayer()) {
-                this.state = 'attacking'; //need to implement the logic here 
-            } else {
-                this.state = 'running';
+           if (this.shouldAttackPlayer()) {
+               this.state = 'attacking'; //need to implement the logic here 
+           } else {
+               this.state = 'running';
                 this.followPlayer();
-            }
+                console.log("running");
+           }
         }
         else {
+            console.log("wonder");
             this.state = 'wandering';
             this.wander();
         }
@@ -107,7 +112,7 @@ class Ravager {
 
     followPlayer() {
         // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = this.steve.playerSpeed + 2;
+        const ravagerSpeed = this.steve.playerSpeed / 2;
 
         // Calculate the vector from the Ravager to the player
         let dx = this.steve.playerX - this.ravagerX;
@@ -133,14 +138,21 @@ class Ravager {
     }
 
     wander() {
-        let angle = Math.random() * 2 * Math.PI; // Choose a random direction
-        let newX = this.ravagerX + Math.cos(angle) * this.walkSpeed;
-        let newY = this.ravagerY + Math.sin(angle) * this.walkSpeed;
-        if (!this.collisions.isCollision(newX, newY)) {
-            this.ravagerX = newX;
-            this.ravagerY = newY;
-        } 
-        
+        if(this.wanderMove <= 0) {
+            this.angle = Math.random() * 2 * Math.PI; // Choose a random direction   //45Deg
+            this.wanderMove = Math.floor(Math.random() * 500);                                   //25moves
+        } else {
+            let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
+            let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
+           
+            if (!this.collisions.isCollision(newX, newY)) {
+                this.ravagerX = newX;
+                this.ravagerY = newY;
+            }
+           
+        }
+        console.log(this.wanderMove);
+        this.wanderMove--;
     }
     
    
