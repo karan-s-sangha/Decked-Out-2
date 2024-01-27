@@ -214,11 +214,6 @@ class Ravager {
         this.angle %= (2 * Math.PI);
     }
 
-    
-
-    
-    
-
     canSeePlayer() {
         const visibilityDistance = 300; 
         const dx = this.steve.playerX - this.ravagerX;
