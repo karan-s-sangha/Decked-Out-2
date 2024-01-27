@@ -40,77 +40,87 @@ class Ravager {
         this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
         this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
     }
-
+// draw coresponding image
     draw(ctx) {
-        let scale = 0.07; 
+        let scale = 0.25; 
         let scaleX = this.ravagerX - this.game.camera.cameraX;
         let scaleY = this.ravagerY - this.game.camera.cameraY;
        // console.log("scalex   " + scaleX + "scaley   " + scaleY);
 
-        switch(this.state) {
-            case 'attacking':
-                // Draw attacking animation
-                this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
-                break;
-            case 'moving':
-            case 'running':
-                // Draw walking/running animation
-                this.walkingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
-                break;
-            //case 'idle':
-            case 'wandering':
-                // Draw idle or wandering animation
-                this.standingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
-                //console.log("scalex   " + scaleX + "scaley   " + scaleY);
-                break;
-            default:
-                // If state is unknown, you might want to log an error or handle it in some way
-                console.error("Unknown state:", this.state);
-                break;
-        }
+        // switch(this.state) {
+        //     case 'attacking':
+        //         // Draw attacking animation
+        //         this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        //         break;
+        //     case 'moving':
+        //     case 'running':
+        //         // Draw walking/running animation
+        //         this.walkingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        //         break;
+        //     //case 'idle':
+        //     case 'wandering':
+        //         // Draw idle or wandering animation
+        //         this.standingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        //         //console.log("scalex   " + scaleX + "scaley   " + scaleY);
+        //         break;
+        //     default:
+        //         // If state is unknown, you might want to log an error or handle it in some way
+        //         console.error("Unknown state:", this.state);
+        //         break;
+        // }
+        this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(scaleX, scaleY, 3, 3);
+        ctx.save();
     }
-
+// change location
     update() {
         //let now = new Date().getTime();
-        const currentTime = new Date().getTime();
+      //  const currentTime = new Date().getTime();
         
-        if (this.lastUpdateTime) {
-            const deltaTime = currentTime - this.lastUpdateTime;
-            console.log(`Delta time since last update: ${deltaTime} ms`);
+       // if (this.lastUpdateTime) {
+            //const deltaTime = currentTime - this.lastUpdateTime;
+            console.log(`Delta time since last update: ${this.game.clockTick} ms`);
+        //}
+
+    //     this.lastUpdateTime = currentTime;
+
+    //     // Handling the 'stuck' state
+    //     // if (this.state === 'stuck') {
+    //     //     if (now - this.stuckTime > this.maxStuckTime) {
+    //     //         this.state = 'wandering';
+    //     //         this.angle = Math.random() * 2 * Math.PI;
+    //     //         this.stuckTime = 0;
+    //     //     }
+    //     // } else {
+    //         //console.log(`Ravager position at start of update: (${this.ravagerX}, ${this.ravagerY})`);
+    //        // console.log("can see " + this.canSeePlayer());
+    //         if (this.canSeePlayer()) {
+    //         this.playerInView = true;
+    //         this.lastSeenPlayerTime = new Date();
+    //         this.lastPlayerPosition = { x: this.steve.playerX, y: this.steve.playerY };
+    //         this.moveTo(this.steve.playerX, this.steve.playerY, this.canRun() ? this.runSpeed : this.walkSpeed);
+    //        // console.log("move To " + this.steve.playerX + this.steve.playerY);
+    //     } else {
+    //         const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
+    //         if (this.playerInView && timeSinceLastSeen <= 2000) {
+    //             this.moveTo(this.lastPlayerPosition.x, this.lastPlayerPosition.y, this.walkSpeed);
+    //         } else {
+    //             this.playerInView = false;
+    //             this.state = 'wandering';
+    //             this.wander();
+    //         }
+    //   //  }
+    // }
+
+    //    this.updateAnimation();
+    //     this.handleBoundaryAndCollision();
+        if(this.canSeePlayer() && !this.collisions.isCollision(this.ravagerX, this.ravagerY)){
+            this.moveTo(this.steve.playerX, this.steve.playerY,1);
+        } else if (!this.collisions.isCollision(this.ravagerX, this.ravagerY)){
+            this.wander();
         }
-
-        this.lastUpdateTime = currentTime;
-
-        // Handling the 'stuck' state
-        // if (this.state === 'stuck') {
-        //     if (now - this.stuckTime > this.maxStuckTime) {
-        //         this.state = 'wandering';
-        //         this.angle = Math.random() * 2 * Math.PI;
-        //         this.stuckTime = 0;
-        //     }
-        // } else {
-            //console.log(`Ravager position at start of update: (${this.ravagerX}, ${this.ravagerY})`);
-           // console.log("can see " + this.canSeePlayer());
-            if (this.canSeePlayer()) {
-            this.playerInView = true;
-            this.lastSeenPlayerTime = new Date();
-            this.lastPlayerPosition = { x: this.steve.playerX, y: this.steve.playerY };
-            this.moveTo(this.steve.playerX, this.steve.playerY, this.canRun() ? this.runSpeed : this.walkSpeed);
-           // console.log("move To " + this.steve.playerX + this.steve.playerY);
-        } else {
-            const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
-            if (this.playerInView && timeSinceLastSeen <= 2000) {
-                this.moveTo(this.lastPlayerPosition.x, this.lastPlayerPosition.y, this.walkSpeed);
-            } else {
-                this.playerInView = false;
-                this.state = 'wandering';
-                this.wander();
-            }
-      //  }
-    }
-
-       this.updateAnimation();
-        this.handleBoundaryAndCollision();
+       
     }
 
 
@@ -166,11 +176,11 @@ class Ravager {
         const dy = targetY - this.ravagerY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const maxStep = speed; 
-
-        if (distance > 0) {
-            const stepSize = Math.min(distance, maxStep); 
-            this.ravagerX += (dx / distance) * stepSize;
-            this.ravagerY += (dy / distance) * stepSize;
+    
+        if (distance > 0 && !this.collisions.isCollision(this.ravagerX +(dx / distance) * maxStep, this.ravagerY += (dy / distance) * maxStep)) {
+            
+            this.ravagerX += (dx / distance) * maxStep;
+            this.ravagerY += (dy / distance) * maxStep;
         }
     }
 
@@ -218,6 +228,7 @@ class Ravager {
         const visibilityDistance = 300; 
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
+        
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
     
         console.log(`Player position for steve: (${this.steve.playerX}, ${this.steve.playerY})`);
@@ -275,34 +286,34 @@ class Ravager {
 
     isLineOfSightClear(x1, y1, x2, y2) {
        
-        let dx = Math.abs(x2 - x1);
-        let dy = -Math.abs(y2 - y1);
-        let sx = (x1 < x2) ? 1 : -1;
-        let sy = (y1 < y2) ? 1 : -1;
-        let error = dx + dy;
+        // let dx = Math.abs(x2 - x1);
+        // let dy = -Math.abs(y2 - y1);
+        // let sx = (x1 < x2) ? 1 : -1;
+        // let sy = (y1 < y2) ? 1 : -1;
+        // let error = dx + dy;
 
-        while (true) {
-            // Check for collision at the current point
-            console.log(this.collisions.isCollision(x1, y1));
-            if (this.collisions.isCollision(x1, y1)) {
+        // while (true) {
+        //     // Check for collision at the current point
+        //     console.log(this.collisions.isCollision(x1, y1));
+        //     if (this.collisions.isCollision(x1, y1)) {
 
-                return false; // Collision detected
-            }
+        //         return false; // Collision detected
+        //     }
 
-            if (x1 === x2 && y1 === y2) break; // End point reached
+        //     if (x1 === x2 && y1 === y2) break; // End point reached
 
-            let e2 = 2 * error;
-            if (e2 >= dy) {
-                if (x1 === x2) break;
-                error += dy;
-                x1 += sx;
-            }
-            if (e2 <= dx) {
-                if (y1 === y2) break;
-                error += dx;
-                y1 += sy;
-            }
-        }
+        //     let e2 = 2 * error;
+        //     if (e2 >= dy) {
+        //         if (x1 === x2) break;
+        //         error += dy;
+        //         x1 += sx;
+        //     }
+        //     if (e2 <= dx) {
+        //         if (y1 === y2) break;
+        //         error += dx;
+        //         y1 += sy;
+        //     }
+        // }
 
         return true; // No collision detected along the line
     }
