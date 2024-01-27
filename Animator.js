@@ -67,7 +67,6 @@ class Animator {
                 return;
             }
         }
-
         let frame = this.currentFrame();
         if (this.reverse) frame = this.frameCount - frame - 1;
  

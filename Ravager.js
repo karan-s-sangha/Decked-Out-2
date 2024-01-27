@@ -4,8 +4,8 @@ class Ravager {
     constructor(game, steve,collisions, x, y, walkSpeed, runSpeed,size) {
         this.game = game;
         this.steve = steve;
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.size = size;
@@ -61,25 +61,25 @@ class Ravager {
     }
 
     update() {
-        // switch (this.state) {
-        //     case 'idle':
-        //         this.wander(); // Optionally wander or stay still
-        //         break;
-        //     case 'moving':
-        //     case 'running':
-        //         if (this.canSeePlayer()) {
-        //             this.followPlayer();
-        //         } else {
-        //             this.state = 'wandering';
-        //         }
-        //         break;
-        //     case 'attacking':
-        //         // Implement attacking behavior (e.g., stay in place or move towards player)
-        //         break;
-        //     case 'wandering':
-        //         this.wander();
-        //         break;
-        // }
+        switch (this.state) {
+            case 'idle':
+                this.wander(); // Optionally wander or stay still
+                break;
+            case 'moving':
+            case 'running':
+                if (this.canSeePlayer()) {
+                    this.followPlayer();
+                } else {
+                    this.state = 'wandering';
+                }
+                break;
+            case 'attacking':
+                // Implement attacking behavior (e.g., stay in place or move towards player)
+                break;
+            case 'wandering':
+                this.wander();
+                break;
+        }
 
         this.applyMovement();
         this.updateAnimation();
@@ -174,9 +174,9 @@ class Ravager {
 
     updateWanderingDirection() {
         // Update direction randomly for wandering
-        // This can be a simple random direction change at intervals
-        if (this.shouldChangeDirection()) { // Implement this logic as needed
-            this.adjustDirection(Math.random() * 360); // Random angle
+       
+        if (this.shouldChangeDirection()) { 
+            this.adjustDirection(Math.random() * 360);
         }
     }
 
@@ -187,14 +187,8 @@ class Ravager {
     }
 
     handleCollision() {
-        // Strategy 1: Fallback slightly
+        
         this.fallback();
-
-        // Strategy 2: Adjust direction by 45 degrees
-       // this.adjustDirection(45);
-
-        // Strategy 3: Move around the object (more complex)
-        //this.navigateAroundObstacle();
     }
 
     fallback() {
@@ -273,7 +267,6 @@ class Ravager {
         }
     }
     shouldAttackPlayer() {
-        // Example: Attack if within a certain distance
         const attackDistance = 50;
         const dx = this.steve.x - this.x;
         const dy = this.steve.y - this.y;
@@ -281,7 +274,6 @@ class Ravager {
     }
 
     canSeePlayer() {
-        // Basic visibility logic (e.g., based on distance)
         const visibilityDistance = 300; // example distance
         const dx = this.steve.x - this.x;
         const dy = this.steve.y - this.y;
@@ -340,21 +332,14 @@ class Ravager {
     }
 
     wander() {
-        
-        // Random movement logic and need to update more advance wander method
-        const moveAmount = 2; // speed of wandering
+        const moveAmount = 5; // speed of wandering
         let newX = this.x + (Math.random() - 0.5) * moveAmount;
         let newY = this.y + (Math.random() - 0.5) * moveAmount;
-    
-    
-        // if (!collisions.checkCollision(newX, newY, this.size)) {
-        //     this.x = newX;
-        //     this.y = newY;
-        // }
-        if (this.isWithinBounds(newX, newY) && !this.collisions.isCollision(newX, newY)) {// need ot add collision
+        console.log(newX + "X value  from wander " + newY + "Y value from wander");
+        if (this.isWithinBounds(newX, newY) && !this.collisions.isCollision(newX, newY)) {
             this.x = newX;
             this.y = newY;
-            console.log(this.x + "X" + this.y + "Y");
+            
         }
     }
     isWithinBounds(x, y) {

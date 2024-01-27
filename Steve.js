@@ -4,7 +4,6 @@ class Steve {
         this.width = 241;
         this.height = 340; 
         this.game = game;
-        this.speed = 1;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
         this.cashe = [];
@@ -17,7 +16,7 @@ class Steve {
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
 
-        this.playerSpeed = 8;
+        this.playerSpeed = 18;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -26,7 +25,7 @@ class Steve {
         this.spritesheet = new Image();
         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
-        this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 70, 0.001, 0, false, true);
+        this.animations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.008, 0, false, true);
     };
 
 
@@ -98,8 +97,7 @@ class Steve {
 
         }
         //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
-        ctx.drawImage(this.cashe[angle],this.playerX - this.scene.cameraX -  this.height * this.scale / 2, this.playerY - this.scene.cameraY - this.height * this.scale / 2);
-       console.log("x: " + (this.playerX - this.scene.cameraX -  this.height * this.scale / 2) + " y: " + (this.scale / 2, this.playerY - this.scene.cameraY - this.height * this.scale / 2));
+        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
 
