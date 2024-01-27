@@ -34,11 +34,7 @@ class Compass {
         // Calculate the new coordinates for drawing the arrow
         this.drawX = this.screenX + this.radius * Math.cos(this.angleRadians);
         this.drawY = this.screenY + this.radius * Math.sin(this.angleRadians);
-        // console.log("steveX ",this.playerX);
-        // console.log("steveY ",this.playerY);
-        // console.log("x ",this.artX);
-        // console.log("y ",this.artY);
-    
+         
         }
     draw(ctx) {
         // ctx.fillStyle = 'red';
