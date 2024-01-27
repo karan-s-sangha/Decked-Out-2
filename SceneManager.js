@@ -9,8 +9,8 @@ class SceneManager {
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
-        //this.collision = new Collision(game);
-        //this.ravager = new Ravager (this.game, this.steve, this.collision, 384, 384, 5, 10,50);
+        this.collision = new Collision(game);
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 750, 750, 1, 1,50);
 
         this.levelX=0;
         this.levelY=0;
@@ -43,7 +43,7 @@ class SceneManager {
         this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
-        //this.game.addEntity(ravager);
+        this.game.addEntity(ravager);
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);

@@ -60,7 +60,7 @@ class GameEngine {
             that.wheel = e.deltaY;
         }
         function keydownListener (e) {
-            console.log("Key pressed:", e.code); // Debugging lo
+           // console.log("Key pressed:", e.code); // Debugging lo
             that.keyboardActive = true;
             switch (e.code) {
                 case "ArrowLeft":

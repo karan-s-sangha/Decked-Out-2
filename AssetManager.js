@@ -7,7 +7,7 @@ class AssetManager {
     };
 
     queueDownload(path) {
-        console.log("Queueing " + path);
+       // console.log("Queueing " + path);
         this.downloadQueue.push(path);
     };
 
@@ -21,7 +21,7 @@ class AssetManager {
             var that = this;
 
             var path = this.downloadQueue[i];
-            console.log(path);
+           // console.log(path);
             var ext = path.substring(path.length - 3);
 
             switch (ext) {
