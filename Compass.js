@@ -7,30 +7,26 @@ class Compass {
         this.playerY = this.steve.playerY;
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
-        this.artX = 0;
-        this.artY = 0;
+        this.artX = artifact.getX()*game.GameScale;
+        this.artY = artifact.getY()*game.GameScale;
 
         this.cache = [];
 
-        this.image = ASSET_MANAGER.cache["./Art/Arrow.png"];
+        this.image = ASSET_MANAGER.cache["./Art/RedArrow.png"];
         this.scale = 0.1;
         this.angleRadians = 0;
         this.angleDegree = 0;
-        this.radius = 70;
+        this.radius = 60;
     }
 
     // Function
     update() {
         this.playerX = this.steve.playerX;
         this.playerY = this.steve.playerY;
-    
-        this.artX = this.artifact.getX();
-        this.artY = this.artifact.getY();
-    
+       
         this.angleRadians = this.findAngle(
             this.playerX, this.playerY,
-            this.artifact.getX(), this.artifact.getY()
-        );
+            this.artX, this.artY);
     
         this.drawX = 0;
         this.drawY = 0;
@@ -38,11 +34,15 @@ class Compass {
         // Calculate the new coordinates for drawing the arrow
         this.drawX = this.screenX + this.radius * Math.cos(this.angleRadians);
         this.drawY = this.screenY + this.radius * Math.sin(this.angleRadians);
+        // console.log("steveX ",this.playerX);
+        // console.log("steveY ",this.playerY);
+        // console.log("x ",this.artX);
+        // console.log("y ",this.artY);
     
         }
     draw(ctx) {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.artX - this.game.camera.cameraX, this.artY - this.game.camera.cameraY, 20, 20);
+        // ctx.fillStyle = 'red';
+       
         this.angleDegree = Math.floor(this.angleRadians * (180 / Math.PI));
     
         this.drawAngle(ctx, this.angleDegree, this.scale);

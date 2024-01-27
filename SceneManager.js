@@ -6,7 +6,7 @@ class SceneManager {
         
         this.steveInitialX = 700;
         this.steveInitialY = 700;
-        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY);
+        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.collision = new Collision(game);
@@ -47,6 +47,9 @@ class SceneManager {
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
+
+        //Adding the Artifact Entity
+        this.game.addEntity(this.artifact);
     };
 
     updateAudio() {

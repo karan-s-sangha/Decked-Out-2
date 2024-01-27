@@ -37,7 +37,10 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 
 // Image for the compass
-ASSET_MANAGER.queueDownload("./Art/Arrow.png");
+ASSET_MANAGER.queueDownload("./Art/RedArrow.png");
+
+//Image for the Artifacts
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Hoodofawyah.png");
 
 
 // // music
