@@ -57,19 +57,19 @@ class Animator {
     };
 
     drawFrameAngle(tick, ctx, x, y, scale, angle) {
-
+        console.log("hello");
         this.elapsedTime += tick;
         if (this.isDone()) {
-            
             if (this.loop) {
                 this.elapsedTime -= this.totalTime;
             } else {
                 return;
             }
         }
+        console.log("world");
         let frame = this.currentFrame();
         if (this.reverse) frame = this.frameCount - frame - 1;
- 
+       
 
         var offscreenCanvas = document.createElement('canvas');
         if(this.width > this.height) {
@@ -79,7 +79,6 @@ class Animator {
             offscreenCanvas.width = this.height * scale;
             offscreenCanvas.height = this.height * scale;
         }
-        
 
         var offscreenCtx = offscreenCanvas.getContext('2d');
         offscreenCtx.save();
@@ -90,10 +89,7 @@ class Animator {
                                ,this.width,this.height, (offscreenCanvas.width - (this.width * scale)) / 2
                                ,(offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
         offscreenCtx.restore();
-        ctx.drawImage(offscreenCanvas, x, y);
-       
-
-       
+        ctx.drawImage(offscreenCanvas, x - offscreenCanvas.width / 2, y - offscreenCanvas.height / 2);
 
     };
 

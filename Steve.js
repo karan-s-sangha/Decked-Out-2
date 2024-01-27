@@ -1,5 +1,5 @@
 class Steve {
-    constructor(game,playerX ,playerY, scene) {
+    constructor(game,playerX ,playerY ) {
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
@@ -9,14 +9,13 @@ class Steve {
         this.cashe = [];
         this.mousex = 0;
         this.mousey = 0;
-        this.scene = scene;
 
         this.playerX = playerX;
         this.playerY = playerY;
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
 
-        this.playerSpeed = 18;
+        this.playerSpeed = 3;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -145,14 +144,13 @@ class Steve {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
-            this.animations.drawMap(this.game.clockTick, ctx, 350, 350);
+            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
             */
-          this.drawAngle(ctx, degrees, this.scale);
-          
-          // this.animations.elapsedTime = 0;
+           this.drawAngle(ctx, degrees, this.scale);
+           this.animations.elapsedTime = 0;
         }
 
         ctx.strokeStyle = "red";
