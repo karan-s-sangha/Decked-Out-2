@@ -47,6 +47,9 @@ class SceneManager {
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
+
+        //Adding the Artifact Entity
+        this.game.addEntity(this.artifact);
     };
 
     updateAudio() {
