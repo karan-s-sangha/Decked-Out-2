@@ -75,13 +75,13 @@ class Ravager {
     }
 // change location
     update() {
-    //     //let now = new Date().getTime();
-    //     const currentTime = new Date().getTime();
+        //let now = new Date().getTime();
+      //  const currentTime = new Date().getTime();
         
-    //     if (this.lastUpdateTime) {
-    //         const deltaTime = currentTime - this.lastUpdateTime;
-    //         console.log(`Delta time since last update: ${deltaTime} ms`);
-    //     }
+       // if (this.lastUpdateTime) {
+            //const deltaTime = currentTime - this.lastUpdateTime;
+            console.log(`Delta time since last update: ${this.game.clockTick} ms`);
+        //}
 
     //     this.lastUpdateTime = currentTime;
 
@@ -286,34 +286,34 @@ class Ravager {
 
     isLineOfSightClear(x1, y1, x2, y2) {
        
-        let dx = Math.abs(x2 - x1);
-        let dy = -Math.abs(y2 - y1);
-        let sx = (x1 < x2) ? 1 : -1;
-        let sy = (y1 < y2) ? 1 : -1;
-        let error = dx + dy;
+        // let dx = Math.abs(x2 - x1);
+        // let dy = -Math.abs(y2 - y1);
+        // let sx = (x1 < x2) ? 1 : -1;
+        // let sy = (y1 < y2) ? 1 : -1;
+        // let error = dx + dy;
 
-        while (true) {
-            // Check for collision at the current point
-            console.log(this.collisions.isCollision(x1, y1));
-            if (this.collisions.isCollision(x1, y1)) {
+        // while (true) {
+        //     // Check for collision at the current point
+        //     console.log(this.collisions.isCollision(x1, y1));
+        //     if (this.collisions.isCollision(x1, y1)) {
 
-                return false; // Collision detected
-            }
+        //         return false; // Collision detected
+        //     }
 
-            if (x1 === x2 && y1 === y2) break; // End point reached
+        //     if (x1 === x2 && y1 === y2) break; // End point reached
 
-            let e2 = 2 * error;
-            if (e2 >= dy) {
-                if (x1 === x2) break;
-                error += dy;
-                x1 += sx;
-            }
-            if (e2 <= dx) {
-                if (y1 === y2) break;
-                error += dx;
-                y1 += sy;
-            }
-        }
+        //     let e2 = 2 * error;
+        //     if (e2 >= dy) {
+        //         if (x1 === x2) break;
+        //         error += dy;
+        //         x1 += sx;
+        //     }
+        //     if (e2 <= dx) {
+        //         if (y1 === y2) break;
+        //         error += dx;
+        //         y1 += sy;
+        //     }
+        // }
 
         return true; // No collision detected along the line
     }
