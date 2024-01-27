@@ -220,7 +220,7 @@ class Ravager {
         const dy = this.steve.playerY - this.ravagerY;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
     
-        console.log(`Player position: (${this.steve.playerX}, ${this.steve.playerY})`);
+        console.log(`Player position for steve: (${this.steve.playerX}, ${this.steve.playerY})`);
         console.log(`Ravager position: (${this.ravagerX}, ${this.ravagerY})`);
         console.log(`Distance to player: ${distanceToPlayer}`);
     
