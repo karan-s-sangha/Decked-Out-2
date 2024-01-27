@@ -158,6 +158,7 @@ class GameEngine {
 
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        
        
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx);

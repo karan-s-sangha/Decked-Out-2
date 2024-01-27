@@ -1,13 +1,13 @@
-class Artifact {
+class Gold {
     constructor(game) {
-        this.artifactX = 0;
-        this.artifactY = 0;
+        this.frostX = 0;
+        this.frostY = 0;
         this.game = game;
         this.levelOneArtifacts = [
-            [950, 500], [750, 1500], [595, 1624], [372, 1588], [340, 1700],
-            [177, 1442], [113, 1156], [126, 784], [1235, 1090], [1058, 980],
-            [1050, 1284], [990, 1505], [890, 1294], [447, 930], [333, 1080],
-            [997, 1390], [463, 1416], [865, 1000], [1115, 720]
+            [210, 160], [236, 316], [322, 580], [260, 888], [436, 919],
+            [428, 1036], [230, 1214], [152, 1434], [346, 1696], [673, 1783],
+            [757, 1625], [990, 1440], [830, 1264], [1126, 1174], [1212, 815],
+            [1100, 555], [788, 524]
         ];
         this.image = ASSET_MANAGER.cache["./Art/Artifacts/Hoodofawyah.png"];
 
@@ -72,10 +72,10 @@ class Artifact {
     }
 
     getX() {
-        return this.artifactX;
+        return this.frostX;
     }
 
     getY() {
-        return this.artifactY;
+        return this.frostY;
     }
 }
