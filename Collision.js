@@ -14,7 +14,7 @@ class Collision {
     isCollision(x, y) {
         this.x = x / this.game.GameScale;
         this.y = y / this.game.GameScale;
-
+        //console.log (" in collision method" + this.x + " " + this.y);
         // Ensure the coordinates are within the bounds of the canvas
         if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
             

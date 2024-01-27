@@ -30,6 +30,7 @@ class Steve {
 
 
     update() {
+
         if (this.game.left && !this.collision.isCollision(this.playerX - this.playerSpeed, this.playerY)) {
             this.move = 1;
             this.playerX -= this.playerSpeed;
