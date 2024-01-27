@@ -82,20 +82,9 @@ class Ravager {
 
     canSeePlayer() {
         const visibilityDistance = 300; 
-        const dx = this.steve.playerX - this.playerX;
-        const dy = this.steve.playerY - this.playerY;
+        const dx = this.steve.playerX - this.ravagerX;
+        const dy = this.steve.playerY - this.ravagerY;
         return Math.sqrt(dx * dx + dy * dy) < visibilityDistance;
-    }
-
-    handlePlayerInvisibility() {
-        this.playerInView = false;
-        const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
-        if (timeSinceLastSeen <= 2000) { // 2 seconds threshold
-            this.moveTowardsLastSeenPosition();
-        } else {
-            this.state = 'wandering';
-            this.wander();
-        }
     }
 
     moveTo(targetX, targetY, speed) {
@@ -118,7 +107,7 @@ class Ravager {
 
     followPlayer() {
         // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = this.steve.speed + 2;
+        const ravagerSpeed = this.steve.playerSpeed + 2;
 
         // Calculate the vector from the Ravager to the player
         let dx = this.steve.playerX - this.ravagerX;
@@ -130,8 +119,8 @@ class Ravager {
         let dirY = dy / magnitude;
     
         // Move the Ravager towards the player
-        let newX = this.x + dirX * ravagerSpeed;
-        let newY = this.y + dirY * ravagerSpeed;
+        let newX = this.ravagerX + dirX * ravagerSpeed;
+        let newY = this.ravagerY + dirY * ravagerSpeed;
         // Check for boundary and collision before moving
         if (!this.collisions.isCollision(newX, newY)) {
             this.ravagerX = newX;
