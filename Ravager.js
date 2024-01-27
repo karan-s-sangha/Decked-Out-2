@@ -40,77 +40,87 @@ class Ravager {
         this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
         this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.03, 0, false, true);
     }
-
+// draw coresponding image
     draw(ctx) {
-        let scale = 0.07; 
+        let scale = 0.25; 
         let scaleX = this.ravagerX - this.game.camera.cameraX;
         let scaleY = this.ravagerY - this.game.camera.cameraY;
        // console.log("scalex   " + scaleX + "scaley   " + scaleY);
 
-        switch(this.state) {
-            case 'attacking':
-                // Draw attacking animation
-                this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
-                break;
-            case 'moving':
-            case 'running':
-                // Draw walking/running animation
-                this.walkingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
-                break;
-            //case 'idle':
-            case 'wandering':
-                // Draw idle or wandering animation
-                this.standingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
-                //console.log("scalex   " + scaleX + "scaley   " + scaleY);
-                break;
-            default:
-                // If state is unknown, you might want to log an error or handle it in some way
-                console.error("Unknown state:", this.state);
-                break;
-        }
+        // switch(this.state) {
+        //     case 'attacking':
+        //         // Draw attacking animation
+        //         this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        //         break;
+        //     case 'moving':
+        //     case 'running':
+        //         // Draw walking/running animation
+        //         this.walkingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        //         break;
+        //     //case 'idle':
+        //     case 'wandering':
+        //         // Draw idle or wandering animation
+        //         this.standingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        //         //console.log("scalex   " + scaleX + "scaley   " + scaleY);
+        //         break;
+        //     default:
+        //         // If state is unknown, you might want to log an error or handle it in some way
+        //         console.error("Unknown state:", this.state);
+        //         break;
+        // }
+        this.attackingAnimations.drawFrame(this.game.clockTick, ctx, scaleX, scaleY, scale);
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(scaleX, scaleY, 3, 3);
+        ctx.save();
     }
-
+// change location
     update() {
-        //let now = new Date().getTime();
-        const currentTime = new Date().getTime();
+    //     //let now = new Date().getTime();
+    //     const currentTime = new Date().getTime();
         
-        if (this.lastUpdateTime) {
-            const deltaTime = currentTime - this.lastUpdateTime;
-            console.log(`Delta time since last update: ${deltaTime} ms`);
+    //     if (this.lastUpdateTime) {
+    //         const deltaTime = currentTime - this.lastUpdateTime;
+    //         console.log(`Delta time since last update: ${deltaTime} ms`);
+    //     }
+
+    //     this.lastUpdateTime = currentTime;
+
+    //     // Handling the 'stuck' state
+    //     // if (this.state === 'stuck') {
+    //     //     if (now - this.stuckTime > this.maxStuckTime) {
+    //     //         this.state = 'wandering';
+    //     //         this.angle = Math.random() * 2 * Math.PI;
+    //     //         this.stuckTime = 0;
+    //     //     }
+    //     // } else {
+    //         //console.log(`Ravager position at start of update: (${this.ravagerX}, ${this.ravagerY})`);
+    //        // console.log("can see " + this.canSeePlayer());
+    //         if (this.canSeePlayer()) {
+    //         this.playerInView = true;
+    //         this.lastSeenPlayerTime = new Date();
+    //         this.lastPlayerPosition = { x: this.steve.playerX, y: this.steve.playerY };
+    //         this.moveTo(this.steve.playerX, this.steve.playerY, this.canRun() ? this.runSpeed : this.walkSpeed);
+    //        // console.log("move To " + this.steve.playerX + this.steve.playerY);
+    //     } else {
+    //         const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
+    //         if (this.playerInView && timeSinceLastSeen <= 2000) {
+    //             this.moveTo(this.lastPlayerPosition.x, this.lastPlayerPosition.y, this.walkSpeed);
+    //         } else {
+    //             this.playerInView = false;
+    //             this.state = 'wandering';
+    //             this.wander();
+    //         }
+    //   //  }
+    // }
+
+    //    this.updateAnimation();
+    //     this.handleBoundaryAndCollision();
+        if(this.canSeePlayer() && !this.collisions.isCollision(this.ravagerX, this.ravagerY)){
+            this.moveTo(this.steve.playerX, this.steve.playerY,1);
+        } else if (!this.collisions.isCollision(this.ravagerX, this.ravagerY)){
+            this.wander();
         }
-
-        this.lastUpdateTime = currentTime;
-
-        // Handling the 'stuck' state
-        // if (this.state === 'stuck') {
-        //     if (now - this.stuckTime > this.maxStuckTime) {
-        //         this.state = 'wandering';
-        //         this.angle = Math.random() * 2 * Math.PI;
-        //         this.stuckTime = 0;
-        //     }
-        // } else {
-            //console.log(`Ravager position at start of update: (${this.ravagerX}, ${this.ravagerY})`);
-           // console.log("can see " + this.canSeePlayer());
-            if (this.canSeePlayer()) {
-            this.playerInView = true;
-            this.lastSeenPlayerTime = new Date();
-            this.lastPlayerPosition = { x: this.steve.playerX, y: this.steve.playerY };
-            this.moveTo(this.steve.playerX, this.steve.playerY, this.canRun() ? this.runSpeed : this.walkSpeed);
-           // console.log("move To " + this.steve.playerX + this.steve.playerY);
-        } else {
-            const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
-            if (this.playerInView && timeSinceLastSeen <= 2000) {
-                this.moveTo(this.lastPlayerPosition.x, this.lastPlayerPosition.y, this.walkSpeed);
-            } else {
-                this.playerInView = false;
-                this.state = 'wandering';
-                this.wander();
-            }
-      //  }
-    }
-
-       this.updateAnimation();
-        this.handleBoundaryAndCollision();
+       
     }
 
 
@@ -166,11 +176,11 @@ class Ravager {
         const dy = targetY - this.ravagerY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const maxStep = speed; 
-
-        if (distance > 0) {
-            const stepSize = Math.min(distance, maxStep); 
-            this.ravagerX += (dx / distance) * stepSize;
-            this.ravagerY += (dy / distance) * stepSize;
+    
+        if (distance > 0 && !this.collisions.isCollision(this.ravagerX +(dx / distance) * maxStep, this.ravagerY += (dy / distance) * maxStep)) {
+            
+            this.ravagerX += (dx / distance) * maxStep;
+            this.ravagerY += (dy / distance) * maxStep;
         }
     }
 
@@ -218,6 +228,7 @@ class Ravager {
         const visibilityDistance = 300; 
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
+        
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
     
         console.log(`Player position: (${this.steve.playerX}, ${this.steve.playerY})`);
