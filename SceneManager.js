@@ -43,7 +43,7 @@ class SceneManager {
         this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
-        //this.game.addEntity(ravager);
+        this.game.addEntity(ravager);
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);

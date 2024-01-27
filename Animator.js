@@ -4,7 +4,7 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = this.frameCount * this.frameDuration;
-        this.cashe = [0];
+        this.cache = [0];
     };
 
     drawFrame(tick, ctx, x, y, scale) {
