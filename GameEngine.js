@@ -28,14 +28,13 @@ class GameEngine {
 
     start() {
         this.running = true;
-    
-    
         const gameLoop = () => {
             this.loop();
+            //requestAnimFrame(gameLoop, this.ctx.canvas);
         };
-    
-        setInterval(gameLoop); // 60 frames per second (adjust the interval as needed)
-    }
+        setInterval(gameLoop);
+     
+    };
     
     
 
@@ -197,7 +196,6 @@ class GameEngine {
         this.update();
         this.draw();
 
-        this.click = null;
            
     };
 };
