@@ -17,8 +17,7 @@ class Steve {
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
 
-
-        this.playerSpeed = 3;
+        this.playerSpeed = 24;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -33,23 +32,23 @@ class Steve {
 
 
     update() {
-        if (this.game.left && !this.collision.isCollision(this.playerX - this.playerSpeed, this.playerY)) {
+        if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerSpeed, this.playerY)) {
             this.move = 1;
             this.playerX -= this.playerSpeed;
         } 
-        if (this.game.right && !this.collision.isCollision(this.playerX + this.playerSpeed, this.playerY)) {
+        if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerSpeed, this.playerY)) {
             this.move = 1;
             this.playerX += this.playerSpeed;
         }
-        if (this.game.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerSpeed)) {
+        if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerSpeed)) {
             this.move = 1;
             this.playerY -= this.playerSpeed;
         }
-        if (this.game.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerSpeed)) {
+        if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerSpeed)) {
             this.move = 1;
             this.playerY += this.playerSpeed;
         } 
-        if (!this.game.left  && !this.game.right && !this.game.up && !this.game.down){
+        if (!this.game.keys.left  && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down){
             this.move = 0;
         }
     };
