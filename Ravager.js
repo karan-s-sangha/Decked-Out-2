@@ -91,17 +91,6 @@ class Ravager {
         return Math.sqrt(dx * dx + dy * dy) < visibilityDistance;
     }
 
-    handlePlayerInvisibility() {
-        this.playerInView = false;
-        const timeSinceLastSeen = new Date() - this.lastSeenPlayerTime;
-        if (timeSinceLastSeen <= 2000) { // 2 seconds threshold
-            this.moveTowardsLastSeenPosition();
-        } else {
-            this.state = 'wandering';
-            this.wander();
-        }
-    }
-
     moveTo(targetX, targetY, speed) {
         const dx = targetX - this.ravagerX;
         const dy = targetY - this.ravagerY;
