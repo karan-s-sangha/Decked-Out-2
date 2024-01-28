@@ -8,18 +8,20 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png")
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
 
 // Animation for the Upper Level One
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/enchanttable.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fire.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/firecamp.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/enchanttable.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fire.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/firecamp.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
+ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
+
 
 // Animation for the Ravager
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-walking-running.png");
