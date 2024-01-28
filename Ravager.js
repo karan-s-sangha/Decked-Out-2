@@ -20,7 +20,7 @@ class Ravager {
         this.isStuckCounter = 0; // Counter to keep track of stuck state
         this.lastPosition = { x: this.ravagerX, y: this.ravagerY }; // Last known position for stuck detection
      }
-     
+
     findAngle() {
         return Math.atan2(this.steve.playerY - this.ravagerY, this.steve.playerX - this.ravagerX);
     }
@@ -147,8 +147,8 @@ class Ravager {
         } else {
             console.log ("angle " + this.angle);
             console.log("wander " + this.wanderMove);
-            let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
-            let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
+            let newX = this.ravagerX + Math.cos(this.angle) * 0.5;
+            let newY = this.ravagerY + Math.sin(this.angle) * 0.5;
            
             if (!this.collisions.isCollision(newX, newY)) {
                 this.ravagerX = newX;
