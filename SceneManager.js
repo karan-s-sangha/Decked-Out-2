@@ -10,7 +10,7 @@ class SceneManager {
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.collision = new Collision(game);
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.5, 1,50);
 
         this.levelX=0;
         this.levelY=0;
