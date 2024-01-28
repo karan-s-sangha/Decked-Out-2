@@ -249,7 +249,7 @@ class Ravager {
         }
         this.wanderMove--;
     }
-
+    /*
     performWanderingMove() {
         let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
         let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
