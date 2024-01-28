@@ -4,11 +4,13 @@ class Steve {
         this.width = 241;
         this.height = 340; 
         this.game = game;
+        this.health = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
         this.cache = [];
         this.mousex = 0;
         this.mousey = 0;
+        
 
         this.playerX = playerX;
         this.playerY = playerY;
