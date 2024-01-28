@@ -14,8 +14,11 @@ class Ravager {
         this.state = 'wandering';
         this.collisions = collisions;
         this.wanderMove = 0;
-
         this.angle = Math.random() * 2 * Math.PI;
+
+        this.path = []; // Path for A* pathfinding
+        this.isStuckCounter = 0; // Counter to keep track of stuck state
+        this.lastPosition = { x: this.ravagerX, y: this.ravagerY }; // Last known position for stuck detection
     
 
     }
@@ -54,7 +57,7 @@ class Ravager {
                 this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
                 break;
             case 'wandering':
-                // Draw idle or wandering animation
+                // Draw wandering animation
                 this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
                 break;
             default:
@@ -136,7 +139,7 @@ class Ravager {
         }
     }
 
-    wander() {
+   /* wander() {
         if(this.wanderMove <= 0) {
             this.angle = Math.random() * 2 * Math.PI; // Choose a random direction   //45Deg
             this.wanderMove = Math.floor(Math.random() * 500);                                   //25moves
@@ -151,9 +154,167 @@ class Ravager {
            
         }
         this.wanderMove--;
+    }*/
+
+
+
+
+
+    wander() {
+        if (this.isStuck() && this.path.length === 0) { 
+            let target = this.chooseNewTarget();
+            this.path = this.calculatePath(this.ravagerX, this.ravagerY, target.x, target.y);
+        }
+        this.followPath();
+        this.updateStuckState();
+    }
+
+    chooseNewTarget() {
+        // Choose a random point within the visible area for the new target
+        const maxX = this.game.canvas.width;
+        const maxY = this.game.canvas.height;
+        return { x: Math.random() * maxX, y: Math.random() * maxY };
+    }
+
+    isStuck() {
+        const minDistanceMoved = 15;
+        const stuckFramesThreshold = 50;
+        const distanceMoved = this.distance(this.ravagerX, this.ravagerY, this.lastPosition.x, this.lastPosition.y);
+        return distanceMoved < minDistanceMoved && this.isStuckCounter > stuckFramesThreshold;
+    }
+
+    updateStuckState() {
+        if (this.isStuck()) {
+            this.isStuckCounter++;
+        } else {
+            this.isStuckCounter = 0;
+            this.lastPosition = { x: this.ravagerX, y: this.ravagerY };
+        }
+    }
+
+    followPath() {
+        if (this.path.length > 0) {
+            const targetNode = this.path[0];
+            if (this.moveToTargetNode(targetNode)) {
+                this.path.shift(); // Target reached, remove it from the path
+            }
+        } else {
+            this.randomWandering(); // Continue random wandering if no path
+        }
+    }
+
+    randomWandering() {
+        // Adjust random wandering to change direction less frequently
+        if (this.wanderMove <= 0 || this.isStuck()) {
+            this.angle = Math.random() * 2 * Math.PI; // Change direction
+            this.wanderMove = Math.floor(Math.random() * 700); // Adjust move count
+        } else {
+            this.performWanderingMove();
+        }
+        this.wanderMove--;
+    }
+
+    performWanderingMove() {
+        let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
+        let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
+        if (!this.collisions.isCollision(newX, newY)) {
+            this.ravagerX = newX;
+            this.ravagerY = newY;
+        }
+    }
+
+    moveToTargetNode(targetNode) {
+        const distanceToTarget = this.distance(this.ravagerX, this.ravagerY, targetNode.x, targetNode.y);
+        if (distanceToTarget <= this.walkSpeed) {
+            // If Ravager is close enough to the target node, snap to it and return true
+            this.ravagerX = targetNode.x;
+            this.ravagerY = targetNode.y;
+            return true; // Target reached
+        } else {
+            // If not close enough, move towards the target node
+            const angleToTarget = Math.atan2(targetNode.y - this.ravagerY, targetNode.x - this.ravagerX);
+            this.ravagerX += Math.cos(angleToTarget) * this.walkSpeed;
+            this.ravagerY += Math.sin(angleToTarget) * this.walkSpeed;
+            return false; // Still moving towards target
+        }
     }
     
-   
+
+    distance(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    calculatePath(startX, startY, targetX, targetY) {
+        const openSet = new PriorityQueue((a, b) => a.f - b.f);
+        const openSetMap = new Map();
+        const closedSet = new Set();
     
+        const startNode = new Node(startX, startY, 0, this.heuristic(startX, startY, targetX, targetY));
+        openSet.enqueue(startNode);
+        openSetMap.set(startNode.toString(), startNode);
+    
+        while (!openSet.isEmpty()) {
+            const currentNode = openSet.dequeue();
+            openSetMap.delete(currentNode.toString());
+    
+            if (currentNode.x === targetX && currentNode.y === targetY) {
+                return this.reconstructPath(currentNode);
+            }
+    
+            closedSet.add(currentNode.toString());
+    
+            this.getNeighbors(currentNode, targetX, targetY).forEach(neighbor => {
+                if (closedSet.has(neighbor.toString())) {
+                    return;
+                }
+    
+                if (!openSetMap.has(neighbor.toString()) || openSetMap.get(neighbor.toString()).g > neighbor.g) {
+                    openSet.enqueue(neighbor);
+                    openSetMap.set(neighbor.toString(), neighbor);
+                }
+            });
+        }
+    
+        return []; // No path found
+    }
+    
+    reconstructPath(node) {
+        const path = [];
+        while (node) {
+            path.unshift({ x: node.x, y: node.y });
+            node = node.parent;
+        }
+        return path;
+    }
+    
+
+    heuristic(x1, y1, x2, y2) {
+        // Manhattan distance
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+    }
+
+   
+    getNeighbors(node, targetX, targetY) {
+        const directions = [
+            { dx: 1, dy: 0 },  // Right
+            { dx: -1, dy: 0 }, // Left
+            { dx: 0, dy: 1 },  // Down
+            { dx: 0, dy: -1 }  // Up
+        ];
+    
+        const neighbors = [];
+        directions.forEach(dir => {
+            const newX = node.x + dir.dx;
+            const newY = node.y + dir.dy;
+    
+            if (!this.collisions.isCollision(newX, newY)) {
+                const gCost = node.g + 1;
+                const hCost = this.heuristic(newX, newY, targetX, targetY);
+                neighbors.push(new Node(newX, newY, gCost, hCost, node));
+            }
+        });
+    
+        return neighbors;
+    }
 
 }
