@@ -4,8 +4,8 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         
-        this.steveInitialX = 700;
-        this.steveInitialY = 700;
+        this.steveInitialX = 1732;
+        this.steveInitialY = 772;
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
@@ -19,7 +19,7 @@ class SceneManager {
         // Checking the Compass and the Artifact
         this.artifact = new Artifact(this.game);
         this.compass = new Compass(this.artifact,this.steve, this.game);
-
+        this.ui = new UI(this.steve);
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.ravager, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
@@ -39,7 +39,7 @@ class SceneManager {
         // Adding the first upper level static art
         this.game.addEntity(new StaticArt(this.game));
 
-        // Adding the first upper level dynamic art
+        // // Adding the first upper level dynamic art
         this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
@@ -50,7 +50,7 @@ class SceneManager {
 
         //Adding the Artifact Entity
         this.game.addEntity(this.artifact);
-
+        this.game.addEntity(this.ui);
         
     };
 
@@ -67,7 +67,7 @@ class SceneManager {
     update() {
        this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
        this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
-             
+       
     };
 
     // This Draw is for the whole website including the HTML 
