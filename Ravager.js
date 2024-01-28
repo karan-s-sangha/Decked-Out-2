@@ -29,7 +29,7 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 95, 0.02, 0, false, true  );
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.02, 0, false, true  );
 
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
@@ -139,7 +139,7 @@ class Ravager {
         }
     }
 
-   /* wander() {
+    wander() {
         if(this.wanderMove <= 0) {
             this.angle = Math.random() * 2 * Math.PI; // Choose a random direction   //45Deg
             this.wanderMove = Math.floor(Math.random() * 500);                                   //25moves
@@ -150,71 +150,14 @@ class Ravager {
             if (!this.collisions.isCollision(newX, newY)) {
                 this.ravagerX = newX;
                 this.ravagerY = newY;
+            } else {
+                this.wanderMove = 0;
             }
            
         }
-        console.log(this.wanderMove);
-        this.wanderMove--;
-    }*/
-
-
-
-
-
-    wander() {
-        if (this.isStuck() && this.path.length === 0) { 
-            let target = this.chooseNewTarget();
-            this.path = this.calculatePath(this.ravagerX, this.ravagerY, target.x, target.y);
-        }
-        this.followPath();
-        this.updateStuckState();
-    }
-
-    chooseNewTarget() {
-        // Choose a random point within the visible area for the new target
-        const maxX = this.game.canvas.width;
-        const maxY = this.game.canvas.height;
-        return { x: Math.random() * maxX, y: Math.random() * maxY };
-    }
-
-    isStuck() {
-        const minDistanceMoved = 15;
-        const stuckFramesThreshold = 50;
-        const distanceMoved = this.distance(this.ravagerX, this.ravagerY, this.lastPosition.x, this.lastPosition.y);
-        return distanceMoved < minDistanceMoved && this.isStuckCounter > stuckFramesThreshold;
-    }
-
-    updateStuckState() {
-        if (this.isStuck()) {
-            this.isStuckCounter++;
-        } else {
-            this.isStuckCounter = 0;
-            this.lastPosition = { x: this.ravagerX, y: this.ravagerY };
-        }
-    }
-
-    followPath() {
-        if (this.path.length > 0) {
-            const targetNode = this.path[0];
-            if (this.moveToTargetNode(targetNode)) {
-                this.path.shift(); // Target reached, remove it from the path
-            }
-        } else {
-            this.randomWandering(); // Continue random wandering if no path
-        }
-    }
-
-    randomWandering() {
-        // Adjust random wandering to change direction less frequently
-        if (this.wanderMove <= 0 || this.isStuck()) {
-            this.angle = Math.random() * 2 * Math.PI; // Change direction
-            this.wanderMove = Math.floor(Math.random() * 700); // Adjust move count
-        } else {
-            this.performWanderingMove();
-        }
         this.wanderMove--;
     }
-
+    /*
     performWanderingMove() {
         let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
         let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
@@ -317,5 +260,5 @@ class Ravager {
     
         return neighbors;
     }
-
+*/
 }
