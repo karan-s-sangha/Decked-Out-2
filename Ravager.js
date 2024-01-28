@@ -79,7 +79,6 @@ class Ravager {
            }
         }
         else {
-            console.log("wonder");
             this.state = 'wandering';
             this.wander();
         }
@@ -162,7 +161,6 @@ class Ravager {
             }
            
         }
-        console.log(this.wanderMove);
         this.wanderMove--;
     }
     
