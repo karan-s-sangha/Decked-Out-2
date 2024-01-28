@@ -36,11 +36,11 @@ class SceneManager {
     loadLevel(steve, ravager, level, x, y) {
 
        
-        // Adding the first upper level static art
+        // // Adding the first upper level static art
         this.game.addEntity(new StaticArt(this.game));
 
-        // Adding the first upper level dynamic art
-        this.game.addEntity(new DynamicArt(this.game));
+        // // Adding the first upper level dynamic art
+        // this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
         this.game.addEntity(ravager);
