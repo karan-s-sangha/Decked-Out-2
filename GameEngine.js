@@ -16,6 +16,7 @@ class GameEngine {
         this.B = false;
         this.gamepad = null;
         this.GameScale = 4;
+        this.fps = 120;
     };
 
     init(ctx) { // called after page has loaded
@@ -28,13 +29,16 @@ class GameEngine {
 
     start() {
         this.running = true;
+        const frameTime = 1000 / this.fps; // Calculate the time between frames in milliseconds
+    
         const gameLoop = () => {
             this.loop();
-            //requestAnimFrame(gameLoop, this.ctx.canvas);
+            //requestAnimFrame(gameLoop, this.ctx.canvas); // Not needed if using setInterval
         };
-        setInterval(gameLoop);
-     
+    
+        setInterval(gameLoop, frameTime); // Call gameLoop at the specified frame rate
     };
+    
     
     
 
@@ -167,6 +171,7 @@ class GameEngine {
     };
 
     update() {
+        debugger
         var entitiesCount = this.entities.length;         
 
         for (var i = 0; i < entitiesCount; i++) {
