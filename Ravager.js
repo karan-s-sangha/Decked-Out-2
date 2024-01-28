@@ -153,6 +153,7 @@ class Ravager {
             }
            
         }
+        console.log(this.wanderMove);
         this.wanderMove--;
     }*/
 
