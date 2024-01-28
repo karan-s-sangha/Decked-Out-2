@@ -4,8 +4,8 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         
-        this.steveInitialX = 700;
-        this.steveInitialY = 700;
+        this.steveInitialX = 1732;
+        this.steveInitialY = 772;
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
@@ -36,11 +36,11 @@ class SceneManager {
     loadLevel(steve, ravager, level, x, y) {
 
        
-        // // Adding the first upper level static art
+        // Adding the first upper level static art
         this.game.addEntity(new StaticArt(this.game));
 
         // // Adding the first upper level dynamic art
-        //this.game.addEntity(new DynamicArt(this.game));
+        this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
         this.game.addEntity(ravager);
@@ -67,7 +67,7 @@ class SceneManager {
     update() {
        this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
        this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
-             
+       
     };
 
     // This Draw is for the whole website including the HTML 
