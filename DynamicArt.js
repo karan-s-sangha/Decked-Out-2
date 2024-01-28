@@ -7,8 +7,8 @@ class DynamicArt {
     };
     loadAnimation(){
            // Adding the water Animation
-         let water = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/Animation.png"];
-         this.waterAnimation =  new Animator(this.game, water,0,0,1308,1860,24,120/1000,0,false,true);
+         let animation = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/Animation.png"];
+         this.Animation =  new Animator(this.game, animation,0,0,1308,1860,24,120/1000,0,false,true);
 
         //  let smokeinhallright = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/smokeinhallright.png"];
         //  this.smokeinhallrightAnimation =  new Animator(this.game,smokeinhallright,0,0,1308,1860,24,120/1000,0,false,true);
@@ -40,7 +40,7 @@ class DynamicArt {
 
     draw(ctx) {
      
-        this.waterAnimation.drawMap(this.game.clockTick,ctx,0,0);
+        this.Animation.drawMap(this.game.clockTick,ctx,0,0);
         
         // this.smokeinhallrightAnimation.drawMap(this.game.clockTick,ctx,0,0);
 
