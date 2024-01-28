@@ -19,9 +19,8 @@ class Ravager {
         this.path = []; // Path for A* pathfinding
         this.isStuckCounter = 0; // Counter to keep track of stuck state
         this.lastPosition = { x: this.ravagerX, y: this.ravagerY }; // Last known position for stuck detection
-    
-
-    }
+     }
+     
     findAngle() {
         return Math.atan2(this.steve.playerY - this.ravagerY, this.steve.playerX - this.ravagerX);
     }
@@ -29,7 +28,7 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 40, 0.02, 0, false, true  );
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 95, 0.02, 0, false, true  );
 
         this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
@@ -72,16 +71,18 @@ class Ravager {
     }
 
     update() {
-        if (this.canSeePlayer()){
+        if (this.canSeePlayer() && this.steve.health > 0){
            if (this.shouldAttackPlayer()) {
-               this.state = 'attacking'; //need to implement the logic here 
+               this.state = 'attacking'; 
+               this.steve.health -= 0.5;
            } else {
                this.state = 'running';
                 this.followPlayer();
-                console.log("running");
+               // console.log("running");
            }
         }
         else {
+           // console.log("wonder");
             this.state = 'wandering';
             this.wander();
         }
@@ -144,16 +145,107 @@ class Ravager {
             this.angle = Math.random() * 2 * Math.PI; // Choose a random direction   //45Deg
             this.wanderMove = Math.floor(Math.random() * 500);                                   //25moves
         } else {
+            console.log ("angle " + this.angle);
+            console.log("wander " + this.wanderMove);
             let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
             let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
            
             if (!this.collisions.isCollision(newX, newY)) {
                 this.ravagerX = newX;
                 this.ravagerY = newY;
+                this.wanderMove--;
             } else {
+               
                 this.wanderMove = 0;
+                
             }
            
+        }
+        
+    }
+}
+
+
+
+
+
+  /*  wander() {
+        console.log("Wandering state entered");
+    
+        // First, update the stuck state for the current frame
+        this.updateStuckState();
+    
+        // Now check if the Ravager is stuck and has no current path
+        console.log("Is Stuck:", this.isStuck(), "Path Length:", this.path.length);
+        if (this.isStuck() && this.path.length === 0) {
+            console.log("Ravager is stuck, choosing new target");
+            let target = this.chooseNewTarget();
+            this.path = this.calculatePath(this.ravagerX, this.ravagerY, target.x, target.y);
+        }
+    
+        // Regardless of whether it's stuck, the Ravager tries to follow the path or wander randomly
+        this.followPath();
+    }
+    
+    
+    chooseNewTarget() {
+        const range = 100; // Adjust the range to your liking
+        const minX = Math.max(this.ravagerX - range, 0); // Ensures the target is within the game area
+        const maxX = Math.min(this.ravagerX + range, 768); // Ensures the target is within the game area
+        const minY = Math.max(this.ravagerY - range, 0); // Ensures the target is within the game area
+        const maxY = Math.min(this.ravagerY + range, 768); // Ensures the target is within the game area
+        console.log("minx" + minX + "maxX " + maxX);
+        return {
+            x: Math.random() * (maxX - minX) + minX,
+            y: Math.random() * (maxY - minY) + minY
+        };
+    }
+
+    isStuck() {
+        const minDistanceMoved = 15;
+        const stuckFramesThreshold = 50;
+        const distanceMoved = this.distance(this.ravagerX, this.ravagerY, this.lastPosition.x, this.lastPosition.y);
+    
+        // Log the distance moved and the stuck counter for debugging
+        console.log(`Distance Moved: ${distanceMoved}, isStuckCounter: ${this.isStuckCounter}`);
+    
+        // The Ravager is considered stuck if it hasn't moved the minimum distance for a certain number of frames
+        return distanceMoved < minDistanceMoved && this.isStuckCounter >= stuckFramesThreshold;
+    }
+    
+    
+
+    updateStuckState() {
+        const minDistanceMoved = 15;
+        const distanceMoved = this.distance(this.ravagerX, this.ravagerY, this.lastPosition.x, this.lastPosition.y);
+    
+        if (distanceMoved < minDistanceMoved) {
+            this.isStuckCounter++;
+        } else {
+            this.isStuckCounter = 0;
+            this.lastPosition = { x: this.ravagerX, y: this.ravagerY };
+        }
+    }
+    
+
+    followPath() {
+        if (this.path.length > 0) {
+            const targetNode = this.path[0];
+            if (this.moveToTargetNode(targetNode)) {
+                this.path.shift(); // Target reached, remove it from the path
+            }
+        } else {
+            this.randomWandering(); // Continue random wandering if no path
+        }
+    }
+
+    randomWandering() {
+        // Adjust random wandering to change direction less frequently
+        if (this.wanderMove <= 0 || this.isStuck()) {
+            this.angle = Math.random() * 2 * Math.PI; // Change direction
+            this.wanderMove = Math.floor(Math.random() * 700); // Adjust move count
+        } else {
+            this.performWanderingMove();
         }
         this.wanderMove--;
     }
@@ -260,5 +352,5 @@ class Ravager {
     
         return neighbors;
     }
-*/
-}
+
+}*/
