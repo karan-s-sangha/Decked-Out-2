@@ -62,23 +62,28 @@ class SceneManager {
         let ravager3 = new Ravager(this.game, this.steve, this.collision, 556, 4572, 0.3, 1, 50);
         let ravager4 = new Ravager(this.game, this.steve, this.collision, 1468, 6348, 0.3, 1, 50);
         let ravager5 = new Ravager(this.game, this.steve, this.collision, 4078, 4852, 0.3, 1, 50);
-        /*let ravager6 = new Ravager(this.game, this.steve, this.collision, 3172, 225, 0.3, 1, 50);
-        let ravager7 = new Ravager(this.game, this.steve, this.collision, 500, 400, 0.3, 1, 50);
-        let ravager8 = new Ravager(this.game, this.steve, this.collision, 3672, 350, 0.3, 1, 50);
-        let ravager9 = new Ravager(this.game, this.steve, this.collision, 2086, 425, 0.3, 1, 50);
-       let ravager10 = new Ravager(this.game, this.steve, this.collision, 4000, 300, 0.3, 1, 50);*/
-        
+        let ravager6 = new Ravager(this.game, this.steve, this.collision, 1740, 4252, 0.3, 1, 50);
+        let ravager7 = new Ravager(this.game, this.steve, this.collision, 2460, 2532, 0.3, 1, 50);
+        let ravager8 = new Ravager(this.game, this.steve, this.collision, 4116, 2124, 0.3, 1, 50);
+       let ravager9 = new Ravager(this.game, this.steve, this.collision, 4324, 4884, 0.3, 1, 50);
+       let ravager10 = new Ravager(this.game, this.steve, this.collision, 3972, 1204, 0.3, 1, 50);
+       let ravager11 = new Ravager(this.game, this.steve, this.collision, 444, 2340, 0.3, 1, 50);
+       let ravager12 = new Ravager(this.game, this.steve, this.collision, 3492, 2796, 0.3, 1, 50);
+       let ravager13 = new Ravager(this.game, this.steve, this.collision, 2276, 6060, 0.3, 1, 50);
 
        this.game.addEntity(ravager1);
         this.game.addEntity(ravager2);
         this.game.addEntity(ravager3);
        this.game.addEntity(ravager4);
         this.game.addEntity(ravager5);
-       /* this.game.addEntity(ravager6);
+        this.game.addEntity(ravager6);
         this.game.addEntity(ravager7);
         this.game.addEntity(ravager8);
         this.game.addEntity(ravager9);
-       this.game.addEntity(ravager10);*/
+       this.game.addEntity(ravager10);
+       this.game.addEntity(ravager11);
+       this.game.addEntity(ravager12);
+       this.game.addEntity(ravager13);
     }
 
 
