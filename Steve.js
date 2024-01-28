@@ -6,7 +6,7 @@ class Steve {
         this.game = game;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
-        this.cashe = [];
+        this.cache = [];
         this.mousex = 0;
         this.mousey = 0;
 
@@ -66,7 +66,7 @@ class Steve {
         This is the reason we had to convert radian into degree. Further explanation can be
         seen from Chris's lecture.
         */
-        if(!this.cashe[angle]) {
+        if(!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
 
@@ -92,11 +92,11 @@ class Steve {
             // offscreenCtx.strokeStyle="red";
             // offscreenCtx.strokeRect(0,0,offscreenCanvas.width, offscreenCanvas.height);
 
-            this.cashe[angle] = offscreenCanvas;
+            this.cache[angle] = offscreenCanvas;
 
         }
-        //ctx.drawImage(this.cashe[angle],this.game.camera.cameraX - this.cashe[angle].width / 2, this.game.camera.cameraY - this.cashe[angle].height / 2);
-        ctx.drawImage(this.cashe[angle],this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
+        //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
+        ctx.drawImage(this.cache[angle],this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
 

@@ -10,7 +10,7 @@ class SceneManager {
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.collision = new Collision(game);
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 1, 1,50);
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
 
         this.levelX=0;
         this.levelY=0;
@@ -36,14 +36,14 @@ class SceneManager {
     loadLevel(steve, ravager, level, x, y) {
 
        
-        // Adding the first upper level static art
+        // // Adding the first upper level static art
         this.game.addEntity(new StaticArt(this.game));
 
-        // Adding the first upper level dynamic art
-        this.game.addEntity(new DynamicArt(this.game));
+        // // Adding the first upper level dynamic art
+        // this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
-        //this.game.addEntity(ravager);
+        this.game.addEntity(ravager);
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);

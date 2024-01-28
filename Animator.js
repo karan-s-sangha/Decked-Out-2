@@ -4,25 +4,8 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = this.frameCount * this.frameDuration;
-        this.offscreenCanvas = null;
-    }
-
-    updateElapsedTime(tick) {
-        this.elapsedTime += tick;
-        if (this.isAnimationDone()) {
-            if (this.loop) {
-                this.elapsedTime %= this.totalTime;
-            } else {
-                return true; // Indicate no drawing is needed
-            }
-        }
-        return false; // Indicate drawing is needed
-    }
-
-    getCurrentFrame() {
-        let frame = Math.floor(this.elapsedTime / this.frameDuration);
-        return this.reverse ? this.frameCount - frame - 1 : frame;
-    }
+        this.cache = [0];
+    };
 
     drawFrame(tick, ctx, x, y, scale) {
         if (this.updateElapsedTime(tick)) return;
