@@ -20,7 +20,7 @@ class SceneManager {
         this.artifact = new Artifact(this.game);
         this.compass = new Compass(this.artifact,this.steve, this.game);
         this.ember = new FrostEmbers(this.game);
-        this.gold = new Gold(this.game);
+        //this.gold = new Gold(this.game);
 
 
         this.ui = new UI(this.steve);
@@ -56,7 +56,6 @@ class SceneManager {
         this.game.addEntity(this.artifact);
         //this.game.addEntity(this.gold);
         //Adding the coins 
-
 
         this.game.addEntity(this.ui);
         

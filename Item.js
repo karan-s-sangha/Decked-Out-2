@@ -1,10 +1,10 @@
 class Item {
-    constructor(game, levelOneItems, imagePaths, itemScale) {
+    constructor(game, levelOneLocations, imagePaths) {
         this.itemX = 0;
         this.itemY = 0;
         this.game = game;
-        this.itemScale = itemScale;
-        this.levelOneItems = levelOneItems;
+        this.itemScale = 0.8;
+        this.levelOneLocations = levelOneLocations;
         this.imagePaths = imagePaths;
 
         // Properties for fancy vertical movement
@@ -31,8 +31,8 @@ class Item {
     }
 
     getRandomLocation() {
-        let randomIndex = Math.floor(Math.random() * this.levelOneItems.length);
-        let selected = this.levelOneItems[randomIndex];
+        let randomIndex = Math.floor(Math.random() * this.levelOneLocations.length);
+        let selected = this.levelOneLocations[randomIndex];
         this.itemX = selected[0];
         this.itemY = selected[1];
     }
