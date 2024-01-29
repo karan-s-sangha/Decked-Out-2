@@ -1,5 +1,3 @@
-const LOW_HEALTH = 10; // constant value for palyer health
-
 class Ravager {
     constructor(game, steve,collisions, x, y, walkSpeed, runSpeed,size) {
         this.game = game;
@@ -78,11 +76,9 @@ class Ravager {
            } else {
                this.state = 'running';
                 this.followPlayer();
-               // console.log("running");
            }
         }
         else {
-           // console.log("wonder");
             this.state = 'wandering';
             this.wander();
         }
@@ -141,216 +137,25 @@ class Ravager {
     }
 
     wander() {
-        if(this.wanderMove <= 0) {
-            this.angle = Math.random() * 2 * Math.PI; // Choose a random direction   //45Deg
-            this.wanderMove = Math.floor(Math.random() * 500);                                   //25moves
+        if (this.wanderMove <= 0) {
+            const angleChange = Math.random() * Math.PI - Math.PI / 2; 
+            this.angle += angleChange;
+            this.wanderMove = Math.floor(Math.random() * 1000);
         } else {
-            console.log ("angle " + this.angle);
-            console.log("wander " + this.wanderMove);
-            let newX = this.ravagerX + Math.cos(this.angle) * 0.5;
-            let newY = this.ravagerY + Math.sin(this.angle) * 0.5;
-           
-            if (!this.collisions.isCollision(newX, newY)) {
+            const speed = 0.5 + Math.random() * 0.5; 
+            let newX = this.ravagerX + Math.cos(this.angle) * speed;
+            let newY = this.ravagerY + Math.sin(this.angle) * speed;
+            const lookAheadX = newX + Math.cos(this.angle) * this.size;
+            const lookAheadY = newY + Math.sin(this.angle) * this.size;
+    
+            if (!this.collisions.isCollision(lookAheadX, lookAheadY)) {
                 this.ravagerX = newX;
                 this.ravagerY = newY;
                 this.wanderMove--;
             } else {
-               
                 this.wanderMove = 0;
-                
             }
-           
         }
-        
     }
+    
 }
-
-
-
-
-
-  /*  wander() {
-        console.log("Wandering state entered");
-    
-        // First, update the stuck state for the current frame
-        this.updateStuckState();
-    
-        // Now check if the Ravager is stuck and has no current path
-        console.log("Is Stuck:", this.isStuck(), "Path Length:", this.path.length);
-        if (this.isStuck() && this.path.length === 0) {
-            console.log("Ravager is stuck, choosing new target");
-            let target = this.chooseNewTarget();
-            this.path = this.calculatePath(this.ravagerX, this.ravagerY, target.x, target.y);
-        }
-    
-        // Regardless of whether it's stuck, the Ravager tries to follow the path or wander randomly
-        this.followPath();
-    }
-    
-    
-    chooseNewTarget() {
-        const range = 100; // Adjust the range to your liking
-        const minX = Math.max(this.ravagerX - range, 0); // Ensures the target is within the game area
-        const maxX = Math.min(this.ravagerX + range, 768); // Ensures the target is within the game area
-        const minY = Math.max(this.ravagerY - range, 0); // Ensures the target is within the game area
-        const maxY = Math.min(this.ravagerY + range, 768); // Ensures the target is within the game area
-        console.log("minx" + minX + "maxX " + maxX);
-        return {
-            x: Math.random() * (maxX - minX) + minX,
-            y: Math.random() * (maxY - minY) + minY
-        };
-    }
-
-    isStuck() {
-        const minDistanceMoved = 15;
-        const stuckFramesThreshold = 50;
-        const distanceMoved = this.distance(this.ravagerX, this.ravagerY, this.lastPosition.x, this.lastPosition.y);
-    
-        // Log the distance moved and the stuck counter for debugging
-        console.log(`Distance Moved: ${distanceMoved}, isStuckCounter: ${this.isStuckCounter}`);
-    
-        // The Ravager is considered stuck if it hasn't moved the minimum distance for a certain number of frames
-        return distanceMoved < minDistanceMoved && this.isStuckCounter >= stuckFramesThreshold;
-    }
-    
-    
-
-    updateStuckState() {
-        const minDistanceMoved = 15;
-        const distanceMoved = this.distance(this.ravagerX, this.ravagerY, this.lastPosition.x, this.lastPosition.y);
-    
-        if (distanceMoved < minDistanceMoved) {
-            this.isStuckCounter++;
-        } else {
-            this.isStuckCounter = 0;
-            this.lastPosition = { x: this.ravagerX, y: this.ravagerY };
-        }
-    }
-    
-
-    followPath() {
-        if (this.path.length > 0) {
-            const targetNode = this.path[0];
-            if (this.moveToTargetNode(targetNode)) {
-                this.path.shift(); // Target reached, remove it from the path
-            }
-        } else {
-            this.randomWandering(); // Continue random wandering if no path
-        }
-    }
-
-    randomWandering() {
-        // Adjust random wandering to change direction less frequently
-        if (this.wanderMove <= 0 || this.isStuck()) {
-            this.angle = Math.random() * 2 * Math.PI; // Change direction
-            this.wanderMove = Math.floor(Math.random() * 700); // Adjust move count
-        } else {
-            this.performWanderingMove();
-        }
-        this.wanderMove--;
-    }
-    /*
-    performWanderingMove() {
-        let newX = this.ravagerX + Math.cos(this.angle) * this.walkSpeed;
-        let newY = this.ravagerY + Math.sin(this.angle) * this.walkSpeed;
-        if (!this.collisions.isCollision(newX, newY)) {
-            this.ravagerX = newX;
-            this.ravagerY = newY;
-        }
-    }
-
-    moveToTargetNode(targetNode) {
-        const distanceToTarget = this.distance(this.ravagerX, this.ravagerY, targetNode.x, targetNode.y);
-        if (distanceToTarget <= this.walkSpeed) {
-            // If Ravager is close enough to the target node, snap to it and return true
-            this.ravagerX = targetNode.x;
-            this.ravagerY = targetNode.y;
-            return true; // Target reached
-        } else {
-            // If not close enough, move towards the target node
-            const angleToTarget = Math.atan2(targetNode.y - this.ravagerY, targetNode.x - this.ravagerX);
-            this.ravagerX += Math.cos(angleToTarget) * this.walkSpeed;
-            this.ravagerY += Math.sin(angleToTarget) * this.walkSpeed;
-            return false; // Still moving towards target
-        }
-    }
-    
-
-    distance(x1, y1, x2, y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
-    calculatePath(startX, startY, targetX, targetY) {
-        const openSet = new PriorityQueue((a, b) => a.f - b.f);
-        const openSetMap = new Map();
-        const closedSet = new Set();
-    
-        const startNode = new Node(startX, startY, 0, this.heuristic(startX, startY, targetX, targetY));
-        openSet.enqueue(startNode);
-        openSetMap.set(startNode.toString(), startNode);
-    
-        while (!openSet.isEmpty()) {
-            const currentNode = openSet.dequeue();
-            openSetMap.delete(currentNode.toString());
-    
-            if (currentNode.x === targetX && currentNode.y === targetY) {
-                return this.reconstructPath(currentNode);
-            }
-    
-            closedSet.add(currentNode.toString());
-    
-            this.getNeighbors(currentNode, targetX, targetY).forEach(neighbor => {
-                if (closedSet.has(neighbor.toString())) {
-                    return;
-                }
-    
-                if (!openSetMap.has(neighbor.toString()) || openSetMap.get(neighbor.toString()).g > neighbor.g) {
-                    openSet.enqueue(neighbor);
-                    openSetMap.set(neighbor.toString(), neighbor);
-                }
-            });
-        }
-    
-        return []; // No path found
-    }
-    
-    reconstructPath(node) {
-        const path = [];
-        while (node) {
-            path.unshift({ x: node.x, y: node.y });
-            node = node.parent;
-        }
-        return path;
-    }
-    
-
-    heuristic(x1, y1, x2, y2) {
-        // Manhattan distance
-        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-    }
-
-   
-    getNeighbors(node, targetX, targetY) {
-        const directions = [
-            { dx: 1, dy: 0 },  // Right
-            { dx: -1, dy: 0 }, // Left
-            { dx: 0, dy: 1 },  // Down
-            { dx: 0, dy: -1 }  // Up
-        ];
-    
-        const neighbors = [];
-        directions.forEach(dir => {
-            const newX = node.x + dir.dx;
-            const newY = node.y + dir.dy;
-    
-            if (!this.collisions.isCollision(newX, newY)) {
-                const gCost = node.g + 1;
-                const hCost = this.heuristic(newX, newY, targetX, targetY);
-                neighbors.push(new Node(newX, newY, gCost, hCost, node));
-            }
-        });
-    
-        return neighbors;
-    }
-
-}*/
