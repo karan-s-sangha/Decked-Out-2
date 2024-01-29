@@ -4,21 +4,21 @@ class FrostEmbers {
         this.frostY = 0;
         this.game = game;
         this.levelOneArtifacts = [
-            [210, 160], [236, 316], [322, 580], [260, 888], [436, 919],
-            [428, 1036], [230, 1214], [152, 1434], [346, 1696], [673, 1783],
-            [757, 1625], [990, 1440], [830, 1264], [1126, 1174], [1212, 815],
-            [1100, 555], [788, 524]
+            [669, 1776], [318, 1700], [168, 1466], [228, 1204], [270, 880],
+            [334, 572], [262, 340], [208, 162], [759, 1636], [435, 1032],
+            [446, 938], [980, 1430], [830, 1260], [1138, 1168], [1212, 850],
+            [1080, 536], [792, 526]
         ];
-        this.image = ASSET_MANAGER.cache["./Art/Artifacts/Hoodofawyah.png"];
+        this.image = ASSET_MANAGER.cache["./Art/Currency/Frost-Ember.png"];
 
         // Properties for fancy vertical movement
         this.verticalMovement = 0;
-        this.time = 0; // Time counter for sine wave calculation
+        this.time = Math.random()*10; // Time counter for sine wave calculation
         this.amplitude = 15; // Amplitude of the sine wave (how high it moves)
-        this.frequency = 0.01; // Frequency of the sine wave (how fast it moves)
+        this.frequency = 0.02; // Frequency of the sine wave (how fast it moves)
 
         // Properties for scaling effect
-        this.scale = 1;         // Current scale of the artifact
+        this.scale = Math.random();         // Current scale of the artifact
         this.scaleSpeed = 0.01; // Speed of scaling
         this.minScale = 0;    // Minimum scale (closed)
         this.maxScale = 1;      // Maximum scale (open)

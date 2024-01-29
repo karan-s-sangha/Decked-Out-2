@@ -18,7 +18,10 @@ class SceneManager {
         
         // Checking the Compass and the Artifact
         this.artifact = new Artifact(this.game);
+        this.gold = new Gold(this.game);
         this.compass = new Compass(this.artifact,this.steve, this.game);
+       
+
         this.ui = new UI(this.steve);
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.ravager, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
@@ -50,6 +53,10 @@ class SceneManager {
 
         //Adding the Artifact Entity
         this.game.addEntity(this.artifact);
+        //this.game.addEntity(this.gold);
+        //Adding the coins 
+
+
         this.game.addEntity(this.ui);
         
     };
