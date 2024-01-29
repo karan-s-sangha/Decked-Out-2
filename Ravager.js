@@ -137,24 +137,25 @@ class Ravager {
     }
 
     wander() {
-        if(this.wanderMove <= 0) {
-            this.angle = Math.random() * 2 * Math.PI; 
-            this.wanderMove = Math.floor(Math.random() * 1000);                           
+        if (this.wanderMove <= 0) {
+            const angleChange = Math.random() * Math.PI - Math.PI / 2; 
+            this.angle += angleChange;
+            this.wanderMove = Math.floor(Math.random() * 1000);
         } else {
-            let newX = this.ravagerX + Math.cos(this.angle) * 0.5;
-            let newY = this.ravagerY + Math.sin(this.angle) * 0.5;
-           
-            if (!this.collisions.isCollision(newX, newY)) {
+            const speed = 0.5 + Math.random() * 0.5; 
+            let newX = this.ravagerX + Math.cos(this.angle) * speed;
+            let newY = this.ravagerY + Math.sin(this.angle) * speed;
+            const lookAheadX = newX + Math.cos(this.angle) * this.size;
+            const lookAheadY = newY + Math.sin(this.angle) * this.size;
+    
+            if (!this.collisions.isCollision(lookAheadX, lookAheadY)) {
                 this.ravagerX = newX;
                 this.ravagerY = newY;
                 this.wanderMove--;
             } else {
-               
                 this.wanderMove = 0;
-                
             }
-           
         }
-        
     }
+    
 }
