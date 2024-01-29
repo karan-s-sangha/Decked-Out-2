@@ -41,6 +41,7 @@ class Animator {
         }
 
         let frame = this.currentFrame();
+       // console.log(this.elapsedTime);
         
         if (this.reverse) frame = this.frameCount - frame - 1;
 
