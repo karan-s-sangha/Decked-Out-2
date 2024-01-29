@@ -51,6 +51,7 @@ class Steve {
         if (!this.game.keys.left  && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down){
             this.move = 0;
         }
+       // console.log("steve" + this.playerX + " " +this.playerY);
     };
 
 
