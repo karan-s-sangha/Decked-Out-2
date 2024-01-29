@@ -3,6 +3,7 @@ class Artifact {
         this.artifactX = 0;
         this.artifactY = 0;
         this.game = game;
+        this.artiScale = 0.8;
         this.levelOneArtifacts = [
             [950, 500], [750, 1500], [595, 1624], [372, 1588], [340, 1700],
             [177, 1442], [113, 1156], [126, 784], [1235, 1090], [1058, 980],
@@ -41,17 +42,16 @@ class Artifact {
         };
 
         // Properties for fancy vertical movement
-        // Properties for fancy vertical movement
         this.verticalMovement = 0;
         this.time = Math.random()*10; // Time counter for sine wave calculation
         this.amplitude = 15; // Amplitude of the sine wave (how high it moves)
         this.frequency = 0.02; // Frequency of the sine wave (how fast it moves)
 
         // Properties for scaling effect
-        this.scale = Math.random();         // Current scale of the artifact
         this.scaleSpeed = 0.01; // Speed of scaling
         this.minScale = 0;    // Minimum scale (closed)
         this.maxScale = 1;      // Maximum scale (open)
+        this.scale = Math.random() * this.maxScale;         // Current scale of the artifact
         this.scalingDown = true; // Flag to determine if scaling down or up
   
         this.getRandomArtifact();
@@ -105,16 +105,9 @@ class Artifact {
         ctx.drawImage(this.image, 
             this.artifactX * this.game.GameScale - this.game.camera.cameraX - scaledWidth / 2  , 
             this.artifactY * this.game.GameScale - this.game.camera.cameraY - scaledHeight / 2 + this.verticalMovement  , 
-            scaledWidth, 
-            scaledHeight
+            scaledWidth * this.artiScale, 
+            scaledHeight * this.artiScale
         );   
-       
-        // ctx.drawImage(this.image, 
-        //     400, 
-        //     400, 
-        //     scaledWidth, 
-        //     scaledHeight
-        // ); 
     }
 
     getX() {
