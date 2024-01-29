@@ -8,18 +8,6 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png")
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
 
 // Animation for the Upper Level One
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/water.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/candles.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/enchanttable.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fire.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/firecamp.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/fireinhall.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/lava.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallright.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/smokeinhallleft.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-attacking.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/ravager-walking-running.png");
-// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/mario.png");
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
 
 
@@ -38,11 +26,31 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 ASSET_MANAGER.queueDownload("./Art/Player/health.png");
+
 // Image for the compass
 ASSET_MANAGER.queueDownload("./Art/RedArrow.png");
 
 //Image for the Artifacts
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Axeofthescreaminvoid.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Butchersapron.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Chiselundead.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Deathloop.png");
 ASSET_MANAGER.queueDownload("./Art/Artifacts/Hoodofawyah.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Hornofthegoat.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Hypnoticbandana.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Jarofspeedyslime.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Le_waffle.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Papasslippers.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Pearlofcleansing.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Shadesofthedog.png");
+ASSET_MANAGER.queueDownload("./Art/Artifacts/Tomeofthehills.png");
+
+
+//Image for the Currency
+ASSET_MANAGER.queueDownload("./Art/Currency/Crown.png");
+ASSET_MANAGER.queueDownload("./Art/Currency/Coin.png");
+ASSET_MANAGER.queueDownload("./Art/Currency/Frost-Ember.png");
+
 
 
 // // music
