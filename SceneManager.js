@@ -39,7 +39,7 @@ class SceneManager {
 
     loadLevel(steve, ravager, level, x, y) {
 
-       
+        
         // Adding the first upper level static art
         this.game.addEntity(new StaticArt(this.game));
 
@@ -48,7 +48,7 @@ class SceneManager {
             
         this.game.addEntity(steve);
 
-        this.addRavagers();
+        //this.addRavagers();
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
