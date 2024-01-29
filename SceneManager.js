@@ -33,7 +33,7 @@ class SceneManager {
     
     // loadLevel is supposed to add the entities of the first level
 
-    loadLevel(steve, ravager, level, x, y) {
+    loadLevel(steve, level, x, y) {
 
        
         // Adding the first upper level static art
