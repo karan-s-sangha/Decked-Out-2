@@ -20,6 +20,7 @@ class SceneManager {
         this.artifact = new Artifact(this.game);
         this.compass = new Compass(this.artifact,this.steve, this.game);
         this.ui = new UI(this.steve);
+        
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
