@@ -26,7 +26,7 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 ASSET_MANAGER.queueDownload("./Art/Player/health.png");
-
+ASSET_MANAGER.queueDownload("./Art/Player/hunger.png");
 // Image for the compass
 ASSET_MANAGER.queueDownload("./Art/RedArrow.png");
 
