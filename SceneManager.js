@@ -10,16 +10,21 @@ class SceneManager {
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.collision = new Collision(game);
-       
-       // this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
+        
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
 
         this.levelX=0;
         this.levelY=0;
         this.menuButtonCooldown = 0.15;
         
         // Checking the Compass and the Artifact
-        this.artifact = new Artifact(this.game);
+        this.artifact = new Artifact(this.game, this.steve);
+        this.ember = new FrostEmbers(this.game, this.steve);
+        this.gold = new Gold(this.game, this.steve);
+
         this.compass = new Compass(this.artifact,this.steve, this.game);
+      
+
         this.ui = new UI(this.steve);
         
         
@@ -38,12 +43,12 @@ class SceneManager {
 
     loadLevel(steve, level, x, y) {
 
-       
+        
         // Adding the first upper level static art
         this.game.addEntity(new StaticArt(this.game));
 
         // // Adding the first upper level dynamic art
-        this.game.addEntity(new DynamicArt(this.game));
+       // this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(steve);
 
@@ -52,8 +57,12 @@ class SceneManager {
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
 
-        //Adding the Artifact Entity
+        //Adding All the Item Entity
         this.game.addEntity(this.artifact);
+        this.game.addEntity(this.gold);
+        this.game.addEntity(this.ember);
+
+
         this.game.addEntity(this.ui);
         
     };

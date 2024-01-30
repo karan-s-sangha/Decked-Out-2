@@ -7,8 +7,8 @@ class Compass {
         this.playerY = this.steve.playerY;
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
-        this.artX = artifact.getX()*game.GameScale;
-        this.artY = artifact.getY()*game.GameScale;
+        this.artX = artifact.item.getX();
+        this.artY = artifact.item.getY();
 
         this.cache = [];
 
