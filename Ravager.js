@@ -111,7 +111,7 @@ class Ravager {
 
     followPlayer() {
         // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = this.steve.playerSpeed / 2;
+        const ravagerSpeed = this.steve.playerWalkSpeed * 1.2;
 
         // Calculate the vector from the Ravager to the player
         let dx = this.steve.playerX - this.ravagerX;
