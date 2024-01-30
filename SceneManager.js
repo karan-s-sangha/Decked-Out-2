@@ -4,8 +4,8 @@ class SceneManager {
         this.ctx = game.ctx;
         this.game.camera = this;
         
-        this.steveInitialX = 1732;
-        this.steveInitialY = 772;
+        this.steveInitialX = 1732; 
+        this.steveInitialY = 772;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
