@@ -72,7 +72,25 @@ class Ravager {
         if (this.canSeePlayer() && this.steve.health > 0){
            if (this.shouldAttackPlayer()) {
                this.state = 'attacking'; 
-               this.steve.health -= 0.5;
+               this.steve.health -= 7.5;
+
+               let dx = this.steve.playerX - this.ravagerX;
+               let dy = this.steve.playerY - this.ravagerY;
+           
+               // Normalize the vector
+               let magnitude = Math.sqrt(dx * dx + dy * dy);
+               let dirX = dx / magnitude;
+               let dirY = dy / magnitude;
+           
+               // Move the Ravager towards the player
+               let newX = this.steve.playerX + dirX * 300;
+               let newY = this.steve.playerY + dirY * 300;
+
+               if (!this.collisions.isCollision(newX, newY)) {
+                this.steve.playerX = newX;
+                this.steve.playerY = newY;
+            }
+               
            } else {
                this.state = 'running';
                 this.followPlayer();
@@ -111,7 +129,7 @@ class Ravager {
 
     followPlayer() {
         // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = this.steve.playerSpeed / 2;
+        const ravagerSpeed = this.steve.playerWalkSpeed * 1.2;
 
         // Calculate the vector from the Ravager to the player
         let dx = this.steve.playerX - this.ravagerX;
