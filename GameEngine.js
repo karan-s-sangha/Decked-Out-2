@@ -9,7 +9,7 @@ class GameEngine {
         this.wheel = 0;
         this.keys = { left: false, right: false, up: false, down: false, A: false, B: false, shift: false, space: false };
         this.gamepad = null;
-        this.GameScale = 5;
+        this.GameScale = 4;
         this.fps = 120;
         this.running = false;
        
