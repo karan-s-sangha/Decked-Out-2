@@ -5,7 +5,7 @@ class Steve {
         this.height = 340; 
         this.game = game;
         this.health = 10;
-        this.hunger = 0.5;
+        this.hunger = 10;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -36,7 +36,7 @@ class Steve {
 
 
     update() {
-        if(this.game.keys.shift) {
+        if(this.game.keys.shift && this.hunger >= 3) {
             if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
                 this.move = 1;
                 this.playerX -= this.playerRunSpeed;
@@ -78,6 +78,14 @@ class Steve {
 
         if (!this.game.keys.left  && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down){
             this.move = 0;
+        }
+
+        if(this.hunger >= 9 && this.health < 10) {
+            this.health += 0.5;
+        }
+
+        if(this.health  < 0) {
+            this.health = 0;
         }
        
        // console.log("steve" + this.playerX + " " +this.playerY);
