@@ -12,7 +12,7 @@ class Gold  {
         ]);
     }
     update(){
-        //this.item.getAddItem();
+        this.item.AddItem();
         this.item.update();
     }
     draw(ctx){

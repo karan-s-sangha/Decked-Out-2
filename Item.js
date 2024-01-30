@@ -6,7 +6,7 @@ class Item {
         this.levelOneLocations = levelOneLocations;
         this.imagePaths = imagePaths;
         this.itemLifeTime = 300000; // 5 minutes
-        this.pickupRadius = 36*this.game.GameScale;
+        this.pickupRadius = 72*this.game.GameScale;
 
         this.items = []; // Array to hold multiple items
 
@@ -107,7 +107,8 @@ class Item {
         item.x += (this.steve.playerX - item.x) / moveSpeed; // Move towards Steve X
         item.y += (this.steve.playerY - item.y) / moveSpeed; // Move towards Steve Y
 
-        if (this.steve.playerX - item.x < 6*this.game.GameScale && this.steve.playerY - item.y < 6*this.game.GameScale) {
+        if (  Math.abs(this.steve.playerX - item.x) < 6*this.game.GameScale 
+            && Math.abs(this.steve.playerY - item.y) < 6*this.game.GameScale ) {
             item.pickedUp = true; // Mark as picked up to remove it later
         }
     }
