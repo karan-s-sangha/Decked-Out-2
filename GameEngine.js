@@ -7,9 +7,9 @@ class GameEngine {
         this.mouse = { x: 0, y: 0 };
         this.click = null;
         this.wheel = 0;
-        this.keys = { left: false, right: false, up: false, down: false, A: false, B: false, shift: false };
+        this.keys = { left: false, right: false, up: false, down: false, A: false, B: false, shift: false, space: false };
         this.gamepad = null;
-        this.GameScale = 4;
+        this.GameScale = 5;
         this.fps = 120;
         this.running = false;
        
@@ -57,7 +57,8 @@ class GameEngine {
                 "ArrowDown": 'down', "KeyS": 'down',
                 "KeyZ": 'B', "Comma": 'B',
                 "KeyX": 'A', "Period": 'A',
-                "ShiftLeft": 'shift'
+                "ShiftLeft": 'shift',
+                "Space": 'space'
             };
 
             const keyAction = keyMap[e.code];

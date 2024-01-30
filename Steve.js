@@ -13,6 +13,10 @@ class Steve {
         this.mousex = 0;
         this.mousey = 0;
         this.run = false;
+        this.velocity = { z: 0 };
+        this.elapsedTime = 0;
+        this.jumped = false;
+        this.jumpComplete = true;
 
         this.playerX = playerX;
         this.playerY = playerY;
@@ -36,6 +40,8 @@ class Steve {
 
 
     update() {
+       
+
         if(this.game.keys.shift && this.hunger >= 3) {
             if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
                 this.move = 1;
@@ -80,6 +86,11 @@ class Steve {
             this.move = 0;
         }
 
+        if(this.game.keys.space && !this.jumped) {
+            this.jumped = true;
+            this.jumpComplete = false;
+        }
+
         if(this.hunger >= 9 && this.health < 10) {
             this.health += 0.5;
         }
@@ -87,8 +98,40 @@ class Steve {
         if(this.health  < 0) {
             this.health = 0;
         }
-       
-       // console.log("steve" + this.playerX + " " +this.playerY);
+
+        // if (this.jumped && !this.jumpedComplete && this.scale < 0.25){
+        //     this.scale += this.game.clockTick;
+        //     console.log("1");
+        // } else if(this.jumped && this.scale > 0.2){
+        //     this.jumpComplete = true;
+        //     this.scale -= this.game.clockTick;
+        //     if(this.scale <= 0.2) {
+        //         this.jumped = false;
+        //         this.scale = 0.2;
+        //     }
+        //     console.log("2");
+        // }
+        
+    //    if(this.jumped) {
+
+    //         if(this.game.GameScale > 3.8 && !this.jumpComplete) {
+    //             this.game.GameScale -= this.game.clockTick / 2; 
+    //         } else {
+    //             this.jumpComplete = true;
+    //         }
+
+    //         if(this.game.GameScale < 4 && this.jumpComplete) {
+    //             this.game.GameScale += this.game.clockTick / 2;
+    //         }
+
+    //         if(this.jumpComplete && this.game.GameScale >= 4) {
+    //             this.jumped = false;
+    //         }
+
+            
+
+    //    }
+
     };
 
 
@@ -106,7 +149,7 @@ class Steve {
         This is the reason we had to convert radian into degree. Further explanation can be
         seen from Chris's lecture.
         */
-        if(!this.cache[angle]) {
+    //    if(!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
 
@@ -132,11 +175,11 @@ class Steve {
             // offscreenCtx.strokeStyle="red";
             // offscreenCtx.strokeRect(0,0,offscreenCanvas.width, offscreenCanvas.height);
 
-            this.cache[angle] = offscreenCanvas;
+           // this.cache[angle] = offscreenCanvas;
 
-        }
+    //    }
         //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
-        ctx.drawImage(this.cache[angle],this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
+        ctx.drawImage(offscreenCanvas,this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
 
