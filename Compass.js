@@ -46,7 +46,7 @@ class Compass {
     
 
     drawAngle(ctx, angle, scale) {
-       
+        console.log(this.cache.length);
         if (!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
