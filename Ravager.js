@@ -2,21 +2,20 @@ class Ravager {
     constructor(game, steve,collisions, x, y, walkSpeed, runSpeed,size) {
         this.game = game;
         this.steve = steve;
+
         this.ravagerX = x;
         this.ravagerY = y;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
-        this.size = size;      
+        this.size = 0.25;      
    
         this.loadAnimations();
         this.state = 'wandering';
         this.collisions = collisions;
         this.wanderMove = 0;
         this.angle = Math.random() * 2 * Math.PI;
-
-        this.path = []; // Path for A* pathfinding
-        this.isStuckCounter = 0; // Counter to keep track of stuck state
-        this.lastPosition = { x: this.ravagerX, y: this.ravagerY }; // Last known position for stuck detection
+        this.moveAttemptTimer = 0; // Timer to track movement attempts
+        this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
      }
 
     findAngle() {
@@ -41,6 +40,7 @@ class Ravager {
         let scale = 0.25; 
         let scaleX = this.ravagerX - this.game.camera.cameraX;
         let scaleY = this.ravagerY - this.game.camera.cameraY;
+    
         
         switch(this.state) {
             case 'attacking':
@@ -66,6 +66,7 @@ class Ravager {
         ctx.strokeStyle = "red";
         ctx.strokeRect(scaleX, scaleY, 3, 3);
         ctx.save();
+        
     }
 
     update() {
@@ -103,23 +104,30 @@ class Ravager {
     }
 
     canSeePlayer() {
-        const visibilityDistance = 300; 
+        const visibilityDistance = 300;
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
-        return Math.sqrt(dx * dx + dy * dy) < visibilityDistance;
-    }
-
-    moveTo(targetX, targetY, speed) {
-        const dx = targetX - this.ravagerX;
-        const dy = targetY - this.ravagerY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        this.state = this.steve.isRunning ? 'running' : 'moving';
-
-        if (distance > 0) {
-            this.ravagerX += (dx / distance) * speed;
-            this.ravagerY += (dy / distance) * speed;
+        const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
+    
+        if (distanceToPlayer > visibilityDistance) {
+            return false;
         }
+    
+        // draw a line 
+        const steps = Math.max(Math.abs(dx), Math.abs(dy)); 
+        for (let i = 1; i <= steps; i++) { //want to check every single steps 
+            const checkX = this.ravagerX + (dx / steps) * i;
+            const checkY = this.ravagerY + (dy / steps) * i;
+    
+            if (this.collisions.isCollisionRavager(checkX, checkY, this.size)) {
+                return false; // false if ther is a wall
+            }
+        }
+    
+        return true; // Clear line of sight to the player
     }
+    
+
     shouldAttackPlayer() {
         const attackDistance = 50;
         const dx = this.steve.playerX - this.ravagerX;
@@ -128,32 +136,60 @@ class Ravager {
     }
 
     followPlayer() {
-        // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = this.steve.playerWalkSpeed * 1.2;
-
-        // Calculate the vector from the Ravager to the player
+        const ravagerSpeed = this.steve.playerSpeed / 2;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
     
-        // Normalize the vector
         let magnitude = Math.sqrt(dx * dx + dy * dy);
         let dirX = dx / magnitude;
         let dirY = dy / magnitude;
     
-        // Move the Ravager towards the player
-        let newX = this.ravagerX + dirX * ravagerSpeed;
-        let newY = this.ravagerY + dirY * ravagerSpeed;
-        // Check for boundary and collision before moving
-        if (!this.collisions.isCollision(newX, newY)) {
-            this.ravagerX = newX;
-            this.ravagerY = newY;
-        }
-        else {
-            this.wander();
-            this.state = 'wandering';
+        let nextX = this.ravagerX + dirX * ravagerSpeed;
+        let nextY = this.ravagerY + dirY * ravagerSpeed;
+    
+        if (this.collisions.isCollisionRavager(nextX, nextY, this.size)) { // if there has a collision 
+            this.avoidObstacle(nextX, nextY, this.steve.playerSpeed / 2);
+            this.moveAttemptTimer += this.game.clockTick;
+            if (this.moveAttemptTimer > this.moveAttemptDuration) {
+                // If stuck for more than the duration, switch to wandering behavior
+                this.state = 'wandering';
+                this.wander();
+                this.moveAttemptTimer = 0; // Reset the timer
+            }
+        } else {
+            // If able to move, reset the timer
+            this.ravagerX = nextX;
+            this.ravagerY = nextY;
+            this.moveAttemptTimer = 0;
         }
     }
+    
+    
 
+    avoidObstacle(predictedX, predictedY, speed) {
+        let foundPath = false; // found the path or not for boolean
+        // i will move 10 degrees to see there has a good path to move or not
+        for (let angle = 0; angle <= 2 * Math.PI; angle += Math.PI / 18) { 
+            let newX = this.ravagerX + Math.cos(angle) * speed;
+            let newY = this.ravagerY + Math.sin(angle) * speed;
+    
+            if (!this.collisions.isCollisionRavager(newX, newY, this.size)) {
+                this.ravagerX = newX;
+                this.ravagerY = newY;
+                foundPath = true;
+                break;
+            }
+        }
+    
+        if (!foundPath) {
+            this.state = 'wandering';
+            this.wander();
+        }
+    }
+    
+    
+
+    
     wander() {
         if (this.wanderMove <= 0) {
             const angleChange = Math.random() * Math.PI - Math.PI / 2; 
@@ -166,7 +202,7 @@ class Ravager {
             const lookAheadX = newX + Math.cos(this.angle) * this.size;
             const lookAheadY = newY + Math.sin(this.angle) * this.size;
     
-            if (!this.collisions.isCollision(lookAheadX, lookAheadY)) {
+            if (!this.collisions.isCollisionRavager(lookAheadX, lookAheadY, this.size)) {
                 this.ravagerX = newX;
                 this.ravagerY = newY;
                 this.wanderMove--;

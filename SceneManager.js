@@ -10,7 +10,8 @@ class SceneManager {
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.collision = new Collision(game);
-         this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
+        
+        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
 
         this.levelX=0;
         this.levelY=0;
@@ -25,6 +26,7 @@ class SceneManager {
       
 
         this.ui = new UI(this.steve);
+        
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
@@ -66,35 +68,28 @@ class SceneManager {
     };
 
     addRavagers() {
-        
-       let ravager1 = new Ravager(this.game, this.steve, this.collision, 756, 444, 0.3, 1, 50);
-        let ravager2 = new Ravager(this.game, this.steve, this.collision, 1332, 2348, 0.3, 1, 50);
-        let ravager3 = new Ravager(this.game, this.steve, this.collision, 556, 4572, 0.3, 1, 50);
-        let ravager4 = new Ravager(this.game, this.steve, this.collision, 1468, 6348, 0.3, 1, 50);
-        let ravager5 = new Ravager(this.game, this.steve, this.collision, 4078, 4852, 0.3, 1, 50);
-        let ravager6 = new Ravager(this.game, this.steve, this.collision, 1740, 4252, 0.3, 1, 50);
-        let ravager7 = new Ravager(this.game, this.steve, this.collision, 2460, 2532, 0.3, 1, 50);
-        let ravager8 = new Ravager(this.game, this.steve, this.collision, 4116, 2124, 0.3, 1, 50);
-       let ravager9 = new Ravager(this.game, this.steve, this.collision, 4324, 4884, 0.3, 1, 50);
-       let ravager10 = new Ravager(this.game, this.steve, this.collision, 3972, 1204, 0.3, 1, 50);
-       let ravager11 = new Ravager(this.game, this.steve, this.collision, 444, 2340, 0.3, 1, 50);
-       let ravager12 = new Ravager(this.game, this.steve, this.collision, 3492, 2796, 0.3, 1, 50);
-       let ravager13 = new Ravager(this.game, this.steve, this.collision, 2276, 6060, 0.3, 1, 50);
-
-       this.game.addEntity(ravager1);
-        this.game.addEntity(ravager2);
-        this.game.addEntity(ravager3);
-       this.game.addEntity(ravager4);
-        this.game.addEntity(ravager5);
-        this.game.addEntity(ravager6);
-        this.game.addEntity(ravager7);
-        this.game.addEntity(ravager8);
-        this.game.addEntity(ravager9);
-       this.game.addEntity(ravager10);
-       this.game.addEntity(ravager11);
-       this.game.addEntity(ravager12);
-       this.game.addEntity(ravager13);
+        const ravagerPositions = [
+            { x: 756, y: 444 },
+            { x: 1332, y: 2348 },
+            { x: 556, y: 4572 },
+            { x: 1468, y: 6348 },
+            { x: 4078, y: 4852 },
+            { x: 1740, y: 4252 },
+            { x: 2460, y: 2532 },
+            { x: 4116, y: 2124 },
+            { x: 4324, y: 4884 },
+            { x: 3972, y: 1204 },
+            { x: 444, y: 2340 },
+            { x: 3492, y: 2796 },
+            { x: 2276, y: 6060 }
+        ];
+    
+        ravagerPositions.forEach(pos => {
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, 0.3, 1, 50);
+            this.game.addEntity(ravager);
+        });
     }
+    
 
 
 
