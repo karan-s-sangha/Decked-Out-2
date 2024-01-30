@@ -19,7 +19,7 @@ class Steve {
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
 
-        this.playerSpeed = 8;
+        this.playerSpeed = 24;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
