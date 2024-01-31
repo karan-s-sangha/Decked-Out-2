@@ -1,5 +1,7 @@
 class Steve {
     constructor(game,playerX ,playerY ) {
+        // latest version of steve
+        
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
