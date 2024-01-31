@@ -121,17 +121,30 @@ class SceneManager {
 
             if(this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
                 this.game.GameScale -= this.game.clockTick * 1.5; 
+                this.ravagers.forEach(rav => {
+                    rav.size -= this.game.clockTick * 0.1;
+                });
             } else {
                 this.steve.jumpComplete = true;
             }
 
             if(this.game.GameScale < 4 && this.steve.jumpComplete) {
                 this.game.GameScale += this.game.clockTick * 1.5;
+                this.ravagers.forEach(rav => {
+                    rav.size += this.game.clockTick * 0.1;
+                });
             }
 
             if(this.steve.jumpComplete && this.game.GameScale >= 4) {
                 this.steve.jumped = false;
+                // this.ravagers.forEach(rav => {
+                //     newRavX.push(rav.ravagerX / this.game.GameScale);
+                //     newRavY.push(rav.ravagerY / this.game.GameScale);
+                // });
             }
+
+
+
             this.steve.playerX = x * this.game.GameScale;
             this.steve.playerY = y * this.game.GameScale;      
             
