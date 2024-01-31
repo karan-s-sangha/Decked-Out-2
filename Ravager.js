@@ -118,17 +118,17 @@ class Ravager {
     }
 
     followPlayer() {
-        const ravagerSpeed = this.steve.playerSpeed / 2;
+        const ravagerSpeed = this.steve.playerWalkSpeed * 1.1;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
-    
+
         let magnitude = Math.sqrt(dx * dx + dy * dy);
         let dirX = dx / magnitude;
         let dirY = dy / magnitude;
-    
+
         let nextX = this.ravagerX + dirX * ravagerSpeed;
         let nextY = this.ravagerY + dirY * ravagerSpeed;
-    
+
         if (this.collisions.isCollisionRavager(nextX, nextY, this.size)) { // if there has a collision 
             this.avoidObstacle(nextX, nextY, this.steve.playerSpeed / 2);
             this.moveAttemptTimer += this.game.clockTick;
