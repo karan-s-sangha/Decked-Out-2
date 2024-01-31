@@ -50,8 +50,9 @@ class GameEngine {
         }, false);
 
         const handleKeyboard = (e, isKeyDown) => {
-            e.preventDefault();
             
+            e.preventDefault();
+
             const keyMap = {
                 "ArrowLeft": 'left', "KeyA": 'left',
                 "ArrowRight": 'right', "KeyD": 'right',

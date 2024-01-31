@@ -27,6 +27,9 @@ class Steve {
 
         this.playerRunSpeed = 10;
         this.playerWalkSpeed = 6;
+
+
+        
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -181,7 +184,7 @@ class Steve {
             offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, (offscreenCanvas.width - (this.width * scale)) / 2
                                    ,(offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
             offscreenCtx.restore();
-            offscreenCtx.save();
+            // offscreenCtx.save();
 
             // Debug
             // offscreenCtx.strokeStyle="red";
@@ -260,7 +263,7 @@ class Steve {
 
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-        ctx.save();
+
 
     };
 };
