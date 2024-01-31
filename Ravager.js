@@ -130,7 +130,7 @@ class Ravager {
         let nextY = this.ravagerY + dirY * ravagerSpeed;
 
         if (this.collisions.isCollisionRavager(nextX, nextY, this.size)) { // if there has a collision 
-            this.avoidObstacle(nextX, nextY, this.steve.playerSpeed / 2);
+            this.avoidObstacle(nextX, nextY, this.steve.playerWalkSpeed / 2);
             this.moveAttemptTimer += this.game.clockTick;
             if (this.moveAttemptTimer > this.moveAttemptDuration) {
                 // If stuck for more than the duration, switch to wandering behavior

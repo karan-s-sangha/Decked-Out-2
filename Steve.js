@@ -53,7 +53,40 @@ class Steve {
         if (!this.game.keys.left  && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down){
             this.move = 0;
         }
-       // console.log("steve" + this.playerX + " " +this.playerY);
+
+        if(this.game.keys.space && !this.jumped) {
+            this.jumped = true;
+            this.jumpComplete = false;
+        }
+
+        if(this.hunger >= 9 && this.health < 10) {
+            this.health += 0.5;
+        }
+
+        if(this.health  < 0) {
+            this.health = 0;
+        }
+        
+        // if(this.jumped) {
+        //     let x = this.playerX / this.game.GameScale;
+        //     let y = this.playerY / this.game.GameScale;
+        //     if(this.game.GameScale > 3.6 && !this.jumpComplete) {
+        //         this.game.GameScale -= this.game.clockTick * 1.5; 
+        //     } else {
+        //         this.jumpComplete = true;
+        //     }
+
+        //     if(this.game.GameScale < 4 && this.jumpComplete) {
+        //         this.game.GameScale += this.game.clockTick * 1.5;
+        //     }
+
+        //     if(this.jumpComplete && this.game.GameScale >= 4) {
+        //         this.jumped = false;
+        //     }
+        //     this.playerX = x * this.game.GameScale;
+        //     this.playerY = y * this.game.GameScale;               
+        // }
+
     };
 
 
