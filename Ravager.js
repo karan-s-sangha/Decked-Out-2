@@ -64,7 +64,6 @@ class Ravager {
 
         ctx.strokeStyle = "red";
         ctx.strokeRect(scaleX, scaleY, 3, 3);
-        ctx.save();
         
     }
 
@@ -167,9 +166,6 @@ class Ravager {
             this.wander();
         }
     }
-    
-    
-
     
     wander() {
         if (this.wanderMove <= 0) {
