@@ -35,4 +35,26 @@ class Collision {
             return false; // Return false for out-of-bounds coordinates
         }
     }
+
+    isCollisionRavager(x, y, size) {
+        for (let offsetX = 0; offsetX < size; offsetX++) {
+            for (let offsetY = 0; offsetY < size; offsetY++) {
+                let scaledX = (x + offsetX) / this.game.GameScale;
+                let scaledY = (y + offsetY) / this.game.GameScale;
+    
+                if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
+                    return true;
+                }
+    
+                let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
+                let collisionColor = [116, 29, 50, 255];
+                if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && 
+                    pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
 }
