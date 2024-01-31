@@ -8,7 +8,7 @@ class Ravager {
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.size = 0.25;      
-   
+        
         this.loadAnimations();
         this.state = 'wandering';
         this.collisions = collisions;
@@ -37,7 +37,6 @@ class Ravager {
     }
 
     draw(ctx) {
-        let scale = 0.25; 
         let scaleX = this.ravagerX - this.game.camera.cameraX;
         let scaleY = this.ravagerY - this.game.camera.cameraY;
     
@@ -46,16 +45,16 @@ class Ravager {
             case 'attacking':
                 this.angle = this.findAngle();
                 // Draw attacking animation
-                this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
+                this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, this.size, this.angle + Math.PI/2);
                 break;
             case 'running':
                 this.angle = this.findAngle();
                 // Draw walking/running animation
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, this.size, this.angle + Math.PI/2);
                 break;
             case 'wandering':
                 // Draw wandering animation
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, scale, this.angle + Math.PI/2);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, this.size, this.angle + Math.PI/2);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
