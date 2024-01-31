@@ -27,6 +27,9 @@ class Steve {
 
         this.playerRunSpeed = 10;
         this.playerWalkSpeed = 6;
+
+
+        
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -42,9 +45,31 @@ class Steve {
 
 
     update() {
-       
+              
+        if(this.game.keys.ctrl) {
+            console.log("ctrl");
+        }
+        if(this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
+                this.move = 1;
+                this.playerX -= this.playerRunSpeed + 1;
+                } 
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed, this.playerY)) {
+                    this.move = 1;
+                    this.playerX += this.playerRunSpeed + 1;
+                }
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY -= this.playerRunSpeed + 1;
+                }
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY += this.playerRunSpeed + 1;
+                } 
 
-        if(this.game.keys.shift && this.hunger >= 3) {
+                this.run = true;
+        }
+        else if(this.game.keys.shift && this.hunger >= 3) {
             if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
                 this.move = 1;
                 this.playerX -= this.playerRunSpeed;
@@ -158,7 +183,7 @@ class Steve {
             offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, (offscreenCanvas.width - (this.width * scale)) / 2
                                    ,(offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
             offscreenCtx.restore();
-            offscreenCtx.save();
+            // offscreenCtx.save();
 
             // Debug
             // offscreenCtx.strokeStyle="red";
@@ -237,7 +262,7 @@ class Steve {
 
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-        ctx.save();
+
 
     };
 };
