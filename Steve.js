@@ -43,8 +43,30 @@ class Steve {
 
     update() {
        
+        if(this.game.keys.ctrl) {
+            console.log("ctrl");
+        }
+        if(this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
+                this.move = 1;
+                this.playerX -= this.playerRunSpeed + 1;
+                } 
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed, this.playerY)) {
+                    this.move = 1;
+                    this.playerX += this.playerRunSpeed + 1;
+                }
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY -= this.playerRunSpeed + 1;
+                }
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY += this.playerRunSpeed + 1;
+                } 
 
-        if(this.game.keys.shift && this.hunger >= 3) {
+                this.run = true;
+        }
+        else if(this.game.keys.shift && this.hunger >= 3) {
             if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
                 this.move = 1;
                 this.playerX -= this.playerRunSpeed;
