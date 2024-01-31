@@ -1,5 +1,7 @@
 class Steve {
     constructor(game,playerX ,playerY ) {
+        // latest version of steve
+        
         this.scale = 0.2;
         this.width = 241;
         this.height = 340; 
@@ -34,13 +36,68 @@ class Steve {
 
 
     update() {
-        if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerSpeed, this.playerY)) {
-            this.move = 1;
-            this.playerX -= this.playerSpeed;
-        } 
-        if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerSpeed, this.playerY)) {
-            this.move = 1;
-            this.playerX += this.playerSpeed;
+       
+        if(this.game.keys.ctrl) {
+            console.log("ctrl");
+        }
+        if(this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
+                this.move = 1;
+                this.playerX -= this.playerRunSpeed + 1;
+                } 
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed, this.playerY)) {
+                    this.move = 1;
+                    this.playerX += this.playerRunSpeed + 1;
+                }
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY -= this.playerRunSpeed + 1;
+                }
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY += this.playerRunSpeed + 1;
+                } 
+
+                this.run = true;
+        }
+        else if(this.game.keys.shift && this.hunger >= 3) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
+                this.move = 1;
+                this.playerX -= this.playerRunSpeed;
+                } 
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed, this.playerY)) {
+                    this.move = 1;
+                    this.playerX += this.playerRunSpeed;
+                }
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY -= this.playerRunSpeed;
+                }
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed)) {
+                    this.move = 1;
+                    this.playerY += this.playerRunSpeed;
+                } 
+
+                this.run = true;
+        } else {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerWalkSpeed, this.playerY)) {
+                this.move = 1;
+                this.playerX -= this.playerWalkSpeed;
+            } 
+            if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerWalkSpeed, this.playerY)) {
+                this.move = 1;
+                this.playerX += this.playerWalkSpeed;
+            }
+            if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerWalkSpeed)) {
+                this.move = 1;
+                this.playerY -= this.playerWalkSpeed;
+            }
+            if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerWalkSpeed)) {
+                this.move = 1;
+                this.playerY += this.playerWalkSpeed;
+            } 
+
+            this.run = false;
         }
         if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerSpeed)) {
             this.move = 1;
@@ -53,7 +110,40 @@ class Steve {
         if (!this.game.keys.left  && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down){
             this.move = 0;
         }
-       // console.log("steve" + this.playerX + " " +this.playerY);
+
+        if(this.game.keys.space && !this.jumped) {
+            this.jumped = true;
+            this.jumpComplete = false;
+        }
+
+        if(this.hunger >= 9 && this.health < 10) {
+            this.health += 0.5;
+        }
+
+        if(this.health  < 0) {
+            this.health = 0;
+        }
+        
+        // if(this.jumped) {
+        //     let x = this.playerX / this.game.GameScale;
+        //     let y = this.playerY / this.game.GameScale;
+        //     if(this.game.GameScale > 3.6 && !this.jumpComplete) {
+        //         this.game.GameScale -= this.game.clockTick * 1.5; 
+        //     } else {
+        //         this.jumpComplete = true;
+        //     }
+
+        //     if(this.game.GameScale < 4 && this.jumpComplete) {
+        //         this.game.GameScale += this.game.clockTick * 1.5;
+        //     }
+
+        //     if(this.jumpComplete && this.game.GameScale >= 4) {
+        //         this.jumped = false;
+        //     }
+        //     this.playerX = x * this.game.GameScale;
+        //     this.playerY = y * this.game.GameScale;               
+        // }
+
     };
 
 
