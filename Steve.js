@@ -7,26 +7,21 @@ class Steve {
         this.height = 340; 
         this.game = game;
         this.health = 10;
-        this.hunger = 10;
+        this.hunger = 0.5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
         this.cache = [];
         this.mousex = 0;
         this.mousey = 0;
-        this.run = false;
-        this.velocity = { z: 0 };
-        this.elapsedTime = 0;
-        this.jumped = false;
-        this.jumpComplete = true;
+        
 
         this.playerX = playerX;
         this.playerY = playerY;
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
 
-        this.playerRunSpeed = 10;
-        this.playerWalkSpeed = 6;
+        this.playerSpeed = 8;
         this.collision = new Collision(this.game);
         this.loadAnimations();
     };
@@ -35,8 +30,7 @@ class Steve {
         this.spritesheet = new Image();
         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
-        this.walkingAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.010, 0, false, true);
-        this.runningAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.006, 0, false, true);
+        this.animations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.008, 0, false, true);
     };
 
 
@@ -160,7 +154,7 @@ class Steve {
         This is the reason we had to convert radian into degree. Further explanation can be
         seen from Chris's lecture.
         */
-    //    if(!this.cache[angle]) {
+        if(!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
 
@@ -186,11 +180,11 @@ class Steve {
             // offscreenCtx.strokeStyle="red";
             // offscreenCtx.strokeRect(0,0,offscreenCanvas.width, offscreenCanvas.height);
 
-           // this.cache[angle] = offscreenCanvas;
+            this.cache[angle] = offscreenCanvas;
 
-    //    }
+        }
         //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
-        ctx.drawImage(offscreenCanvas,this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
+        ctx.drawImage(this.cache[angle],this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
 
@@ -238,23 +232,13 @@ class Steve {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
-           if(this.run == true){
-            this.runningAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
-           } else {
-            this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
-           }
-           
+            this.animations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale,angle);
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
             */
            this.drawAngle(ctx, degrees, this.scale);
-           if(this.run = true){
-            this.runningAnimations.elapsedTime = 0;
-           } else {
-            this.walkingAnimations.elapsedTime = 0;
-           }
-           
+           this.animations.elapsedTime = 0;
         }
 
         ctx.strokeStyle = "red";
