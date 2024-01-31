@@ -98,41 +98,26 @@ class Steve {
         if(this.health  < 0) {
             this.health = 0;
         }
-
-        // if (this.jumped && !this.jumpedComplete && this.scale < 0.25){
-        //     this.scale += this.game.clockTick;
-        //     console.log("1");
-        // } else if(this.jumped && this.scale > 0.2){
-        //     this.jumpComplete = true;
-        //     this.scale -= this.game.clockTick;
-        //     if(this.scale <= 0.2) {
-        //         this.jumped = false;
-        //         this.scale = 0.2;
-        //     }
-        //     console.log("2");
-        // }
         
-        if(this.jumped) {
-            let x = this.playerX / this.game.GameScale;
-            let y = this.playerY / this.game.GameScale;
-                if(this.game.GameScale > 3.6 && !this.jumpComplete) {
-                    this.game.GameScale -= this.game.clockTick * 1.5; 
-                } else {
-                    this.jumpComplete = true;
-                }
-    
-                if(this.game.GameScale < 4 && this.jumpComplete) {
-                    this.game.GameScale += this.game.clockTick * 1.5;
-                }
-    
-                if(this.jumpComplete && this.game.GameScale >= 4) {
-                    this.jumped = false;
-                }
-                this.playerX = x * this.game.GameScale;
-                this.playerY = y * this.game.GameScale;
-                
-    
-           }
+        // if(this.jumped) {
+        //     let x = this.playerX / this.game.GameScale;
+        //     let y = this.playerY / this.game.GameScale;
+        //     if(this.game.GameScale > 3.6 && !this.jumpComplete) {
+        //         this.game.GameScale -= this.game.clockTick * 1.5; 
+        //     } else {
+        //         this.jumpComplete = true;
+        //     }
+
+        //     if(this.game.GameScale < 4 && this.jumpComplete) {
+        //         this.game.GameScale += this.game.clockTick * 1.5;
+        //     }
+
+        //     if(this.jumpComplete && this.game.GameScale >= 4) {
+        //         this.jumped = false;
+        //     }
+        //     this.playerX = x * this.game.GameScale;
+        //     this.playerY = y * this.game.GameScale;               
+        // }
 
     };
 

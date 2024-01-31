@@ -11,11 +11,12 @@ class SceneManager {
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.collision = new Collision(game);
         
-        this.ravager = new Ravager (this.game, this.steve, this.collision, 1300, 1100, 0.3, 1,50);
-
+        this.ravagers = [];
+        this.ravagerPositions = [];
         this.levelX=0;
         this.levelY=0;
         this.menuButtonCooldown = 0.15;
+
         
         // Checking the Compass and the Artifact
         this.artifact = new Artifact(this.game, this.steve);
@@ -68,7 +69,7 @@ class SceneManager {
     };
 
     addRavagers() {
-        const ravagerPositions = [
+        this.ravagerPositions = [
             { x: 756, y: 444 },
             { x: 1332, y: 2348 },
             { x: 556, y: 4572 },
@@ -84,9 +85,10 @@ class SceneManager {
             { x: 2276, y: 6060 }
         ];
     
-        ravagerPositions.forEach(pos => {
+        this.ravagerPositions.forEach(pos => {
             let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, 0.3, 1, 50);
             this.game.addEntity(ravager);
+            this.ravagers.push(ravager);
         });
     }
     
@@ -104,9 +106,44 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-       this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
-       this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
-       
+
+        if(this.steve.jumped) {
+            let x = this.steve.playerX / this.game.GameScale;
+            let y = this.steve.playerY / this.game.GameScale;
+            let newRavX = [];
+            let newRavY = [];
+
+            this.ravagers.forEach(rav => {
+                newRavX.push(rav.ravagerX / this.game.GameScale);
+                newRavY.push(rav.ravagerY / this.game.GameScale);
+            });
+
+
+            if(this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
+                this.game.GameScale -= this.game.clockTick * 1.5; 
+            } else {
+                this.steve.jumpComplete = true;
+            }
+
+            if(this.game.GameScale < 4 && this.steve.jumpComplete) {
+                this.game.GameScale += this.game.clockTick * 1.5;
+            }
+
+            if(this.steve.jumpComplete && this.game.GameScale >= 4) {
+                this.steve.jumped = false;
+            }
+            this.steve.playerX = x * this.game.GameScale;
+            this.steve.playerY = y * this.game.GameScale;      
+            
+            for(let i = 0; i < this.ravagers.length; i++) {
+                this.ravagers[i].ravagerX = newRavX[i] * this.game.GameScale;
+                this.ravagers[i].ravagerY = newRavY[i] * this.game.GameScale;
+            }
+
+        }
+        this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
+        this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
+
     };
 
     // This Draw is for the whole website including the HTML 
