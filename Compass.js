@@ -13,7 +13,7 @@ class Compass {
         this.cache = [];
 
         this.image = ASSET_MANAGER.cache["./Art/RedArrow.png"];
-        this.scale = 0.1;
+        this.scale = 0.5;
         this.angleRadians = 0;
         this.angleDegree = 0;
         this.radius = 60;
