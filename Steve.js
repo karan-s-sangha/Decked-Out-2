@@ -29,8 +29,8 @@ class Steve {
         this.playerRunSpeed = 800;
         this.playerWalkSpeed = 600;
 
-
-        this.win = false;
+        this.clank = 0;
+        this.hazard = 0;
         
         this.collision = new Collision(this.game);
         this.loadAnimations();
