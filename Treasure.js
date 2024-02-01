@@ -1,5 +1,5 @@
 
-class Gold  {
+class Treasure  {
     constructor(game, steve) {
         this.item = new Item  (game, steve, [
             [678, 1778], [332, 1700], [172, 1452], [230, 1215], [260, 894],
@@ -12,7 +12,7 @@ class Gold  {
         ]);
     }
     update(){
-        // this.item.AddItem();
+        //this.item.AddItem();
         this.item.update();
     }
     draw(ctx){

@@ -21,7 +21,8 @@ class SceneManager {
         // Checking the Compass and the Artifact
         this.artifact = new Artifact(this.game, this.steve);
         this.ember = new FrostEmbers(this.game, this.steve);
-        this.gold = new Gold(this.game, this.steve);
+        this.treasure = new Treasure(this.game, this.steve);
+        this.cards = new Cards(this.steve);
 
         this.compass = new Compass(this.artifact,this.steve, this.game);
       
@@ -60,11 +61,13 @@ class SceneManager {
 
         //Adding All the Item Entity
         this.game.addEntity(this.artifact);
-        this.game.addEntity(this.gold);
+        this.game.addEntity(this.treasure);
         this.game.addEntity(this.ember);
 
+        //Adding the card entity
+        this.game.addEntity(this.cards);
 
-    //    this.game.addEntity(this.ui);
+        this.game.addEntity(this.ui);
         
     };
 
