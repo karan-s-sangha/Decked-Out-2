@@ -23,8 +23,11 @@ class Steve {
         this.canMove = true;
         this.playerX = playerX;
         this.playerY = playerY;
-        this.screenX = this.game.ctx.canvas.width / 2;
-        this.screenY = this.game.ctx.canvas.height / 2;
+        this.screenX = this.game.ctx.canvas.width/2;
+        this.screenY = this.game.ctx.canvas.height/2;
+
+        this.playerRunSpeed = 10;
+        this.playerWalkSpeed = 6;
 
         this.clank = 0;
         this.hazard = 0;
