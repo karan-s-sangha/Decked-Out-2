@@ -13,12 +13,17 @@ class SceneManager {
         this.artifact = new Artifact(this.game, this.steve);
         this.ember = new FrostEmbers(this.game, this.steve);
         this.treasure = new Treasure(this.game, this.steve);
-        this.cards = new Cards(this.steve);
+        //this.cards = new Cards(this.steve, this.treasure, this.ember);
 
-        this.level = null;
-        this.gameOver = false;
-        this.frontend = new FrontEnd(game, this);
-        this.loadSceneManager(this.level, false);
+        this.compass = new Compass(this.artifact,this.steve, this.game);
+      
+
+        this.ui = new UI(this.steve);
+        
+        
+        //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
+        this.loadLevel();
+        
     };
 
     clearEntities() {
@@ -29,7 +34,7 @@ class SceneManager {
     
     // loadLevel is supposed to add the entities of the first level
 
-    loadLevel(steve, level, x, y) {
+    loadLevel() {
 
         
         // Adding the first upper level static art
@@ -38,7 +43,7 @@ class SceneManager {
         // // Adding the first upper level dynamic art
        this.game.addEntity(new DynamicArt(this.game));
             
-        this.game.addEntity(steve);
+        this.game.addEntity(this.steve);
 
        this.addRavagers();
 
@@ -51,7 +56,7 @@ class SceneManager {
         this.game.addEntity(this.ember);
 
         //Adding the card entity
-        this.game.addEntity(this.cards);
+        //this.game.addEntity(this.cards);
 
         this.game.addEntity(this.ui);
         

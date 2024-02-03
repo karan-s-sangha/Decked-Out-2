@@ -10,10 +10,12 @@ class FrostEmbers  {
         ]);
     }
     update(){
-        //this.item.getAddItem();
         this.item.update();
     }
     draw(ctx){
         this.item.draw(ctx);
+    }
+    addItem(){
+        this.item.AddItem();
     }
 }

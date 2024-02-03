@@ -18,4 +18,7 @@ class Treasure  {
     draw(ctx){
         this.item.draw(ctx);
     }
+    addItem(){
+        this.item.AddItem();
+    }
 }
