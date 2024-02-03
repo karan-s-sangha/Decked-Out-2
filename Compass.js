@@ -7,13 +7,13 @@ class Compass {
         this.playerY = this.steve.playerY;
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
-        this.artX = artifact.getX()*game.GameScale;
-        this.artY = artifact.getY()*game.GameScale;
+        this.artX = artifact.item.getX();
+        this.artY = artifact.item.getY();
 
         this.cache = [];
 
         this.image = ASSET_MANAGER.cache["./Art/RedArrow.png"];
-        this.scale = 0.1;
+        this.scale = 0.5;
         this.angleRadians = 0;
         this.angleDegree = 0;
         this.radius = 60;
@@ -46,7 +46,7 @@ class Compass {
     
 
     drawAngle(ctx, angle, scale) {
-       
+        console.log(this.cache.length);
         if (!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');

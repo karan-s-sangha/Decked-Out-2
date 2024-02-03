@@ -1,107 +1,129 @@
 class Item {
-    constructor(game, levelOneLocations, imagePaths) {
-        this.itemX = 0;
-        this.itemY = 0;
+    constructor(game, steve, levelOneLocations, imagePaths) {
         this.game = game;
-        this.itemScale = 0.8;
+        this.steve = steve;
+        this.itemSize = 0.8;
         this.levelOneLocations = levelOneLocations;
         this.imagePaths = imagePaths;
+        this.itemLifeTime = 300000; // 5 minutes
+        this.pickupRadius = 72*this.game.GameScale;
+
+        this.items = []; // Array to hold multiple items
 
         // Properties for fancy vertical movement
         this.verticalMovement = 0;
-        this.time = Math.random() * 10;
         this.amplitude = 15;
-        this.frequency = 0.02;
+        this.frequency = 0.04;
 
         // Properties for scaling effect
-        this.scaleSpeed = 0.01;
-        this.minScale = 0;
-        this.maxScale = 1;
-        this.scale = Math.random() * this.maxScale;
-        this.scalingDown = true;
+        this.morfSpeed = 0.03;
+        this.minMorf = 0;
+        this.maxMorf = 1;
+        this.morf = Math.random() * this.maxMorf;
+        this.morfingDown = true;
 
-        this.getRandomItem();
-        this.getRandomLocation();
+        this.AddItem();
     }
 
-    getRandomItem() {
+    getImage() { // Gets A Random Picture
         let randomIndex = Math.floor(Math.random() * this.imagePaths.length);
         let selectedImagePath = this.imagePaths[randomIndex];
-        this.image = ASSET_MANAGER.cache[selectedImagePath];
+        return ASSET_MANAGER.cache[selectedImagePath];
     }
 
-    getRandomLocation() {
+    AddItem() { // Gets A Random Location
         let randomIndex = Math.floor(Math.random() * this.levelOneLocations.length);
         let selected = this.levelOneLocations[randomIndex];
-        this.itemX = selected[0];
-        this.itemY = selected[1];
+        let x = selected[0] * this.game.GameScale;
+        let y = selected[1] * this.game.GameScale;
+
+        let image = this.getImage();
+
+        this.items.push({
+            x: x,
+            y: y,
+            verticalTime: Math.random() * 10,
+            pickedUp: false,
+            morf: this.morf,
+            morfingDown : this.morfingDown,
+            image: image,
+            creationTime: Date.now()
+        });
     }
 
     update() {
-        this.time += this.frequency;
-        this.verticalMovement = Math.sin(this.time) * this.amplitude;
+        this.items.forEach(item => {
+            const distance = this.calculateDistance(item.x, item.y, this.steve.playerX, this.steve.playerY);
+            if (distance < this.pickupRadius) {
+                this.animateItemTowardsSteve(item);
+            }
+            // Scaling effect for each item
+            if (item.morfingDown) {
+               if (item.morf > this.minMorf) {
+                    item.morf -= this.morfSpeed;
+               } else {
+                    item.morfingDown = false;
+               }
+            } else {
+                if (item.morf < this.maxMorf) {
+                    item.morf += this.morfSpeed;
+                } else {
+                    item.morfingDown = true;
+              }
+            }
+        });
 
-        if (this.scalingDown) {
-            if (this.scale > this.minScale) {
-                this.scale -= this.scaleSpeed;
-            } else {
-                this.scalingDown = false;
-            }
-        } else {
-            if (this.scale < this.maxScale) {
-                this.scale += this.scaleSpeed;
-            } else {
-                this.scalingDown = true;
-            }
-        }
+
+        // Remove items that have been picked up or expired
+        this.items = this.items.filter(item => {
+            const age = Date.now() - item.creationTime;
+            return age < this.itemLifeTime && !item.pickedUp;
+        });
     }
 
     draw(ctx) {
-        if (!this.image) return;
+        this.items.forEach(item => {
+            let image = item.image;
+            if (!image) return;
 
-        var scaledWidth = this.image.width * this.scale;
-        var scaledHeight = this.image.height;
+            item.verticalTime += this.frequency;
+            this.verticalMovement = Math.sin(item.verticalTime) * this.amplitude;
 
-        ctx.drawImage(this.image,
-            this.itemX * this.game.GameScale - this.game.camera.cameraX - scaledWidth / 2,
-            this.itemY * this.game.GameScale - this.game.camera.cameraY - scaledHeight / 2 + this.verticalMovement,
-            scaledWidth * this.itemScale,
-            scaledHeight * this.itemScale
-        );
+            let morfedWidth = image.width * this.itemSize * item.morf;
+            let morfedHeight = image.height * this.itemSize;
+
+            ctx.drawImage(image,
+                item.x - this.game.camera.cameraX - morfedWidth / 2,
+                item.y - this.game.camera.cameraY - morfedHeight / 2 + this.verticalMovement,
+                morfedWidth,
+                morfedHeight
+            );
+        });
+    }
+
+    animateItemTowardsSteve(item) {
+        const moveSpeed = 50;
+
+        item.x += (this.steve.playerX - item.x) / moveSpeed; // Move towards Steve X
+        item.y += (this.steve.playerY - item.y) / moveSpeed; // Move towards Steve Y
+
+        if (  Math.abs(this.steve.playerX - item.x) < 6*this.game.GameScale 
+            && Math.abs(this.steve.playerY - item.y) < 6*this.game.GameScale ) {
+            item.pickedUp = true; // Mark as picked up to remove it later
+        }
+    }
+
+    calculateDistance(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     getX() {
-        return this.itemX;
+        let x = this.items.map(item => item.x)[0]; 
+        return x;
     }
 
     getY() {
-        return this.itemY;
+        let y = this.items.map(item => item.y)[0]; 
+        return y;
     }
 }
-
-// class Gold extends Item {
-//     constructor(game) {
-//         super(game, [
-//             [678, 1778], [332, 1700], [172, 1452], [230, 1215], [260, 894],
-//             [352, 578], [254, 332], [196, 170], [761, 1620], [426, 1030],
-//             [438, 932], [970, 1420], [836, 1251], [1130, 1166], [1206, 844],
-//             [1070, 530], [788, 512]
-//         ], [
-//             "./Art/Currency/Coin.png",
-//             "./Art/Currency/Crown.png",
-//         ], 0.8);
-//     }
-// }
-
-// class FrostEmbers extends Item {
-//     constructor(game) {
-//         super(game, [
-//             [669, 1776], [318, 1700], [168, 1466], [228, 1204], [270, 880],
-//             [334, 572], [262, 340], [208, 162], [759, 1636], [435, 1032],
-//             [446, 938], [980, 1430], [830, 1260], [1138, 1168], [1212, 850],
-//             [1080, 536], [792, 526]
-//         ], [
-//             "./Art/Currency/Frost-Ember.png",
-//         ], 0.8);
-//     }
-// }

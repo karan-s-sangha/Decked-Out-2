@@ -27,6 +27,8 @@ class Animator {
             this.width * scale,
             this.height * scale);
 
+            
+
            // console.log("Drawing frame at:", this.xStart, x, y, "with frame index:", this.width * scale , this.height * scale, frame);
 
     };
