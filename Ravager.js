@@ -9,6 +9,12 @@ class Ravager {
         this.runSpeed = runSpeed;
         this.size = 0.25;      
         
+        this.attack = false;
+        this.push = 300;
+
+        this.dx = 0;
+        this.dy = 0;
+
         this.loadAnimations();
         this.state = 'wandering';
         this.collisions = collisions;
@@ -72,6 +78,25 @@ class Ravager {
            if (this.shouldAttackPlayer()) {
                this.state = 'attacking'; 
                this.steve.health -= 0.5;
+
+               let dx = this.steve.playerX - this.ravagerX;
+               let dy = this.steve.playerY - this.ravagerY;
+           
+               // Normalize the vector
+               let magnitude = Math.sqrt(dx * dx + dy * dy);
+               let dirX = dx / magnitude;
+               let dirY = dy / magnitude;
+           
+               // Move the Ravager towards the player
+               let newX = this.steve.playerX + dirX * 40;
+               let newY = this.steve.playerY + dirY * 40;
+
+               this.state = 'wandering';
+               if (!this.collisions.isCollision(newX, newY)) {
+                this.steve.playerX = newX;
+                this.steve.playerY = newY;
+            }
+               this.attack = true;
            } else {
                this.state = 'running';
                 this.followPlayer();
@@ -81,6 +106,33 @@ class Ravager {
             this.state = 'wandering';
             this.wander();
         }
+
+        // if(this.attack && this.push <= 0) {
+        //     this.dx = this.steve.playerX - this.ravagerX;
+        //     this.dy = this.steve.playerY - this.ravagerY;
+        //     this.push = 300;
+           
+        // } else if (this.attack && this.push > 0) {
+        //      // Normalize the vector
+        //      let magnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+        //      let dirX = this.dx / magnitude;
+        //      let dirY = this.dy / magnitude;
+         
+        //      // Move the Ravager towards the player
+        //      let newX = this.steve.playerX + dirX * 20;
+        //      let newY = this.steve.playerY + dirY * 20;
+        //      if (!this.collisions.isCollision(newX, newY)) {
+        //       this.steve.playerX = newX;
+        //       this.steve.playerY = newY;
+        //       this.push -= 20;
+        //     } else {
+        //         this.attack = false;
+        //         this.push = 300;
+        //     }
+        // }
+
+
+
     }
 
     canSeePlayer() {
