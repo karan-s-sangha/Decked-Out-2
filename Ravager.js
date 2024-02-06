@@ -168,7 +168,7 @@ class Ravager {
     }
 
     followPlayer() {
-        const ravagerSpeed = this.steve.playerWalkSpeed * 1.1;
+        const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
 
@@ -176,8 +176,8 @@ class Ravager {
         let dirX = dx / magnitude;
         let dirY = dy / magnitude;
 
-        let nextX = this.ravagerX + dirX * ravagerSpeed;
-        let nextY = this.ravagerY + dirY * ravagerSpeed;
+        let nextX = this.ravagerX + dirX * ravagerSpeed * this.game.clockTick;
+        let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
 
         if (this.collisions.isCollisionRavager(nextX, nextY, this.size)) { // if there has a collision 
             this.avoidObstacle(nextX, nextY, this.steve.playerWalkSpeed / 2);
@@ -202,8 +202,8 @@ class Ravager {
         let foundPath = false; // found the path or not for boolean
         // i will move 10 degrees to see there has a good path to move or not
         for (let angle = 0; angle <= 2 * Math.PI; angle += Math.PI / 18) { 
-            let newX = this.ravagerX + Math.cos(angle) * speed;
-            let newY = this.ravagerY + Math.sin(angle) * speed;
+            let newX = this.ravagerX + Math.cos(angle) * speed * this.game.clockTick;
+            let newY = this.ravagerY + Math.sin(angle) * speed * this.game.clockTick;
     
             if (!this.collisions.isCollisionRavager(newX, newY, this.size)) {
                 this.ravagerX = newX;
@@ -228,9 +228,9 @@ class Ravager {
             this.angle += angleChange;
             this.wanderMove = Math.floor(Math.random() * 1000);
         } else {
-            const speed = 0.5 + Math.random() * 0.5; 
-            let newX = this.ravagerX + Math.cos(this.angle) * speed;
-            let newY = this.ravagerY + Math.sin(this.angle) * speed;
+            const speed = 75 + Math.random() * 0.5; 
+            let newX = this.ravagerX + Math.cos(this.angle) * speed * this.game.clockTick;
+            let newY = this.ravagerY + Math.sin(this.angle) * speed * this.game.clockTick;
             const lookAheadX = newX + Math.cos(this.angle) * this.size;
             const lookAheadY = newY + Math.sin(this.angle) * this.size;
     

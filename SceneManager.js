@@ -64,7 +64,7 @@ class SceneManager {
         this.game.addEntity(this.ember);
 
 
-    //    this.game.addEntity(this.ui);
+       this.game.addEntity(this.ui);
         
     };
 

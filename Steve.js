@@ -25,8 +25,8 @@ class Steve {
         this.screenX = this.game.ctx.canvas.width/2;
         this.screenY = this.game.ctx.canvas.height/2;
 
-        this.playerRunSpeed = 10;
-        this.playerWalkSpeed = 6;
+        this.playerRunSpeed = 800;
+        this.playerWalkSpeed = 600;
 
 
         
@@ -50,60 +50,61 @@ class Steve {
             console.log("ctrl");
         }
         if(this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
-            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY)) {
                 this.move = 1;
-                this.playerX -= this.playerRunSpeed + 1;
+                this.playerX -= this.playerRunSpeed * this.game.clockTick;
                 } 
-                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed, this.playerY)) {
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY)) {
                     this.move = 1;
-                    this.playerX += this.playerRunSpeed + 1;
+                    this.playerX += this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed)) {
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick)) {
                     this.move = 1;
-                    this.playerY -= this.playerRunSpeed + 1;
+                    this.playerY -= this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed)) {
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick)) {
                     this.move = 1;
-                    this.playerY += this.playerRunSpeed + 1;
+                    this.playerY += this.playerRunSpeed * this.game.clockTick;
                 } 
 
                 this.run = true;
         }
         else if(this.game.keys.shift && this.hunger >= 3) {
-            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed, this.playerY)) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY)) {
                 this.move = 1;
-                this.playerX -= this.playerRunSpeed;
+                this.playerX -= this.playerRunSpeed * this.game.clockTick;
                 } 
-                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed, this.playerY)) {
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY)) {
                     this.move = 1;
-                    this.playerX += this.playerRunSpeed;
+                    this.playerX += this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed)) {
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick)) {
                     this.move = 1;
-                    this.playerY -= this.playerRunSpeed;
+                    this.playerY -= this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed)) {
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick)) {
                     this.move = 1;
-                    this.playerY += this.playerRunSpeed;
+                    this.playerY += this.playerRunSpeed * this.game.clockTick;
                 } 
 
                 this.run = true;
         } else {
-            if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerWalkSpeed, this.playerY)) {
+            if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
                 this.move = 1;
-                this.playerX -= this.playerWalkSpeed;
+                this.playerX -= this.playerWalkSpeed * this.game.clockTick;
+                //console.log((this.game.clockTick));
             } 
-            if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerWalkSpeed, this.playerY)) {
+            if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
                 this.move = 1;
-                this.playerX += this.playerWalkSpeed;
+                this.playerX += this.playerWalkSpeed * this.game.clockTick;
             }
-            if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerWalkSpeed)) {
+            if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick))) {
                 this.move = 1;
-                this.playerY -= this.playerWalkSpeed;
+                this.playerY -= this.playerWalkSpeed * this.game.clockTick;
             }
-            if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerWalkSpeed)) {
+            if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick))) {
                 this.move = 1;
-                this.playerY += this.playerWalkSpeed;
+                this.playerY += this.playerWalkSpeed * this.game.clockTick;
             } 
 
             this.run = false;
