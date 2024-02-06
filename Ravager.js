@@ -12,6 +12,9 @@ class Ravager {
         this.attack = false;
         this.push = 300;
 
+
+        this.hasPushed = false;
+        
         this.dx = 0;
         this.dy = 0;
 
@@ -79,24 +82,11 @@ class Ravager {
                this.state = 'attacking'; 
                this.steve.health -= 0.5;
 
-               let dx = this.steve.playerX - this.ravagerX;
-               let dy = this.steve.playerY - this.ravagerY;
-           
-               // Normalize the vector
-               let magnitude = Math.sqrt(dx * dx + dy * dy);
-               let dirX = dx / magnitude;
-               let dirY = dy / magnitude;
-           
-               // Move the Ravager towards the player
-               let newX = this.steve.playerX + dirX * 40;
-               let newY = this.steve.playerY + dirY * 40;
 
-               this.state = 'wandering';
-               if (!this.collisions.isCollision(newX, newY)) {
-                this.steve.playerX = newX;
-                this.steve.playerY = newY;
-            }
+               this.hasPushed = true;
+               
                this.attack = true;
+               this.state = 'wandering';
            } else {
                this.state = 'running';
                 this.followPlayer();
@@ -105,6 +95,33 @@ class Ravager {
         else {
             this.state = 'wandering';
             this.wander();
+        }
+
+        if(this.hasPushed) {
+            if(this.push > 0){
+            let dx = this.steve.playerX - this.ravagerX;
+            let dy = this.steve.playerY - this.ravagerY;
+        
+            // Normalize the vector
+            let magnitude = Math.sqrt(dx * dx + dy * dy);
+            let dirX = dx / magnitude;
+            let dirY = dy / magnitude;
+        
+            // Move the Ravager towards the player
+            let newX = this.steve.playerX + dirX * 8000 * this.game.clockTick;
+            let newY = this.steve.playerY + dirY * 8000 * this.game.clockTick;
+
+            if (!this.collisions.isCollision(newX, newY)) {
+                this.steve.playerX = newX;
+                this.steve.playerY = newY;
+                this.push -= 12;
+
+            } else {
+                this.push = 0;
+            }
+        }
+            this.hasPushed = false;
+            this.push = 300;
         }
 
         // if(this.attack && this.push <= 0) {
