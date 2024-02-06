@@ -83,11 +83,11 @@ class Ravager {
                 this.state = 'attacking';
                 this.steve.health -= 0.5;
 
-                this.attackCoolDown =  1;
+                this.attackCoolDown =  3;
 
                 this.attack = true;
                 console.log("run");
-            } else {
+            } else if(this.attackCoolDown <= 0) {
                 this.state = 'running';
                 this.followPlayer();
             }
@@ -109,8 +109,8 @@ class Ravager {
                 let dirY = dy / magnitude;
 
                 // Move the Ravager towards the player
-                let newX = this.steve.playerX + dirX * 8000 * this.game.clockTick;
-                let newY = this.steve.playerY + dirY * 8000 * this.game.clockTick;
+                let newX = this.steve.playerX + dirX * 700 * this.game.clockTick;
+                let newY = this.steve.playerY + dirY * 700 * this.game.clockTick;
 
                 if (!this.collisions.isCollision(newX, newY)) {
                     this.steve.playerX = newX;
@@ -121,10 +121,14 @@ class Ravager {
                     this.push = 0;
                 }
                 this.attackCoolDown -= this.game.clockTick;
+            } else {
+
+                ////////// Issue goes here //////////
+                this.attack = false;
+                this.push = 300;
+                this.attackCoolDown = 10;
             }
-            this.attack = false;
-            this.push = 300;
-            this.attackCoolDown = 0;
+            
         }
 
         // if(this.attack && this.push <= 0) {
