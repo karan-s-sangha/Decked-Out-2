@@ -7,11 +7,13 @@ class GameEngine {
         this.mouse = { x: 0, y: 0 };
         this.click = null;
         this.wheel = 0;
-        this.keys = { left: false, right: false, up: false, down: false, A: false, B: false, shift: false, space: false };
+        this.keys = { left: false, right: false, up: false, down: false, A: false, B: false, shift: false, space: false, ctrl: false };
         this.gamepad = null;
         this.GameScale = 4;
         this.fps = 120;
         this.running = false;
+        this.onMouseMove = null;
+        this.onClick = null;
        
     };
 
@@ -42,14 +44,29 @@ class GameEngine {
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
 
-        this.ctx.canvas.addEventListener("mousemove", e => this.mouse = getXandY(e), false);
-        this.ctx.canvas.addEventListener("click", e => this.click = getXandY(e), false);
+        this.ctx.canvas.addEventListener("mousemove", e => {
+            const pos = getXandY(e);
+            if (this.onMouseMove) {
+                this.onMouseMove(pos);
+            }
+        }, false);
+
+        this.ctx.canvas.addEventListener("click", e => {
+            const pos = getXandY(e);
+            if (this.onClick) {
+                this.onClick(pos);
+            }
+        }, false);
+        
         this.ctx.canvas.addEventListener("wheel", e => {
             e.preventDefault();
             this.wheel = e.deltaY;
         }, false);
 
         const handleKeyboard = (e, isKeyDown) => {
+            
+            e.preventDefault();
+
             const keyMap = {
                 "ArrowLeft": 'left', "KeyA": 'left',
                 "ArrowRight": 'right', "KeyD": 'right',
@@ -58,7 +75,8 @@ class GameEngine {
                 "KeyZ": 'B', "Comma": 'B',
                 "KeyX": 'A', "Period": 'A',
                 "ShiftLeft": 'shift',
-                "Space": 'space'
+                "Space": 'space',
+                "ControlLeft": 'ctrl'
             };
 
             const keyAction = keyMap[e.code];
