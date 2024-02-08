@@ -137,10 +137,6 @@ class SceneManager {
 
             if(this.steve.jumpComplete && this.game.GameScale >= 4) {
                 this.steve.jumped = false;
-                // this.ravagers.forEach(rav => {
-                //     newRavX.push(rav.ravagerX / this.game.GameScale);
-                //     newRavY.push(rav.ravagerY / this.game.GameScale);
-                // });
             }
 
 

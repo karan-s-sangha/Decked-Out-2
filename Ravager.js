@@ -81,11 +81,12 @@ class Ravager {
         if (this.canSeePlayer() && this.steve.health > 0 && this.attackCoolDown <= 0) {
             if (this.shouldAttackPlayer()) {
                 this.state = 'attacking';
-                this.steve.health -= 0.5;
+                this.steve.health -= 7.5;
 
-                this.attackCoolDown =  3;
+                this.attackCoolDown =  0.5;
 
                 this.attack = true;
+                this.steve.canMove = false;
                 console.log("run");
             } else if(this.attackCoolDown <= 0) {
                 this.state = 'running';
@@ -112,6 +113,8 @@ class Ravager {
                 let newX = this.steve.playerX + dirX * 700 * this.game.clockTick;
                 let newY = this.steve.playerY + dirY * 700 * this.game.clockTick;
 
+                this.steve.jumped = true;
+                this.steve.jumpComplete = false;
                 if (!this.collisions.isCollision(newX, newY)) {
                     this.steve.playerX = newX;
                     this.steve.playerY = newY;
@@ -120,42 +123,22 @@ class Ravager {
                 } else {
                     this.push = 0;
                 }
-                this.attackCoolDown -= this.game.clockTick;
+                
             } else {
-
                 ////////// Issue goes here //////////
                 this.attack = false;
                 this.push = 300;
-                this.attackCoolDown = 10;
+                this.steve.canMove = true;
+                
+                //this.attackCoolDown = 0;
             }
             
         }
-
-        // if(this.attack && this.push <= 0) {
-        //     this.dx = this.steve.playerX - this.ravagerX;
-        //     this.dy = this.steve.playerY - this.ravagerY;
-        //     this.push = 300;
-
-        // } else if (this.attack && this.push > 0) {
-        //      // Normalize the vector
-        //      let magnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
-        //      let dirX = this.dx / magnitude;
-        //      let dirY = this.dy / magnitude;
-
-        //      // Move the Ravager towards the player
-        //      let newX = this.steve.playerX + dirX * 20;
-        //      let newY = this.steve.playerY + dirY * 20;
-        //      if (!this.collisions.isCollision(newX, newY)) {
-        //       this.steve.playerX = newX;
-        //       this.steve.playerY = newY;
-        //       this.push -= 20;
-        //     } else {
-        //         this.attack = false;
-        //         this.push = 300;
-        //     }
-        // }
-
-
+        if(this.attackCoolDown > 0) {
+            this.attackCoolDown -= this.game.clockTick;
+        } else {
+            this.attackCoolDown = 0;
+        }
 
     }
 
