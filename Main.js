@@ -27,7 +27,6 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 ASSET_MANAGER.queueDownload("./Art/Player/health.png");
 ASSET_MANAGER.queueDownload("./Art/Player/hunger.png");
-//ASSET_MANAGER.queueDownload("./Art/Player/ex.png");
 // Image for the compass
 ASSET_MANAGER.queueDownload("./Art/RedArrow.png");
 
@@ -82,15 +81,11 @@ ASSET_MANAGER.downloadAll(function () {
 	ctx.imageSmoothingEnabled = false;
 	
 
-	//PARAMS.CANVAS_WIDTH = canvas.width;
-	//PARAMS.CANVAS_HEIGHT = canvas.height;
+	PARAMS.CANVAS_WIDTH = canvas.width;
+	PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-	var sceneManager = new SceneManager(gameEngine);
-
-    // Use the instance to call switchScene
-    sceneManager.switchScene('frontEnd', new FrontEnd(gameEngine, sceneManager));
-
+	new SceneManager(gameEngine);
 
 	gameEngine.start();
 });
