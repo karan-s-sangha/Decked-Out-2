@@ -116,6 +116,7 @@ class Ravager {
                 this.steve.jumped = true;
                 this.steve.jumpComplete = false;
                 if (!this.collisions.isCollision(newX, newY)) {
+                    // this.steve.p
                     this.steve.playerX = newX;
                     this.steve.playerY = newY;
                     this.push -= 12;
@@ -125,12 +126,9 @@ class Ravager {
                 }
                 
             } else {
-                ////////// Issue goes here //////////
                 this.attack = false;
                 this.push = 300;
-                this.steve.canMove = true;
-                
-                //this.attackCoolDown = 0;
+                this.steve.canMove = true;         
             }
             
         }

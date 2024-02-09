@@ -43,7 +43,12 @@ class Steve {
         this.runningAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.006, 0, false, true);
     };
 
-
+    move(x, y) {
+        console.log("lol");
+        this.playerX = x;
+        this.playerY = y;
+        this.move = true;
+    }
 
     update() {
         console.log(this.canMove);
@@ -201,6 +206,8 @@ class Steve {
         ctx.drawImage(offscreenCanvas, this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
+
+
 
     draw(ctx) {
         /* 
