@@ -12,6 +12,8 @@ class GameEngine {
         this.GameScale = 4;
         this.fps = 120;
         this.running = false;
+        this.onMouseMove = null;
+        this.onClick = null;
        
     };
 
@@ -42,8 +44,20 @@ class GameEngine {
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
 
-        this.ctx.canvas.addEventListener("mousemove", e => this.mouse = getXandY(e), false);
-        this.ctx.canvas.addEventListener("click", e => this.click = getXandY(e), false);
+        this.ctx.canvas.addEventListener("mousemove", e => {
+            const pos = getXandY(e);
+            if (this.onMouseMove) {
+                this.onMouseMove(pos);
+            }
+        }, false);
+
+        this.ctx.canvas.addEventListener("click", e => {
+            const pos = getXandY(e);
+            if (this.onClick) {
+                this.onClick(pos);
+            }
+        }, false);
+        
         this.ctx.canvas.addEventListener("wheel", e => {
             e.preventDefault();
             this.wheel = e.deltaY;

@@ -2,6 +2,15 @@ class SceneManager {
     constructor(game) {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
+
+        this.currentScene = null;
+        // Set callbacks
+        this.game.onMouseMove = this.handleMouseMove.bind(this);
+        this.game.onClick = this.handleClick.bind(this);
+
+
+
+
         this.game.camera = this;
         
         this.steveInitialX = 1732; 
@@ -21,7 +30,8 @@ class SceneManager {
         // Checking the Compass and the Artifact
         this.artifact = new Artifact(this.game, this.steve);
         this.ember = new FrostEmbers(this.game, this.steve);
-        this.gold = new Gold(this.game, this.steve);
+        
+        //this.cards = new Cards(this.steve, this.treasure, this.ember);
 
         this.compass = new Compass(this.artifact,this.steve, this.game);
       
@@ -30,7 +40,7 @@ class SceneManager {
         
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
-        this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
+        this.loadLevel();
         
     };
 
@@ -42,7 +52,7 @@ class SceneManager {
     
     // loadLevel is supposed to add the entities of the first level
 
-    loadLevel(steve, level, x, y) {
+    loadLevel() {
 
         
         // Adding the first upper level static art
@@ -51,7 +61,7 @@ class SceneManager {
         // // Adding the first upper level dynamic art
        this.game.addEntity(new DynamicArt(this.game));
             
-        this.game.addEntity(steve);
+        this.game.addEntity(this.steve);
 
        this.addRavagers();
 
@@ -60,9 +70,11 @@ class SceneManager {
 
         //Adding All the Item Entity
         this.game.addEntity(this.artifact);
-        this.game.addEntity(this.gold);
+        this.game.addEntity(this.treasure);
         this.game.addEntity(this.ember);
 
+        //Adding the card entity
+        //this.game.addEntity(this.cards);
 
        this.game.addEntity(this.ui);
         
@@ -90,6 +102,39 @@ class SceneManager {
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });
+    }
+
+    switchScene(sceneKey, scene) {
+        // Clean up the current scene if necessary
+        if (this.currentScene && typeof this.currentScene.unload === 'function') {
+            this.currentScene.unload();
+        }
+
+        // Set the new scene
+        this.currentScene = scene;
+        if (typeof this.currentScene.load === 'function') {
+            this.currentScene.load();
+        }
+
+        // If the new scene has an update and draw method, set up the game engine to call them
+        if (typeof this.currentScene.update === 'function') {
+            this.game.update = this.currentScene.update.bind(this.currentScene);
+        }
+        if (typeof this.currentScene.draw === 'function') {
+            this.game.draw = this.currentScene.draw.bind(this.currentScene);
+        }
+    }
+
+    handleMouseMove(pos) {
+        if (this.currentScene && typeof this.currentScene.handleMouseMove === 'function') {
+            this.currentScene.handleMouseMove(pos);
+        }
+    }
+
+    handleClick(pos) {
+        if (this.currentScene && typeof this.currentScene.handleClick === 'function') {
+            this.currentScene.handleClick(pos);
+        }
     }
     
 
