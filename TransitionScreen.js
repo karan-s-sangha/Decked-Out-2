@@ -4,7 +4,7 @@ class TransitionScreen {
         
         this.elapsed = 0;
         this.message = "Loading..."; // Default message for transition screen
-        this.gameOutcome = null; // Tracks if the game was won or lost
+       // this.gameOver = false;
     };
 
     update() {
@@ -12,7 +12,7 @@ class TransitionScreen {
         if (this.sceneManager) {
             if (this.elapsed > 1) {
                 this.game.transition = null;
-                this.game.camera.loadScene(this.sceneManager, false);
+                this.game.camera.loadSceneManager(this.sceneManager, false);
             } 
         } else {
             if (this.elapsed > 2) {

@@ -7,7 +7,7 @@ class AssetManager {
     };
 
     queueDownload(path) {
-       // console.log("Queueing " + path);
+       //console.log("Queueing " + path);
         this.downloadQueue.push(path);
     };
 
@@ -74,11 +74,14 @@ class AssetManager {
     };
 
     getAsset(path) {
+      //  console.log(this.cache[path]);
         return this.cache[path];
     };
 
     playAsset(path) {
         let audio = this.cache[path];
+        audio.volume = 1.0; // Max volume
+        audio.muted = false; // Ensure not muted
         audio.currentTime = 0;
         audio.play();
     };
@@ -111,10 +114,21 @@ class AssetManager {
         }
     };
 
-    autoRepeat(path) {
+   /**  autoRepeat(path) {
         var aud = this.cache[path];
         aud.addEventListener("ended", function () {
+            console.log("Audio ended, replaying:", path);
             aud.play();
         });
+    };*/
+
+    autoRepeat(path) {
+        var aud = this.cache[path];
+        if (aud) {
+            aud.loop = true; // Ensure the song loops
+            aud.play().catch(error => console.error("Playback failed:", error));
+        }
     };
+    
+
 };

@@ -31,6 +31,8 @@ class SceneManager {
         this.gameOver = false;
         this.frontend = new FrontEnd(game, this);
         this.loadSceneManager (this.level, false);
+
+
        
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         //this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
@@ -48,6 +50,7 @@ class SceneManager {
             this.game.transition = new TransitionScreen(this.game, level);
         }else if (this.frontend.isInMenu == false){
             this.loadLevel(this.steve, this.level, this.game.cameraWorldTopLeftX, this.game.cameraWorldTopLeftY);
+            this.steve.live = false;
         }
     }
     
@@ -102,9 +105,6 @@ class SceneManager {
             this.ravagers.push(ravager);
         });
     }
-    
-
-
 
     updateAudio() {
         var mute = document.getElementById("mute").checked;
@@ -117,9 +117,11 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-       this.frontend.update();
+        this.frontend.isInLoseScreen = !this.steve.live;
+        this.frontend.isInWinScreen = this.steve.win;
 
-      
+        // Let the frontend handle the music based on its state
+        this.frontend.update();
 
     };
 
@@ -127,7 +129,12 @@ class SceneManager {
     draw(ctx) {
         if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
-        }
+        } else if (this.frontend.isInLoseScreen){
+           this.frontend.drawLoseScreen(ctx);
+           //this.frontend.drawWinScreen(ctx);
+           } else if (this.frontend.isInWinScreen){
+            //this.frontend.drawWinScreen(ctx);
+           }
     };
 
     
