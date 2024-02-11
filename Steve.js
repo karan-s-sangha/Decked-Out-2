@@ -156,7 +156,7 @@ class Steve {
         //     this.playerX = x * this.game.GameScale;
         //     this.playerY = y * this.game.GameScale;               
         // }
-
+        }
     };
 
 
@@ -272,10 +272,8 @@ class Steve {
             }
 
         }
-
+    
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-
-    }
     };
 };
