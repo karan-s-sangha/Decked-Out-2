@@ -50,7 +50,7 @@ class SceneManager {
             this.game.transition = new TransitionScreen(this.game, level);
         }else if (this.frontend.isInMenu == false){
             this.loadLevel(this.steve, this.level, this.game.cameraWorldTopLeftX, this.game.cameraWorldTopLeftY);
-            this.steve.live = false;
+            //this.steve.live = false;
         }
     }
     
@@ -131,9 +131,9 @@ class SceneManager {
             this.frontend.draw(ctx);
         } else if (this.frontend.isInLoseScreen){
            this.frontend.drawLoseScreen(ctx);
-           //this.frontend.drawWinScreen(ctx);
+           this.frontend.drawWinScreen(ctx);
            } else if (this.frontend.isInWinScreen){
-            //this.frontend.drawWinScreen(ctx);
+            this.frontend.drawWinScreen(ctx);
            }
     };
 
