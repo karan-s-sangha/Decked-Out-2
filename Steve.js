@@ -276,6 +276,6 @@ class Steve {
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
 
-
+    }
     };
 };
