@@ -34,7 +34,7 @@ class FrontEnd {
     }
     
     setupButtons() {
-        this.menuButtonDimensions = { w: 150, h: 50 };
+        this.menuButtonDimensions = { w: 250, h: 50 };
         const canvasCenterX = this.game.ctx.canvas.width / 2 - this.menuButtonDimensions.w / 2;
         const canvasCenterY = this.game.ctx.canvas.height / 3;
         
@@ -45,7 +45,7 @@ class FrontEnd {
                 y: canvasCenterY - 60,
                 ...this.menuButtonDimensions,
                 text: "Start Game",
-                color: 'red',
+                color: "#3B92E4",
                 action: this.startGame.bind(this)
             },
             instructionsButton: {
@@ -53,7 +53,7 @@ class FrontEnd {
                 y: canvasCenterY,
                 ...this.menuButtonDimensions,
                 text: "Instructions",
-                color: '#7CFC00',
+                color: "#3B92E4",
                 action: () => this.showInstructionsScreen()
             },
             creditsButton: {
@@ -61,7 +61,7 @@ class FrontEnd {
                 y: canvasCenterY + 60,
                 ...this.menuButtonDimensions,
                 text: "Credits",
-                color: 'rgba(255, 165, 0, 0.5)',
+                color: "#3B92E4",
                 action: () => this.showCreditsScreen()
             },
             backButton: {
@@ -69,7 +69,7 @@ class FrontEnd {
                 y: this.game.ctx.canvas.height - 70,
                 ...this.menuButtonDimensions,
                 text: "Back",
-                color: 'rgba(255, 165, 0, 0.5)',
+                color:"#3B92E4",
              
                 action: () => this.goBack()
             }
@@ -101,15 +101,10 @@ class FrontEnd {
     }
 
     update() {
-        // Store the original colors of all buttons
-        const originalButtonColors = {};
-        Object.keys(this.buttons).forEach(key => {
-    originalButtonColors[key] = this.buttons[key].color;
-        });
         // Loop through each button to check for mouseover and click events
         Object.values(this.buttons).forEach(button => {
             // Check if the mouse is over the button
-            button.color = this.mouseOver(this.game.mouse, button) ? 'gold' : originalButtonColors[button];
+            button.color = this.mouseOver(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
             
             // If there's a click, and it's on the button
             if (this.game.click && this.mouseOver(this.game.click, button)) {
@@ -224,7 +219,7 @@ class FrontEnd {
     
         // Draw the "Bruh" image next to the "You Lose" image
         if (bruhImage && bruhImage.complete) {
-            // Set the desired scale factor for the bruh image (can adjust as needed)
+            // Set the desired scale factor for the bruh image 
             const scaleFactorBruh = 0.5;
             
             // Calculate the scaled dimensions for the bruh image
@@ -232,8 +227,8 @@ class FrontEnd {
             const scaledHeightBruh = bruhImage.height * scaleFactorBruh;
     
             // Position the "Bruh" image next to the "You Lose" image
-            const xBruh = xLose + scaledWidthLose - 90; // This places the "Bruh" image right after the "You Lose" image
-            const yBruh = yLose  - 200; // Adjust y-position as needed
+            const xBruh = xLose + scaledWidthLose - 90; 
+            const yBruh = yLose  - 200; 
     
             // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
@@ -242,14 +237,23 @@ class FrontEnd {
     
 
     drawButton(ctx, button) {
-        ctx.fillStyle = '#3B92E4';
-        ctx.fillRect(button.x, button.y, button.w, button.h);
-        ctx.font = "20px cursive";
-        ctx.fillStyle = 'black';
+        // Set fillStyle to 'white' for the rectangle background
+        ctx.fillStyle = 'whitesmoke';
+        // Calculate buttonWidth based on whether it's the "Back" button or not
+        let buttonWidth = button.text === "Back" ? button.w - 100 : button.w;
+        // Draw the rectangle first
+        ctx.fillRect(button.x - (button.text === "Back" ? 50 : 0), button.y, buttonWidth, button.h);
+    
+        // Now set the fillStyle to the button's color for the text
+        ctx.fillStyle = button.color; // This ensures the text color is set as per the button's color property
+        ctx.font = "100% 'Press Start 2P'";
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(button.text, button.x + button.w / 2, button.y + button.h / 2);
+    
+        // Adjust text position based on buttonWidth and whether it's the "Back" button
+        ctx.fillText(button.text, button.x + buttonWidth / 2 - (button.text === "Back" ? 30 : 0), button.y + button.h / 2);
     }
+    
 
     drawCredits(ctx) {
         const lines = [
@@ -275,15 +279,15 @@ class FrontEnd {
 
     drawInstruction(ctx) {
         const lines = [
-            { text: "Instructions", style: "bolder 60px cursive" },
-            { text: "", style: "bolder 40px cursive" },
-            { text: "* WSAD to move around the Map", style: "25px cursive" },
-            { text: "* Follow the Arrow to the Artifact", style: "25px cursive" },
-            { text: "* Space to Jump", style: "25px cursive" },
-            { text: "* Shift + WSAD to move faster", style: "25px cursive" },
-            { text: "* Use Cursor to rotate Steve", style: "25px cursive" },
-            {text:  "", style: "bolder 40px cursive" },
-            { text: " BE CAREFUL OF RAVAGERS!!", style: "bolder 30px 'Press Start 2P' italic" }, // Adjusted size for fitting
+            { text: "Instructions", style: "bolder 150% 'Press Start 2P'" },
+            { text: "", style: "  'Press Start 2P'" },
+            { text: "* WSAD to move around the Map", style: "100% 'Press Start 2P'" },
+            { text: "* Follow the Arrow to the Artifact", style: "100%'Press Start 2P'" },
+            { text: "* Space to Jump", style: "100% 'Press Start 2P'" },
+            { text: "* Shift + WSAD to move faster", style: "100% 'Press Start 2P'" },
+            { text: "* Use Cursor to rotate Steve", style: "100% 'Press Start 2P'" },
+            {text:  "", style: "'Press Start 2P'" },
+            { text: " BE CAREFUL OF RAVAGERS!!", style: "bolder 150% 'Press Start 2P' italic" }, 
         ];
     
         const colors = ['#3494E6', '#4291E2', '#508EDD', '#5E8BD9', '#6D88D4', '#7B85D0', '#8982CC', '#9780C7', '#A57DC3', '#B37ABF', '#C277BA', '#D074B6', '#DE71B1', '#EC6EAD'];
