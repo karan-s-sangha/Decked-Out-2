@@ -7,10 +7,32 @@ class FrontEnd {
         this.isInCredits = false; // Only true when viewing the credits screen.
         this.isShowInstructions = false; // Only true when viewing the instructions screen.
 
+        this.isInWinScreen = false; // Only true when the player wins the game.
+        this.isInLoseScreen = false; // Only true when the player loses the game.
+
         // Setup buttons with dimensions and positions
         this.setupButtons();
+        //this.playTitleMusic = this.playTitleMusic.bind(this);
+
     }
 
+    playTitleMusic() {
+        let titleMusicPath = "./Art/music/Decked_Out.mp3"; // Ensure this is the correct path
+        let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
+        if (titleMusic && titleMusic.paused) {
+            // Instead of just playing the asset, use autoRepeat to ensure it loops.
+            ASSET_MANAGER.autoRepeat(titleMusicPath);
+        }
+    }
+    
+    
+    
+    stopTitleMusic() {
+        let titleMusicPath = "./Art/music/Decked_Out.mp3"; 
+        ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
+        
+    }
+    
     setupButtons() {
         this.menuButtonDimensions = { w: 150, h: 50 };
         const canvasCenterX = this.game.ctx.canvas.width / 2 - this.menuButtonDimensions.w / 2;
@@ -57,7 +79,7 @@ class FrontEnd {
     startGame() {
         this.isInMenu = false;
         this.sceneManager.gameOver = false;
-        this.sceneManager.loadScene("levelOne", true);
+        this.sceneManager.loadSceneManager("levelOne", true);
     }
 
     showInstructionsScreen() {
@@ -95,6 +117,15 @@ class FrontEnd {
                 this.game.click = null; // Reset click to avoid repeated clicks
             }
         });
+        // Play title music if on the main menu, credits, or instructions screen
+    if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+        if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
+           // console.log (this.game.mouse.x);
+        this.playTitleMusic();
+        }
+    } else {
+        this.stopTitleMusic();
+    }
     }
     
 
@@ -126,7 +157,89 @@ class FrontEnd {
                 this.drawInstruction(ctx);
             }
         }
+        else if (this.isInWinScreen) {
+            // Draw the win screen
+            this.drawWinScreen(ctx);
+        } else if (this.isInLoseScreen) {
+            // Draw the lose screen
+            this.drawLoseScreen(ctx);
+        }
     }
+
+    drawWinScreen(ctx) {
+        // Assume both images are loaded and complete for simplicity
+        let backgroundImage = ASSET_MANAGER.cache["./Art/background.png"];
+        let winImage = ASSET_MANAGER.cache["./Art/win.png"];
+    
+        // Draw the background image first
+        if (backgroundImage && backgroundImage.complete) {
+            ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        }
+    
+        // Then draw the win image on top of the background
+        if (winImage && winImage.complete) {
+            // Set the desired scale factor for the win image (e.g., 0.7)
+            const scaleFactor = 0.7;
+    
+            // Calculate the scaled dimensions for the win image
+            const scaledWidth = winImage.width * scaleFactor;
+            const scaledHeight = winImage.height * scaleFactor;
+    
+            // Calculate the position to center the scaled win image on the canvas
+            const x = (this.game.ctx.canvas.width - scaledWidth) / 2;
+            const y = (this.game.ctx.canvas.height - scaledHeight) / 2;
+    
+            // Draw the scaled win image on top of the background
+            ctx.drawImage(winImage, x, y, scaledWidth, scaledHeight);
+        }
+    }
+    
+    
+    drawLoseScreen(ctx) {
+        // Fill the background
+        let backgroundLoseImage = ASSET_MANAGER.cache["./Art/losing_background.png"];
+        let loseImage = ASSET_MANAGER.cache["./Art/lose.png"];
+        let bruhImage = ASSET_MANAGER.cache["./Art/bruh.png"];
+        
+        // Ensure the background image for losing is drawn first
+        if (backgroundLoseImage && backgroundLoseImage.complete) {
+            ctx.drawImage(backgroundLoseImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        }
+    
+        // Set the desired scale factor for the lose image
+        const scaleFactorLose = 0.7;
+    
+        // Calculate the scaled dimensions for the lose image
+        const scaledWidthLose = loseImage.width * scaleFactorLose;
+        const scaledHeightLose = loseImage.height * scaleFactorLose;
+    
+        // Calculate the position to center the scaled lose image on the canvas
+        const xLose = (this.game.ctx.canvas.width - scaledWidthLose) / 2;
+        const yLose = (this.game.ctx.canvas.height - scaledHeightLose) / 2;
+    
+        // Draw the scaled lose image onto the canvas at position (xLose, yLose)
+        if (loseImage && loseImage.complete) {
+            ctx.drawImage(loseImage, xLose, yLose, scaledWidthLose, scaledHeightLose);
+        }
+    
+        // Draw the "Bruh" image next to the "You Lose" image
+        if (bruhImage && bruhImage.complete) {
+            // Set the desired scale factor for the bruh image (can adjust as needed)
+            const scaleFactorBruh = 0.5;
+            
+            // Calculate the scaled dimensions for the bruh image
+            const scaledWidthBruh = bruhImage.width * scaleFactorBruh;
+            const scaledHeightBruh = bruhImage.height * scaleFactorBruh;
+    
+            // Position the "Bruh" image next to the "You Lose" image
+            const xBruh = xLose + scaledWidthLose - 90; // This places the "Bruh" image right after the "You Lose" image
+            const yBruh = yLose  - 200; // Adjust y-position as needed
+    
+            // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
+            ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
+        }
+    }
+    
 
     drawButton(ctx, button) {
         ctx.fillStyle = '#3B92E4';

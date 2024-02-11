@@ -64,7 +64,9 @@ class GameEngine {
                 "KeyX": 'A', "Period": 'A',
                 "ShiftLeft": 'shift',
                 "Space": 'space',
-                "ControlLeft": 'ctrl'
+                "ControlLeft": 'ctrl',
+                "KeyM": 'menu', // Add this line for M key
+                "KeyR": 'restart' // Add this line for R key"
             };
 
             const keyAction = keyMap[e.code];
@@ -100,7 +102,6 @@ class GameEngine {
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         if (this.transition) {
-            console.log("passed");
             this.transition.draw(this.ctx);
         }
         for (let i = 0; i < this.entities.length; i++) {
@@ -112,9 +113,8 @@ class GameEngine {
 
     update() {
         if (this.transition) {
-            console.log("Transition active");
             this.transition.update(); 
-            return; // Ensure no other drawing occurs while in transition
+            return; 
         }
         for (let i = 0; i < this.entities.length; i++) {
             let entity = this.entities[i];

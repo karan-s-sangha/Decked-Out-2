@@ -33,6 +33,7 @@ class Steve {
 
         this.collision = new Collision(this.game);
         this.loadAnimations();
+        this.live = true;
     };
 
     loadAnimations() {
@@ -131,11 +132,11 @@ class Steve {
                 this.health += 0.5;
             }
 
-            if (this.health < 0) {
-                this.health = 0;
-            }
-
+        if(this.health  < 0) {
+            this.health = 0;
+            this.live = true;
         }
+        
         // if(this.jumped) {
         //     let x = this.playerX / this.game.GameScale;
         //     let y = this.playerY / this.game.GameScale;
@@ -244,7 +245,7 @@ class Steve {
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-        ctx.save();
+       // ctx.save();
 
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
