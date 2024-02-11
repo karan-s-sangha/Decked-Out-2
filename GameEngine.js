@@ -12,9 +12,7 @@ class GameEngine {
         this.GameScale = 4;
         this.fps = 120;
         this.running = false;
-        this.onMouseMove = null;
-        this.onClick = null;
-       
+        this.transition = null;
     };
 
     init(ctx) {
@@ -39,25 +37,15 @@ class GameEngine {
     };
     
     startInput() {
+       // this.keyboardActive = false;
+       var that = this;
         const getXandY = (e) => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
 
-        this.ctx.canvas.addEventListener("mousemove", e => {
-            const pos = getXandY(e);
-            if (this.onMouseMove) {
-                this.onMouseMove(pos);
-            }
-        }, false);
-
-        this.ctx.canvas.addEventListener("click", e => {
-            const pos = getXandY(e);
-            if (this.onClick) {
-                this.onClick(pos);
-            }
-        }, false);
-        
+        this.ctx.canvas.addEventListener("mousemove", e => this.mouse = getXandY(e), false);
+        this.ctx.canvas.addEventListener("click", e => this.click = getXandY(e), false);
         this.ctx.canvas.addEventListener("wheel", e => {
             e.preventDefault();
             this.wheel = e.deltaY;
@@ -103,8 +91,18 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    getLastClick() {
+        const click = this.click;
+        this.click = null; // Reset click after it's been retrieved
+        return click;
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        if (this.transition) {
+            console.log("passed");
+            this.transition.draw(this.ctx);
+        }
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx);
         }
@@ -113,6 +111,11 @@ class GameEngine {
     };
 
     update() {
+        if (this.transition) {
+            console.log("Transition active");
+            this.transition.update(); 
+            return; // Ensure no other drawing occurs while in transition
+        }
         for (let i = 0; i < this.entities.length; i++) {
             let entity = this.entities[i];
             if (!entity.removeFromWorld) {
