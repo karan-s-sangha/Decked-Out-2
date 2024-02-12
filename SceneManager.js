@@ -50,14 +50,14 @@ class SceneManager {
         this.game.addEntity(new StaticArt(this.game));
 
         // // Adding the first upper level dynamic art
-       this.game.addEntity(new DynamicArt(this.game));
+       //this.game.addEntity(new DynamicArt(this.game));
             
         this.game.addEntity(this.steve);
 
-       this.addRavagers();
+       //this.addRavagers();
 
         //Adding the Compass Entity
-       this.game.addEntity(this.compass);
+       //this.game.addEntity(this.compass);
 
         //Adding All the Item Entity
         this.game.addEntity(this.artifact);
