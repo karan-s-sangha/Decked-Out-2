@@ -12,7 +12,10 @@ class GameEngine {
         this.GameScale = 0.8;
         this.fps = 120;
         this.running = false;
-       
+        this.transition = null;
+
+
+        this.play = false;
     };
 
     init(ctx) {
@@ -37,6 +40,8 @@ class GameEngine {
     };
     
     startInput() {
+       // this.keyboardActive = false;
+       var that = this;
         const getXandY = (e) => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
@@ -62,7 +67,9 @@ class GameEngine {
                 "KeyX": 'A', "Period": 'A',
                 "ShiftLeft": 'shift',
                 "Space": 'space',
-                "ControlLeft": 'ctrl'
+                "ControlLeft": 'ctrl',
+                "KeyM": 'menu', // Add this line for M key
+                "KeyR": 'restart' // Add this line for R key"
             };
 
             const keyAction = keyMap[e.code];
@@ -89,16 +96,35 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    getLastClick() {
+        const click = this.click;
+        this.click = null; // Reset click after it's been retrieved
+        return click;
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.ctx);
+        if (this.transition) {
+            this.transition.draw(this.ctx);
         }
         this.timer.draw(this.ctx);
-        this.camera.draw(this.ctx);
+
+        if(this.play == true) {
+            this.camera.draw(this.ctx);
+            for (let i = 0; i < this.entities.length; i++) {
+                this.entities[i].draw(this.ctx);
+            }
+        } else {
+            this.screen.draw(this.ctx);
+        }
+         
     };
 
     update() {
+        if (this.transition) {
+            this.transition.update(); 
+            return; 
+        }
         for (let i = 0; i < this.entities.length; i++) {
             let entity = this.entities[i];
             if (!entity.removeFromWorld) {
@@ -110,8 +136,11 @@ class GameEngine {
         //         this.entities.splice(i, 1);
         //     }
         // }
-
-        this.camera.update();
+        if(this.play == true) {
+            this.camera.update();
+        } else {
+            this.screen.update();
+        }
         this.wheel = 0;
     };
 

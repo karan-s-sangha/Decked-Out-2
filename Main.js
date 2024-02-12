@@ -55,10 +55,17 @@ ASSET_MANAGER.queueDownload("./Art/Currency/Crown.png");
 ASSET_MANAGER.queueDownload("./Art/Currency/Coin.png");
 ASSET_MANAGER.queueDownload("./Art/Currency/Frost-Ember.png");
 
+// Image for the losing and wining
+ASSET_MANAGER.queueDownload("./Art/lose.png");
+ASSET_MANAGER.queueDownload("./Art/bruh.png");
+ASSET_MANAGER.queueDownload("./Art/losing_background.png");
+ASSET_MANAGER.queueDownload("./Art/win.png");
+ASSET_MANAGER.queueDownload("./Art/background.png");
 
 
-// // music
-// ASSET_MANAGER.queueDownload("./music/overworld.mp3");
+
+ // music
+  ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld.mp3");
 // ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
@@ -72,8 +79,8 @@ ASSET_MANAGER.queueDownload("./Art/Currency/Frost-Ember.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
-
-	// ASSET_MANAGER.autoRepeat("./music/overworld.mp3");
+	ASSET_MANAGER.autoRepeat("./Art/music/Decked_Out.mp3");
+	 //ASSET_MANAGER.autoRepeat("./music/overworld.mp3");
 	// ASSET_MANAGER.autoRepeat("./music/underworld.mp3");
 	// ASSET_MANAGER.autoRepeat("./music/overworld-hurry.mp3");
 	// ASSET_MANAGER.autoRepeat("./music/underworld-hurry.mp3");
@@ -85,11 +92,11 @@ ASSET_MANAGER.downloadAll(function () {
 	ctx.imageSmoothingEnabled = false;
 	
 
-	//PARAMS.CANVAS_WIDTH = canvas.width;
-	//PARAMS.CANVAS_HEIGHT = canvas.height;
+	PARAMS.CANVAS_WIDTH = canvas.width;
+	PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-	new SceneManager(gameEngine);
-
+	// new SceneManager(gameEngine);
+	new Camera(gameEngine);
 	gameEngine.start();
 });
