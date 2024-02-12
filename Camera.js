@@ -143,6 +143,9 @@ class Camera {
         
         this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
         this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
+        if (this.steve.live == false){
+            this.game.play = false;
+        }
 
     };
 
