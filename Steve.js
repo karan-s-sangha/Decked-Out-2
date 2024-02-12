@@ -45,7 +45,7 @@ class Steve {
     };
 
     move(x, y) {
-        console.log("lol");
+
         this.playerX = x;
         this.playerY = y;
         this.move = true;

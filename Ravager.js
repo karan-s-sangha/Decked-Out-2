@@ -67,7 +67,6 @@ class Ravager {
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
-                console.error("Unknown state:", this.state);
                 break;
         }
 
@@ -77,7 +76,6 @@ class Ravager {
     }
 
     update() {
-        console.log(this.attackCoolDown);
         if (this.canSeePlayer() && this.steve.health > 0 && this.attackCoolDown <= 0) {
             if (this.shouldAttackPlayer()) {
                 this.state = 'attacking';
@@ -87,12 +85,10 @@ class Ravager {
 
                 this.attack = true;
                 this.steve.canMove = false;
-                console.log("run");
             } else if(this.attackCoolDown <= 0) {
                 this.state = 'running';
                 this.followPlayer();
             }
-            console.log("this should only print once");
         }
         else {
             this.state = 'wandering';
