@@ -245,7 +245,7 @@ class Steve {
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-       // ctx.save();
+        //ctx.save();
 
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
