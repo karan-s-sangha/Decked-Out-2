@@ -54,7 +54,7 @@ class Camera {
             
        this.game.addEntity(steve);
 
-       this.addRavagers();
+    //    this.addRavagers();
 
         //Adding the Compass Entity
        this.game.addEntity(this.compass);
@@ -95,6 +95,7 @@ class Camera {
 
     // This update is for the whole website including the HTML 
     update() {
+      
 
         if(this.steve.jumped) {
             let x = this.steve.playerX / this.game.GameScale;

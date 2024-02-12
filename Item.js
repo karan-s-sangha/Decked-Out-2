@@ -21,6 +21,7 @@ class Item {
         this.maxMorf = 1;
         this.morf = Math.random() * this.maxMorf;
         this.morfingDown = true;
+        this.gameScale = this.game.GameScale;
 
         this.AddItem();
     }
@@ -72,6 +73,46 @@ class Item {
               }
             }
         });
+
+        if(this.steve.jumped) {
+
+            let x = [];
+            let y = [];
+
+            this.items.forEach(item => {
+                console.log(item.x);
+                console.log(item.y);
+                x.push(item.x / this.gameScale);
+                y.push(item.y / this.gameScale);
+            });
+
+
+            if(this.gameScale > 3.6 && !this.steve.jumpComplete) {
+                this.items.forEach(item => {
+                    item.itemSize -= this.game.clockTick * 0.1;
+                });
+                this.gameScale -= this.game.clockTick * 1.5; 
+            } 
+
+            if(this.gameScale < 4 && this.steve.jumpComplete) {
+                this.items.forEach(item => {
+                    item.itemSize += this.game.clockTick * 0.1;
+                });
+
+                this.gameScale += this.game.clockTick * 1.5; 
+            }
+            if(this.gameScale > 4 && this.steve.jumpComplete) {
+                this.gameScale = 4;
+            }
+
+            for(let i = 0; i < this.items.length; i++) {
+                console.log(this.items[i].x);
+                this.items[i].x = x[i] * this.gameScale;
+                console.log(this.items[i].x);
+                this.items[i].y = y[i] * this.gameScale;
+            }
+
+        }
 
 
         // Remove items that have been picked up or expired
