@@ -13,6 +13,9 @@ class GameEngine {
         this.fps = 120;
         this.running = false;
         this.transition = null;
+
+
+        this.play = false;
     };
 
     init(ctx) {
@@ -101,11 +104,20 @@ class GameEngine {
 
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        for (let i = 0; i < this.entities.length; i++) {
-           // this.entities[i].draw(this.ctx);
+        if (this.transition) {
+            this.transition.draw(this.ctx);
         }
         this.timer.draw(this.ctx);
-        this.camera.draw(this.ctx);
+
+        if(this.play == true) {
+            this.camera.draw(this.ctx);
+            for (let i = 0; i < this.entities.length; i++) {
+                this.entities[i].draw(this.ctx);
+            }
+        } else {
+            this.screen.draw(this.ctx);
+        }
+         
     };
 
     update() {
@@ -124,8 +136,11 @@ class GameEngine {
         //         this.entities.splice(i, 1);
         //     }
         // }
-
-        this.camera.update();
+        if(this.play == true) {
+            this.camera.update();
+        } else {
+            this.screen.update();
+        }
         this.wheel = 0;
     };
 

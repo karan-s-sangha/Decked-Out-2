@@ -13,7 +13,7 @@ class Compass {
         this.cache = [];
 
         this.image = ASSET_MANAGER.cache["./Art/RedArrow.png"];
-        this.scale = 0.1;
+        this.scale = 0.5;
         this.angleRadians = 0;
         this.angleDegree = 0;
         this.radius = 60;
@@ -46,7 +46,6 @@ class Compass {
     
 
     drawAngle(ctx, angle, scale) {
-       
         if (!this.cache[angle]) {
             let radian = angle / 360 * 2 * Math.PI;
             var offscreenCanvas = document.createElement('canvas');
