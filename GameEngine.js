@@ -101,11 +101,8 @@ class GameEngine {
 
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        if (this.transition) {
-            this.transition.draw(this.ctx);
-        }
         for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.ctx);
+           // this.entities[i].draw(this.ctx);
         }
         this.timer.draw(this.ctx);
         this.camera.draw(this.ctx);

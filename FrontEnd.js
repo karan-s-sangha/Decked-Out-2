@@ -3,41 +3,23 @@ class FrontEnd {
         this.game = game;
         this.sceneManager = sceneManager;
 
-        this.isInMenu = true; // The game starts in the main menu.
-        this.isInCredits = false; // Only true when viewing the credits screen.
-        this.isShowInstructions = false; // Only true when viewing the instructions screen.
+        // Game state flags
+        this.isInMenu = true;
+        this.isInCredits = false;
+        this.isShowInstructions = false;
+        this.isInWinScreen = false;
+        this.isInLoseScreen = false;
 
-        this.isInWinScreen = false; // Only true when the player wins the game.
-        this.isInLoseScreen = false; // Only true when the player loses the game.
-
-        // Setup buttons with dimensions and positions
+        // Initialize UI components
         this.setupButtons();
-        //this.playTitleMusic = this.playTitleMusic.bind(this);
-
+        this.initializeReturnToTitleButton();
     }
 
-    playTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3"; // Ensure this is the correct path
-        let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
-        if (titleMusic && titleMusic.paused) {
-            // Instead of just playing the asset, use autoRepeat to ensure it loops.
-            ASSET_MANAGER.autoRepeat(titleMusicPath);
-        }
-    }
-    
-    
-    
-    stopTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3"; 
-        ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
-        
-    }
-    
+    // Sets up the dimensions and initial positions for UI buttons
     setupButtons() {
         this.menuButtonDimensions = { w: 250, h: 50 };
         const canvasCenterX = this.game.ctx.canvas.width / 2 - this.menuButtonDimensions.w / 2;
         const canvasCenterY = this.game.ctx.canvas.height / 3;
-        
 
         this.buttons = {
             startButton: {
@@ -54,7 +36,7 @@ class FrontEnd {
                 ...this.menuButtonDimensions,
                 text: "Instructions",
                 color: "#3B92E4",
-                action: () => this.showInstructionsScreen()
+                action: this.showInstructionsScreen.bind(this)
             },
             creditsButton: {
                 x: canvasCenterX,
@@ -62,7 +44,7 @@ class FrontEnd {
                 ...this.menuButtonDimensions,
                 text: "Credits",
                 color: "#3B92E4",
-                action: () => this.showCreditsScreen()
+                action: this.showCreditsScreen.bind(this)
             },
             backButton: {
                 x: 20,
@@ -70,96 +52,142 @@ class FrontEnd {
                 ...this.menuButtonDimensions,
                 text: "Back",
                 color:"#3B92E4",
-             
-                action: () => this.goBack()
+                action: this.goBack.bind(this)
             }
         };
     }
 
-    startGame() {
-        this.isInMenu = false;
+    // Initializes the return to title button with its properties
+    initializeReturnToTitleButton() {
+        this.returnToTitleButton = {
+            x: this.game.ctx.canvas.width / 2 - 125,
+            y: this.game.ctx.canvas.height - 100,
+            w: 250,
+            h: 50,
+            text: "Return to Title",
+            color: "#3B92E4"
+        };
+    }
+
+     // Starts the game, setting the appropriate game state flags
+     startGame() {
+        Object.assign(this, { isInMenu: false, isInCredits: false, isShowInstructions: false, isInWinScreen: false, isInLoseScreen: false });
         this.sceneManager.gameOver = false;
         this.sceneManager.loadSceneManager("levelOne", true);
     }
 
+    // Displays the instructions screen
     showInstructionsScreen() {
-        this.isInMenu = false;
-        this.isShowInstructions = true;
-        this.isInCredits = false;
+        Object.assign(this, { isInMenu: false, isShowInstructions: true, isInCredits: false });
     }
 
+    // Displays the credits screen
     showCreditsScreen() {
-        this.isInMenu = false;
-        this.isInCredits = true;
-        this.isShowInstructions = false;
+        Object.assign(this, { isInMenu: false, isInCredits: true, isShowInstructions: false });
     }
 
+    // Returns to the main menu from any state
     goBack() {
-        this.isInMenu = true;
-        this.isInCredits = false;
-        this.isShowInstructions = false;
+        Object.assign(this, { isInMenu: true, isInCredits: false, isShowInstructions: false });
     }
 
+    // Handles the update logic, including button interactions and music management
     update() {
-        // Loop through each button to check for mouseover and click events
+        // Check for mouse presence and update accordingly
+        if (this.game.mouse && (this.isInMenu || this.isInCredits || this.isShowInstructions)) {
+            this.handleButtonInteractions();
+        }
+        this.manageMusic();
+    }
+
+    handleButtonInteractions() {
         Object.values(this.buttons).forEach(button => {
-            // Check if the mouse is over the button
-            button.color = this.mouseOver(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
-            
-            // If there's a click, and it's on the button
-            if (this.game.click && this.mouseOver(this.game.click, button)) {
-                button.action(); // Execute the button's action
-                this.game.click = null; // Reset click to avoid repeated clicks
+            // Change the button color if the mouse is hovering over it
+            button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+    
+            // Execute the button's action if it is clicked
+            if (this.game.click && this.mouseHover(this.game.click, button)) {
+                button.action(); // Call the action defined in the button setup
+                this.game.click = null; // Reset click to prevent repeated actions
             }
         });
-        // Play title music if on the main menu, credits, or instructions screen
-    if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
-        if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
-           // console.log (this.game.mouse.x);
-        this.playTitleMusic();
+    
+        // Special case for returning to the title from win/lose screens
+        if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+            if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
+                this.returnToTitle();
+                this.game.click = null; // Prevent further clicks from being processed
+            }
         }
-    } else {
-        this.stopTitleMusic();
-    }
     }
     
 
+    manageMusic() {
+        const titleMusicPath = "./Art/music/Decked_Out.mp3";
+        // Check if the player is in a state that should have music playing
+        if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+            let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
+            // Play music if it's not already playing
+            if (titleMusic && titleMusic.paused) {
+                ASSET_MANAGER.autoRepeat(titleMusicPath);
+            }
+        } else {
+            // Stop the music when the player is not in the menu, credits, or instructions
+            ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
+        }
+    }
+    
+    returnToTitle() {
+        // Reset the game state to show the title screen
+        this.isInMenu = true;
+        this.isInWinScreen = false;
+        this.isInLoseScreen = false;
+        this.isInCredits = false;
+        this.isShowInstructions = false;
+    }
 
-    mouseOver(mousePos, button) {
+   
+    drawReturnToTitleButton(ctx) {
+        const button = this.returnToTitleButton; // Use the button defined in the constructor
+        this.drawButton(ctx, button);
+    }
+
+    mouseHover(mousePos, button) {
         return mousePos.x >= button.x && mousePos.x <= (button.x + button.w) &&
                mousePos.y >= button.y && mousePos.y <= (button.y + button.h);
     }
 
+    // Draws the current state of the game UI
     draw(ctx) {
-        ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-        ctx.fillStyle = 'white'; 
-        ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
-    
-        if (this.isInMenu) {
-            // Draw menu buttons except the back button
-            Object.values(this.buttons).forEach(button => {
-                if (button.text !== "Back") this.drawButton(ctx, button);
-                
-            });
-        } else if (this.isShowInstructions || this.isInCredits) {
-            
-            this.drawButton(ctx, this.buttons.backButton);
+        ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Clear the canvas
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Draw the background
 
-            if (this.isInCredits) {
-                // Draw the credits text
-                this.drawCredits(ctx);
-            } else if (this.isShowInstructions){
-                this.drawInstruction(ctx);
-            }
-        }
-        else if (this.isInWinScreen) {
-            // Draw the win screen
+        if (this.isInMenu) {
+            this.drawMenu(ctx);
+        } else if (this.isShowInstructions) {
+            this.drawInstruction(ctx);
+            this.drawButton(ctx, this.buttons.backButton);
+        } else if (this.isInCredits) {
+            this.drawCredits(ctx);
+            this.drawButton(ctx, this.buttons.backButton);
+        } else if (this.isInWinScreen) {
             this.drawWinScreen(ctx);
         } else if (this.isInLoseScreen) {
-            // Draw the lose screen
             this.drawLoseScreen(ctx);
         }
     }
+
+    drawMenu(ctx) {
+        // Assuming the background and title setup is already handled elsewhere or not needed for the menu.
+        // Loop through the buttons and draw them if they're not the 'Back' button.
+        Object.values(this.buttons).forEach(button => {
+            if (button.text !== "Back") { // This check prevents drawing the Back button in the main menu.
+                this.drawButton(ctx, button);
+            }
+        });
+    }
+    
 
     drawWinScreen(ctx) {
         // Assume both images are loaded and complete for simplicity
@@ -187,6 +215,7 @@ class FrontEnd {
             // Draw the scaled win image on top of the background
             ctx.drawImage(winImage, x, y, scaledWidth, scaledHeight);
         }
+        this.drawReturnToTitleButton(ctx);
     }
     
     
@@ -233,6 +262,7 @@ class FrontEnd {
             // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
         }
+        this.drawReturnToTitleButton(ctx);
     }
     
 
@@ -257,11 +287,11 @@ class FrontEnd {
 
     drawCredits(ctx) {
         const lines = [
-            { text: "Credits", style: "bolder 40px 'Press Start 2P'" },
-            { text: "Game Developed by", style: "30px 'Press Start 2P'" },
-            { text: "Karan Sangha", style: "25px 'Press Start 2P'" },
-            { text: "Ingeun Hwang", style: "25px 'Press Start 2P'" },
-            { text: "Khin Win", style: "25px 'Press Start 2P'" }
+            { text: "Credits", style: "bolder 200% 'Press Start 2P'" },
+            { text: "Game Developed by", style: "150% 'Press Start 2P'" },
+            { text: "Karan Sangha", style: "100% 'Press Start 2P'" },
+            { text: "Ingeun Hwang", style: "100% 'Press Start 2P'" },
+            { text: "Khin Win", style: "100% 'Press Start 2P'" }
         ];
     
         const colors = ['#3494E6', '#4291E2', '#508EDD', '#5E8BD9', '#6D88D4', '#7B85D0',

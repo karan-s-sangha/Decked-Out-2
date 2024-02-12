@@ -117,24 +117,31 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-        this.frontend.isInLoseScreen = !this.steve.live;
-        this.frontend.isInWinScreen = this.steve.win;
-
+       //this.frontend.isInLoseScreen = !this.steve.live;
+      // this.frontend.isInWinScreen = this.steve.win;
+        if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
+            this.frontend.update();
+        }
         // Let the frontend handle the music based on its state
-        this.frontend.update();
+       // this.frontend.update();
 
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
+      // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
         } else if (this.frontend.isInLoseScreen){
-           this.frontend.drawLoseScreen(ctx);
-           this.frontend.drawWinScreen(ctx);
-           } else if (this.frontend.isInWinScreen){
+           // this.frontend.drawLoseScreen(ctx);
             this.frontend.drawWinScreen(ctx);
-           }
+        } else if (this.frontend.isInWinScreen){
+            this.frontend.drawWinScreen(ctx);
+        }
+        else {
+    
+        }
+
     };
 
     
