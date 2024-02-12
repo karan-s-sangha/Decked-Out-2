@@ -33,7 +33,7 @@ class Steve {
 
         this.collision = new Collision(this.game);
         this.loadAnimations();
-        this.live = false;
+        this.live = true;
     };
 
     loadAnimations() {
@@ -132,7 +132,7 @@ class Steve {
                 this.health += 0.5;
             }
 
-        if(this.health  == 0) {
+        if(this.health  <= 0) {
             this.health = 0;
             this.live = false;
         }

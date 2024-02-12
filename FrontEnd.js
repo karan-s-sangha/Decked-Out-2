@@ -12,6 +12,7 @@ class FrontEnd {
 
         // Setup buttons with dimensions and positions
         this.setupButtons();
+        this.initializeReturnToTitleButton();
         //this.playTitleMusic = this.playTitleMusic.bind(this);
 
     }
@@ -77,7 +78,11 @@ class FrontEnd {
 
     startGame() {
         this.isInMenu = false;
+        this.isInCredits = false;
         this.sceneManager.gameOver = false;
+        this.isShowInstructions = false;
+        this.isInWinScreen = false; // Only true when the player wins the game.
+        this.isInLoseScreen = false;
         this.sceneManager.loadSceneManager("levelOne", true);
     }
 
@@ -85,32 +90,76 @@ class FrontEnd {
         this.isInMenu = false;
         this.isShowInstructions = true;
         this.isInCredits = false;
+        this.isInLoseScreen = false;
+        this.isInWinScreen = false;
     }
 
     showCreditsScreen() {
         this.isInMenu = false;
         this.isInCredits = true;
         this.isShowInstructions = false;
+        this.isInLoseScreen = false;
+        this.isInWinScreen = false;
     }
 
     goBack() {
         this.isInMenu = true;
         this.isInCredits = false;
         this.isShowInstructions = false;
+        this.isInLoseScreen = false;
+        this.isInWinScreen = false;
     }
+
+    // Initializes the return to title button with its properties
+    initializeReturnToTitleButton() {
+        this.returnToTitleButton = {
+            x: this.game.ctx.canvas.width / 2 - 125,
+            y: this.game.ctx.canvas.height - 100,
+            w: 250,
+            h: 50,
+            text: "Return to Title",
+            color: "#3B92E4"
+        };
+    }
+
+
+    returnToTitle() {
+        // Reset the game state to show the title screen
+        this.isInMenu = true;
+        this.isInWinScreen = false;
+        this.isInLoseScreen = false;
+        this.isInCredits = false;
+        this.isShowInstructions = false;
+    }
+
+    drawReturnToTitleButton(ctx) {
+        const button = this.returnToTitleButton; // Use the button defined in the constructor
+        this.drawButton(ctx, button);
+        console.log("called ro");
+    }
+
 
     update() {
         // Loop through each button to check for mouseover and click events
         Object.values(this.buttons).forEach(button => {
             // Check if the mouse is over the button
-            button.color = this.mouseOver(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+            button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
             
             // If there's a click, and it's on the button
-            if (this.game.click && this.mouseOver(this.game.click, button)) {
+            if (this.game.click && this.mouseHover(this.game.click, button)) {
                 button.action(); // Execute the button's action
                 this.game.click = null; // Reset click to avoid repeated clicks
             }
         });
+
+         // Handling click on the Return to Title button in win/lose screens
+         if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+            if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
+                console.log("called");
+                this.returnToTitle();
+                this.game.click = null; // Prevent further clicks from being processed
+            }
+        }
         // Play title music if on the main menu, credits, or instructions screen
     if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
         if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
@@ -124,7 +173,7 @@ class FrontEnd {
     
 
 
-    mouseOver(mousePos, button) {
+    mouseHover(mousePos, button) {
         return mousePos.x >= button.x && mousePos.x <= (button.x + button.w) &&
                mousePos.y >= button.y && mousePos.y <= (button.y + button.h);
     }
@@ -232,6 +281,7 @@ class FrontEnd {
             // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
         }
+        this.drawReturnToTitleButton(ctx);
     }
     
 
@@ -263,9 +313,7 @@ class FrontEnd {
             { text: "Khin Win", style: "25px 'Press Start 2P'" }
         ];
     
-        const colors = ['#3494E6', '#4291E2', '#508EDD', '#5E8BD9', '#6D88D4', '#7B85D0',
-        '#8982CC', '#9780C7', '#A57DC3', '#B37ABF', '#C277BA', '#D074B6', '#DE71B1', '#EC6EAD'];
-    
+        const colors = ['#555555', '#00AAAA', '#971607', '#FF5555', '#DDD605', 'B4684D'];
         let startX = this.game.ctx.canvas.width / 2;
         let startY = this.game.ctx.canvas.height / 2 - 60;
     
@@ -289,7 +337,7 @@ class FrontEnd {
             { text: " BE CAREFUL OF RAVAGERS!!", style: "bolder 150% 'Press Start 2P' italic" }, 
         ];
     
-        const colors = ['#3494E6', '#4291E2', '#508EDD', '#5E8BD9', '#6D88D4', '#7B85D0', '#8982CC', '#9780C7', '#A57DC3', '#B37ABF', '#C277BA', '#D074B6', '#DE71B1', '#EC6EAD'];
+        const colors = ['#555555', '#00AAAA', '#971607', '#FF5555', '#DDD605', 'B4684D'];
     
         let startX = this.game.ctx.canvas.width / 2;
         let startY = this.game.ctx.canvas.height / 2 - 200 ;
