@@ -33,7 +33,7 @@ class Steve {
 
         this.collision = new Collision(this.game);
         this.loadAnimations();
-        this.live = true;
+        this.live = false;
     };
 
     loadAnimations() {
@@ -52,7 +52,7 @@ class Steve {
     }
 
     update() {
-        console.log(this.canMove);
+       // console.log(this.canMove);
         if (this.game.keys.ctrl) {
             console.log("ctrl");
         }
@@ -132,9 +132,9 @@ class Steve {
                 this.health += 0.5;
             }
 
-        if(this.health  < 0) {
+        if(this.health  == 0) {
             this.health = 0;
-            this.live = true;
+            this.live = false;
         }
         
         // if(this.jumped) {

@@ -18,10 +18,16 @@ class SceneManager {
     loadSceneManager(level, isTransition) {
         if (isTransition) {
             this.game.transition = new TransitionScreen(this.game, level);
-        } else if (this.frontend.isInMenu == false) {
-            this.steve.live = false;
+        } else if (this.frontend.isInMenu == false && this.frontend.isInCredits == false 
+            && this.frontend.isShowInstructions == false) {
             this.game.play = true;
-        }
+        } 
+    }
+
+    hasDead(){
+       if (this.steve.live == false) {
+        this.game.play = false;
+       }
     }
 
     updateAudio() {
@@ -49,9 +55,8 @@ class SceneManager {
     draw(ctx) { // <- what's calling this?
         if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
-        } else if (this.frontend.isInLoseScreen){
+        } else if (this.hasDead){
            this.frontend.drawLoseScreen(ctx);
-           this.frontend.drawWinScreen(ctx);
            } else if (this.frontend.isInWinScreen){
             this.frontend.drawWinScreen(ctx);
            }
