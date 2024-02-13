@@ -99,15 +99,14 @@ class SceneManager {
     update() {
        //console.log('Before conditional: ', this.steve.live);
        //this.frontend.isInLoseScreen = !this.steve.live;
-       console.log(this.steve.win);
       // this.frontend.isInWinScreen = this.steve.win;
         if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
             this.frontend.update();
-        } else if (this.steve.live === false) {
-            //this.game.play = false;
-            this.frontend.isInLoseScreen = !this.steve.live;
+        } else if (this.steve.live === false && this.steve.win === false) {
+            this.frontend.isInLoseScreen = true;
             this.frontend.update();
-        } else if (this.steve.win === true){
+        } else if (this.steve.live === false && this.steve.win === true){
+            console.log("hello");
             this.frontend.isInWinScreen = true;
             this.frontend.update();
         }

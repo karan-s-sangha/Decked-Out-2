@@ -80,12 +80,13 @@ class Ravager {
         if (this.canSeePlayer() && this.steve.health > 0 && this.attackCoolDown <= 0) {
             if (this.shouldAttackPlayer()) {
                 this.state = 'attacking';
-                this.steve.health -= 7.5;
+               //this.steve.health -= 7.5; 
 
                 this.attackCoolDown =  0.5;
 
                 this.attack = true;
                 this.steve.canMove = false;
+
             } else if(this.attackCoolDown <= 0) {
                 this.state = 'running';
                 this.followPlayer();
@@ -98,6 +99,7 @@ class Ravager {
 
         if (this.attack) {
             if (this.push > 0) {
+             
                 let dx = this.steve.playerX - this.ravagerX;
                 let dy = this.steve.playerY - this.ravagerY;
 
@@ -110,11 +112,11 @@ class Ravager {
                 let newX = this.steve.playerX + dirX * 700 * this.game.clockTick;
                 let newY = this.steve.playerY + dirY * 700 * this.game.clockTick;
 
-                if(this.attackFlag = false) {
+                if(this.attackFlag == false) {
                     this.attackFlag = true;
                     this.steve.jumped = true;
                     this.steve.jumpComplete = false;
-                }
+               }
                 
                 if (!this.collisions.isCollision(newX, newY)) {
                     // this.steve.p
