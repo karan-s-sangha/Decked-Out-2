@@ -24,8 +24,11 @@ class Cards {
 
         // Properties for the cards
         this.nimbleLootingActive = false;
-        this.nimmleInitialClank = 0; 
+        this.nimmleCardsActive = 0; 
  
+        this.adrenalineRushActive = false; 
+        this.adrenalineRushDuration = 0;
+        this.adrenalineCardsActive = 0; 
 
         this.cardDeck = [];
         this.masterDeck = [];
@@ -96,9 +99,10 @@ class Cards {
     }
 
 
-    scheduleTask(action, interval, TimesRepeating , Looping) {
+    scheduleTask(action,initialDelay, interval, TimesRepeating , Looping) {
         this.scheduler.push({
             action: action, // The action to perform
+            initialDelay : initialDelay, // Seconds to start the task later
             interval: interval, // How often to perform it in seconds
             nextTick: interval, // Seconds until the next execution
             TimesRepeating: TimesRepeating, // Whether this task repeats
@@ -109,20 +113,24 @@ class Cards {
     startScheduler() {
         this.schedulerIntervalID = setInterval(() => {
             this.scheduler.forEach((task, index) => {
-                if (--task.nextTick <= 0) {
-                    task.action(); // Execute the scheduled task
-                    if (task.Looping) {
-                        task.nextTick = task.interval; // Reset the tick counter for repeating tasks
-                    } 
-                    else if (task.TimesRepeating > 0) {
-                        task.nextTick = task.interval; // Reset the tick counter for repeating tasks
-                        task.TimesRepeating--;
-                    }
-                    else {
-                        // Remove non-repeating tasks after execution
-                        this.scheduler.splice(index, 1);
+                if(--task.initialDelay <= 0 ){
+                    if (--task.nextTick <= 0) {
+                        task.action(); // Execute the scheduled task
+                        if (task.Looping) {
+                            task.nextTick = task.interval; // Reset the tick counter for repeating tasks
+                        } 
+                        else if (task.TimesRepeating > 0) {
+                            task.nextTick = task.interval; // Reset the tick counter for repeating tasks
+                            task.TimesRepeating--;
+                        }
+                        else {
+                            // Remove non-repeating tasks after execution
+                            this.scheduler.splice(index, 1);
+                        }
                     }
                 }
+                else 
+                   --task.initialDelay;
             });
         }, 1000); // Scheduler checks and runs tasks every second
     }
@@ -316,7 +324,8 @@ class Cards {
             cost: 40,
             hazard : 1,
             maxAllowed : 3,
-            amount : 0
+            amount : 0,
+            heartBeat : 20
         });
     }
 
@@ -351,78 +360,186 @@ class Cards {
             
             if (card.name === "Nimble Looting") {
                 this.nimbleLootingActive = true;
+                this.nimmleCardsActive++;
             }
+
+            if (card.name === "Quickstep") {
+                this.etherealActive = true;
+            }
+
+            if (this.etherealActive) {
+                this.etherealActive = false;
+                this.cardDeck.push(card);
+            }
+
+            if (card.name === "Adrenaline Rush") {
+                 this.AddAdrenalineRush(card.heartBeat);
+            }
+
         }
     }
     AddClankBlock(num){
         this.scheduleTask(() => {
             this.clankBlock += 1;               
-     }, 1,num, false); // Schedule clankBlock addition to happen every second
+        },0, 1,num, false); // Schedule clankBlock addition to happen every second
+    }
+
+    DeleteClankBlock(num){
+        this.scheduleTask(() => {
+            this.clankBlock -= 1;               
+        },0, 1,num, false); // Schedule clankBlock addition to happen every second
     }
 
     AddHazardBlock(num){
         this.scheduleTask(() => {
             this.hazardBlock += 1;               
-    }, 1,num, false); // Schedule hazardBlock addition to happen every second
+        },0, 1,num, false); // Schedule hazardBlock addition to happen every second
+    }
+
+    DeleteHazardBlock(num){
+        this.scheduleTask(() => {
+            this.hazardBlock -= 1;               
+        },0, 1,num, false); // Schedule clankBlock addition to happen every second
+    
     }
 
     AddTreasure(num){
         this.scheduleTask(() => {
             this.treasure += 1;               
-    }, 1,num, false); // Schedule treasure addition to happen every second
+        }, 0, 3, num, false); // Schedule treasure addition to happen every second
+
+        this.scheduleTask(() => {
+            this.treasure -= 1;               
+        }, num+2, 3, num, false);
     }
 
     AddFrostEmbers(num){
         this.scheduleTask(() => {
             this.frostEmbers += 1;               
-    }, 1,num, false); // Schedule frostEmbers addition to happen every second
-    }
-
-    AddClank(num){
-
-        if(this.clankBlock >= num ){
-            this.clankBlock -= num;
-        }else {
-            num -= this.clankBlock;
-            this.clankBlock = 0;
-            this.clank +=num;
-
-            this.nimbleLootingActive = false;
-        }
+        },0, 1, num, false); // Schedule frostEmbers addition to happen every second
 
         this.scheduleTask(() => {
-            this.AddClank();               
-        }, 1,num, false); // Schedule clank addition to happen every second
+            this.frostEmbers -= 1;               
+        }, num+2, 3, num, false);
+    }
+    AddClank(num) {
+          
+        if (this.clankBlock >= num) {
+            if(this.nimbleLootingActive){
+                this.AddTreasure(2*this.nimmleCardsActive);
+            }
+            this.DeleteClankBlock(num);
+        } else {
+            const excessClank = num - this.clankBlock;
+            this.clank += excessClank;
+            this.nimbleLootingActive = false;
+            this.nimmleCardsActive = 0;
+
+            this.DeleteClankBlock(this.clankBlock);
+        }
     }
 
     AddHazard(num){
-        this.scheduleTask(() => {
-            this.hazard += 1;               
-        }, 1,num, false); // Schedule hazard addition to happen every second
+        if(this.hazardBlock >= num ){
+            this.DeleteHazardBlock(num);
+        }else {
+            num -= this.hazardBlock;
+            this.hazard +=num;
+            this.DeleteHazardBlock(this.hazardBlock);
+        }
     }
 
-    AddSpeedTime(num){
-        this.speedEffectDuration += card.speedTime;
-        this.steve.playerRunSpeed = this.steveEnhancedSpeed;
-        
-        this.scheduleTask(() => {
-                if( this.speedEffectDuration - card.speedTime === 0 )
-                   this.steve.playerRunSpeed = this.steve.playerRunSpeed/1.4 ;
-                else 
-                   this.speedEffectDuration-=card.speedTime
-        }, 1,card.speedTime, false); // Schedule speedTime to happen every second
+    AddSpeedTime(num) {
+        // Initially apply enhanced speed if not already applied
+        if (this.speedEffectDuration <= 0) {
+            this.steve.playerRunSpeed = this.steveEnhancedSpeed;
+        }
+    
+        // Add new duration to existing speedEffectDuration
+        this.speedEffectDuration += num;
+    
+        // If there is no ongoing interval for decreasing speedEffectDuration, start it
+        if (!this.speedDecreaseScheduled) {
+            this.speedDecreaseScheduled = true; // Indicate that the decrease interval is set
+    
+            const decreaseSpeedEffect = () => {
+                if (this.speedEffectDuration > 0) {
+                    this.speedEffectDuration--;
+    
+                    if (this.speedEffectDuration <= 0) {
+                        // Once all speedTime effects have expired, revert to normal speed
+                        this.steve.playerRunSpeed = this.steve.playerRunSpeed / 1.4;
+                        this.speedDecreaseScheduled = false; // Indicate that the decrease interval can be set again
+                        clearInterval(this.speedEffectIntervalID); // Clear the interval to stop decrementing
+                    }
+                }
+            };
+    
+            // Set an interval to decrement speedEffectDuration every second
+            this.speedEffectIntervalID = setInterval(decreaseSpeedEffect, 1000);
+        }
     }
+    
     AddRegenerationTime(num){
-        // Handle regenerationTime addition as a scheduled task
-            //   if (card.regenerationTime) {
-            //     this.regenerationEffectDuration += card.regenerationTime;
-                
-            //     this.scheduleTask(() => {
-            //             if( this.regenerationEffectDuration - card.regenerationTime === 0 )
-            //                this.steve.playerRunSpeed = this.steve.playerRunSpeed/1.4 ;
-            //             else 
-            //                this.regenerationEffectDuration-=card.regenerationTime
-            //     }, 1,card.regenerationTime, false); // Schedule regenerationTime to happen every second
+            // // Initially apply enhanced speed if not already applied
+            // if (this.speedEffectDuration <= 0) {
+            //     this.steve.playerRunSpeed = this.steveEnhancedSpeed;
             // }
+        
+            // // Add new duration to existing speedEffectDuration
+            // this.speedEffectDuration += num;
+        
+            // // If there is no ongoing interval for decreasing speedEffectDuration, start it
+            // if (!this.speedDecreaseScheduled) {
+            //     this.speedDecreaseScheduled = true; // Indicate that the decrease interval is set
+        
+            //     const decreaseSpeedEffect = () => {
+            //         if (this.speedEffectDuration > 0) {
+            //             this.speedEffectDuration--;
+        
+            //             if (this.speedEffectDuration <= 0) {
+            //                 // Once all speedTime effects have expired, revert to normal speed
+            //                 this.steve.playerRunSpeed = this.steve.playerRunSpeed / 1.4;
+            //                 this.speedDecreaseScheduled = false; // Indicate that the decrease interval can be set again
+            //                 clearInterval(this.speedEffectIntervalID); // Clear the interval to stop decrementing
+            //             }
+            //         }
+            //     };
+        
+            //     // Set an interval to decrement speedEffectDuration every second
+            //     this.speedEffectIntervalID = setInterval(decreaseSpeedEffect, 1000);
+            // }
+    }
+
+    // this.adrenalineRushDuration = 0;
+    // this.adrenalineCardsActive = 0; 
+
+    AddAdrenalineRush(num) {
+    // Add 1 hazard as part of the Adrenaline Rush effect
+    //this.AddHazard(1);
+
+    // Add new duration to existing adrenalineRushDuration
+    this.adrenalineRushDuration += num;
+
+    // If there is no ongoing interval for decreasing adrenalineRushDuration, start it
+    if (!this.speedDecreaseScheduled) {
+        this.speedDecreaseScheduled = true; // Indicate that the decrease interval is set
+
+        const decreaseSpeedEffect = () => {
+            if (this.adrenalineRushDuration > 0) {
+                this.adrenalineRushDuration--;
+
+                if (this.adrenalineRushDuration <= 0) {
+                    // Once all speedTime effects have expired, revert to normal speed
+                    this.steve.playerRunSpeed = this.steve.playerRunSpeed / 1.4;
+                    this.speedDecreaseScheduled = false; // Indicate that the decrease interval can be set again
+                    clearInterval(this.speedEffectIntervalID); // Clear the interval to stop decrementing
+                }
+            }
+        };
+
+        // Set an interval to decrement speedEffectDuration every second
+        this.speedEffectIntervalID = setInterval(decreaseSpeedEffect, 1000);
+      }
     }
 }
