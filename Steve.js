@@ -30,7 +30,8 @@ class Steve {
         this.playerWalkSpeed = 600;
 
 
-
+        this.win = false;
+        
         this.collision = new Collision(this.game);
         this.loadAnimations();
         this.live = true;

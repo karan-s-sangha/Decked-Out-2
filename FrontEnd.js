@@ -208,6 +208,10 @@ class FrontEnd {
     }
 
     drawWinScreen(ctx) {
+        //ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
+        //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        this.drawReturnToTitleButton(ctx);
     }
     
     
