@@ -7,7 +7,7 @@ class Steve {
         this.height = 340;
         this.game = game;
         this.health = 10;
-        this.hunger = 5;
+        this.hunger = 10;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -17,6 +17,7 @@ class Steve {
         this.run = false;
         this.velocity = { z: 0 };
         this.elapsedTime = 0;
+        this.hungerTime = 0;
         this.jumped = false;
         this.jumpComplete = true;
 
@@ -35,7 +36,6 @@ class Steve {
         this.collision = new Collision(this.game);
         this.loadAnimations();
         this.live = true;
-        this.win = false;
     };
 
     loadAnimations() {
@@ -78,6 +78,7 @@ class Steve {
                 }
 
                 this.run = true;
+                this.hungerTime += 3 * this.game.clockTick;
             }
             else if (this.game.keys.shift && this.hunger >= 3) {
                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY)) {
@@ -98,6 +99,7 @@ class Steve {
                 }
 
                 this.run = true;
+                this.hungerTime += 3 * this.game.clockTick;
             } else {
                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
                     this.move = 1;
@@ -118,6 +120,7 @@ class Steve {
                 }
 
                 this.run = false;
+                this.hungerTime += this.game.clockTick;
             }
 
 
@@ -130,15 +133,23 @@ class Steve {
                 this.jumpComplete = false;
             }
 
-            if (this.hunger >= 9 && this.health < 10) {
+            if (this.hunger >= 9 && this.health < 10 && this.elapsedTime > 1) {
                 this.health += 0.5;
+                this.elapsedTime = 0;
+            }
+
+            if(this.hungerTime > 20) {
+                this.hunger -= 0.5;
+                this.hungerTime = 0;
             }
 
         if(this.health  <= 0) {
             this.health = 0;
             this.live = false;
         }
-        
+        if(this.hunger  <= 0) {
+            this.hunger = 0;
+        }
         // if(this.jumped) {
         //     let x = this.playerX / this.game.GameScale;
         //     let y = this.playerY / this.game.GameScale;
@@ -159,6 +170,7 @@ class Steve {
         //     this.playerY = y * this.game.GameScale;               
         // }
         }
+        this.elapsedTime += this.game.clockTick;
     };
 
 
