@@ -208,6 +208,85 @@ class FrontEnd {
     }
 
     drawWinScreen(ctx) {
+        // Assume both images are loaded and complete for simplicity
+        let backgroundImage = ASSET_MANAGER.cache["./Art/background.png"];
+        let winImage = ASSET_MANAGER.cache["./Art/win.png"];
+    
+        // Draw the background image first
+        if (backgroundImage && backgroundImage.complete) {
+            ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        }
+    
+        // Then draw the win image on top of the background
+        if (winImage && winImage.complete) {
+            // Set the desired scale factor for the win image (e.g., 0.7)
+            const scaleFactor = 0.7;
+    
+            // Calculate the scaled dimensions for the win image
+            const scaledWidth = winImage.width * scaleFactor;
+            const scaledHeight = winImage.height * scaleFactor;
+    
+            // Calculate the position to center the scaled win image on the canvas
+            const x = (this.game.ctx.canvas.width - scaledWidth) / 2;
+            const y = (this.game.ctx.canvas.height - scaledHeight) / 2;
+    
+            // Draw the scaled win image on top of the background
+            ctx.drawImage(winImage, x, y, scaledWidth, scaledHeight);
+        }
+        //this.drawReturnToTitleButton(ctx);
+    }
+
+    
+    
+    
+ drawLoseScreen(ctx) {
+
+         // Fill the background
+         let backgroundLoseImage = ASSET_MANAGER.cache["./Art/losing_background.png"];
+         let loseImage = ASSET_MANAGER.cache["./Art/lose.png"];
+         let bruhImage = ASSET_MANAGER.cache["./Art/bruh.png"];
+         
+         // Ensure the background image for losing is drawn first
+         if (backgroundLoseImage && backgroundLoseImage.complete) {
+             ctx.drawImage(backgroundLoseImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+         }
+     
+         // Set the desired scale factor for the lose image
+         const scaleFactorLose = 0.7;
+     
+         // Calculate the scaled dimensions for the lose image
+         const scaledWidthLose = loseImage.width * scaleFactorLose;
+         const scaledHeightLose = loseImage.height * scaleFactorLose;
+     
+         // Calculate the position to center the scaled lose image on the canvas
+         const xLose = (this.game.ctx.canvas.width - scaledWidthLose) / 2;
+         const yLose = (this.game.ctx.canvas.height - scaledHeightLose) / 2;
+     
+         // Draw the scaled lose image onto the canvas at position (xLose, yLose)
+         if (loseImage && loseImage.complete) {
+             ctx.drawImage(loseImage, xLose, yLose, scaledWidthLose, scaledHeightLose);
+         }
+     
+         // Draw the "Bruh" image next to the "You Lose" image
+         if (bruhImage && bruhImage.complete) {
+             // Set the desired scale factor for the bruh image 
+             const scaleFactorBruh = 0.5;
+             
+             // Calculate the scaled dimensions for the bruh image
+             const scaledWidthBruh = bruhImage.width * scaleFactorBruh;
+             const scaledHeightBruh = bruhImage.height * scaleFactorBruh;
+     
+             // Position the "Bruh" image next to the "You Lose" image
+             const xBruh = xLose + scaledWidthLose - 90; 
+             const yBruh = yLose  - 200; 
+     
+             // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
+             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
+         }
+         //this.drawReturnToTitleButton(ctx);
+     }
+
+  /*  drawWinScreen(ctx) {
         //ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
         ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
         //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
@@ -216,11 +295,10 @@ class FrontEnd {
     
     
     drawLoseScreen(ctx) {
-        //ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
         ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
         //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
         this.drawReturnToTitleButton(ctx);
-    }
+    }*/
     
     
 
