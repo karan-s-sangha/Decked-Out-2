@@ -21,7 +21,6 @@ class FrontEnd {
         let titleMusicPath = "./Art/music/Decked_Out.mp3"; 
         let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
         if (titleMusic && titleMusic.paused) {
-            // Instead of just playing the asset, use autoRepeat to ensure it loops.
             ASSET_MANAGER.autoRepeat(titleMusicPath);
         }
     }
@@ -77,9 +76,9 @@ class FrontEnd {
     }
 
     startGame() {
+        console.log("call");
         this.isInMenu = false;
         this.isInCredits = false;
-        this.sceneManager.gameOver = false;
         this.isShowInstructions = false;
         this.isInWinScreen = false; // Only true when the player wins the game.
         this.isInLoseScreen = false;
@@ -170,9 +169,6 @@ class FrontEnd {
     }
     
         
-    
-    
-
 
     mouseHover(mousePos, button) {
         return mousePos.x >= button.x && mousePos.x <= (button.x + button.w) &&
@@ -184,32 +180,22 @@ class FrontEnd {
         ctx.fillStyle = 'white'; 
         ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
     
-        if (this.isInMenu && !this.isShowInstructions && !this.isInCredits &&
-            !this.isInLoseScreen && !this.isInWinScreen   ) {
+        if (this.isInMenu && !this.isShowInstructions && !this.isInCredits) {
             // Draw menu buttons except the back button
             Object.values(this.buttons).forEach(button => {
                 if (button.text !== "Back") this.drawButton(ctx, button);
-                
             });
-        } else if (this.isShowInstructions || this.isInCredits) {
-            
+        } else if (this.isShowInstructions) {
+            // Draw the instruction screen elements
             this.drawButton(ctx, this.buttons.backButton);
-
-            if (this.isInCredits) {
-                // Draw the credits text
-                this.drawCredits(ctx);
-            } else if (this.isShowInstructions){
-                this.drawInstruction(ctx);
-            }
-        }
-        else if (this.isInWinScreen) {
-            // Draw the win screen
-            this.drawWinScreen(ctx);
-        } else if (this.isInLoseScreen) {
-            // Draw the lose screen
-            this.drawLoseScreen(ctx);
+            this.drawInstruction(ctx);
+        } else if (this.isInCredits) {
+            // Draw the credits screen elements
+            this.drawButton(ctx, this.buttons.backButton);
+            this.drawCredits(ctx);
         }
     }
+    
 
     drawWinScreen(ctx) {
         // Assume both images are loaded and complete for simplicity
