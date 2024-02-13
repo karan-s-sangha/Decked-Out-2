@@ -35,6 +35,10 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
+       //console.log('Before conditional: ', this.steve.live);
+       //this.frontend.isInLoseScreen = !this.steve.live;
+       console.log(this.steve.win);
+      // this.frontend.isInWinScreen = this.steve.win;
         if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
             this.frontend.update();
         } else if (this.steve.live === false) {
@@ -43,7 +47,6 @@ class SceneManager {
             this.frontend.update();
         } else {
             this.frontend.isInWinScreen = this.steve.win;
-            this.frontend.update();
         }
 
     };

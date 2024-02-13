@@ -27,7 +27,7 @@ class Collision {
 
             // Compare pixel data directly
             if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
-                return true; // Collision detected
+                return false; // Collision detected
             } else {
                 return false; // No collision
             }

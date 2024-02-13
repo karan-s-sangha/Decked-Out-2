@@ -6,7 +6,7 @@ class Item {
         this.levelOneLocations = levelOneLocations;
         this.imagePaths = imagePaths;
         this.itemLifeTime = 300000; // 5 minutes
-        this.pickupRadius = 72*this.game.GameScale;
+        this.pickupRadius = 30*this.game.GameScale;
 
         this.items = []; // Array to hold multiple items
 
@@ -21,6 +21,11 @@ class Item {
         this.maxMorf = 1;
         this.morf = Math.random() * this.maxMorf;
         this.morfingDown = true;
+        this.gameScale = this.game.GameScale;
+        this.jumpComplete = true;
+
+        this.jumpFlag = false;
+        this.picked = false;
 
         this.AddItem();
     }
@@ -73,6 +78,49 @@ class Item {
             }
         });
 
+        if(this.steve.jumped) {
+            if(!this.jumpFlag) {
+                this.jumpComplete = false;
+                this.jumpFlag = true;
+            }
+           
+            let x = [];
+            let y = [];
+
+            
+            this.items.forEach(item => {   
+                x.push(item.x / this.gameScale);
+                y.push(item.y / this.gameScale);
+            });
+
+
+            if(this.gameScale > 3.6 && !this.jumpComplete) {
+                this.items.forEach(item => {
+                    item.itemSize -= this.game.clockTick * 0.1;
+                });
+                this.gameScale -= this.game.clockTick * 1.5; 
+            } else {
+                this.jumpComplete = true;
+            }
+
+            if(this.gameScale < 4 && this.jumpComplete) {
+                this.items.forEach(item => {
+                    item.itemSize += this.game.clockTick * 0.1;
+                });
+                this.gameScale += this.game.clockTick * 1.5; 
+            }
+
+            if(this.gameScale >= 4 && this.jumpComplete) {
+                this.jumpFlag = false;
+            }
+
+            for(let i = 0; i < this.items.length; i++) {
+                this.items[i].x = x[i] * this.gameScale;
+                this.items[i].y = y[i] * this.gameScale;
+            }
+            console.log(this.gameScale);
+        }
+
 
         // Remove items that have been picked up or expired
         this.items = this.items.filter(item => {
@@ -110,6 +158,10 @@ class Item {
         if (  Math.abs(this.steve.playerX - item.x) < 6*this.game.GameScale 
             && Math.abs(this.steve.playerY - item.y) < 6*this.game.GameScale ) {
             item.pickedUp = true; // Mark as picked up to remove it later
+            this.picked = true;
+       
+          //  console.log("steve picked up item")
+        //   console.log(this.steve.win);
         }
     }
 
