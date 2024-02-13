@@ -40,8 +40,9 @@ class SceneManager {
         } else if (this.steve.live === false) {
             this.frontend.isInLoseScreen = !this.steve.live;
             this.frontend.update();
-        } else {
+        } else if(this.steve.win === true) {
             this.frontend.isInWinScreen = this.steve.win;
+            this.frontend.update();
         }
 
     };

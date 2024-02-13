@@ -139,35 +139,35 @@ class FrontEnd {
 
 
     update() {
-        // Loop through each button to check for mouseover and click events
-        Object.values(this.buttons).forEach(button => {
-            // Check if the mouse is over the button
-            button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
-            
-            // If there's a click, and it's on the button
-            if (this.game.click && this.mouseHover(this.game.click, button)) {
-                button.action(); // Execute the button's action
-                this.game.click = null; // Reset click to avoid repeated clicks
+            // Handle button interactions based on the current game state
+            if (this.isInMenu || this.isShowInstructions || this.isInCredits) {
+                Object.values(this.buttons).forEach(button => {
+                    button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+                    
+                    if (this.game.click && this.mouseHover(this.game.click, button)) {
+                        button.action();
+                        this.game.click = null;
+                    }
+                });
             }
-        });
-
-         // Handling click on the Return to Title button in win/lose screens
-         if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
-            if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
-                this.returnToTitle();
-                this.game.click = null; // Prevent further clicks from being processed
+        
+            // Handle Return to Title button interaction in win/lose screens
+            if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+                if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
+                    this.returnToTitle();
+                    this.game.click = null;
+                }
+            }
+        
+            // Background music control
+            if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+                this.playTitleMusic();
+            } else {
+                this.stopTitleMusic();
             }
         }
-        // Play title music if on the main menu, credits, or instructions screen
-    if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
-        if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
-           // console.log (this.game.mouse.x);
-        this.playTitleMusic();
-        }
-    } else {
-        this.stopTitleMusic();
-    }
-    }
+        
+    
     
 
 
