@@ -138,49 +138,81 @@ class FrontEnd {
     }
 
 
-    update() {
-        if (!this.isInMenu) {
-            // Loop through each button and remove event listeners
-            Object.values(this.buttons).forEach(button => {
-                // Remove click event listener
-                this.game.canvas.removeEventListener('click', button.clickHandler);
-                // Remove mousemove event listener
-                this.game.canvas.removeEventListener('mousemove', button.mousemoveHandler);
-            });
-        }
+    // update() {
+    //     if (!this.isInMenu) {
+    //         // Loop through each button and remove event listeners
+    //         Object.values(this.buttons).forEach(button => {
+    //             // Remove click event listener
+    //             this.game.canvas.removeEventListener('click', button.clickHandler);
+    //             // Remove mousemove event listener
+    //             this.game.canvas.removeEventListener('mousemove', button.mousemoveHandler);
+    //         });
+    //     }
         
-        // Loop through each button to check for mouseover and click events
-        Object.values(this.buttons).forEach(button => {
-            // Check if the mouse is over the button
-            button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+    //     // Loop through each button to check for mouseover and click events
+    //     Object.values(this.buttons).forEach(button => {
+    //         // Check if the mouse is over the button
+    //         button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
             
-            // If there's a click, and it's on the button
-            if (this.game.click && this.mouseHover(this.game.click, button)) {
-                button.action(); // Execute the button's action
-                this.game.click = null; // Reset click to avoid repeated clicks
-            }
-        });
+    //         // If there's a click, and it's on the button
+    //         if (this.game.click && this.mouseHover(this.game.click, button)) {
+    //             button.action(); // Execute the button's action
+    //             this.game.click = null; // Reset click to avoid repeated clicks
+    //         }
+    //     });
 
        
 
-         // Handling click on the Return to Title button in win/lose screens
-         if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+    //      // Handling click on the Return to Title button in win/lose screens
+    //      if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+    //         if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
+    //             this.returnToTitle();
+    //             this.game.click = null; // Prevent further clicks from being processed
+    //         }
+    //     }
+    //     // Play title music if on the main menu, credits, or instructions screen
+    // if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+    //     if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
+    //        // console.log (this.game.mouse.x);
+    //     this.playTitleMusic();
+    //     }
+    // } else {
+    //     this.stopTitleMusic();
+    // }
+    // }
+    update() {
+        // Assuming this.isInGameScreen is true when the player is in the game screen
+        if (!this.game.play) {
+            // Loop through each button to check for mouseover and click events, but only if not in the game screen
+            Object.values(this.buttons).forEach(button => {
+                // Check if the mouse is over the button
+                button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+    
+                // If there's a click, and it's on the button
+                if (this.game.click && this.mouseHover(this.game.click, button)) {
+                    button.action(); // Execute the button's action
+                    this.game.click = null; // Reset click to avoid repeated clicks
+                }
+            });
+        }
+    
+        // Handling click on the Return to Title button in win/lose screens
+        if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
             if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
                 this.returnToTitle();
                 this.game.click = null; // Prevent further clicks from being processed
             }
         }
-        // Play title music if on the main menu, credits, or instructions screen
-    if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
-        if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
-           // console.log (this.game.mouse.x);
-        this.playTitleMusic();
-        }
-    } else {
-        this.stopTitleMusic();
-    }
-    }
     
+        // Play title music if on the main menu, credits, or instructions screen
+        if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+            if (this.game.mouse.x <= this.game.ctx.canvas.width && this.game.mouse.x >= 0) {
+                this.playTitleMusic();
+            }
+        } else {
+            this.stopTitleMusic();
+        }
+    }
 
 
     mouseHover(mousePos, button) {
