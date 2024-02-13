@@ -1,5 +1,7 @@
 class Artifact  {
     constructor(game, steve) {
+        this.game = game;
+        this.steve = steve;
         this.item = new Item  (game, steve, [
             [950, 500], [750, 1500], [595, 1624], [372, 1588], [340, 1700],
             [177, 1442], [113, 1156], [126, 784], [1235, 1090], [1058, 980],
@@ -23,6 +25,10 @@ class Artifact  {
     }
     update(){
         this.item.update();
+        if(this.item.picked) {
+            this.steve.win = true;
+            this.game.play = false;
+        }
     }
     draw(ctx){
         this.item.draw(ctx);

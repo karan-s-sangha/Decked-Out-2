@@ -18,10 +18,10 @@ class SceneManager {
     loadSceneManager(level, isTransition) {
         if (isTransition) {
             this.game.transition = new TransitionScreen(this.game, level);
-        } else if (this.frontend.isInMenu == false) {
-            this.steve.live = false;
+        } else if (this.frontend.isInMenu == false && this.frontend.isInCredits == false 
+            && this.frontend.isShowInstructions == false) {
             this.game.play = true;
-        }
+        } 
     }
 
     updateAudio() {
@@ -35,24 +35,39 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-        this.frontend.isInLoseScreen = !this.steve.live;
-        this.frontend.isInWinScreen = this.steve.win;
+       //console.log('Before conditional: ', this.steve.live);
+       //this.frontend.isInLoseScreen = !this.steve.live;
+       console.log(this.steve.win);
+      // this.frontend.isInWinScreen = this.steve.win;
+        if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
+            this.frontend.update();
+        } else if (this.steve.live === false) {
+            //this.game.play = false;
+            this.frontend.isInLoseScreen = !this.steve.live;
+            this.frontend.update();
+        } else if (this.steve.win === true){
+            this.frontend.isInWinScreen = true;
+            this.frontend.update();
+        }
+       //console.log('After conditional: ', this.game.play, this.frontend.isInLoseScreen);
 
+        //console.log(this.steve.live);
         // Let the frontend handle the music based on its state
-        this.frontend.update();
+       // this.frontend.update();
 
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) { // <- what's calling this?
+        //if (this.game.play == false){
         if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
-        } else if (this.frontend.isInLoseScreen) {
-            this.frontend.drawLoseScreen(ctx);
+        } else if (this.frontend.isInLoseScreen){
+           this.frontend.drawLoseScreen(ctx);
+           } else if (this.frontend.isInWinScreen){
             this.frontend.drawWinScreen(ctx);
-        } else if (this.frontend.isInWinScreen) {
-            this.frontend.drawWinScreen(ctx);
-        }
+           }
+       
     };
 
 };

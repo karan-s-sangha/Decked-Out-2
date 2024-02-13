@@ -1,6 +1,7 @@
 class Compass {
     constructor(artifact, steve, game) {
         this.artifact = artifact;
+        
         this.steve = steve;
         this.game = game;
         this.playerX = this.steve.playerX;
@@ -26,7 +27,7 @@ class Compass {
        
         this.angleRadians = this.findAngle(
             this.playerX, this.playerY,
-            this.artX, this.artY);
+            this.artifact.item.getX(), this.artifact.item.getY());
     
         this.drawX = 0;
         this.drawY = 0;

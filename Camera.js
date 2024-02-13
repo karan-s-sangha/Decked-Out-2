@@ -95,6 +95,7 @@ class Camera {
 
     // This update is for the whole website including the HTML 
     update() {
+      
 
         if(this.steve.jumped) {
             let x = this.steve.playerX / this.game.GameScale;
@@ -142,6 +143,9 @@ class Camera {
         
         this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
         this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
+        if (this.steve.live == false){
+            this.game.play = false;
+        }
 
     };
 
