@@ -123,14 +123,14 @@ class FrontEnd {
     }
 
 
-    // returnToTitle() {
-    //     // Reset the game state to show the title screen
-    //     this.isInMenu = true;
-    //     this.isInWinScreen = false;
-    //     this.isInLoseScreen = false;
-    //     this.isInCredits = false;
-    //     this.isShowInstructions = false;
-    // }
+    returnToTitle() {
+        // Reset the game state to show the title screen
+        this.isInMenu = true;
+        this.isInWinScreen = false;
+        this.isInLoseScreen = false;
+        this.isInCredits = false;
+        this.isShowInstructions = false;
+    }
 
     drawReturnToTitleButton(ctx) {
         const button = this.returnToTitleButton; // Use the button defined in the constructor

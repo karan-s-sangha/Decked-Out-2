@@ -25,6 +25,7 @@ class Item {
         this.jumpComplete = true;
 
         this.jumpFlag = false;
+        this.picked = false;
 
         this.AddItem();
     }
@@ -157,8 +158,8 @@ class Item {
         if (  Math.abs(this.steve.playerX - item.x) < 6*this.game.GameScale 
             && Math.abs(this.steve.playerY - item.y) < 6*this.game.GameScale ) {
             item.pickedUp = true; // Mark as picked up to remove it later
-            this.steve.win = true;
-            this.game.play = false;
+            this.picked = true;
+       
           //  console.log("steve picked up item")
         //   console.log(this.steve.win);
         }
