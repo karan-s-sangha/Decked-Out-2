@@ -127,9 +127,6 @@ class Camera {
             if(this.steve.jumpComplete && this.game.GameScale >= 4) {
                 this.steve.jumped = false;
             }
-
-
-
             this.steve.playerX = x * this.game.GameScale;
             this.steve.playerY = y * this.game.GameScale;      
             

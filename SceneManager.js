@@ -44,6 +44,8 @@ class SceneManager {
             //this.game.play = false;
             this.frontend.isInLoseScreen = !this.steve.live;
             this.frontend.update();
+        } else {
+            this.frontend.isInWinScreen = this.steve.win;
         }
        //console.log('After conditional: ', this.game.play, this.frontend.isInLoseScreen);
 
@@ -55,6 +57,7 @@ class SceneManager {
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) { // <- what's calling this?
+        //if (this.game.play == false){
         if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
         } else if (this.frontend.isInLoseScreen){
@@ -62,6 +65,7 @@ class SceneManager {
            } else if (this.frontend.isInWinScreen){
             this.frontend.drawWinScreen(ctx);
            }
+       
     };
 
 };

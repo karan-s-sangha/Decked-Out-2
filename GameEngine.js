@@ -114,6 +114,8 @@ class GameEngine {
             for (let i = 0; i < this.entities.length; i++) {
                 this.entities[i].draw(this.ctx);
             }
+        } else if (this.play == false && this.camera.steve.live == false) {
+            this.screen.draw(this.ctx);   
         } else {
             this.screen.draw(this.ctx);
         }
