@@ -18,7 +18,7 @@ class FrontEnd {
     }
 
     playTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3"; // Ensure this is the correct path
+        let titleMusicPath = "./Art/music/Decked_Out.mp3"; 
         let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
         if (titleMusic && titleMusic.paused) {
             // Instead of just playing the asset, use autoRepeat to ensure it loops.
@@ -181,7 +181,8 @@ class FrontEnd {
         ctx.fillStyle = 'white'; 
         ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
     
-        if (this.isInMenu) {
+        if (this.isInMenu && !this.isShowInstructions && !this.isInCredits &&
+            !this.isInLoseScreen && !this.isInWinScreen   ) {
             // Draw menu buttons except the back button
             Object.values(this.buttons).forEach(button => {
                 if (button.text !== "Back") this.drawButton(ctx, button);
