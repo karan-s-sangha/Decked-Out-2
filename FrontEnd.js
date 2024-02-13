@@ -138,68 +138,37 @@ class FrontEnd {
     }
 
 
-    // update() {
-    //     if (!this.isInMenu) {
-    //         // Loop through each button and remove event listeners
-    //         Object.values(this.buttons).forEach(button => {
-    //             // Remove click event listener
-    //             this.game.canvas.removeEventListener('click', button.clickHandler);
-    //             // Remove mousemove event listener
-    //             this.game.canvas.removeEventListener('mousemove', button.mousemoveHandler);
-    //         });
-    //     }
-        
-    //     // Loop through each button to check for mouseover and click events
-    //     Object.values(this.buttons).forEach(button => {
-    //         // Check if the mouse is over the button
-    //         button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
-            
-    //         // If there's a click, and it's on the button
-    //         if (this.game.click && this.mouseHover(this.game.click, button)) {
-    //             button.action(); // Execute the button's action
-    //             this.game.click = null; // Reset click to avoid repeated clicks
-    //         }
-    //     });
-
-       
-
-    //      // Handling click on the Return to Title button in win/lose screens
-    //      if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
-    //         if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
-    //             this.returnToTitle();
-    //             this.game.click = null; // Prevent further clicks from being processed
-    //         }
-    //     }
-    //     // Play title music if on the main menu, credits, or instructions screen
-    // if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
-    //     if (this.game.mouse.x <= this.game.ctx.canvas.width || this.game.mouse.x >= 0){
-    //        // console.log (this.game.mouse.x);
-    //     this.playTitleMusic();
-    //     }
-    // } else {
-    //     this.stopTitleMusic();
-    // }
-    // }
     update() {
-        // Handle button interactions based on the current game state
-        if (this.isInMenu || this.isShowInstructions || this.isInCredits) {
-            Object.values(this.buttons).forEach(button => {
-                button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
-
-                if (this.game.click && this.mouseHover(this.game.click, button)) {
-                    button.action();
+            // Handle button interactions based on the current game state
+            if (this.isInMenu || this.isShowInstructions || this.isInCredits) {
+                Object.values(this.buttons).forEach(button => {
+                    button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+                    
+                    if (this.game.click && this.mouseHover(this.game.click, button)) {
+                        button.action();
+                        this.game.click = null;
+                    }
+                });
+            }
+        
+            // Handle Return to Title button interaction in win/lose screens
+          /*  if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+                if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
+                    this.returnToTitle();
                     this.game.click = null;
                 }
-            });
-        }
-
-        // Handle Return to Title button interaction in win/lose screens
-        if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
-            if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
-                this.returnToTitle();
-                this.game.click = null;
+            }*/
+        
+            // Background music control
+            if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+                this.playTitleMusic();
+            } else {
+                this.stopTitleMusic();
             }
         }
+        
+    
+    
 
         // Background music control
         if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
@@ -276,6 +245,68 @@ class FrontEnd {
 
     
     
+    
+ drawLoseScreen(ctx) {
+
+         // Fill the background
+         let backgroundLoseImage = ASSET_MANAGER.cache["./Art/losing_background.png"];
+         let loseImage = ASSET_MANAGER.cache["./Art/lose.png"];
+         let bruhImage = ASSET_MANAGER.cache["./Art/bruh.png"];
+         
+         // Ensure the background image for losing is drawn first
+         if (backgroundLoseImage && backgroundLoseImage.complete) {
+             ctx.drawImage(backgroundLoseImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+         }
+     
+         // Set the desired scale factor for the lose image
+         const scaleFactorLose = 0.7;
+     
+         // Calculate the scaled dimensions for the lose image
+         const scaledWidthLose = loseImage.width * scaleFactorLose;
+         const scaledHeightLose = loseImage.height * scaleFactorLose;
+     
+         // Calculate the position to center the scaled lose image on the canvas
+         const xLose = (this.game.ctx.canvas.width - scaledWidthLose) / 2;
+         const yLose = (this.game.ctx.canvas.height - scaledHeightLose) / 2;
+     
+         // Draw the scaled lose image onto the canvas at position (xLose, yLose)
+         if (loseImage && loseImage.complete) {
+             ctx.drawImage(loseImage, xLose, yLose, scaledWidthLose, scaledHeightLose);
+         }
+     
+         // Draw the "Bruh" image next to the "You Lose" image
+         if (bruhImage && bruhImage.complete) {
+             // Set the desired scale factor for the bruh image 
+             const scaleFactorBruh = 0.5;
+             
+             // Calculate the scaled dimensions for the bruh image
+             const scaledWidthBruh = bruhImage.width * scaleFactorBruh;
+             const scaledHeightBruh = bruhImage.height * scaleFactorBruh;
+     
+             // Position the "Bruh" image next to the "You Lose" image
+             const xBruh = xLose + scaledWidthLose - 90; 
+             const yBruh = yLose  - 200; 
+     
+             // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
+             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
+         }
+         //this.drawReturnToTitleButton(ctx);
+     }
+
+  /*  drawWinScreen(ctx) {
+        //ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
+        //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        this.drawReturnToTitleButton(ctx);
+    }
+
+    
+    
+    drawLoseScreen(ctx) {
+        ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
+        //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+        this.drawReturnToTitleButton(ctx);
+    }*/
     
  drawLoseScreen(ctx) {
 

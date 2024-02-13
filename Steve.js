@@ -38,9 +38,7 @@ class Steve {
         this.collision = new Collision(this.game);
         this.loadAnimations();
         this.live = true;
-
-        this.elapsedTime = 0;
-        this.healingDelay = 0;
+        this.win = false;
     };
 
     loadAnimations() {
