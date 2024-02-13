@@ -12,7 +12,6 @@ class Collision {
     }
 
     isCollision(x, y) {
-        return false;
         this.x = x / this.game.GameScale;
         this.y = y / this.game.GameScale;
         // console.log(this.x);

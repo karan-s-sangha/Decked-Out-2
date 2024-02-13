@@ -9,10 +9,6 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Colli
 
 // Animation for the Upper Level One
 ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
-//
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/2024-02-09_09.00.59.png");
-
-//2024-02-09_09.00.59
 
 
 // Animation for the Ravager

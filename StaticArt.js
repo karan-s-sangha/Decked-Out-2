@@ -10,7 +10,7 @@ class StaticArt {
 
     draw(ctx) {
 
-        let levelImage = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/2024-02-09_09.00.59.png"];
+        let levelImage = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/Level_1_UpperView.png"];
             ctx.drawImage(levelImage, 
 
             (this.game.camera.cameraX)/this.game.GameScale, (this.game.camera.cameraY)/this.game.GameScale, 
