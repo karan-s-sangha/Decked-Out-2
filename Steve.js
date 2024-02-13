@@ -7,7 +7,7 @@ class Steve {
         this.height = 340;
         this.game = game;
         this.health = 10;
-        this.hunger = 10;
+        this.hunger = 5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -23,24 +23,19 @@ class Steve {
         this.canMove = true;
         this.playerX = playerX;
         this.playerY = playerY;
-        this.screenX = this.game.ctx.canvas.width/2;
-        this.screenY = this.game.ctx.canvas.height/2;
-
-        this.playerRunSpeed = 10;
-        this.playerWalkSpeed = 6;
+        this.screenX = this.game.ctx.canvas.width / 2;
+        this.screenY = this.game.ctx.canvas.height / 2;
 
         this.playerRunSpeed = 800;
         this.playerWalkSpeed = 600;
 
+
         this.win = false;
         
-
         this.collision = new Collision(this.game);
         this.loadAnimations();
         this.live = true;
-
-        this.elapsedTime = 0;
-        this.healingDelay = 0;
+        this.win = false;
     };
 
     loadAnimations() {
@@ -83,7 +78,6 @@ class Steve {
                 }
 
                 this.run = true;
-                this.elapsedTime += 2 * this.game.clockTick;
             }
             else if (this.game.keys.shift && this.hunger >= 3) {
                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY)) {
@@ -104,7 +98,6 @@ class Steve {
                 }
 
                 this.run = true;
-                this.elapsedTime += 2 * this.game.clockTick;
             } else {
                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
                     this.move = 1;
@@ -125,7 +118,6 @@ class Steve {
                 }
 
                 this.run = false;
-                this.elapsedTime += this.game.clockTick;
             }
 
 
@@ -138,28 +130,35 @@ class Steve {
                 this.jumpComplete = false;
             }
 
-            if (this.hunger >= 9 && this.health <= 9.5) {
-                this.healingDelay += this.game.clockTick;
-                if(this.healingDelay >= 2) {
-                    this.health += 0.5;
-                    this.healingDelay = 0;
-                }
+            if (this.hunger >= 9 && this.health < 10) {
+                this.health += 0.5;
             }
-        if(this.elapsedTime >= 30) {
-            this.hunger -= 0.5;
-            this.elapsedTime = 0;
-        }
 
-
-    
-
-        }
         if(this.health  <= 0) {
             this.health = 0;
             this.live = false;
-            console.log("run");
         }
-       
+        
+        // if(this.jumped) {
+        //     let x = this.playerX / this.game.GameScale;
+        //     let y = this.playerY / this.game.GameScale;
+        //     if(this.game.GameScale > 3.6 && !this.jumpComplete) {
+        //         this.game.GameScale -= this.game.clockTick * 1.5; 
+        //     } else {
+        //         this.jumpComplete = true;
+        //     }
+
+        //     if(this.game.GameScale < 4 && this.jumpComplete) {
+        //         this.game.GameScale += this.game.clockTick * 1.5;
+        //     }
+
+        //     if(this.jumpComplete && this.game.GameScale >= 4) {
+        //         this.jumped = false;
+        //     }
+        //     this.playerX = x * this.game.GameScale;
+        //     this.playerY = y * this.game.GameScale;               
+        // }
+        }
     };
 
 
@@ -248,7 +247,7 @@ class Steve {
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-        //ctx.save();
+       // ctx.save();
 
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
