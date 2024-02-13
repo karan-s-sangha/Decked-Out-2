@@ -152,12 +152,12 @@ class FrontEnd {
             }
         
             // Handle Return to Title button interaction in win/lose screens
-            if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+          /*  if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
                 if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
                     this.returnToTitle();
                     this.game.click = null;
                 }
-            }
+            }*/
         
             // Background music control
             if (this.isInMenu || this.isInCredits || this.isShowInstructions) {

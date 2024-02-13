@@ -80,7 +80,7 @@ class Ravager {
         if (this.canSeePlayer() && this.steve.health > 0 && this.attackCoolDown <= 0) {
             if (this.shouldAttackPlayer()) {
                 this.state = 'attacking';
-                this.steve.health -= 7.5;
+                //this.steve.health -= 7.5;
 
                 this.attackCoolDown =  0.5;
 
