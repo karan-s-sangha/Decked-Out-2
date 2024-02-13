@@ -18,7 +18,7 @@ class FrontEnd {
     }
 
     playTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3"; 
+        let titleMusicPath = "./Art/music/Decked_Out.mp3"; // Ensure this is the correct path
         let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
         if (titleMusic && titleMusic.paused) {
             // Instead of just playing the asset, use autoRepeat to ensure it loops.
@@ -139,36 +139,33 @@ class FrontEnd {
 
 
     update() {
-        // Handle button interactions based on the current game state m
-        if (this.isInMenu) {
-            // Only interact with start, instructions, and credits buttons
-            ['startButton', 'instructionsButton', 'creditsButton'].forEach(key => {
-                let button = this.buttons[key];
-                button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
-                
-                if (this.game.click && this.mouseHover(this.game.click, button)) {
-                    button.action();
-                    this.game.click = null; // Reset click to prevent repeat actions
+            // Handle button interactions based on the current game state
+            if (this.isInMenu || this.isShowInstructions || this.isInCredits) {
+                Object.values(this.buttons).forEach(button => {
+                    button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
+                    
+                    if (this.game.click && this.mouseHover(this.game.click, button)) {
+                        button.action();
+                        this.game.click = null;
+                    }
+                });
+            }
+        
+            // Handle Return to Title button interaction in win/lose screens
+          /*  if ((this.isInWinScreen || this.isInLoseScreen) && this.game.click) {
+                if (this.mouseHover(this.game.click, this.returnToTitleButton)) {
+                    this.returnToTitle();
+                    this.game.click = null;
                 }
-            });
-        } else if (this.isShowInstructions || this.isInCredits) {
-            // Only interact with the back button
-            let button = this.buttons.backButton;
-            button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
-            if (this.game.click && this.mouseHover(this.game.click, button)) {
-                button.action();
-                this.game.click = null;
+            }*/
+        
+            // Background music control
+            if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
+                this.playTitleMusic();
+            } else {
+                this.stopTitleMusic();
             }
         }
-    
-        // Background music control 
-        if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
-            this.playTitleMusic();
-        } else {
-            this.stopTitleMusic();
-        }
-    }
-    
         
     
     
@@ -184,8 +181,7 @@ class FrontEnd {
         ctx.fillStyle = 'white'; 
         ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
     
-        if (this.isInMenu && !this.isShowInstructions && !this.isInCredits &&
-            !this.isInLoseScreen && !this.isInWinScreen   ) {
+        if (this.isInMenu) {
             // Draw menu buttons except the back button
             Object.values(this.buttons).forEach(button => {
                 if (button.text !== "Back") this.drawButton(ctx, button);
