@@ -123,20 +123,20 @@ class FrontEnd {
     }
 
 
-    returnToTitle() {
-        // Reset the game state to show the title screen
-        this.isInMenu = true;
-        this.isInWinScreen = false;
-        this.isInLoseScreen = false;
-        this.isInCredits = false;
-        this.isShowInstructions = false;
-    }
+    // returnToTitle() {
+    //     // Reset the game state to show the title screen
+    //     this.isInMenu = true;
+    //     this.isInWinScreen = false;
+    //     this.isInLoseScreen = false;
+    //     this.isInCredits = false;
+    //     this.isShowInstructions = false;
+    // }
 
-    drawReturnToTitleButton(ctx) {
-        const button = this.returnToTitleButton; // Use the button defined in the constructor
-        this.drawButton(ctx, button);
-        console.log("called ro");
-    }
+    // drawReturnToTitleButton(ctx) {
+    //     const button = this.returnToTitleButton; // Use the button defined in the constructor
+    //     this.drawButton(ctx, button);
+    //     console.log("called ro");
+    // }
 
 
     update() {
@@ -281,7 +281,7 @@ class FrontEnd {
             // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
         }
-        this.drawReturnToTitleButton(ctx);
+     //   this.drawReturnToTitleButton(ctx);
     }
     
 

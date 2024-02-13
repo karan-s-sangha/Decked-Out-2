@@ -13,6 +13,7 @@ class Ravager {
         this.push = 300;
         this.attackCoolDown = 0;
 
+        this.attackFlag = false;
        
 
         this.dx = 0;
@@ -109,8 +110,12 @@ class Ravager {
                 let newX = this.steve.playerX + dirX * 700 * this.game.clockTick;
                 let newY = this.steve.playerY + dirY * 700 * this.game.clockTick;
 
-                this.steve.jumped = true;
-                this.steve.jumpComplete = false;
+                if(this.attackFlag = false) {
+                    this.attackFlag = true;
+                    this.steve.jumped = true;
+                    this.steve.jumpComplete = false;
+                }
+                
                 if (!this.collisions.isCollision(newX, newY)) {
                     // this.steve.p
                     this.steve.playerX = newX;
@@ -124,7 +129,8 @@ class Ravager {
             } else {
                 this.attack = false;
                 this.push = 300;
-                this.steve.canMove = true;         
+                this.steve.canMove = true;    
+                this.attackFlag = false;     
             }
             
         }
