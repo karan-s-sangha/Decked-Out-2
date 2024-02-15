@@ -1,147 +1,254 @@
-const LOW_HEALTH = 10; // constant value for palyer health
-
 class Ravager {
-    constructor(game, x, y, walkSpeed, runSpeed, size) {
+    constructor(game, steve, collisions, x, y, walkSpeed, runSpeed, size) {
         this.game = game;
-        this.x = x;
-        this.y = y;
+        this.steve = steve;
+
+        this.ravagerX = x;
+        this.ravagerY = y;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
-        this.size = size;
-        this.playerInView = false;
-        this.lastSeenPlayerTime = null;
-        this.lastPlayerPosition = { x: null, y: null }; // Stores the last known position of the player
+        this.size = 0.25;
+
+        this.attack = false;
+        this.push = 300;
+        this.attackCoolDown = 0;
+
+        this.attackFlag = false;
+       
+
+        this.dx = 0;
+        this.dy = 0;
 
         this.loadAnimations();
-        
-        //this.collisions = collisions;
+        this.state = 'wandering';
+        this.collisions = collisions;
+        this.wanderMove = 0;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.moveAttemptTimer = 0; // Timer to track movement attempts
+        this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
     }
+
+    findAngle() {
+        return Math.atan2(this.steve.playerY - this.ravagerY, this.steve.playerX - this.ravagerX);
+    }
+
     loadAnimations() {
-        this.spritesheet = new Image();
-        this.spritesheet.src = "./Art/Level_1_UpperView_Art/ravenger.png";
-        this.animations = new Animator(this.spritesheet, 239, 0, 47, 68, 1, 0.5, 14, false, true);
-        //this.animations = new Animator(this.spritesheet, 239, 0, 16, 16, 3, 0.5, 14, false, true);
-        
-        
+        this.walkingSpriteSheet = new Image();
+        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-walking-running.png"];
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 286, 809, 95, 0.02, 0, false, true);
+
+        this.attackingSpriteSheet = new Image();
+        this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
+        this.attackingAnimations = new Animator(this.game, this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.02, 0, false, true);
+
+        this.standingSpriteSheet = new Image();
+        this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
+        this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.02, 0, false, true);
     }
 
     draw(ctx) {
-        // Draw the Mario image on top of the black background
-    //  ctx.drawImage(this.spritesheet, 209, 0, 32, 16, this.x, this.y, 64,32);
-    this.animations.drawFrame(this.game.clockTick,ctx,this.x,this.y,3);
-    console.log("pass");
+        let scaleX = this.ravagerX - this.game.camera.cameraX;
+        let scaleY = this.ravagerY - this.game.camera.cameraY;
 
-}
 
-    //update(player, collisions) {
-    update(player) {
-        if (this.canSeePlayer(player)) {
-            this.playerInView = true; // if player is in view
-            this.lastSeenPlayerTime = new Date(); // get a time that ravagener sees player
-            this.lastPlayerPosition = { x: player.x, y: player.y }; // Update the last known position
-            this.followPlayer(player);
-        } else {
-            if (this.playerInView && (new Date() - this.lastSeenPlayerTime > 2000)) {// if it is more than 2 secs
-                this.playerInView = false;
-                // Only move to the last known position if it's set
-                if (this.lastPlayerPosition.x !== null && this.lastPlayerPosition.y !== null) {
-                    this.moveLastPlayerPosition(this.lastPlayerPosition);
-                } else {
-                    //this.wander(collisions);
+        switch (this.state) {
+            case 'attacking':
+                this.angle = this.findAngle();
+                // Draw attacking animation
+                this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, this.size, this.angle + Math.PI / 2);
+                break;
+            case 'running':
+                this.angle = this.findAngle();
+                // Draw walking/running animation
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, this.size, this.angle + Math.PI / 2);
+                break;
+            case 'wandering':
+                // Draw wandering animation
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, scaleX, scaleY, this.size, this.angle + Math.PI / 2);
+                break;
+            default:
+                // If state is unknown, you might want to log an error or handle it in some way
+                break;
+        }
+
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(scaleX, scaleY, 3, 3);
+        
+    }
+
+    update() {
+        if (this.canSeePlayer() && this.steve.health > 0 && this.attackCoolDown <= 0) {
+            if (this.shouldAttackPlayer()) {
+                this.state = 'attacking';
+                this.steve.health -= 7.5;
+
+                this.attackCoolDown =  0.5;
+
+                this.attack = true;
+                this.steve.canMove = false;
+            } else if(this.attackCoolDown <= 0) {
+                this.state = 'running';
+                this.followPlayer();
+            }
+        }
+        else {
+            this.state = 'wandering';
+            this.wander();
+        }
+
+        if (this.attack) {
+            if (this.push > 0) {
+                let dx = this.steve.playerX - this.ravagerX;
+                let dy = this.steve.playerY - this.ravagerY;
+
+                // Normalize the vector
+                let magnitude = Math.sqrt(dx * dx + dy * dy);
+                let dirX = dx / magnitude;
+                let dirY = dy / magnitude;
+
+                // Move the Ravager towards the player
+                let newX = this.steve.playerX + dirX * 700 * this.game.clockTick;
+                let newY = this.steve.playerY + dirY * 700 * this.game.clockTick;
+
+                if(this.attackFlag = false) {
+                    this.attackFlag = true;
+                    this.steve.jumped = true;
+                    this.steve.jumpComplete = false;
                 }
+                
+                if (!this.collisions.isCollision(newX, newY)) {
+                    // this.steve.p
+                    this.steve.playerX = newX;
+                    this.steve.playerY = newY;
+                    this.push -= 12;
+
+                } else {
+                    this.push = 0;
+                }
+                
             } else {
-               // this.wander(collisions);// fallback
+                this.attack = false;
+                this.push = 300;
+                this.steve.canMove = true;    
+                this.attackFlag = false;     
+            }
+            
+        }
+        if(this.attackCoolDown > 0) {
+            this.attackCoolDown -= this.game.clockTick;
+        } else {
+            this.attackCoolDown = 0;
+        }
+
+    }
+
+    canSeePlayer() {
+        const visibilityDistance = 300;
+        const dx = this.steve.playerX - this.ravagerX;
+        const dy = this.steve.playerY - this.ravagerY;
+        const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
+
+        if (distanceToPlayer > visibilityDistance) {
+            return false;
+        }
+
+        // draw a line 
+        const steps = Math.max(Math.abs(dx), Math.abs(dy));
+        for (let i = 1; i <= steps; i++) { //want to check every single steps 
+            const checkX = this.ravagerX + (dx / steps) * i;
+            const checkY = this.ravagerY + (dy / steps) * i;
+
+            if (this.collisions.isCollisionRavager(checkX, checkY, this.size)) {
+                return false; // false if ther is a wall
+            }
+        }
+
+        return true; // Clear line of sight to the player
+    }
+
+
+    shouldAttackPlayer() {
+        const attackDistance = 50;
+        const dx = this.steve.playerX - this.ravagerX;
+        const dy = this.steve.playerY - this.ravagerY;
+        return Math.sqrt(dx * dx + dy * dy) < attackDistance;
+    }
+
+    followPlayer() {
+        const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
+        let dx = this.steve.playerX - this.ravagerX;
+        let dy = this.steve.playerY - this.ravagerY;
+
+        let magnitude = Math.sqrt(dx * dx + dy * dy);
+        let dirX = dx / magnitude;
+        let dirY = dy / magnitude;
+
+        let nextX = this.ravagerX + dirX * ravagerSpeed * this.game.clockTick;
+        let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
+
+        if (this.collisions.isCollisionRavager(nextX, nextY, this.size)) { // if there has a collision 
+            this.avoidObstacle(nextX, nextY, this.steve.playerWalkSpeed / 2);
+            this.moveAttemptTimer += this.game.clockTick;
+            if (this.moveAttemptTimer > this.moveAttemptDuration) {
+                // If stuck for more than the duration, switch to wandering behavior
+                this.state = 'wandering';
+                this.wander();
+                this.moveAttemptTimer = 0; // Reset the timer
+            }
+        } else {
+            // If able to move, reset the timer
+            this.ravagerX = nextX;
+            this.ravagerY = nextY;
+            this.moveAttemptTimer = 0;
+        }
+    }
+
+
+
+    avoidObstacle(predictedX, predictedY, speed) {
+        let foundPath = false; // found the path or not for boolean
+        // i will move 10 degrees to see there has a good path to move or not
+        for (let angle = 0; angle <= 2 * Math.PI; angle += Math.PI / 18) {
+            let newX = this.ravagerX + Math.cos(angle) * speed * this.game.clockTick;
+            let newY = this.ravagerY + Math.sin(angle) * speed * this.game.clockTick;
+
+            if (!this.collisions.isCollisionRavager(newX, newY, this.size)) {
+                this.ravagerX = newX;
+                this.ravagerY = newY;
+                foundPath = true;
+                break;
+            }
+        }
+
+        if (!foundPath) {
+            this.state = 'wandering';
+            this.wander();
+        }
+    }
+
+
+
+
+    wander() {
+        if (this.wanderMove <= 0) {
+            const angleChange = Math.random() * Math.PI - Math.PI / 2;
+            this.angle += angleChange;
+            this.wanderMove = Math.floor(Math.random() * 1000);
+        } else {
+            const speed = 75 + Math.random() * 0.5;
+            let newX = this.ravagerX + Math.cos(this.angle) * speed * this.game.clockTick;
+            let newY = this.ravagerY + Math.sin(this.angle) * speed * this.game.clockTick;
+            const lookAheadX = newX + Math.cos(this.angle) * this.size;
+            const lookAheadY = newY + Math.sin(this.angle) * this.size;
+
+            if (!this.collisions.isCollisionRavager(lookAheadX, lookAheadY, this.size)) {
+                this.ravagerX = newX;
+                this.ravagerY = newY;
+                this.wanderMove--;
+            } else {
+                this.wanderMove = 0;
             }
         }
     }
 
-    canSeePlayer(player) {
-        
-        return false;
-    }
-
-
-   followPlayer(player) {
-   // followPlayer(player, collisions) {
-        // Determine ravager's speed based on player's heath state
-        const ravagerSpeed = (player.isRunning || player.health <= LOW_HEALTH) ? this.runSpeed : this.walkSpeed;
-
-        // Calculate the vector from the Ravager to the player
-        let dx = player.x - this.x;
-        let dy = player.y - this.y;
-    
-        // Normalize the vector
-        let magnitude = Math.sqrt(dx * dx + dy * dy);
-        let dirX = dx / magnitude;
-        let dirY = dy / magnitude;
-    
-        // Move the Ravager towards the player
-        let newX = this.x + dirX * ravagerSpeed;
-        let newY = this.y + dirY * ravagerSpeed;
-
-        // Check for collision
-        // if (!collisions.checkCollision(newX, newY, this.size)) {
-        //     this.x = newX;
-        //     this.y = newY;
-        // }
-    }
-
-    // wander(collisions) {
-    //     // Random movement logic and need to update more advance wander method
-    //     const moveAmount = 5;
-    //     let newX = this.x + (Math.random() - 0.5) * moveAmount;
-    //     let newY = this.y + (Math.random() - 0.5) * moveAmount;
-    
-    //     if (!collisions.checkCollision(newX, newY, this.size)) {
-    //         this.x = newX;
-    //         this.y = newY;
-    //     }
-    // }
-
-    // moveLastPlayerPosition(position, collisions) {
-    //     let dx = position.x - this.x;
-    //     let dy = position.y - this.y;
-    //     let distance = Math.sqrt(dx * dx + dy * dy);
-    
-    //     // Normalize the direction
-    //     let dirX = dx / distance;
-    //     let dirY = dy / distance;
-    
-    //     // Try moving directly towards the position
-    //     let newX = this.x + dirX * this.walkSpeed;
-    //     let newY = this.y + dirY * this.walkSpeed;
-    
-    //     if (collisions.checkCollision(newX, newY, this.size)) {
-    //         // Collision detected, try to move around the obstacle, so adjust direction slightly
-    //         let angle = Math.atan2(dy, dx); // calculate the angle in radians
-    //         let leftAngle = angle + (50 * Math.PI / 180); // Adjust 50 degrees to the left (180/pi)
-    //         let rightAngle = angle - (50 * Math.PI / 180); // Adjust 50 degrees to the right
-    
-    //         // Calculate new potential positions
-    //         let newLeftX = this.x + Math.cos(leftAngle) * this.walkSpeed; //x coordinate horizontal
-    //         let newLeftY = this.y + Math.sin(leftAngle) * this.walkSpeed; // y coordinate up
-    //         let newRightX = this.x + Math.cos(rightAngle) * this.walkSpeed;
-    //         let newRightY = this.y + Math.sin(rightAngle) * this.walkSpeed;// y coordinate down
-    
-    //         // Check which adjusted position is avaliable
-    //         if (!collisions.checkCollision(newLeftX, newLeftY, this.size)) {
-    //             this.x = newLeftX;
-    //             this.y = newLeftY;
-    //         } else if (!collisions.checkCollision(newRightX, newRightY, this.size)) {
-    //             this.x = newRightX;
-    //             this.y = newRightY;
-    //         } else {
-    //             // If both are blocked, the Ravager might need to retreat
-    //             this.retreat(collisions);
-    //         }
-            
-    //     } else {
-    //         // No collision, move directly towards the position
-    //         this.x = newX;
-    //         this.y = newY;
-    //     }
-    // }
-    // retreat(collisions) {
-    //     // needs to think about the logic 
-    // }
 }

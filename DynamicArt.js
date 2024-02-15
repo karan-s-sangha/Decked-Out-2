@@ -1,13 +1,22 @@
 class DynamicArt {
-    constructor(game, level, x, y, gifAnimation) {
-        Object.assign(this, { game,level, x, y, gifAnimation });
+    constructor(game) {
+        Object.assign(this, { game});
+        this.dynamicArtX= 0;
+        this.dynamicArtY= 0;
+        this.loadAnimation();
     };
+    loadAnimation(){
+           // Adding the water Animation
+         let animation = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/Animation.png"];
+         this.Animation =  new Animator(this.game, animation,0,0,1308,1860,24,120/1000,0,false,true);
+
+    }
 
     update() {
     };
 
     draw(ctx) {
-
-        this.gifAnimation.drawFrame(this.game.clockTick,ctx,this.game.x,this.game.y,this.game.scale)
+     
+        this.Animation.drawMap(this.game.clockTick,ctx,0,0);
     };
 };

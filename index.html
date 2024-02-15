@@ -7,9 +7,15 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Press+Start+2P">
     <style>
+        .game-title {
+        width: 768px; 
+      
+        }
         body {
             font-family: 'Press Start 2P', serif;
-            font-size: 24px;
+            font-size: 40px;
+            color: #FF5555;
+           
         }
         canvas {
             padding-left: 0;
@@ -23,33 +29,36 @@
             text-align: center;
         }
     </style>
-    <script type="text/javascript" src="./AssetManager.js"></script>
-    <script type="text/javascript" src="./Timer.js"></script>
-    <script type="text/javascript" src="./GameEngine.js"></script>
     <script type="text/javascript" src="./Animator.js"></script>
-    <script type="text/javascript" src="./SceneManager.js"></script>
-    <script type="text/javascript" src="./Steve.js"></script>
-    <script type="text/javascript" src="./Ravager.js"></script>
-    <script type="text/javascript" src="./util.js"></script>
-    <script type="text/javascript" src="./Main.js"></script>
-    <script type="text/javascript" src="./StaticArt.js"></script>
+    <script type="text/javascript" src="./Artifact.js"></script>
+    <script type="text/javascript" src="./AssetManager.js"></script>
+    <script type="text/javascript" src="./Cards.js"></script>
+    <script type="text/javascript" src="./Collision.js"></script>
+    <script type="text/javascript" src="./Compass.js"></script>
     <script type="text/javascript" src="./DynamicArt.js"></script>
-
-
-    <!-- <script type="text/javascript" src="./mario.js"></script>
-    <script type="text/javascript" src="./bricks.js"></script>
-    <script type="text/javascript" src="./items.js"></script>
-    <script type="text/javascript" src="./enemies.js"></script>
-    <script type="text/javascript" src="./background.js"></script>
-    <script type="text/javascript" src="./levels.js"></script>
-    <script type="text/javascript" src="./transition.js"></script>
+    <script type="text/javascript" src="./FrostEmbers.js"></script>
+    <script type="text/javascript" src="./FrontEnd.js"></script>
+    <script type="text/javascript" src="./TransitionScreen.js"></script>
+    <script type="text/javascript" src="./GameEngine.js"></script>
+    <script type="text/javascript" src="./Item.js"></script>
+    <script type="text/javascript" src="./Main.js"></script>
+    <script type="text/javascript" src="./Ravager.js"></script>
+    <script type="text/javascript" src="./SceneManager.js"></script>
+    <script type="text/javascript" src="./Camera.js"></script>
+    <script type="text/javascript" src="./StaticArt.js"></script>
+    <script type="text/javascript" src="./Steve.js"></script>
+    <script type="text/javascript" src="./Timer.js"></script>
+    <script type="text/javascript" src="./Treasure.js"></script>
+    <script type="text/javascript" src="./UI.js"></script>
     <script type="text/javascript" src="./util.js"></script>
-    <script type="text/javascript" src="./boundingbox.js"></script> -->
+
 </head>
 <body>
     <div>
-        <br>Decked Out 2 <br /> <br>
+        <br>
+        <img src="./Art/title.png" alt="Description of Image" class="game-title"><br>
     </div>
+    
     <canvas id="gameWorld" width="768" height="768" style="background: #1e0c1b;" tabindex ="0" autofocus></canvas>
 </body>
 </html>
