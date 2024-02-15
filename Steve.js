@@ -21,8 +21,10 @@ class Steve {
         this.jumpComplete = true;
 
         this.canMove = true;
-        this.playerX = playerX;
-        this.playerY = playerY;
+        // this.playerX = playerX;
+        // this.playerY = playerY;
+        this.playerX = 0;
+        this.playerY = 0;
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
 

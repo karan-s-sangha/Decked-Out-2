@@ -35,6 +35,10 @@ class Camera {
         this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
     };
+    async init() {
+        await this.staticArt.initialize(); // Ensure the text file is loaded
+        // Now you can use the staticArt.charactersArray or any other data
+    }
 
     clearEntities() {
         this.game.entities.forEach(function (entity) {
@@ -47,11 +51,14 @@ class Camera {
     loadLevel(steve) {
         
         // Adding the first upper level static art
-       this.game.addEntity(new StaticArt(this.game));
+        this.staticArt = new StaticArt(this.game);
+       this.init();
+       this.game.addEntity(this.staticArt);
 
         // // Adding the first upper level dynamic art
        this.game.addEntity(new DynamicArt(this.game));
             
+      
        this.game.addEntity(steve);
 
        this.addRavagers();
