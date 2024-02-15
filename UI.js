@@ -36,6 +36,9 @@ class UI {
     draw(ctx) {
         let health = this.steve.health;
 
+        if(health < 0) {
+            health = 0;
+        }
         for(let i = 0; i < Math.floor(health); i++) {
             ctx.drawImage(this.healthImg,0,0,this.healthWidth,this.healthHeight,this.healthX + i*this.healthWidth* this.healthScale,this.healthY,this.healthWidth * this.healthScale,this.healthHeight * this.healthScale);
         }
