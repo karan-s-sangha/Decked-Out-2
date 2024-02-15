@@ -369,9 +369,5 @@ class FrontEnd {
             // Adjust offsetX by measuring the width of the letter just drawn
             offsetX += ctx.measureText(letter).width;
         }
-    }
-    
-    
-    
-    
+    }    
 }
