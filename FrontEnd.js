@@ -143,6 +143,7 @@ class FrontEnd {
             // Only interact with start, instructions, and credits buttons
             ['startButton', 'instructionsButton', 'creditsButton'].forEach(key => {
                 let button = this.buttons[key];
+                console.log(button);
                 button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
                 
                 if (this.game.click && this.mouseHover(this.game.click, button)) {
@@ -369,5 +370,9 @@ class FrontEnd {
             // Adjust offsetX by measuring the width of the letter just drawn
             offsetX += ctx.measureText(letter).width;
         }
-    }    
+    }
+    
+    
+    
+    
 }

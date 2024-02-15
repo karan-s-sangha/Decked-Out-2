@@ -55,7 +55,8 @@ class SceneManager {
            this.frontend.drawLoseScreen(ctx);
            } else if (this.frontend.isInWinScreen){
             this.frontend.drawWinScreen(ctx);
-           }  
+           }
+       
     };
 
 };
