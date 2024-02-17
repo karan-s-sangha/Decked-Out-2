@@ -58,10 +58,18 @@ ASSET_MANAGER.queueDownload("./Art/losing_background.png");
 ASSET_MANAGER.queueDownload("./Art/win.png");
 ASSET_MANAGER.queueDownload("./Art/background.png");
 
+//Images for the Block in Game
+ASSET_MANAGER.queueDownload("./Art/Blocks/Minecrat_Grass.jpg");
+ASSET_MANAGER.queueDownload("./Art/Blocks/BlockOfGold.png");
+ASSET_MANAGER.queueDownload("./Art/Blocks/Observer.png");
 
 
- // music
-  ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
+
+//Text File for Level
+//ASSET_MANAGER.queueDownload("./Art/Map/testMap0.txt");
+
+// music
+ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld.mp3");
 // ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");

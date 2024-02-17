@@ -7,7 +7,7 @@ class Steve {
         this.height = 340;
         this.game = game;
         this.health = 10;
-        this.hunger = 10;
+        this.hunger = 5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
@@ -22,8 +22,10 @@ class Steve {
         this.jumpComplete = true;
 
         this.canMove = true;
-        this.playerX = playerX;
-        this.playerY = playerY;
+        // this.playerX = playerX;
+        // this.playerY = playerY;
+        this.playerX = 0;
+        this.playerY = 0;
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
 
@@ -36,6 +38,7 @@ class Steve {
         this.collision = new Collision(this.game);
         this.loadAnimations();
         this.live = true;
+        this.win = false;
     };
 
     loadAnimations() {
