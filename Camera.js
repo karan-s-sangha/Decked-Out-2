@@ -55,7 +55,7 @@ class Camera {
        this.game.addEntity(this.staticArt);
 
         // // Adding the first upper level dynamic art
-       this.game.addEntity(new DynamicArt(this.game));
+  //     this.game.addEntity(new DynamicArt(this.game));
             
       
        this.game.addEntity(steve);
