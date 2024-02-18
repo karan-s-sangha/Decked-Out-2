@@ -81,43 +81,45 @@ class StaticArt {
 
     }
     draw(ctx) {
-        let compression = 3;
-         // Assuming you have the images loaded and accessible, for example:
-        let blockImage = ASSET_MANAGER.cache["./Art/Blocks/BlockOfGold.png"];
-
-        // const blockWidth = 268/compression;
-        // const blockHeight = 298/compression;
-        const blockWidth = blockImage.width/compression;
-        const blockHeight = blockImage.height/compression;
-
-
+        let compression = 1; // Adjust based on your need for the image size
+        let blockImage = ASSET_MANAGER.cache["./Art/Blocks/BlockOfGold.png"]; // Ensure this is preloaded
+    
+        // Check if blockImage is loaded
+        if (!blockImage || blockImage.width === 0 || blockImage.height === 0) {
+            console.error('Block image not loaded');
+            return;
+        }
+    
+        // Adjust these based on your game's design, no need to compress if your assets fit the game scale
+        const blockWidth = blockImage.width / compression;
+        const blockHeight = blockImage.height / compression;
+    
         const halfBlockWidth = blockWidth / 2;
         const halfBlockHeight = blockHeight / 2;
     
-    
         this.charactersArray.forEach(([x, y, z, char]) => {
             if (char === '0') {
-                // Convert grid coordinates to isometric screen coordinates
-                let isoX = (x - y) * halfBlockWidth;
-                let isoY = (x + y) * halfBlockHeight / 2; // Dividing by 2 to flatten the isometric height
-    
-                // Adjusting the position to center or offset your drawing as necessary
-                isoX += this.game.ctx.canvas.width / 2 - halfBlockWidth; // Centering the drawing horizontally
-                isoY += this.game.ctx.canvas.height / 4; // Adjust vertical offset as needed
-    
-                //Allowing the Steve to move around
-                isoX -= this.game.camera.cameraX;
-                isoY -= this.game.camera.cameraY;
+                // Adjusting for camera
+                console.log("x", x);
+                console.log("y", y);
+                console.log("this.game.camera.cameraX", this.game.camera.cameraX);
+                console.log("this.game.camera.cameraY", this.game.camera.cameraY);
+           
 
-                //Adding Layer or Adding z tiles to the Map
-                //isoX += z * blockHeight;
-                isoY -= z * halfBlockHeight;
-                console.log(z);
+                let cameraAdjustedX = x - this.game.camera.cameraX;
+                let cameraAdjustedY = y - this.game.camera.cameraY;
+                console.log("cameraAdjustedX", cameraAdjustedX);
+                console.log("cameraAdjustedY", cameraAdjustedY);
 
-                // Draw the isometric block image
+                // Convert to isometric
+                let isoX = (cameraAdjustedX - cameraAdjustedY) * halfBlockWidth;
+                let isoY = (cameraAdjustedX + cameraAdjustedY) * halfBlockHeight / 2 - z * halfBlockHeight; // Adjust for z-axis
+    
+                console.log("isoX", isoX);
+                console.log("isoY", isoY);
+ 
+                // Draw the block
                 ctx.drawImage(blockImage, isoX, isoY, blockWidth, blockHeight);
-                //ctx.drawImage(blockImage, isoX, isoY);
-
             }
         });
     }    

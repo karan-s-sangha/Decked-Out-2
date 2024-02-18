@@ -3,9 +3,9 @@ class Camera {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
-        
-        this.steveInitialX = 1732; 
-        this.steveInitialY = 772;   
+        this.staticArt = new StaticArt(this.game);
+        this.steveInitialX = 0; 
+        this.steveInitialY = 0;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
@@ -51,7 +51,6 @@ class Camera {
     loadLevel(steve) {
         
         // Adding the first upper level static art
-        this.staticArt = new StaticArt(this.game);
        this.init();
        this.game.addEntity(this.staticArt);
 
@@ -61,7 +60,7 @@ class Camera {
       
        this.game.addEntity(steve);
 
-       this.addRavagers();
+       //this.addRavagers();
 
         //Adding the Compass Entity
        this.game.addEntity(this.compass);
