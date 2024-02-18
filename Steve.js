@@ -54,6 +54,7 @@ class Steve {
         this.playerX = x;
         this.playerY = y;
         this.move = true;
+        
     }
 
     update() {
@@ -174,6 +175,8 @@ class Steve {
         // }
         }
         this.elapsedTime += this.game.clockTick;
+
+        console.log("Steve: " + this.playerX + " " + this.playerY);
     };
 
 

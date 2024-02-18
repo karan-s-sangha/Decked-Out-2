@@ -17,7 +17,7 @@ class Collision {
         // console.log(this.x);
         // console.log(this.y);
         // Ensure the coordinates are within the bounds of the canvas
-        if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
+        //if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
             
             // Get the pixel data from the canvas 
             let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
@@ -31,10 +31,10 @@ class Collision {
             } else {
                 return false; // No collision
             }
-        } else {
-            console.error("Coordinates are out of bounds.");
-            return false; // Return false for out-of-bounds coordinates
-        }
+        // } else {
+        //     console.error("Coordinates are out of bounds.");
+        //     return false; // Return false for out-of-bounds coordinates
+        // }
     }
 
     isCollisionRavager(x, y, size) {
