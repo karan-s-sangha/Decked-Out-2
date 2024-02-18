@@ -131,14 +131,14 @@ class StaticArt {
     constructor(game) {
         Object.assign(this, { game });
         this.text = "";
-        this.blocks = []; // Array to store block data: { label, x, y, z }
+        this.blocks = []; // Array to store block data: { label}
         this.coordinates = []; // Store coordinates separately
         
     }
 
     initialize() {
-        console.log("Hello from initialization");
-        for(let i = 0; i < 44; i++) {
+
+        for(let i = 0; i < 1; i++) {
             this.readTextFile('./map/layer_-' + i + '.txt');
         }
     }
@@ -159,7 +159,7 @@ class StaticArt {
     
         const lines = this.text.split('\n');
         lines.forEach((line, index) => {
-            console.log(`Processing line ${index + 1}: ${line}`);
+            //console.log(`Processing line ${index + 1}: ${line}`);
             
             // Split line into label and coordinates
             const parts = line.split(':');
@@ -185,15 +185,12 @@ class StaticArt {
     draw(ctx) {
         let compression = 3;
         
-        const blockWidth = 268/compression;
-        const blockHeight = 298/compression;
+        // const blockWidth = 268/compression;
+        // const blockHeight = 298/compression;
         // const blockWidth = blockImage.width/compression;
         // const blockHeight = blockImage.height/compression;
 
 
-        const halfBlockWidth = blockWidth / 2;
-        const halfBlockHeight = blockHeight / 2;
-    
             this.blocks.forEach((label, index) => {
                 // Load image based on label
                 let blockImage = ASSET_MANAGER.cache[`./Art/resources/${label}.png`];
@@ -201,32 +198,33 @@ class StaticArt {
                     //console.error(`Image not found for label: ${label}`);
                     return; // Skip drawing if image not found
                 }
-        
-                const coordinates = this.coordinates[index];
+                const blockWidth = blockImage.width/compression;
+                const blockHeight = blockImage.height/compression;
+
+                const halfBlockWidth = blockWidth / 2;
+                const halfBlockHeight = blockHeight / 2;       
+
+                const coordinates = this.coordinates[index];               
                 const x = coordinates[0];
                 const y = coordinates[1];
                 const z = coordinates[2];
         
-                if(z > 5 || z < 11) {
-        
+                
+                //console.log("z ", z);
                 // Convert 3D coordinates to 2D isometric coordinates
-                let isoX = (x - y) * halfBlockWidth;
-                let isoY = (x + y) * halfBlockHeight / 2;
-        
-                isoX += this.game.ctx.canvas.width / 2 - halfBlockWidth;
-                isoY += this.game.ctx.canvas.height / 4;
-        
-                isoX -= this.game.camera.cameraX;
-                isoY -= this.game.camera.cameraY;
+                let isoX = (x - y) * halfBlockWidth / 1.08;
+                let isoY = (x + y) * halfBlockHeight / 2.08;
         
                 isoY -= z * halfBlockHeight;
-                // console.log(isoX + " " + isoY);
+                
+                isoX -= this.game.camera.cameraX;
+                isoY -= this.game.camera.cameraY;
+                //console.log(isoX + " " + isoY);
                 
                 // Draw the block image
                ctx.drawImage(blockImage, isoX , isoY , blockWidth, blockHeight);
-               }
                
             });
             console.log(this.blocks.length);
     }
-    }
+}

@@ -1,0 +1,11 @@
+stone_bricks:(0, 0, 0)
+stone_bricks:(0, 1, 0)
+stone_bricks:(0, 2, 0)
+stone_bricks:(1, 0, 0)
+stone_bricks:(1, 1, 0)
+stone_bricks:(1, 2, 0)
+stone_bricks:(2, 0, 0)
+cracked_stone_bricks:(2, 1, 0)
+stone_bricks:(2, 2, 0)
+
+
