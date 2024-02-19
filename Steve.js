@@ -24,8 +24,9 @@ class Steve {
         this.canMove = true;
         // this.playerX = playerX;
         // this.playerY = playerY;
-        this.playerX = 0;
-        this.playerY = 0;
+        this.playerX = 700;
+        
+        this.playerY = 4100;
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
 
