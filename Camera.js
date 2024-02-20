@@ -9,8 +9,6 @@ class Camera {
         this.steveInitialZ = 0;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
-        this.collision = new Collision(game);
-        this.staticArt = new StaticArt(game);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         
@@ -29,6 +27,8 @@ class Camera {
         //this.gold = new Gold(this.game, this.steve);
 
         this.compass = new Compass(this.artifact,this.steve, this.game);
+        this.collision = new Collision(game);
+        this.staticArt = new StaticArt(game);
       
 
         this.ui = new UI(this.steve);

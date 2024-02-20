@@ -188,7 +188,6 @@ class StaticArt {
         let blockWidth, blockHeight;
     
         this.blocks.forEach((label, index) => {
-            // Load image based on label
             let blockImage = ASSET_MANAGER.cache[`./Art/resources/${label}.png`];
             if (!blockImage) {
                 console.log("Not drawing");
@@ -196,31 +195,36 @@ class StaticArt {
             }
             blockWidth = blockImage.width * this.game.camera.collision.sizeFactor;
             blockHeight = blockImage.height * this.game.camera.collision.sizeFactor;
-    
-            const halfBlockWidth = blockWidth / 2;
-            const halfBlockHeight = blockHeight / 2;
+
+            let xdis = 2;
+            let ydis = 4;
     
             const [x, y, z] = this.coordinates[index];
-            
+    
             // Convert grid coordinates to isometric screen coordinates
-            let isoX = (x - y) * halfBlockWidth /1;
-            let isoY = (x + y) * halfBlockHeight / 2;
-            isoY -= z * halfBlockHeight; // Adjust for height level
+            let isoX = ((x - y) * blockWidth) / xdis;
+            let isoY = ((x + y) * blockHeight) / ydis; // Adjusted for a more accurate isometric look
+            isoY -= z * blockHeight / 2; // Adjust for height level
     
-            let isoPlayerX = this.game.camera.steve.PlayerX;
-            let isoPlayerY = this.game.camera.steve.PlayerY;
-            console.log(this.game.camera.steve.PlayerX);
+            // Calculating the player Isometric location (assuming this is correctly calculating the center position)
+            // Calculating the player's isometric location
+            let px = this.game.camera.steve.playerX;
+            let py = this.game.camera.steve.playerY;
+            let isoPlayerX = (px - py) * blockWidth / xdis;
+            let isoPlayerY = (px + py) * blockHeight / ydis;
+    
+            // Center the player by adjusting the block's position relative to the player's position
+            // This time, we correctly calculate the offset to center the player
+            isoX += this.game.ctx.canvas.width / 2 - isoPlayerX;
+            isoY += this.game.ctx.canvas.height / 2 - isoPlayerY;
+    
+             // Adjust the drawing position to ensure the player is centered at 0,0
+             isoX -= blockWidth/2 ;
 
-            isoX -= isoPlayerX;
-            isoY -= isoPlayerY;
-     
-            //console.log(isoX," ",isoY)
-          
-            // Adjust the drawing position to ensure the player is centered at 0,0
-            isoY -= halfBlockHeight/2;
-    
+            //console.log(px," ",py)
             // Draw the block image
             ctx.drawImage(blockImage, isoX, isoY, blockWidth, blockHeight);
         });
     }
+    
 }
