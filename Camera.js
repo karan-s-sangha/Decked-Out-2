@@ -3,13 +3,16 @@ class Camera {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
-        this.staticArt = new StaticArt(this.game);
+        
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
-        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
+        this.steveInitialZ = 0;   
+        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
+        
+        this.collision = new Collision(game);
+        this.staticArt = new StaticArt(game);
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
-        this.collision = new Collision(game);
         
         new SceneManager(this.game, this.steve);
 
@@ -35,10 +38,6 @@ class Camera {
         this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
     };
-    async init() {
-        await this.staticArt.initialize(); // Ensure the text file is loaded
-        // Now you can use the staticArt.charactersArray or any other data
-    }
 
     clearEntities() {
         this.game.entities.forEach(function (entity) {
@@ -51,7 +50,6 @@ class Camera {
     loadLevel(steve) {
         
         // Adding the first upper level static art
-       this.init();
        this.game.addEntity(this.staticArt);
 
         // // Adding the first upper level dynamic art

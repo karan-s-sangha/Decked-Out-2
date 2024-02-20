@@ -63,6 +63,9 @@ ASSET_MANAGER.queueDownload("./Art/Blocks/Minecrat_Grass.jpg");
 ASSET_MANAGER.queueDownload("./Art/Blocks/BlockOfGold.png");
 ASSET_MANAGER.queueDownload("./Art/Blocks/Observer.png");
 
+ASSET_MANAGER.queueDownload("./Art/resources/Isometric_cube.png");
+
+
 ASSET_MANAGER.queueDownload("./Art/resources/andesite.png");
 ASSET_MANAGER.queueDownload("./Art/resources/andesite_slab.png");
 ASSET_MANAGER.queueDownload("./Art/resources/andesite_wall.png");

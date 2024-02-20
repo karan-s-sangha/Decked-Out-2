@@ -129,10 +129,11 @@
 
 class StaticArt {
     constructor(game) {
-        Object.assign(this, { game });
+        this.game = game;
         this.text = "";
         this.blocks = []; // Array to store block data: { label}
         this.coordinates = []; // Store coordinates separately
+        this.initialize();
         
     }
 
@@ -183,48 +184,43 @@ class StaticArt {
 
     }
     draw(ctx) {
-        let compression = 3;
-        
-        // const blockWidth = 268/compression;
-        // const blockHeight = 298/compression;
-        // const blockWidth = blockImage.width/compression;
-        // const blockHeight = blockImage.height/compression;
+        // Assuming blockImage dimensions are defined or you have a default size
+        let blockWidth, blockHeight;
+    
+        this.blocks.forEach((label, index) => {
+            // Load image based on label
+            let blockImage = ASSET_MANAGER.cache[`./Art/resources/${label}.png`];
+            if (!blockImage) {
+                console.log("Not drawing");
+                return; // Skip drawing if image not found
+            }
+            blockWidth = blockImage.width * this.game.camera.collision.sizeFactor;
+            blockHeight = blockImage.height * this.game.camera.collision.sizeFactor;
+    
+            const halfBlockWidth = blockWidth / 2;
+            const halfBlockHeight = blockHeight / 2;
+    
+            const [x, y, z] = this.coordinates[index];
+            
+            // Convert grid coordinates to isometric screen coordinates
+            let isoX = (x - y) * halfBlockWidth /1;
+            let isoY = (x + y) * halfBlockHeight / 2;
+            isoY -= z * halfBlockHeight; // Adjust for height level
+    
+            let isoPlayerX = this.game.camera.steve.PlayerX;
+            let isoPlayerY = this.game.camera.steve.PlayerY;
+            console.log(this.game.camera.steve.PlayerX);
 
-
-            this.blocks.forEach((label, index) => {
-                // Load image based on label
-                let blockImage = ASSET_MANAGER.cache[`./Art/resources/${label}.png`];
-                if (!blockImage) {
-                    //console.error(`Image not found for label: ${label}`);
-                    return; // Skip drawing if image not found
-                }
-                const blockWidth = blockImage.width/compression;
-                const blockHeight = blockImage.height/compression;
-
-                const halfBlockWidth = blockWidth / 2;
-                const halfBlockHeight = blockHeight / 2;       
-
-                const coordinates = this.coordinates[index];               
-                const x = coordinates[0];
-                const y = coordinates[1];
-                const z = coordinates[2];
-        
-                
-                //console.log("z ", z);
-                // Convert 3D coordinates to 2D isometric coordinates
-                let isoX = (x - y) * halfBlockWidth / 1.08;
-                let isoY = (x + y) * halfBlockHeight / 2.08;
-        
-                isoY -= z * halfBlockHeight;
-                
-                isoX -= this.game.camera.cameraX;
-                isoY -= this.game.camera.cameraY;
-                //console.log(isoX + " " + isoY);
-                
-                // Draw the block image
-               ctx.drawImage(blockImage, isoX , isoY , blockWidth, blockHeight);
-               
-            });
-            console.log(this.blocks.length);
+            isoX -= isoPlayerX;
+            isoY -= isoPlayerY;
+     
+            //console.log(isoX," ",isoY)
+          
+            // Adjust the drawing position to ensure the player is centered at 0,0
+            isoY -= halfBlockHeight/2;
+    
+            // Draw the block image
+            ctx.drawImage(blockImage, isoX, isoY, blockWidth, blockHeight);
+        });
     }
 }
