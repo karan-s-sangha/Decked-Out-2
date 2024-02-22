@@ -17,10 +17,13 @@ ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/Ravager-standing.png");
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-attacking.png");
 
 // Animation for the Steve
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - walking-sideways.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - walking.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - standing.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running-sideways.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted1.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted2.png");
+ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted3.png");
+// ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player.png");
+
+
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
@@ -115,7 +118,6 @@ ASSET_MANAGER.queueDownload("./Art/resources/stone_slab.png");
 ASSET_MANAGER.queueDownload("./Art/resources/tuff.png");
 ASSET_MANAGER.queueDownload("./Art/resources/water.png");
 ASSET_MANAGER.queueDownload("./Art/resources/white_wool.png");
-
 
 //Text File for Level
 //ASSET_MANAGER.queueDownload("./Art/Map/testMap0.txt");

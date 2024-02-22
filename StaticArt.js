@@ -138,12 +138,12 @@ class StaticArt {
 
     initialize() {
         console.log("Hello from initialization");
-        // for (let i = 44; i > 0; i--) {
-        //     this.readTextFile('./map/layer_-' + i + '.txt');
-        // }
-        for (let i = 0; i < 44; i++) {
-                this.readTextFile('./map/layer_-' + i + '.txt');
+        for (let i = 44; i > 27; i--) {
+            this.readTextFile('./map/layer_-' + i + '.txt');
         }
+        // for (let i = 0; i < 44; i++) {
+        //         this.readTextFile('./map/layer_-' + i + '.txt');
+        // }
     }
 
     async readTextFile(filePath) {
@@ -186,7 +186,7 @@ class StaticArt {
 
     }
     draw(ctx) {
-        let compression = 15;
+        let compression = 7;
 
         const blockWidth = 268 / compression;
         const blockHeight = 298 / compression;
@@ -201,8 +201,7 @@ class StaticArt {
             // Load image based on label
             let blockImage = ASSET_MANAGER.cache[`./Art/resources/${label}.png`];
             if (!blockImage) {
-                //console.error(`Image not found for label: ${label}`);
-                return; // Skip drawing if image not found
+                blockImage = ASSET_MANAGER.cache[`./Art/resources/andesite.png`];
             }
 
             const coordinates = this.coordinates[index];

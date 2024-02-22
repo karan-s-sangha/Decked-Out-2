@@ -3,8 +3,8 @@ class Steve {
         // latest version of steve
 
         this.scale = 0.2;
-        this.width = 241;
-        this.height = 340;
+        this.width = 186;
+        this.height = 384;
         this.game = game;
         this.health = 10;
         this.hunger = 5;
@@ -24,9 +24,9 @@ class Steve {
         this.canMove = true;
         // this.playerX = playerX;
         // this.playerY = playerY;
-        this.playerX = 700;
+        this.playerX = -750;
         
-        this.playerY = 4100;
+        this.playerY = 2500;
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
 
@@ -44,7 +44,7 @@ class Steve {
 
     loadAnimations() {
         this.spritesheet = new Image();
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/player - running.png"];
+        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
         this.walkingAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.010, 0, false, true);
         this.runningAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.006, 0, false, true);
@@ -276,16 +276,16 @@ class Steve {
             If the player pressed key, we will call animator to animate the movement of a player.
             */
             if (this.run == true) {
-                this.runningAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale, angle);
+                this.runningAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale, 0);
             } else {
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale, angle);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale, 0);
             }
 
         } else {
             /*
             If the player is not moving, we will draw the image by calling drawAngle method.
             */
-            this.drawAngle(ctx, degrees, this.scale);
+            this.drawAngle(ctx, 0, this.scale);
             if (this.run = true) {
                 this.runningAnimations.elapsedTime = 0;
             } else {
