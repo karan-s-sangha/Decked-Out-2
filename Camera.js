@@ -47,7 +47,7 @@ class Camera {
         console.log("In initialization");
         for (let i = 0; i < this.layerCount; i++) {
             try {
-                const response = await fetch(`./map/layer_-${i}.txt`);
+                const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const text = await response.text();
                 this.processTextFile(text);
