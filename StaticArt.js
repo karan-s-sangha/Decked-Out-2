@@ -15,13 +15,13 @@ class StaticArt {
         this.game.camera.blocks.forEach(block => {
             let blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`]; // Assuming block.label contains the image file name
             if (!blockImage) {
-                //console.log("Image not found for block:", block.label);
+                console.log("Image not found for block:", block.label);
                 return; // Skip drawing if image not found
             }
 
             // Apply size factor to determine the final width and height of the block
-            blockWidth = blockImage.width * this.game.camera.sizeFactor;
-            blockHeight = blockImage.height * this.game.camera.sizeFactor;
+            blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
+            blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
             // Calculate the isometric position for the block
             // The isometric projection formulas convert cartesian coordinates (x, y) to isometric coordinates.

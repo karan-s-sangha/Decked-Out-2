@@ -36,7 +36,9 @@ class Camera {
 
         this.blocks = []; // Array to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 0.1;
+        this.sizeFactor = 1;
+        this.imageWidth = 48;
+        this.imageHeight = 48; 
         this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
@@ -180,9 +182,9 @@ class Camera {
         this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
         
         
-        let blockImage = ASSET_MANAGER.cache[`./Art/resources/Isometric_cube.png`];
-        let blockWidth = blockImage.width * this.sizeFactor;
-        let blockHeight = blockImage.height * this.sizeFactor;
+        //let blockImage = ASSET_MANAGER.cache[`./Art/resources/tnt.png`];
+        let blockWidth = this.imageWidth * this.sizeFactor;
+        let blockHeight = this.imageHeight * this.sizeFactor;
 
         let px = this.steve.playerX;
         let py = this.steve.playerY;

@@ -71,6 +71,7 @@ class Collision {
         let blockY = Math.floor(y);
         let blockZ = 0;
 
+        console.log(blockX, blockY);
         const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
         if (standingBlock) {
             console.log(`Player is standing on block: ${standingBlock.label}`);
