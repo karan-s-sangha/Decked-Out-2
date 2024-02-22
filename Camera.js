@@ -35,8 +35,8 @@ class Camera {
         this.ui = new UI(this.steve);
 
         this.blocks = []; // Array to store block data as objects
-        this.layerCount = 1; // Set the number of layers you want to read
-        this.sizeFactor = 1;
+        this.layerCount = 37; // Set the number of layers you want to read
+        this.sizeFactor = 0.1;
         this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);

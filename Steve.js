@@ -34,7 +34,7 @@ class Steve {
         this.screenY = this.game.ctx.canvas.height / 2;
 
         this.playerRunSpeed = 800;
-        this.playerWalkSpeed = 2;
+        this.playerWalkSpeed = 200;
 
 
         this.win = false;
