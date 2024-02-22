@@ -3,6 +3,9 @@ class Camera {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
+
+        this.collision = new Collision(game);
+        this.staticArt = new StaticArt(game);   
         
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
@@ -27,10 +30,6 @@ class Camera {
         //this.gold = new Gold(this.game, this.steve);
 
         this.compass = new Compass(this.artifact,this.steve, this.game);
-        this.collision = new Collision(game);
-        this.staticArt = new StaticArt(game);
-      
-
         this.ui = new UI(this.steve);
         
         
