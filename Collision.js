@@ -98,16 +98,19 @@ class Collision {
     }
 
     isCollision(x, y) {
-         // Convert player's position to grid coordinates
-         let blockX = Math.floor(x);
-         let blockY = Math.floor(y);
-         let blockZ =0;
+        // Getting the Block the player will end In.
+        let blockX = Math.floor(x);
+        let blockY = Math.floor(y);
+        let blockZ = 0;
 
-        this.isHorizontalCollision(x, y, 0);
-        // let status = this.find(blockX, blockY, blockZ); // Assuming Z is always 0 for simplicity
-        // if (status === false) {
-        //     console.log("Fall");
-        // }
+        const standingBlock = this.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
+        if (standingBlock) {
+            console.log(`Player is standing on block: ${standingBlock.label}`);
+            return true;
+        } else {
+            console.log("Player is not standing on any known block.");
+            return false;
+        }
     }
 
     find(x, y, z) {

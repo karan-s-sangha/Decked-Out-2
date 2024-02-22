@@ -139,7 +139,7 @@ class StaticArt {
 
     initialize() {
 
-        for(let i = 11; i < 13; i++) {
+        for(let i = 0; i < 1; i++) {
             this.readTextFile('./map/layer_-' + i + '.txt');
         }
     }
