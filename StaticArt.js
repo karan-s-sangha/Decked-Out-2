@@ -25,8 +25,8 @@ class StaticArt {
 
             // Calculate the isometric position for the block
             // The isometric projection formulas convert cartesian coordinates (x, y) to isometric coordinates.
-            let isoX = (block.x - block.y) * blockWidth / 2;
-            let isoY = (block.x + block.y) * blockHeight / 4; // Assuming a 2:1 ratio for isometric projection
+            let isoX = (block.x - block.y) * blockWidth / 2.35;
+            let isoY = (block.x + block.y) * blockHeight / 4.7; // Assuming a 2:1 ratio for isometric projection
 
             // Adjust for the block's z-coordinate (height) if necessary
             isoY -= block.z * blockHeight / 2; // Adjust isoY based on the z value to simulate elevation

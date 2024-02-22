@@ -68,8 +68,8 @@ class Camera {
                 const [x, y, z] = parts[1].trim().slice(1, -1).split(',').map(Number);
                 this.blocks.push({ label, x, y, z });
             } 
-            else if(parts.length ===0) {
-                ;            }
+            // else if(parts.length ===0) {
+            //     ;            }
                 else {
                 console.error(`Invalid format in line ${index + 1}: ${line}`);
             }
