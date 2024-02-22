@@ -173,6 +173,9 @@ class Camera {
 
         }
         
+        // For Drawing Everyone At the right Location
+        // Just Subtract isoCameraX and isoCameraY 
+
         this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
         this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
         
