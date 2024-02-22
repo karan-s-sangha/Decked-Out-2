@@ -62,39 +62,7 @@
 // }
 class Collision {
     constructor(game) {
-        Object.assign(this, { game });
-        this.blocks = []; // Array to store block data as objects
-        this.layerCount = 2; // Set the number of layers you want to read
-        this.sizeFactor = 1;
-        this.initialize();
-    }
-
-    async initialize() {
-        console.log("In initialization");
-        for (let i = 0; i < this.layerCount; i++) {
-            try {
-                const response = await fetch(`./map/layer_-${i}.txt`);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const text = await response.text();
-                this.processTextFile(text);
-            } catch (error) {
-                console.error(`Error loading the text file for layer ${i}:`, error);
-            }
-        }
-    }
-
-    processTextFile(text) {
-        const lines = text.split('\n');
-        lines.forEach((line, index) => {
-            const parts = line.split(':');
-            if (parts.length === 2) {
-                const label = parts[0].trim();
-                const [x, y, z] = parts[1].trim().slice(1, -1).split(',').map(Number);
-                this.blocks.push({ label, x, y, z });
-            } else {
-                console.error(`Invalid format in line ${index + 1}: ${line}`);
-            }
-        });
+        Object.assign(this, { game });  
     }
 
     isCollision(x, y) {
@@ -103,46 +71,7 @@ class Collision {
         let blockY = Math.floor(y);
         let blockZ = 0;
 
-        const standingBlock = this.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
-        if (standingBlock) {
-            console.log(`Player is standing on block: ${standingBlock.label}`);
-            return true;
-        } else {
-            console.log("Player is not standing on any known block.");
-            return false;
-        }
-    }
-
-    find(x, y, z) {
-        const standingBlock = this.blocks.find(block => block.x === x && block.y === y && block.z === z);
-        if (standingBlock) {
-            console.log(`Player is standing on block: ${standingBlock.label}`);
-            return true;
-        } else {
-            console.log("Player is not standing on any known block.");
-            return false;
-        }
-    }
-    isHorizontalCollision(x, y, z) {
-        let blockX = Math.floor(x);
-        let blockY = Math.floor(y);
-        let blockZ = 0;
-
-        const standingBlock = this.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ+1);
-        if (standingBlock) {
-            console.log(`Player is standing on block: ${standingBlock.label}`);
-            return true;
-        } else {
-            console.log("Player is not standing on any known block.");
-            return false;
-        }
-    }
-    isVerticalCollision(x, y, z) {
-        let blockX = Math.floor(x);
-        let blockY = Math.floor(y);
-        let blockZ =0.1;
-
-        const standingBlock = this.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
+        const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
         if (standingBlock) {
             console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;

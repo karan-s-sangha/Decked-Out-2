@@ -130,101 +130,45 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.text = "";
-        this.blocks = []; // Array to store block data: { label}
-        this.coordinates = []; // Store coordinates separately
-        this.initialize();
-        
-    }
-
-    initialize() {
-
-        for(let i = 0; i < 1; i++) {
-            this.readTextFile('./map/layer_-' + i + '.txt');
-        }
-    }
-
-    async readTextFile(filePath) {
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            this.text = await response.text();
-            this.processTextFile();
-        } catch (error) {
-            console.error("Error loading the text file:", error);
-        }
-    }
-
-    processTextFile() {
-  
-    
-        const lines = this.text.split('\n');
-        lines.forEach((line, index) => {
-            //console.log(`Processing line ${index + 1}: ${line}`);
-            
-            // Split line into label and coordinates
-            const parts = line.split(':');
-            if (parts.length === 2) {
-                const label = parts[0].trim();
-                const coordinates = parts[1].trim().slice(1, -1).split(',').map(coord => parseInt(coord.trim()));
-                
-                // Store label and coordinates separately
-                this.blocks.push(label);
-                this.coordinates.push(coordinates);
-            } else {
-          //      console.error(`Invalid format in line ${index + 1}: ${line}`);
-            }
-        });
-        
     }
     
-    
-    
-    update(){
-
+    update() {
+        // Update logic if needed (e.g., for animated tiles or changing scenarios)
     }
+
     draw(ctx) {
-        // Assuming blockImage dimensions are defined or you have a default size
+        // Ensure block dimensions are defined. If using a default size, initialize them accordingly.
         let blockWidth, blockHeight;
-    
-        this.blocks.forEach((label, index) => {
-            let blockImage = ASSET_MANAGER.cache[`./Art/resources/${label}.png`];
+
+        // Loop through each block defined in the camera's block array
+        this.game.camera.blocks.forEach(block => {
+            let blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`]; // Assuming block.label contains the image file name
             if (!blockImage) {
-                console.log("Not drawing");
+                console.log("Image not found for block:", block.label);
                 return; // Skip drawing if image not found
             }
-            blockWidth = blockImage.width * this.game.camera.collision.sizeFactor;
-            blockHeight = blockImage.height * this.game.camera.collision.sizeFactor;
 
-            let xdis = 2;
-            let ydis = 4;
-    
-            const [x, y, z] = this.coordinates[index];
-    
-            // Convert grid coordinates to isometric screen coordinates
-            let isoX = ((x - y) * blockWidth) / xdis;
-            let isoY = ((x + y) * blockHeight) / ydis; // Adjusted for a more accurate isometric look
-            isoY -= z * blockHeight / 2; // Adjust for height level
-    
-            // Calculating the player Isometric location (assuming this is correctly calculating the center position)
-            // Calculating the player's isometric location
-            let px = this.game.camera.steve.playerX;
-            let py = this.game.camera.steve.playerY;
-            let isoPlayerX = (px - py) * blockWidth / xdis;
-            let isoPlayerY = (px + py) * blockHeight / ydis;
-    
-            // Center the player by adjusting the block's position relative to the player's position
-            // This time, we correctly calculate the offset to center the player
-            isoX += this.game.ctx.canvas.width / 2 - isoPlayerX;
-            isoY += this.game.ctx.canvas.height / 2 - isoPlayerY;
-    
-             // Adjust the drawing position to ensure the player is centered at 0,0
-             isoX -= blockWidth/2 ;
+            // Apply size factor to determine the final width and height of the block
+            blockWidth = blockImage.width * this.game.camera.sizeFactor;
+            blockHeight = blockImage.height * this.game.camera.sizeFactor;
 
-            //console.log(px," ",py)
-            // Draw the block image
+            // Calculate the isometric position for the block
+            // The isometric projection formulas convert cartesian coordinates (x, y) to isometric coordinates.
+            let isoX = (block.x - block.y) * blockWidth / 2;
+            let isoY = (block.x + block.y) * blockHeight / 4; // Assuming a 2:1 ratio for isometric projection
+
+            // Adjust for the block's z-coordinate (height) if necessary
+            isoY -= block.z * blockHeight / 2; // Adjust isoY based on the z value to simulate elevation
+
+            // Adjust the drawing position based on the camera's position to ensure the map moves with the camera
+            isoX -= this.game.camera.isoCameraX;
+            isoY -= this.game.camera.isoCameraY;
+
+            // Adjust the drawing position to ensure the player is centered at 0,0
+            isoX -= blockWidth/2 ;
+
+            // Draw the block image at the calculated isometric position
             ctx.drawImage(blockImage, isoX, isoY, blockWidth, blockHeight);
         });
     }
-    
 }
