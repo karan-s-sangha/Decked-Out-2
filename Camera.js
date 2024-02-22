@@ -3,13 +3,19 @@ class Camera {
         this.game = game; // game = GameEngine
         this.ctx = game.ctx;
         this.game.camera = this;
+
+        this.collision = new Collision(game);
+        this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = 1732; 
-        this.steveInitialY = 772;   
-        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY, this);
+        this.steveInitialX = 0; 
+        this.steveInitialY = 0;   
+        this.steveInitialZ = 0;   
+        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
+        
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
-        this.collision = new Collision(game);
+        this.isoCameraX = 0;
+        this.isoCameraY = 0;
         
         new SceneManager(this.game, this.steve);
 
@@ -26,16 +32,49 @@ class Camera {
         //this.gold = new Gold(this.game, this.steve);
 
         this.compass = new Compass(this.artifact,this.steve, this.game);
-      
-
         this.ui = new UI(this.steve);
-        
+
+        this.blocks = []; // Array to store block data as objects
+        this.layerCount = 18; // Set the number of layers you want to read
+        this.sizeFactor = 1.5;
+        this.imageWidth = 48;
+        this.imageHeight = 48; 
+        this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
         this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
         
     };
+    async initialize() {
+        console.log("In initialization");
+        for (let i = 0; i < this.layerCount; i++) {
+            try {
+                const response = await fetch(`./map/layer_${i}.txt`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const text = await response.text();
+                this.processTextFile(text);
+            } catch (error) {
+                console.error(`Error loading the text file for layer ${i}:`, error);
+            }
+        }
+    }
 
+    processTextFile(text) {
+        const lines = text.split('\n');
+        lines.forEach((line, index) => {
+            const parts = line.split(':');
+            if (parts.length === 2) {
+                const label = parts[0].trim();
+                const [x, y, z] = parts[1].trim().slice(1, -1).split(',').map(Number);
+                this.blocks.push({ label, x, y, z });
+            } 
+            // else if(parts.length ===0) {
+            //     ;            }
+                else {
+                console.error(`Invalid format in line ${index + 1}: ${line}`);
+            }
+        });
+    }
     clearEntities() {
         this.game.entities.forEach(function (entity) {
             entity.removeFromWorld = true;
@@ -47,14 +86,15 @@ class Camera {
     loadLevel(steve) {
         
         // Adding the first upper level static art
-       this.game.addEntity(new StaticArt(this.game));
+       this.game.addEntity(this.staticArt);
 
         // // Adding the first upper level dynamic art
-       this.game.addEntity(new DynamicArt(this.game));
+  //     this.game.addEntity(new DynamicArt(this.game));
             
+      
        this.game.addEntity(steve);
 
-       this.addRavagers();
+       //this.addRavagers();
 
         //Adding the Compass Entity
        this.game.addEntity(this.compass);
@@ -138,8 +178,27 @@ class Camera {
 
         }
         
+        // For Drawing Everyone At the right Location
+        // Just Subtract isoCameraX and isoCameraY 
+
         this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
         this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
+        
+        
+        //let blockImage = ASSET_MANAGER.cache[`./Art/resources/tnt.png`];
+        let blockWidth = this.imageWidth * this.sizeFactor;
+        let blockHeight = this.imageHeight * this.sizeFactor;
+
+        let px = this.steve.playerX;
+        let py = this.steve.playerY;
+        let isoPlayerX = (px - py) * blockWidth / 2;
+        let isoPlayerY = (px + py) * blockHeight / 4;
+      
+        this.isoCameraX =  isoPlayerX - this.game.ctx.canvas.width / 2;
+        this.isoCameraY =  isoPlayerY - this.game.ctx.canvas.height / 2 ;
+
+
+
         if (this.steve.live == false){
             this.game.play = false;
         }
