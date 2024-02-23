@@ -69,10 +69,13 @@ class Collision {
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = 0;
-
+        let blockZ = 0; // Assuming z is always 0 for this example
+    
         console.log(blockX, blockY);
-        const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
+        // Construct a key from the block's coordinates to access the block directly
+        const blockKey = `${blockX},${blockY},${blockZ}`;
+        const standingBlock = this.game.camera.blocksMap[blockKey];
+    
         if (standingBlock) {
             console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
@@ -80,5 +83,27 @@ class Collision {
             console.log("Player is not standing on any known block.");
             return false;
         }
+    }
+    
+        isCollisionRavager(x, y, size) {
+            return false;
+        for (let offsetX = 0; offsetX < size; offsetX++) {
+            for (let offsetY = 0; offsetY < size; offsetY++) {
+                let scaledX = (x + offsetX) / this.game.GameScale;
+                let scaledY = (y + offsetY) / this.game.GameScale;
+    
+                if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
+                    return true;
+                }
+    
+                let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
+                let collisionColor = [116, 29, 50, 255];
+                if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && 
+                    pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

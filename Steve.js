@@ -25,7 +25,7 @@ class Steve {
 
         this.playerX = 0;
         this.playerY = 0;
-        this.playerZ = 0;
+        this.playerZ = 20;
         // this.playerX = playerX;
         // this.playerY = playerY;
          // this.playerZ = playerZ;
