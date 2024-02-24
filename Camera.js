@@ -35,7 +35,7 @@ class Camera {
         this.ui = new UI(this.steve);
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
-        this.layerCount = 20; // Set the number of layers you want to read
+        this.layerCount = 37; // Set the number of layers you want to read
         this.sizeFactor = 1.4;
         this.imageWidth = 48;
         this.imageHeight = 48; 
