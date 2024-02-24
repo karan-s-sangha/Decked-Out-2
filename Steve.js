@@ -2,8 +2,8 @@ class Steve {
     constructor(game, playerX, playerY, playerZ) {
         // latest version of steve
 
-        this.scale = 0.2;
-        this.width = 186;
+        this.scale = 0.26;
+        this.width = 200;
         this.height = 384;
         this.game = game;
         this.health = 10;
@@ -26,12 +26,10 @@ class Steve {
         this.playerX = 0;
         this.playerY = 0;
         this.playerZ = 0;
-        // this.playerX = playerX;
-        // this.playerY = playerY;
-        this.playerX = -750;
-        
-        this.playerY = 2500;
-         // this.playerZ = playerZ;
+        this.playerX = playerX;
+        this.playerY = playerY;
+
+         this.playerZ = playerZ;
        
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
@@ -50,7 +48,7 @@ class Steve {
 
     loadAnimations() {
         this.spritesheet = new Image();
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
+        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
         // this.spritesheet.src = "./Art/Steve_Animations/player - running.png";
         this.walkingAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.010, 0, false, true);
         this.runningAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.006, 0, false, true);
