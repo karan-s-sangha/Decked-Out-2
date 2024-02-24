@@ -23,14 +23,11 @@ class Steve {
 
         this.canMove = true;
 
-        this.playerX = 0;
-        this.playerY = 0;
-        this.playerZ = 0;
+    
         this.playerX = playerX;
         this.playerY = playerY;
+        this.playerZ = playerZ;
 
-         this.playerZ = playerZ;
-       
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
 
@@ -44,6 +41,9 @@ class Steve {
         this.loadAnimations();
         this.live = true;
         this.win = false;
+
+        
+        console.log("Z: " + this.playerZ);
     };
 
     loadAnimations() {
@@ -67,21 +67,22 @@ class Steve {
         if (this.game.keys.ctrl) {
             console.log("ctrl");
         }
+        console.log(this.playerZ);
         if (this.canMove) {
             if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
-                if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY)) {
+                if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX -= this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY)) {
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX += this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick)) {
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
                     this.move = 1;
                     this.playerY -= this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick)) {
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
                     this.move = 1;
                     this.playerY += this.playerRunSpeed * this.game.clockTick;
                 }
@@ -90,19 +91,19 @@ class Steve {
                 this.hungerTime += 3 * this.game.clockTick;
             }
             else if (this.game.keys.shift && this.hunger >= 3) {
-                if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY)) {
+                if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX -= this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY)) {
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX += this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick)) {
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
                     this.move = 1;
                     this.playerY -= this.playerRunSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick)) {
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
                     this.move = 1;
                     this.playerY += this.playerRunSpeed * this.game.clockTick;
                 }
@@ -110,20 +111,20 @@ class Steve {
                 this.run = true;
                 this.hungerTime += 3 * this.game.clockTick;
             } else {
-                if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
+                if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX -= this.playerWalkSpeed * this.game.clockTick;
                     //console.log((this.game.clockTick));
                 }
-                if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
+                if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX += this.playerWalkSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick))) {
+                if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
                     this.move = 1;
                     this.playerY -= this.playerWalkSpeed * this.game.clockTick;
                 }
-                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick))) {
+                if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
                     this.move = 1;
                     this.playerY += this.playerWalkSpeed * this.game.clockTick;
                 }
@@ -159,25 +160,6 @@ class Steve {
         if(this.hunger  <= 0) {
             this.hunger = 0;
         }
-        // if(this.jumped) {
-        //     let x = this.playerX / this.game.GameScale;
-        //     let y = this.playerY / this.game.GameScale;
-        //     if(this.game.GameScale > 3.6 && !this.jumpComplete) {
-        //         this.game.GameScale -= this.game.clockTick * 1.5; 
-        //     } else {
-        //         this.jumpComplete = true;
-        //     }
-
-        //     if(this.game.GameScale < 4 && this.jumpComplete) {
-        //         this.game.GameScale += this.game.clockTick * 1.5;
-        //     }
-
-        //     if(this.jumpComplete && this.game.GameScale >= 4) {
-        //         this.jumped = false;
-        //     }
-        //     this.playerX = x * this.game.GameScale;
-        //     this.playerY = y * this.game.GameScale;               
-        // }
         }
         this.elapsedTime += this.game.clockTick;
 

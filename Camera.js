@@ -7,9 +7,9 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = 0; 
-        this.steveInitialY = 0;   
-        this.steveInitialZ = 0;   
+        this.steveInitialX = -8; 
+        this.steveInitialY = 9;   
+        this.steveInitialZ = 19;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
