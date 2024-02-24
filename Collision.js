@@ -69,11 +69,11 @@ class Collision {
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = 0; // Assuming z is always 0 for this example
+        let blockZ = Math.floor(z); // Assuming z is always 0 for this example
     
         // console.log(blockX, blockY);
         // Construct a key from the block's coordinates to access the block directly
-        console.log(blockX, blockY);
+        console.log(blockX, blockY, blockZ);
         const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
     
         if (standingBlock) {
