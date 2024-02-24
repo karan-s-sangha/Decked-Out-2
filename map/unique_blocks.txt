@@ -1,248 +1,210 @@
-minecraft:acacia_sapling
-minecraft:activator_rail
-minecraft:amethyst_cluster
-minecraft:andesite
-minecraft:andesite_slab
-minecraft:andesite_stairs
-minecraft:andesite_wall
-minecraft:anvil
-minecraft:azalea
-minecraft:barrel
-minecraft:big_dripleaf
-minecraft:birch_log
-minecraft:black_candle
-minecraft:black_concrete
-minecraft:black_concrete_powder
-minecraft:black_wool
-minecraft:blackstone
-minecraft:blackstone_slab
-minecraft:blackstone_stairs
-minecraft:blackstone_wall
-minecraft:blue_ice
-minecraft:blue_stained_glass
-minecraft:blue_stained_glass_pane
-minecraft:bone_block
-minecraft:bookshelf
-minecraft:brewing_stand
-minecraft:brown_mushroom_block
-minecraft:bubble_column
-minecraft:calcite
-minecraft:campfire
-minecraft:candle
-minecraft:cave_air
-minecraft:chain
-minecraft:chest
-minecraft:chiseled_deepslate
-minecraft:chiseled_nether_bricks
-minecraft:chiseled_polished_blackstone
-minecraft:chiseled_stone_bricks
-minecraft:clay
-minecraft:coal_ore
-minecraft:cobbled_deepslate
-minecraft:cobbled_deepslate_slab
-minecraft:cobbled_deepslate_stairs
-minecraft:cobbled_deepslate_wall
-minecraft:cobblestone
-minecraft:cobblestone_slab
-minecraft:cobblestone_stairs
-minecraft:cobblestone_wall
-minecraft:cobweb
-minecraft:comparator
-minecraft:copper_ore
-minecraft:cracked_deepslate_bricks
-minecraft:cracked_polished_blackstone_bricks
-minecraft:cracked_stone_bricks
-minecraft:crafting_table
-minecraft:crimson_button
-minecraft:crimson_fence_gate
-minecraft:crimson_slab
-minecraft:crimson_trapdoor
-minecraft:crying_obsidian
-minecraft:cyan_candle
-minecraft:cyan_terracotta
-minecraft:dark_oak_stairs
-minecraft:dark_oak_trapdoor
-minecraft:daylight_detector
-minecraft:deepslate
-minecraft:deepslate_brick_slab
-minecraft:deepslate_brick_stairs
-minecraft:deepslate_brick_wall
-minecraft:deepslate_bricks
-minecraft:deepslate_tile_slab
-minecraft:deepslate_tile_stairs
-minecraft:deepslate_tile_wall
-minecraft:deepslate_tiles
-minecraft:diorite
-minecraft:diorite_slab
-minecraft:diorite_stairs
-minecraft:diorite_wall
-minecraft:dirt
-minecraft:dispenser
-minecraft:dripstone_block
-minecraft:emerald_block
-minecraft:enchanting_table
-minecraft:end_rod
-minecraft:end_stone
-minecraft:flower_pot
-minecraft:flowering_azalea
-minecraft:glass
-minecraft:glow_lichen
-minecraft:glowstone
-minecraft:gold_block
-minecraft:granite
-minecraft:gravel
-minecraft:gray_carpet
-minecraft:green_carpet
-minecraft:grindstone
-minecraft:hay_block
-minecraft:heavy_weighted_pressure_plate
-minecraft:honey_block
-minecraft:hopper
-minecraft:ice
-minecraft:iron_bars
-minecraft:iron_block
-minecraft:iron_ore
-minecraft:iron_trapdoor
-minecraft:jukebox
-minecraft:kelp
-minecraft:kelp_plant
-minecraft:lantern
-minecraft:lapis_ore
-minecraft:lava
-minecraft:lever
-minecraft:light_blue_stained_glass
-minecraft:light_blue_stained_glass_pane
-minecraft:light_gray_carpet
-minecraft:light_gray_wool
-minecraft:lightning_rod
-minecraft:lodestone
-minecraft:loom
-minecraft:magma_block
-minecraft:mangrove_door
-minecraft:mangrove_leaves
-minecraft:mangrove_planks
-minecraft:mangrove_slab
-minecraft:mangrove_stairs
-minecraft:mangrove_trapdoor
-minecraft:medium_amethyst_bud
-minecraft:moss_block
-minecraft:moss_carpet
-minecraft:mossy_cobblestone
-minecraft:mossy_cobblestone_slab
-minecraft:mossy_cobblestone_stairs
-minecraft:mossy_cobblestone_wall
-minecraft:mossy_stone_brick_slab
-minecraft:mossy_stone_brick_stairs
-minecraft:mossy_stone_brick_wall
-minecraft:mossy_stone_bricks
-minecraft:mud
-minecraft:mud_bricks
-minecraft:mushroom_stem
-minecraft:nether_brick_fence
-minecraft:nether_brick_slab
-minecraft:nether_brick_stairs
-minecraft:nether_brick_wall
-minecraft:nether_bricks
-minecraft:netherrack
-minecraft:note_block
-minecraft:oak_sapling
-minecraft:observer
-minecraft:obsidian
-minecraft:oxidized_copper
-minecraft:oxidized_cut_copper_slab
-minecraft:packed_ice
-minecraft:pink_glazed_terracotta
-minecraft:piston_head
-minecraft:player_head
-minecraft:player_wall_head
-minecraft:podzol
-minecraft:pointed_dripstone
-minecraft:polished_andesite
-minecraft:polished_andesite_stairs
-minecraft:polished_basalt
-minecraft:polished_blackstone
-minecraft:polished_blackstone_brick_slab
-minecraft:polished_blackstone_brick_stairs
-minecraft:polished_blackstone_bricks
-minecraft:polished_blackstone_button
-minecraft:polished_blackstone_pressure_plate
-minecraft:polished_blackstone_slab
-minecraft:polished_blackstone_stairs
-minecraft:polished_blackstone_wall
-minecraft:polished_deepslate
-minecraft:polished_deepslate_slab
-minecraft:polished_deepslate_stairs
-minecraft:polished_deepslate_wall
-minecraft:potted_crimson_fungus
-minecraft:potted_wither_rose
-minecraft:powder_snow
-minecraft:powered_rail
-minecraft:purple_stained_glass
-minecraft:quartz_bricks
-minecraft:quartz_slab
-minecraft:quartz_stairs
-minecraft:rail
-minecraft:red_candle
-minecraft:red_carpet
-minecraft:red_wall_banner
-minecraft:redstone_block
-minecraft:redstone_torch
-minecraft:redstone_wall_torch
-minecraft:redstone_wire
-minecraft:repeater
-minecraft:scaffolding
-minecraft:sculk
-minecraft:sculk_sensor
-minecraft:sculk_shrieker
-minecraft:sculk_vein
-minecraft:sea_pickle
-minecraft:seagrass
-minecraft:short_grass
-minecraft:smooth_basalt
-minecraft:smooth_stone_slab
-minecraft:snow
-minecraft:snow_block
-minecraft:soul_campfire
-minecraft:soul_fire
-minecraft:soul_lantern
-minecraft:soul_sand
-minecraft:soul_soil
-minecraft:soul_wall_torch
-minecraft:spawner
-minecraft:spruce_button
-minecraft:spruce_fence
-minecraft:spruce_fence_gate
-minecraft:spruce_log
-minecraft:spruce_sign
-minecraft:spruce_slab
-minecraft:spruce_stairs
-minecraft:spruce_trapdoor
-minecraft:spruce_wall_sign
-minecraft:sticky_piston
-minecraft:stone
-minecraft:stone_brick_slab
-minecraft:stone_brick_stairs
-minecraft:stone_brick_wall
-minecraft:stone_bricks
-minecraft:stone_button
-minecraft:stone_pressure_plate
-minecraft:stone_slab
-minecraft:stone_stairs
-minecraft:sweet_berry_bush
-minecraft:tall_grass
-minecraft:target
-minecraft:tnt
-minecraft:torch
-minecraft:tripwire
-minecraft:tuff
-minecraft:turtle_egg
-minecraft:wall_torch
-minecraft:warped_button
-minecraft:warped_fence
-minecraft:warped_trapdoor
-minecraft:warped_wall_sign
-minecraft:water
-minecraft:white_carpet
-minecraft:white_wool
-minecraft:wither_skeleton_skull
-minecraft:wither_skeleton_wall_skull
+amethyst_cluster: 1
+andesite: 2740
+andesite_slab: 321
+andesite_stairs: 51
+andesite_wall: 384
+anvil: 12
+barrel: 18
+birch_log: 1
+black_candle: 22
+black_concrete: 1558
+blackstone: 8
+blue_ice: 498
+blue_stained_glass_pane: 37
+bone_block: 2
+bookshelf: 14
+brewing_stand: 3
+bubble_column: 64
+calcite: 931
+campfire: 7
+candle: 28
+cauldron: 1
+cave_air: 556
+chain: 66
+chest: 5
+chiseled_deepslate: 88
+chiseled_nether_bricks: 4
+chiseled_polished_blackstone: 45
+chiseled_stone_bricks: 59
+clay: 18
+coal_ore: 13
+cobbled_deepslate: 15
+cobbled_deepslate_slab: 4
+cobbled_deepslate_stairs: 21
+cobbled_deepslate_wall: 22
+cobblestone: 1637
+cobblestone_slab: 106
+cobblestone_stairs: 23
+cobblestone_wall: 231
+cobweb: 27
+comparator: 1
+copper_ore: 1
+cracked_deepslate_bricks: 31
+cracked_polished_blackstone_bricks: 14
+cracked_stone_bricks: 683
+crimson_button: 1
+crimson_fence_gate: 6
+crimson_slab: 18
+crimson_trapdoor: 9
+crying_obsidian: 13
+cyan_candle: 48
+dark_oak_stairs: 5
+dark_oak_trapdoor: 43
+daylight_detector: 1
+deepslate: 17
+deepslate_brick_slab: 1029
+deepslate_brick_stairs: 849
+deepslate_brick_wall: 162
+deepslate_bricks: 627
+deepslate_tile_slab: 166
+deepslate_tile_stairs: 8
+deepslate_tile_wall: 6
+deepslate_tiles: 137
+diorite: 674
+diorite_slab: 156
+diorite_stairs: 5
+diorite_wall: 101
+dirt: 69
+dispenser: 2
+dripstone_block: 7
+dropper: 1
+enchanting_table: 2
+end_rod: 12
+end_stone: 1
+flower_pot: 4
+glow_lichen: 346
+glowstone: 11
+gold_block: 9
+granite: 9
+gravel: 3
+gray_carpet: 1
+green_carpet: 2
+grindstone: 3
+hay_block: 1
+heavy_weighted_pressure_plate: 1
+hopper: 1
+ice: 1221
+iron_bars: 2
+iron_block: 1
+iron_trapdoor: 2
+kelp_plant: 3
+lantern: 3
+lava: 9
+lectern: 4
+light_blue_stained_glass: 3
+light_blue_stained_glass_pane: 32
+light_gray_carpet: 9
+lightning_rod: 7
+loom: 5
+magma_block: 21
+mangrove_door: 18
+mangrove_leaves: 6
+mangrove_planks: 58
+mangrove_slab: 45
+mangrove_stairs: 17
+mangrove_trapdoor: 44
+mangrove_wall_sign: 11
+medium_amethyst_bud: 1
+moss_block: 16
+mossy_cobblestone: 2
+mossy_cobblestone_slab: 107
+mossy_cobblestone_stairs: 1
+mossy_cobblestone_wall: 3
+mossy_stone_brick_slab: 5
+mossy_stone_brick_stairs: 6
+mossy_stone_brick_wall: 7
+mossy_stone_bricks: 134
+mud: 422
+mud_bricks: 18
+mushroom_stem: 201
+nether_brick_fence: 38
+nether_brick_slab: 47
+nether_brick_stairs: 40
+nether_brick_wall: 12
+nether_bricks: 216
+note_block: 28
+observer: 17
+obsidian: 7
+oxidized_copper: 12
+oxidized_cut_copper_slab: 1
+packed_ice: 7101
+pink_glazed_terracotta: 1
+piston_head: 1
+player_head: 11
+player_wall_head: 6
+podzol: 1
+pointed_dripstone: 7
+polished_andesite: 4
+polished_andesite_stairs: 28
+polished_basalt: 427
+polished_blackstone: 2
+polished_blackstone_brick_slab: 109
+polished_blackstone_brick_stairs: 6
+polished_blackstone_bricks: 17
+polished_blackstone_button: 1
+polished_blackstone_pressure_plate: 4
+polished_blackstone_slab: 305
+polished_blackstone_stairs: 173
+polished_blackstone_wall: 47
+polished_deepslate: 47
+polished_deepslate_slab: 134
+polished_deepslate_stairs: 85
+polished_deepslate_wall: 241
+potted_crimson_fungus: 1
+potted_wither_rose: 3
+powder_snow: 104
+quartz_block: 1
+quartz_slab: 16
+quartz_stairs: 5
+red_candle: 31
+red_carpet: 4
+red_wall_banner: 2
+redstone_wall_torch: 1
+redstone_wire: 2
+repeater: 2
+sculk: 733
+sculk_vein: 10
+sea_pickle: 9
+smooth_basalt: 56
+smooth_stone_slab: 44
+snow: 849
+snow_block: 3773
+soul_campfire: 6
+soul_fire: 17
+soul_lantern: 94
+soul_sand: 126
+soul_soil: 30
+soul_wall_torch: 2
+spruce_fence: 29
+spruce_fence_gate: 1
+spruce_log: 55
+spruce_sign: 1
+spruce_slab: 102
+spruce_stairs: 16
+spruce_trapdoor: 35
+spruce_wall_sign: 10
+stone: 7638
+stone_brick_slab: 369
+stone_brick_stairs: 487
+stone_brick_wall: 39
+stone_bricks: 3666
+stone_button: 12
+stone_pressure_plate: 2
+stone_slab: 235
+stone_stairs: 90
+sweet_berry_bush: 12
+tnt: 10
+torch: 144
+tripwire: 2
+tuff: 254
+turtle_egg: 1
+wall_torch: 76
+warped_button: 3
+warped_fence: 1
+warped_trapdoor: 14
+warped_wall_sign: 3
+water: 777
+white_carpet: 7
+white_wool: 1
+wither_skeleton_skull: 3
+wither_skeleton_wall_skull: 1

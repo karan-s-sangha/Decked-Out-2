@@ -1,5 +1,5 @@
 class Steve {
-    constructor(game, playerX, playerY) {
+    constructor(game, playerX, playerY, playerZ) {
         // latest version of steve
 
         this.scale = 0.2;
@@ -22,21 +22,27 @@ class Steve {
         this.jumpComplete = true;
 
         this.canMove = true;
+
+        this.playerX = 0;
+        this.playerY = 0;
+        this.playerZ = 0;
         // this.playerX = playerX;
         // this.playerY = playerY;
         this.playerX = -750;
         
         this.playerY = 2500;
+         // this.playerZ = playerZ;
+       
         this.screenX = this.game.ctx.canvas.width / 2;
         this.screenY = this.game.ctx.canvas.height / 2;
 
         this.playerRunSpeed = 800;
-        this.playerWalkSpeed = 600;
+        this.playerWalkSpeed = 20;
 
 
         this.win = false;
         
-        this.collision = new Collision(this.game);
+        this.collision = this.game.camera.collision;
         this.loadAnimations();
         this.live = true;
         this.win = false;
@@ -177,7 +183,7 @@ class Steve {
         }
         this.elapsedTime += this.game.clockTick;
 
-        console.log("Steve: " + this.playerX + " " + this.playerY);
+        //console.log("Steve: " + this.playerX + " " + this.playerY);
     };
 
 
