@@ -9,7 +9,7 @@ class Camera {
         
         this.steveInitialX = -8; 
         this.steveInitialY = 9;   
-        this.steveInitialZ = 14;   
+        this.steveInitialZ = 14.1;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -36,7 +36,7 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 2;
+        this.sizeFactor = 1;
         this.imageWidth = 48;
         this.imageHeight = 48; 
         this.initialize();
@@ -48,6 +48,10 @@ class Camera {
     async initialize() {
         console.log("In initialization");
         for (let i = 14; i < 15; i++) {
+=========
+       // console.log("In initialization");
+        for (let i = 13; i < 14; i++) {
+>>>>>>>>> Temporary merge branch 2
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
