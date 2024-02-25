@@ -18,7 +18,7 @@ class StaticArt {
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
     
         // Determine the range of blocks to check
-        const radius = 18; // The radius around the player
+        const radius = 15; // The radius around the player
         for (let z = playerZ - 5; z <= playerZ + 5; z++) {
             for (let y = playerY - radius; y <= playerY + radius; y++) {
                 for (let x = playerX - radius; x <= playerX + radius; x++) {
