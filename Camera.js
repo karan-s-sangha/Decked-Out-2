@@ -36,7 +36,7 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 1.4;
+        this.sizeFactor = 2;
         this.imageWidth = 48;
         this.imageHeight = 48; 
         this.initialize();
@@ -62,6 +62,7 @@ class Camera {
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
+            //console.log(line);
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
@@ -99,7 +100,7 @@ class Camera {
       
        this.game.addEntity(steve);
 
-       this.addRavagers();
+       //this.addRavagers();
 
         //Adding the Compass Entity
        this.game.addEntity(this.compass);
