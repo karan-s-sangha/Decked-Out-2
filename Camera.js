@@ -46,8 +46,8 @@ class Camera {
         
     };
     async initialize() {
-        console.log("In initialization");
-        for (let i = 0; i < this.layerCount; i++) {
+       // console.log("In initialization");
+        for (let i = 13; i < 14; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -95,12 +95,12 @@ class Camera {
        this.game.addEntity(this.staticArt);
 
         // // Adding the first upper level dynamic art
-  //     this.game.addEntity(new DynamicArt(this.game));
+  //this.game.addEntity(new DynamicArt(this.game));
             
       
        this.game.addEntity(steve);
 
-       //this.addRavagers();
+      this.addRavagers();
 
         //Adding the Compass Entity
        this.game.addEntity(this.compass);
@@ -117,23 +117,26 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-            { x: 756, y: 444 },
-            { x: 1332, y: 2348 },
-            { x: 556, y: 4572 },
-            { x: 1468, y: 6348 },
-            { x: 4078, y: 4852 },
-            { x: 1740, y: 4252 },
-            { x: 2460, y: 2532 },
-            { x: 4116, y: 2124 },
-            { x: 4324, y: 4884 },
-            { x: 3972, y: 1204 },
-            { x: 444, y: 2340 },
-            { x: 3492, y: 2796 },
-            { x: 2276, y: 6060 }
+                //{ x: 1, y: 0, z: 0 }
+                //{ x: 1, y: 10, z: 0 },
+               { x: 28, y: 37, z: 0 }
+                /*{ x: 1332, y: 2348, z: 1 },
+                { x: 556, y: 4572, z: 2 },
+                { x: 1468, y: 6348, z: 3 },
+                { x: 4078, y: 4852, z: 4 },
+                { x: 1740, y: 4252, z: 0 },
+                { x: 2460, y: 2532, z: 5 },
+                { x: 4116, y: 2124, z: 0 },
+                { x: 4324, y: 4884, z: 0 },
+                { x: 3972, y: 1204, z: 0 },
+                { x: 444, y: 2340, z: 0 },
+                { x: 3492, y: 2796, z: 0 },
+                { x: 2276, y: 6060, z: 0 }*/
+        
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, 0.3, 1, 50);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.15);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });
@@ -141,47 +144,50 @@ class Camera {
 
     // This update is for the whole website including the HTML 
     update() {
-      
-
-        if(this.steve.jumped) {
+       // console.log(this.steve.playerX, this.steve.playerY);
+        if (this.steve.jumped) {
             let x = this.steve.playerX / this.game.GameScale;
             let y = this.steve.playerY / this.game.GameScale;
+            let z = this.steve.playerZ / this.game.GameScale; // Assuming Steve has a Z position
             let newRavX = [];
             let newRavY = [];
-
+            let newRavZ = []; // Store new Z positions for ravagers
+    
             this.ravagers.forEach(rav => {
                 newRavX.push(rav.ravagerX / this.game.GameScale);
                 newRavY.push(rav.ravagerY / this.game.GameScale);
+                newRavZ.push(rav.ravagerZ / this.game.GameScale); // Adjust for Z
             });
-
-
-            if(this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
-                this.game.GameScale -= this.game.clockTick * 1.5; 
+    
+            if (this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
+                this.game.GameScale -= this.game.clockTick * 1.5;
                 this.ravagers.forEach(rav => {
                     rav.size -= this.game.clockTick * 0.1;
                 });
             } else {
                 this.steve.jumpComplete = true;
             }
-
-            if(this.game.GameScale < 4 && this.steve.jumpComplete) {
+    
+            if (this.game.GameScale < 4 && this.steve.jumpComplete) {
                 this.game.GameScale += this.game.clockTick * 1.5;
                 this.ravagers.forEach(rav => {
                     rav.size += this.game.clockTick * 0.1;
                 });
             }
-
-            if(this.steve.jumpComplete && this.game.GameScale >= 4) {
+    
+            if (this.steve.jumpComplete && this.game.GameScale >= 4) {
                 this.steve.jumped = false;
             }
+    
             this.steve.playerX = x * this.game.GameScale;
-            this.steve.playerY = y * this.game.GameScale;      
-            
-            for(let i = 0; i < this.ravagers.length; i++) {
+            this.steve.playerY = y * this.game.GameScale;
+            this.steve.playerZ = z * this.game.GameScale; // Scale Steve's Z
+    
+            for (let i = 0; i < this.ravagers.length; i++) {
                 this.ravagers[i].ravagerX = newRavX[i] * this.game.GameScale;
                 this.ravagers[i].ravagerY = newRavY[i] * this.game.GameScale;
+                this.ravagers[i].ravagerZ = newRavZ[i] * this.game.GameScale; // Scale Ravager's Z
             }
-
         }
         
         // For Drawing Everyone At the right Location
