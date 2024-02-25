@@ -18,28 +18,6 @@ class StaticArt {
              //   console.log("Image not found for block:", block.label);
                 return; // Skip drawing if image not found
             }
-
-            // Apply size factor to determine the final width and height of the block
-            blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
-            blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
-
-            // Calculate the isometric position for the block
-            // The isometric projection formulas convert cartesian coordinates (x, y) to isometric coordinates.
-            let isoX = (block.x - block.y) * blockWidth / 2.35;
-            let isoY = (block.x + block.y) * blockHeight / 4.7; // Assuming a 2:1 ratio for isometric projection
-
-            // Adjust for the block's z-coordinate (height) if necessary
-            isoY -= block.z * blockHeight / 2; // Adjust isoY based on the z value to simulate elevation
-
-            // Adjust the drawing position based on the camera's position to ensure the map moves with the camera
-            isoX -= this.game.camera.isoCameraX;
-            isoY -= this.game.camera.isoCameraY;
-
-            // Adjust the drawing position to ensure the player is centered at 0,0
-            isoX -= blockWidth/2 ;
-
-            // Draw the block image at the calculated isometric position
-            ctx.drawImage(blockImage, isoX, isoY, blockWidth, blockHeight);
-        });
+        })
     }
 }

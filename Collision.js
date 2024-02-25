@@ -77,10 +77,10 @@ class Collision {
         const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
     
         if (standingBlock) {
-            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         } else {
-            //console.log("Player is not standing on any known block.");
+            console.log("Player is not standing on any known block.");
             return false;
         }
     }
