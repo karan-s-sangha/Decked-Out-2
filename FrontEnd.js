@@ -76,7 +76,6 @@ class FrontEnd {
     }
 
     startGame() {
-        console.log("call");
         this.isInMenu = false;
         this.isInCredits = false;
         this.isShowInstructions = false;
@@ -160,7 +159,7 @@ class FrontEnd {
             }
         }
     
-        // Background music control 
+       // Background music control 
         if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
             this.playTitleMusic();
         } else {

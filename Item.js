@@ -118,7 +118,7 @@ class Item {
                 this.items[i].x = x[i] * this.gameScale;
                 this.items[i].y = y[i] * this.gameScale;
             }
-            console.log(this.gameScale);
+            //console.log(this.gameScale);
         }
 
 

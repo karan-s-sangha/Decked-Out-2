@@ -12,6 +12,7 @@ class SceneManager {
         this.level = null;
         this.gameOver = false;
         this.frontend = new FrontEnd(game, this);
+       // this.titlescreen = new Titlescreen(game, this);
         this.loadSceneManager(this.level, false);
     };
 
@@ -48,7 +49,7 @@ class SceneManager {
     };
 
     // This Draw is for the whole website including the HTML 
-    draw(ctx) { // <- what's calling this?
+    draw(ctx) { 
         if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
         } else if (this.frontend.isInLoseScreen){

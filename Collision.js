@@ -71,14 +71,62 @@ class Collision {
         let blockY = Math.floor(y);
         let blockZ = 0;
 
-        console.log(blockX, blockY);
+       // console.log(x  + "X " + y + " Y  ");
         const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
         if (standingBlock) {
-            console.log(`Player is standing on block: ${standingBlock.label}`);
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         } else {
-            console.log("Player is not standing on any known block.");
+            //console.log("Player is not standing on any known block.");
             return false;
         }
     }
+
+    isCollisionRavager(x, y, z, size) {
+        let floatTolerance = 0.05; // A small tolerance for floating above blocks
+        let ravagerBounds = {
+            left: x,
+            right: x + size,
+            top: y,
+            bottom: y + size,
+            front: z,
+            back: z + size,
+        };
+    
+        console.log(`Ravager bounds: left=${ravagerBounds.left}, right=${ravagerBounds.right}, top=${ravagerBounds.top}, bottom=${ravagerBounds.bottom}, front=${ravagerBounds.front}, back=${ravagerBounds.back}`);
+    
+        for (let block of this.game.camera.blocks) {
+            let blockBounds = {
+                left: block.x,
+                right: block.x + 1,
+                top: block.y,
+                bottom: block.y + 1,
+                front: block.z,
+                back: block.z + 1,
+            };
+    
+            // Adjust bounds for floating point tolerance
+            let adjustedBlockBounds = {
+                ...blockBounds,
+                front: blockBounds.front - floatTolerance, // Adjust for floating above the block
+            };
+    
+            // Check if Ravager's bounding box intersects or is floating just above any block
+            if (ravagerBounds.right > adjustedBlockBounds.left && ravagerBounds.left < adjustedBlockBounds.right &&
+                ravagerBounds.bottom > adjustedBlockBounds.top && ravagerBounds.top < adjustedBlockBounds.bottom &&
+                ravagerBounds.back > adjustedBlockBounds.front && ravagerBounds.front < adjustedBlockBounds.back) {
+                console.log(`Collision with block: ${block.label}`);
+                return true;
+            }
+        }
+    
+        console.log("No collision or floating detected with any block.");
+        return false;
+    }
+    
+    
+        
+    
+    
+    
 }

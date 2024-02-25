@@ -53,7 +53,8 @@ class Steve {
         this.runningAnimations = new Animator(this.game, this.spritesheet, 0, 0, this.width, this.height, 70, 0.006, 0, false, true);
     };
 
-    move(x, y) {
+    move(x, y, z) {
+        //console.log(this.playerX + "D " +  this.playerY + "DD " +this.playerZ);
 
         this.playerX = x;
         this.playerY = y;

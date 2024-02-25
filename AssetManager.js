@@ -126,9 +126,21 @@ class AssetManager {
         var aud = this.cache[path];
         if (aud) {
             aud.loop = true; // Ensure the song loops
-            aud.play().catch(error => console.error("Playback failed:", error));
+            
+            // Try playing the audio
+            aud.play().catch(error => {
+                if (error.name === 'NotAllowedError') {
+                    // Log or handle NotAllowedError specifically
+                    console.error("Playback failed due to autoplay restrictions. Please interact with the game to enable sound.");
+                    // Optionally, prompt the user for interaction to start the playback
+                } else {
+                    // Handle other errors
+                    console.error("Playback failed:", error);
+                }
+            });
         }
     };
+    
     
 
 };
