@@ -18,6 +18,6 @@ class StaticArt {
              //   console.log("Image not found for block:", block.label);
                 return; // Skip drawing if image not found
             }
-        })
+        }
     }
 }
