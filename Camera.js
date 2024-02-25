@@ -34,9 +34,9 @@ class Camera {
         this.compass = new Compass(this.artifact,this.steve, this.game);
         this.ui = new UI(this.steve);
 
-        this.blocks = []; // Array to store block data as objects
-        this.layerCount = 18; // Set the number of layers you want to read
-        this.sizeFactor = 1.5;
+        this.blocksMap = {}; // Use an object as a hash map to store block data as objects
+        this.layerCount = 37; // Set the number of layers you want to read
+        this.sizeFactor = 2;
         this.imageWidth = 48;
         this.imageHeight = 48; 
         this.initialize();
@@ -62,18 +62,24 @@ class Camera {
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
+            //console.log(line);
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
                 const [x, y, z] = parts[1].trim().slice(1, -1).split(',').map(Number);
-                this.blocks.push({ label, x, y, z });
-            } 
-            // else if(parts.length ===0) {
-            //     ;            }
-                else {
-               // console.error(`Invalid format in line ${index + 1}: ${line}`);
+                // Use a unique key for each block, e.g., by serializing x, y, z coordinates
+                const key = `${x},${y},${z}`;
+                this.blocksMap[key] = { label, x, y, z };
+            } else {
+                console.error(`Invalid format in line ${index + 1}: ${line}`);
             }
         });
+    }
+
+    // Example method to retrieve a block by its coordinates
+    getBlock(x, y, z) {
+        const key = `${x},${y},${z}`;
+        return this.blocksMap[key]; // Fast lookup
     }
     clearEntities() {
         this.game.entities.forEach(function (entity) {

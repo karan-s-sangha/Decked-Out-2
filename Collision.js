@@ -69,10 +69,14 @@ class Collision {
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = 0;
-
-       // console.log(x  + "X " + y + " Y  ");
-        const standingBlock = this.game.camera.blocks.find(block => block.x === blockX && block.y === blockY && block.z === blockZ);
+        let blockZ = 0; // Assuming z is always 0 for this example
+        // let blockZ = Math.ceil(z); this.game.camera.steve.playerZ;
+    
+        //console.log(blockX, blockY);
+        // Construct a key from the block's coordinates to access the block directly
+        const blockKey = `${blockX},${blockY},${blockZ}`;
+        const standingBlock = this.game.camera.blocksMap[blockKey];
+    
         if (standingBlock) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
@@ -81,52 +85,26 @@ class Collision {
             return false;
         }
     }
-
-    isCollisionRavager(x, y, z, size) {
-        let floatTolerance = 0.05; // A small tolerance for floating above blocks
-        let ravagerBounds = {
-            left: x,
-            right: x + size,
-            top: y,
-            bottom: y + size,
-            front: z,
-            back: z + size,
-        };
     
-        console.log(`Ravager bounds: left=${ravagerBounds.left}, right=${ravagerBounds.right}, top=${ravagerBounds.top}, bottom=${ravagerBounds.bottom}, front=${ravagerBounds.front}, back=${ravagerBounds.back}`);
+        isCollisionRavager(x, y, size) {
+            return false;
+        for (let offsetX = 0; offsetX < size; offsetX++) {
+            for (let offsetY = 0; offsetY < size; offsetY++) {
+                let scaledX = (x + offsetX) / this.game.GameScale;
+                let scaledY = (y + offsetY) / this.game.GameScale;
     
-        for (let block of this.game.camera.blocks) {
-            let blockBounds = {
-                left: block.x,
-                right: block.x + 1,
-                top: block.y,
-                bottom: block.y + 1,
-                front: block.z,
-                back: block.z + 1,
-            };
+                if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
+                    return true;
+                }
     
-            // Adjust bounds for floating point tolerance
-            let adjustedBlockBounds = {
-                ...blockBounds,
-                front: blockBounds.front - floatTolerance, // Adjust for floating above the block
-            };
-    
-            // Check if Ravager's bounding box intersects or is floating just above any block
-            if (ravagerBounds.right > adjustedBlockBounds.left && ravagerBounds.left < adjustedBlockBounds.right &&
-                ravagerBounds.bottom > adjustedBlockBounds.top && ravagerBounds.top < adjustedBlockBounds.bottom &&
-                ravagerBounds.back > adjustedBlockBounds.front && ravagerBounds.front < adjustedBlockBounds.back) {
-                console.log(`Collision with block: ${block.label}`);
-                return true;
+                let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
+                let collisionColor = [116, 29, 50, 255];
+                if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && 
+                    pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
+                    return true;
+                }
             }
         }
-    
-        console.log("No collision or floating detected with any block.");
         return false;
     }
-    
-    
-        
-    
-    
-    
 }
