@@ -25,7 +25,7 @@ class Steve {
 
         this.playerX = 0;
         this.playerY = 0;
-        this.playerZ = 0;
+        this.playerZ = 15;
         // this.playerX = playerX;
         // this.playerY = playerY;
          // this.playerZ = playerZ;
@@ -34,7 +34,7 @@ class Steve {
         this.screenY = this.game.ctx.canvas.height / 2;
 
         this.playerRunSpeed = 800;
-        this.playerWalkSpeed = 1;
+        this.playerWalkSpeed = 20;
 
 
         this.win = false;
