@@ -7,7 +7,7 @@ class Steve {
         this.height = 340;
         this.game = game;
         this.health = 10;
-        this.hunger = 5;
+        this.hunger = 10;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
         this.move = 0;
