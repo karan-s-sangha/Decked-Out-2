@@ -47,11 +47,7 @@ class Camera {
     };
     async initialize() {
         console.log("In initialization");
-        for (let i = 14; i < 15; i++) {
-=========
-       // console.log("In initialization");
-        for (let i = 13; i < 14; i++) {
->>>>>>>>> Temporary merge branch 2
+        for (let i = 15; i < this.layerCount; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

@@ -65,28 +65,28 @@ class Collision {
         Object.assign(this, { game });  
     }
 
-   isCollision(x, y, z) {
-            // Getting the Block the player will end In.
-            let blockX = Math.floor(x);
-            let blockY = Math.floor(y);
-            let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
-        
-             
-            const blockKey = `${blockX},${blockY},${blockZ}`;
-                
-            // Construct a key from the block's coordinates to access the block directly
-            console.log(blockX, blockY, blockZ);
-            const standingBlock = this.game.camera.blocksMap[blockKey];
-        
-            if (standingBlock) {
-                //console.log(`Player is standing on block: ${standingBlock.label}`);
-                return true;
-            } else {
-                //console.log("Player is not standing on any known block.");
-                return false;
-            }
+    isCollision(x, y, z) {
+        // Getting the Block the player will end In.
+        let blockX = Math.floor(x);
+        let blockY = Math.floor(y);
+        let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
+    
+         
+        const blockKey = `${blockX},${blockY},${blockZ}`;
+            
+        // Construct a key from the block's coordinates to access the block directly
+        console.log(blockX, blockY, blockZ);
+        const standingBlock = this.game.camera.blocksMap[blockKey];
+    
+        if (standingBlock) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            return true;
+        } else {
+            //console.log("Player is not standing on any known block.");
+            return false;
         }
-
+    }
+    
     isCollisionRavager(x, y, z, size) {
         let floatTolerance = 0.05; // A small tolerance for floating above blocks
         let ravagerBounds = {
@@ -100,7 +100,7 @@ class Collision {
     
         console.log(`Ravager bounds: left=${ravagerBounds.left}, right=${ravagerBounds.right}, top=${ravagerBounds.top}, bottom=${ravagerBounds.bottom}, front=${ravagerBounds.front}, back=${ravagerBounds.back}`);
     
-        for (let block of this.game.camera.blocks) {
+        for (let block of this.game.camera.blocksMap) {
             let blockBounds = {
                 left: block.x,
                 right: block.x + 1,
