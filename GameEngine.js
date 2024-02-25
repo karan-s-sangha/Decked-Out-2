@@ -15,7 +15,7 @@ class GameEngine {
         this.transition = null;
 
 
-        this.play = false;
+        this.play = true;
     };
 
     init(ctx) {
