@@ -11,7 +11,7 @@ class StaticArt {
         // Player's current position
         const playerX = Math.floor(this.game.camera.steve.playerX);
         const playerY = Math.floor(this.game.camera.steve.playerY);
-        const playerZ = Math.floor(this.game.camera.steve.playerZ);
+        const playerZ = Math.ceil(this.game.camera.steve.playerZ);
     
         // Block dimensions
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
