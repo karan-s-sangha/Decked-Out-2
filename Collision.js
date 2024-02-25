@@ -66,6 +66,7 @@ class Collision {
     }
 
     isCollision(x, y, z) {
+        return false;
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
