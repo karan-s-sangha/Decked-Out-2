@@ -48,7 +48,7 @@ class Camera {
     };
     async initialize() {
         console.log("In initialization");
-        for (let i = 18; i < 19; i++) {
+        for (let i = 18; i < 20; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
