@@ -67,14 +67,14 @@ class Collision {
 
     isCollision(x, y, z) {
         console.log(x,y,z)
-        return true;
+        // return true;
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
     
          
-        const blockKey = `${blockX},${blockY},${blockZ}`;
+        const blockKey = `${blockX+1},${blockY+2},${blockZ}`;
             
         // Construct a key from the block's coordinates to access the block directly
         console.log(blockX, blockY, blockZ);

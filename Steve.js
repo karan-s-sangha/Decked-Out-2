@@ -4,7 +4,7 @@ class Steve {
 
         this.scale = 0.26;
         this.width = 200;
-        this.height = 384;
+        this.height = 356;
         this.game = game;
         this.health = 10;
         this.hunger = 5;
@@ -28,8 +28,8 @@ class Steve {
         this.playerY = playerY;
         this.playerZ = playerZ;
 
-        this.screenX = this.game.ctx.canvas.width / 2;
-        this.screenY = this.game.ctx.canvas.height / 2;
+        this.screenX = this.game.ctx.canvas.width / 2 ;
+        this.screenY = this.game.ctx.canvas.height / 2 + this.height * this.scale / 2 ;
 
         this.playerRunSpeed = 800;
         this.playerWalkSpeed = 20;
