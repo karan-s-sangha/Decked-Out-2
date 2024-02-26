@@ -12,7 +12,7 @@ class Camera {
         // this.steveInitialZ = 18;   
               this.steveInitialX = 0; 
         this.steveInitialY = 0;   
-        this.steveInitialZ = 0;   
+        this.steveInitialZ = 1;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -51,7 +51,7 @@ class Camera {
     };
     async initialize() {
         console.log("In initialization");
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 2; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
