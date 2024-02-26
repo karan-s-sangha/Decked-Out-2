@@ -1,107 +1,66 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radius = 15;
-        
+        this.radius = 12; // Radius for drawing and calculations
     }
     
     update() {
-        // Update logic if needed (e.g., for animated tiles or changing scenarios)
+        // Placeholder for future update logic
     }
 
-   
     draw(ctx) {
         const playerX = Math.floor(this.game.camera.steve.playerX);
         const playerY = Math.floor(this.game.camera.steve.playerY);
         const playerZ = Math.floor(this.game.camera.steve.playerZ);
-    
-        // First, get all reachable blocks to identify which blocks should not be hindered.
-        let reachableBlocks = this.getReachableBlocks(playerX, playerY, playerZ);
-      
-        // Sort the reachable blocks by z, then x, and finally y to ensure correct drawing order.
-        reachableBlocks.sort((a, b) => {
-                 if (a.z !== b.z) return a.z - b.z; // Sort by z ascendingly for elevation.
-                 if (a.x !== b.x) return a.x - b.x; // Then by x ascendingly.
-                   return a.y - b.y; // Lastly, sort by y ascendingly.
-        });
 
-        // Define the range of the cube around the player
-        const radius = 10;
-        
-    
-        // Collect all blocks within the specified cube around the player
+        let reachableBlocks = this.getReachableBlocks(playerX, playerY, playerZ);
+        let blocksInRange = this.getBlocksInRange(playerX, playerY, playerZ);
+
+        // Filter out blocks in reachableBlocks from blocksInRange to avoid duplicates
+        blocksInRange = blocksInRange.filter(({ x, y, z }) => 
+            !reachableBlocks.some(block => block.x === x && block.y === y && block.z === z));
+
+        // Sort and combine blocks for drawing
+        [...blocksInRange, ...reachableBlocks]
+            .sort((a, b) => a.z - b.z || a.x - b.x || a.y - b.y)
+            .forEach(block => this.drawBlock(ctx, block.x, block.y, block.z));
+    }
+
+    drawBlock(ctx, x, y, z) {
+        const { playerX, playerY, playerZ, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.getDrawingParams();
+        const blockKey = `${x},${y},${z}`;
+        const block = this.game.camera.blocksMap[blockKey];
+        const blockImage = block ? ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`] : null;
+
+        if (!block || !blockImage) return;
+
+        let isoX = (x - y) * imageWidth * sizeFactor / 2 - isoCameraX;
+        let isoY = (x + y) * imageHeight * sizeFactor / 4 - (z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY;
+
+        ctx.drawImage(blockImage, isoX, isoY, imageWidth * sizeFactor, imageHeight * sizeFactor);
+    }
+
+    getBlocksInRange(playerX, playerY, playerZ) {
         let blocksInRange = [];
-        for (let z = playerZ - radius; z <= playerZ + radius; z++) {
-            for (let y = playerY - radius; y <= playerY + radius; y++) {
-                for (let x = playerX - radius; x <= playerX + radius; x++) {
-                    let blockKey = `${x},${y},${z}`;
-                    if (this.game.camera.blocksMap[blockKey] && !reachableSet.has(blockKey)) {
-                        // Only add blocks that are not in the set of reachable blocks to avoid drawing hindering blocks
+        for (let z = playerZ - 5; z <= playerZ + 5; z++) {
+            for (let y = playerY - this.radius; y <= playerY + this.radius; y++) {
+                for (let x = playerX - this.radius; x <= playerX + this.radius; x++) {
+                    if (this.game.camera.blocksMap[`${x},${y},${z}`]) {
                         blocksInRange.push({ x, y, z });
                     }
                 }
             }
         }
-    
-        // Draw each block within range that is not considered reachable (and thus not hindering)
-        blocksInRange.forEach(block => {
-            this.drawBlock(ctx, block.x, block.y, block.z);
-        });
-    
-        // Additionally, draw reachable blocks as they are not hindering by definition
-        reachableBlocks.forEach(block => {
-            this.drawBlock(ctx, block.x, block.y, block.z);
-        });
-    }
-    
-    
-    
-
-    drawBlock(ctx, x, y, z) {
-      //console.log(x,y,z);
-      // Player's current position
-      const playerX = Math.floor(this.game.camera.steve.playerX);
-      const playerY = Math.floor(this.game.camera.steve.playerY);
-      const playerZ = Math.ceil(this.game.camera.steve.playerZ);
-  
-      // Block dimensions
-      let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
-      let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
-  
-      // Determine the range of blocks to check
-    
-                  // Construct the key for the current block position
-                  const blockKey = `${x},${y},${z}`;
-                  const block = this.game.camera.blocksMap[blockKey];
-                  if (!block) return; // Skip if no block found at this position
-  
-                  let blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`];
-                  if (!blockImage) {
-                      //console.log("Image not found for block:", block.label);
-                      return; // Skip drawing if image not found
-                  }
-  
-                  // Calculate the isometric position for the block, adjusting for player position
-                  let relativeX = x ;
-                  let relativeY = y ;
-                  let relativeZ = z - playerZ;
-  
-                  let isoX = (relativeX - relativeY) * blockWidth / 2;
-                  let isoY = (relativeX + relativeY) * blockHeight / 4 - (relativeZ * blockHeight / 2);
-  
-                  // // Center the drawing on the canvas based on the player's position
-                  // isoX += ctx.canvas.width / 2 - blockWidth / 2;
-                  // isoY += ctx.canvas.height / 2 - blockHeight / 4; // Adjust based on the typical block height to center
-  
-                  // Adjust the drawing position based on the camera's position to ensure the map moves with the camera
-                  isoX -= (blockWidth / 2 + this.game.camera.isoCameraX);
-                  isoY -= this.game.camera.isoCameraY;
-  
-                     
-                  // Draw the block image at the calculated isometric position
-                  ctx.drawImage(blockImage, isoX, isoY, blockWidth, blockHeight);
+        return blocksInRange;
     }
 
+    getDrawingParams() {
+        const playerX = Math.floor(this.game.camera.steve.playerX);
+        const playerY = Math.floor(this.game.camera.steve.playerY);
+        const playerZ = Math.ceil(this.game.camera.steve.playerZ);
+        const { isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
+        return { playerX, playerY, playerZ, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor };
+    }
 
     getReachableBlocks(playerX, playerY, playerZ) {
         const radius = this.radius;
