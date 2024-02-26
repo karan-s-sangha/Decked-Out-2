@@ -23,26 +23,26 @@ class Steve {
 
         this.canMove = true;
 
-    
+
         this.playerX = playerX;
         this.playerY = playerY;
         this.playerZ = playerZ;
 
-        this.screenX = this.game.ctx.canvas.width / 2 ;
-        this.screenY = this.game.ctx.canvas.height / 2 + this.height * this.scale / 2 ;
+        this.screenX = this.game.ctx.canvas.width / 2;
+        this.screenY = this.game.ctx.canvas.height / 2 + this.height * this.scale / 2;
 
-        this.playerRunSpeed = 800;
-        this.playerWalkSpeed = 20;
+        this.playerRunSpeed = 20;
+        this.playerWalkSpeed = 5;
 
 
         this.win = false;
-        
+
         this.collision = this.game.camera.collision;
         this.loadAnimations();
         this.live = true;
         this.win = false;
 
-        
+
         //console.log("Z: " + this.playerZ);
     };
 
@@ -60,11 +60,11 @@ class Steve {
         this.playerX = x;
         this.playerY = y;
         this.move = true;
-        
+
     }
 
     update() {
-       // console.log(this.canMove);
+        // console.log(this.canMove);
         if (this.game.keys.ctrl) {
             console.log("ctrl");
         }
@@ -112,26 +112,61 @@ class Steve {
             //     this.run = true;
             //     this.hungerTime += 3 * this.game.clockTick;
             // } else {
-                if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-                    this.move = 1;
-                    this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-                    this.move = 1;
-                    this.playerX += this.playerWalkSpeed * this.game.clockTick;
-                    console.log("steve z: " + this.playerZ);
-                }
-                if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-                    this.move = 1;
-                    this.playerY -= this.playerWalkSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-                    this.move = 1;
-                    this.playerY += this.playerWalkSpeed * this.game.clockTick;
-                }
+            if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+                this.move = 1;  
+                this.playerX -= this.playerWalkSpeed * this.game.clockTick;
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
+                this.width = 185;
+                this.height = 329;
+                this.walkingAnimations.spritesheet = this.spritesheet; 
+                this.runningAnimations.spritesheet = this.spritesheet; 
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height;              
+            }
+            if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+                this.move = 1;
+                this.playerX += this.playerWalkSpeed * this.game.clockTick;
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
+                this.width = 200;
+                this.height = 356;
+                this.walkingAnimations.spritesheet = this.spritesheet; 
+                this.runningAnimations.spritesheet = this.spritesheet; 
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+            }
+            if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
+                this.move = 1;
+                this.playerY -= this.playerWalkSpeed * this.game.clockTick;
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
+                this.width = 186;
+                this.height = 356; 
+                this.walkingAnimations.spritesheet = this.spritesheet;
+                this.runningAnimations.spritesheet = this.spritesheet;
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+            }
+            if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
+                this.move = 1;
+                this.playerY += this.playerWalkSpeed * this.game.clockTick;
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
+                this.width = 202;
+                this.height = 384;
+                this.walkingAnimations.spritesheet = this.spritesheet;
+                this.runningAnimations .spritesheet = this.spritesheet;
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+                this.walkingAnimations.width = this.width; 
+                this.runningAnimations.height = this.height; 
+            }
 
-                this.run = false;
-                this.hungerTime += this.game.clockTick;
+            this.run = false;
+            this.hungerTime += this.game.clockTick;
             // }
 
 
@@ -149,18 +184,18 @@ class Steve {
                 this.elapsedTime = 0;
             }
 
-            if(this.hungerTime > 20) {
+            if (this.hungerTime > 20) {
                 this.hunger -= 0.5;
                 this.hungerTime = 0;
             }
 
-        if(this.health  <= 0) {
-            this.health = 0;
-            this.live = false;
-        }
-        if(this.hunger  <= 0) {
-            this.hunger = 0;
-        }
+            if (this.health <= 0) {
+                this.health = 0;
+                this.live = false;
+            }
+            if (this.hunger <= 0) {
+                this.hunger = 0;
+            }
         }
         this.elapsedTime += this.game.clockTick;
 
@@ -253,7 +288,7 @@ class Steve {
         // For debug purpose I drew an red rectangle where the sprite should locate
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-       // ctx.save();
+        // ctx.save();
 
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
@@ -280,7 +315,7 @@ class Steve {
             }
 
         }
-    
+
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
     };
