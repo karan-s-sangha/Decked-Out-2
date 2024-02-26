@@ -7,9 +7,12 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = -8; 
-        this.steveInitialY = 9;   
-        this.steveInitialZ = 14.1;   
+        this.steveInitialX = 18; 
+        this.steveInitialY = 82;   
+        this.steveInitialZ = 20;   
+        // this.steveInitialX = 0; 
+        // this.steveInitialY = 0;   
+        // this.steveInitialZ = 1;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -36,9 +39,10 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 1;
-        this.imageWidth = 48;
-        this.imageHeight = 48; 
+        this.sizeFactor = 0.2;
+        let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
+        this.imageWidth = image.width;
+        this.imageHeight = image.height;
         this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
@@ -46,8 +50,8 @@ class Camera {
         
     };
     async initialize() {
-        console.log("In initialization");
-        for (let i = 15; i < this.layerCount; i++) {
+        let temp = 20;
+        for (let i = 0; i < 21; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -103,7 +107,7 @@ class Camera {
       this.addRavagers();
 
         //Adding the Compass Entity
-       this.game.addEntity(this.compass);
+    //    this.game.addEntity(this.compass);
 
         //Adding All the Item Entity
        this.game.addEntity(this.artifact);
@@ -117,9 +121,9 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-                //{ x: 1, y: 0, z: 0 }
+                { x: 18, y: 82, z: 20 }
                 //{ x: 1, y: 10, z: 0 },
-               { x: 28, y: 37, z: 0 }
+              // { x: 28, y: 37, z: 20 }
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },

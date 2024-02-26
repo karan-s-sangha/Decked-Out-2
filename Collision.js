@@ -66,13 +66,15 @@ class Collision {
     }
 
     isCollision(x, y, z) {
+        //console.log(x,y,z)
+        // return true;
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
+        let blockZ = Math.ceil(z); 
     
          
-        const blockKey = `${blockX},${blockY},${blockZ}`;
+        const blockKey = `${blockX+1},${blockY+2},${blockZ}`;
             
         // Construct a key from the block's coordinates to access the block directly
         console.log(blockX, blockY, blockZ);
@@ -82,50 +84,48 @@ class Collision {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         } else {
-            //console.log("Player is not standing on any known block.");
+
+            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ - 1}`]) {
+                //console.log(`Player is standing on block: ${standingBlock.label}`);
+                this.game.camera.steve.playerZ -= 1;
+                return true;
+            }
+            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ + 1}`]) {
+                //console.log(`Player is standing on block: ${standingBlock.label}`);
+                this.game.camera.steve.playerZ += 1;
+                return true;
+            }
+            
             return false;
         }
     }
     
-    isCollisionRavager(x, y, z, size) {
-        let floatTolerance = 0.05; // A small tolerance for floating above blocks
-        let ravagerBounds = {
-            left: x,
-            right: x + size,
-            top: y,
-            bottom: y + size,
-            front: z,
-            back: z + size,
-        };
-    
-        console.log(`Ravager bounds: left=${ravagerBounds.left}, right=${ravagerBounds.right}, top=${ravagerBounds.top}, bottom=${ravagerBounds.bottom}, front=${ravagerBounds.front}, back=${ravagerBounds.back}`);
-    
-        for (let block of this.game.camera.blocksMap) {
-            let blockBounds = {
-                left: block.x,
-                right: block.x + 1,
-                top: block.y,
-                bottom: block.y + 1,
-                front: block.z,
-                back: block.z + 1,
-            };
-    
-            // Adjust bounds for floating point tolerance
-            let adjustedBlockBounds = {
-                ...blockBounds,
-                front: blockBounds.front - floatTolerance, // Adjust for floating above the block
-            };
-    
-            // Check if Ravager's bounding box intersects or is floating just above any block
-            if (ravagerBounds.right > adjustedBlockBounds.left && ravagerBounds.left < adjustedBlockBounds.right &&
-                ravagerBounds.bottom > adjustedBlockBounds.top && ravagerBounds.top < adjustedBlockBounds.bottom &&
-                ravagerBounds.back > adjustedBlockBounds.front && ravagerBounds.front < adjustedBlockBounds.back) {
-                console.log(`Collision with block: ${block.label}`);
+    isCollisionRavager(x, y, z, elevationChange) {
+        let blockX = Math.floor(x);
+        let blockY = Math.floor(y);
+        let blockZ = Math.ceil(z); 
+        console.log(blockX, blockY, blockZ, elevationChange);
+        // Check the current layer for collisions
+        let currentBlockKey = `${blockX},${blockY},${blockZ}`;
+        if (this.game.camera.blocksMap[currentBlockKey]) {
+            console.log(`Collision detected at current layer: ${currentBlockKey}`);
+            return true;
+        }
+        
+        // Check for potential layer change collisions
+       /* if (elevationChange !== 0) {
+            let blockChangeKey = `${blockX},${blockY},${blockZ + elevationChange}`;
+            if (this.game.camera.blocksMap[blockChangeKey]) {
+                console.log(`Collision detected at layer ${elevationChange > 0 ? 'above' : 'below'}: ${blockChangeKey}`);
                 return true;
             }
         }
     
-        console.log("No collision or floating detected with any block.");
+        // No collision detected at current or adjacent layers*/
+        console.log("No collision detected for Ravager.");
         return false;
     }
+    
+    
+    
 }

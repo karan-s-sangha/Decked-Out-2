@@ -91,7 +91,7 @@ class Animator {
                                ,this.width,this.height, (offscreenCanvas.width - (this.width * scale)) / 2
                                ,(offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
         offscreenCtx.restore();
-        ctx.drawImage(offscreenCanvas, x - offscreenCanvas.width / 2, y - offscreenCanvas.height / 2);
+        ctx.drawImage(offscreenCanvas, x - offscreenCanvas.width / 2, y - offscreenCanvas.height);
 
     };
 
