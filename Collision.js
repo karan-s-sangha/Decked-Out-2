@@ -84,7 +84,18 @@ class Collision {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         } else {
-            //console.log("Player is not standing on any known block.");
+
+            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ - 1}`]) {
+                //console.log(`Player is standing on block: ${standingBlock.label}`);
+                this.game.camera.steve.playerZ -= 1;
+                return true;
+            }
+            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ + 1}`]) {
+                //console.log(`Player is standing on block: ${standingBlock.label}`);
+                this.game.camera.steve.playerZ += 1;
+                return true;
+            }
+            
             return false;
         }
     }

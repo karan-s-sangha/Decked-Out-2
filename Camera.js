@@ -7,10 +7,10 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        // this.steveInitialX = 17; 
-        // this.steveInitialY = 80;   
-        // this.steveInitialZ = 18;   
-              this.steveInitialX = 0; 
+        // this.steveInitialX = 18; 
+        // this.steveInitialY = 82;   
+        // this.steveInitialZ = 20;   
+        this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
@@ -51,6 +51,7 @@ class Camera {
     };
     async initialize() {
         console.log("In initialization");
+        let temp = 20;
         for (let i = 0; i < 2; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);

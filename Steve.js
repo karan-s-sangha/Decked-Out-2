@@ -70,56 +70,56 @@ class Steve {
         }
         //console.log(this.playerZ);
         if (this.canMove) {
-            if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
-                if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-                    this.move = 1;
-                    this.playerX -= this.playerRunSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-                    this.move = 1;
-                    this.playerX += this.playerRunSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-                    this.move = 1;
-                    this.playerY -= this.playerRunSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-                    this.move = 1;
-                    this.playerY += this.playerRunSpeed * this.game.clockTick;
-                }
+            // if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
+            //     if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerX -= this.playerRunSpeed * this.game.clockTick;
+            //     }
+            //     if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerX += this.playerRunSpeed * this.game.clockTick;
+            //     }
+            //     if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerY -= this.playerRunSpeed * this.game.clockTick;
+            //     }
+            //     if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerY += this.playerRunSpeed * this.game.clockTick;
+            //     }
 
-                this.run = true;
-                this.hungerTime += 3 * this.game.clockTick;
-            }
-            else if (this.game.keys.shift && this.hunger >= 3) {
-                if (this.game.keys.left && this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
-                    this.move = 1;
-                    this.playerX -= this.playerRunSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.right && this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
-                    this.move = 1;
-                    this.playerX += this.playerRunSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-                    this.move = 1;
-                    this.playerY -= this.playerRunSpeed * this.game.clockTick;
-                }
-                if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-                    this.move = 1;
-                    this.playerY += this.playerRunSpeed * this.game.clockTick;
-                }
+            //     this.run = true;
+            //     this.hungerTime += 3 * this.game.clockTick;
+            // }
+            // else if (this.game.keys.shift && this.hunger >= 3) {
+            //     if (this.game.keys.left && this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerX -= this.playerRunSpeed * this.game.clockTick;
+            //     }
+            //     if (this.game.keys.right && this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerX += this.playerRunSpeed * this.game.clockTick;
+            //     }
+            //     if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerY -= this.playerRunSpeed * this.game.clockTick;
+            //     }
+            //     if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+            //         this.move = 1;
+            //         this.playerY += this.playerRunSpeed * this.game.clockTick;
+            //     }
 
-                this.run = true;
-                this.hungerTime += 3 * this.game.clockTick;
-            } else {
+            //     this.run = true;
+            //     this.hungerTime += 3 * this.game.clockTick;
+            // } else {
                 if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-                    //console.log((this.game.clockTick));
                 }
                 if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
                     this.move = 1;
                     this.playerX += this.playerWalkSpeed * this.game.clockTick;
+                    console.log("steve z: " + this.playerZ);
                 }
                 if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
                     this.move = 1;
@@ -132,7 +132,7 @@ class Steve {
 
                 this.run = false;
                 this.hungerTime += this.game.clockTick;
-            }
+            // }
 
 
             if (!this.game.keys.left && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down) {
