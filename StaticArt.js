@@ -1,6 +1,7 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
+        this.radius = 15;
         
     }
     
@@ -13,22 +14,46 @@ class StaticArt {
         const playerX = Math.floor(this.game.camera.steve.playerX);
         const playerY = Math.floor(this.game.camera.steve.playerY);
         const playerZ = Math.floor(this.game.camera.steve.playerZ);
-        let movable = this.getReachableBlocks(playerX, playerY, playerZ);
     
-        // Convert Set to Array and sort by y, then x, and finally z value
-        let sortedMovable = Array.from(movable).sort((a, b) => {
-            let [ax, ay, az] = a.split(',').map(Number);
-            let [bx, by, bz] = b.split(',').map(Number);
-            if (ay !== by) return ay - by; // Ascending y values
-            if (ax !== bx) return ax - bx; // Ascending x values
-            return az - bz; // Ascending z values
+        // First, get all reachable blocks to identify which blocks should not be hindered.
+        let reachableBlocks = this.getReachableBlocks(playerX, playerY, playerZ);
+      
+        // Sort the reachable blocks by z, then x, and finally y to ensure correct drawing order.
+        reachableBlocks.sort((a, b) => {
+                 if (a.z !== b.z) return a.z - b.z; // Sort by z ascendingly for elevation.
+                 if (a.x !== b.x) return a.x - b.x; // Then by x ascendingly.
+                   return a.y - b.y; // Lastly, sort by y ascendingly.
+        });
+
+        // Define the range of the cube around the player
+        const radius = 10;
+        
+    
+        // Collect all blocks within the specified cube around the player
+        let blocksInRange = [];
+        for (let z = playerZ - radius; z <= playerZ + radius; z++) {
+            for (let y = playerY - radius; y <= playerY + radius; y++) {
+                for (let x = playerX - radius; x <= playerX + radius; x++) {
+                    let blockKey = `${x},${y},${z}`;
+                    if (this.game.camera.blocksMap[blockKey] && !reachableSet.has(blockKey)) {
+                        // Only add blocks that are not in the set of reachable blocks to avoid drawing hindering blocks
+                        blocksInRange.push({ x, y, z });
+                    }
+                }
+            }
+        }
+    
+        // Draw each block within range that is not considered reachable (and thus not hindering)
+        blocksInRange.forEach(block => {
+            this.drawBlock(ctx, block.x, block.y, block.z);
         });
     
-        for (let blockKey of sortedMovable) {
-            let [x, y, z] = blockKey.split(',').map(Number);
-            this.drawBlock(ctx, x, y, z);
-        }
+        // Additionally, draw reachable blocks as they are not hindering by definition
+        reachableBlocks.forEach(block => {
+            this.drawBlock(ctx, block.x, block.y, block.z);
+        });
     }
+    
     
     
 
@@ -79,50 +104,55 @@ class StaticArt {
 
 
     getReachableBlocks(playerX, playerY, playerZ) {
-        const radius = 10; // Define the search radius
+        const radius = this.radius;
         let startBlockX = Math.floor(playerX);
         let startBlockY = Math.floor(playerY);
-        let startBlockZ = Math.floor(playerZ); // Consider the player's standing position
-
-        const blockKey = `${startBlockX},${startBlockY},${startBlockZ}`;   
-        const standingBlock = this.game.camera.blocksMap[blockKey];
+        let startBlockZ = Math.floor(playerZ);
     
-        if (!standingBlock) return new Set();
-
-   
-        let openSet = new Set([`${startBlockX},${startBlockY},${startBlockZ}`]);
-        let closedSet = new Set();
-        
-        while (openSet.size > 0) {
-            let current = openSet.values().next().value; // Get an item from the set
-            let [currX, currY, currZ] = current.split(',').map(Number);
-            openSet.delete(current);
-            closedSet.add(current);
-
-            for (let dz of [-1, 0, 1]) {
-                for (let dy of [-1, 0, 1]) {
-                    for (let dx of [-1, 0, 1]) {
-                        if (dx === 0 && dy === 0 && dz === 0) continue;
-
-                        let neighborX = currX + dx;
-                        let neighborY = currY + dy;
-                        let neighborZ = currZ + dz;
-
-                        // Check if the neighbor is within the radius
-                        if (Math.abs(neighborX - startBlockX) > radius ||
-                            Math.abs(neighborY - startBlockY) > radius ||
-                            Math.abs(neighborZ - startBlockZ) > radius) continue;
-
-                        let neighbor = `${neighborX},${neighborY},${neighborZ}`;
-                        if (closedSet.has(neighbor) || !this.isMovable(currX, currY, currZ, dx, dy, dz)) continue;
-
-                        openSet.add(neighbor);
+        let openSet = [{ x: startBlockX, y: startBlockY, z: startBlockZ, distance: 0 }];
+        let closedSet = new Set(); // Stores only the coordinates as a string "x,y,z"
+        let distances = {}; // Stores distances for each block
+    
+        while (openSet.length > 0) {
+            openSet.sort((a, b) => a.distance - b.distance);
+            let current = openSet.shift();
+            let currentKey = `${current.x},${current.y},${current.z}`;
+            if (!closedSet.has(currentKey)) { // Ensure we only add unique blocks
+                closedSet.add(currentKey);
+                distances[currentKey] = current.distance; // Track distance separately
+    
+                for (let dz of [-1, 0, 1]) {
+                    for (let dy of [-1, 0, 1]) {
+                        for (let dx of [-1, 0, 1]) {
+                            if (dx === 0 && dy === 0 && dz === 0) continue;
+    
+                            let neighborX = current.x + dx;
+                            let neighborY = current.y + dy;
+                            let neighborZ = current.z + dz;
+    
+                            if (Math.abs(neighborX - startBlockX) > radius ||
+                                Math.abs(neighborY - startBlockY) > radius ||
+                                Math.abs(neighborZ - startBlockZ) > radius) continue;
+    
+                            let neighborKey = `${neighborX},${neighborY},${neighborZ}`;
+                            if (closedSet.has(neighborKey) || !this.isMovable(current.x, current.y, current.z, dx, dy, dz)) continue;
+    
+                            let existing = openSet.find(o => `${o.x},${o.y},${o.z}` === neighborKey);
+                            let newDistance = current.distance + 1;
+                            if (!existing) {
+                                openSet.push({ x: neighborX, y: neighborY, z: neighborZ, distance: newDistance });
+                            }
+                        }
                     }
                 }
             }
         }
-
-        return closedSet;
+    
+        // Convert closedSet to an array of objects including distance for further processing
+        return Array.from(closedSet).map(key => {
+            let [x, y, z] = key.split(',').map(Number);
+            return { x, y, z, distance: distances[key] };
+        });
     }
     
     isMovable(currX, currY, currZ, dx, dy, dz) {
