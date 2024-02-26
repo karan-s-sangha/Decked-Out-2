@@ -66,7 +66,7 @@ class Steve {
     update() {
         // console.log(this.canMove);
         if (this.game.keys.ctrl) {
-           // console.log("ctrl");
+            console.log("ctrl");
         }
         //console.log(this.playerZ);
         if (this.canMove) {

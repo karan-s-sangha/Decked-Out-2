@@ -3,9 +3,9 @@ class Ravager {
         this.game = game;
         this.steve = steve;
 
-        this.ravagerX = 32;
-        this.ravagerY = 82;
-        this.ravagerZ = 20;
+        this.ravagerX = 28;
+        this.ravagerY = 37;
+        this.ravagerZ = 0;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.size = size; //0.25
@@ -29,7 +29,6 @@ class Ravager {
         this.angle = Math.random() * 2 * Math.PI;
         this.moveAttemptTimer = 0; // Timer to track movement attempts
         this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
-        this.elevationChange = 0;
     }
 
     loadAnimations() {
@@ -272,8 +271,8 @@ class Ravager {
 
 
 
-   /* wander() {
-        console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
+    /*wander() {
+        //console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
         
         if (this.wanderMove <= 0) {
             // Generate a new direction angle at random
@@ -339,8 +338,6 @@ class Ravager {
             this.ravagerY = newY;
             this.ravagerZ = newZ;
             console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
-          
-            
             this.wanderMove--;
             console.log("Wander Move below: ", this.wanderMove);
         } else {
@@ -349,8 +346,6 @@ class Ravager {
            // this.elevationChange = 0; // Reset elevation change if collision detected
         }
     }
-    
-    
     
     
     

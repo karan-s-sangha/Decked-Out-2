@@ -50,6 +50,7 @@ class Camera {
         
     };
     async initialize() {
+        console.log("In initialization");
         let temp = 20;
         for (let i = 0; i < 21; i++) {
             try {
@@ -121,9 +122,9 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-                { x: 18, y: 82, z: 20 }
+                //{ x: 1, y: 0, z: 0 }
                 //{ x: 1, y: 10, z: 0 },
-              // { x: 28, y: 37, z: 20 }
+               { x: 28, y: 37, z: 0 }
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },
