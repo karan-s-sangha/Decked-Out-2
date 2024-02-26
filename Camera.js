@@ -36,9 +36,10 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 1;
-        this.imageWidth = 48;
-        this.imageHeight = 48; 
+        this.sizeFactor = 0.2;
+        let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
+        this.imageWidth = image.width;
+        this.imageHeight = image.height;
         this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
