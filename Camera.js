@@ -7,8 +7,8 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = 0; 
-        this.steveInitialY = 0;   
+        this.steveInitialX = 17; 
+        this.steveInitialY = 80;   
         this.steveInitialZ = 18;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
@@ -47,7 +47,7 @@ class Camera {
     };
     async initialize() {
         console.log("In initialization");
-        for (let i = 0; i < this.layerCount; i++) {
+        for (let i = 18; i < 19; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -193,8 +193,8 @@ class Camera {
         // For Drawing Everyone At the right Location
         // Just Subtract isoCameraX and isoCameraY 
 
-        this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
-        this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
+        // this.cameraX = this.steve.playerX - this.ctx.canvas.width/2;
+        // this.cameraY = this.steve.playerY - this.ctx.canvas.height/2;
         
         
         //let blockImage = ASSET_MANAGER.cache[`./Art/resources/tnt.png`];
