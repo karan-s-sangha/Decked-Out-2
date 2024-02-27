@@ -350,7 +350,7 @@ class Ravager {
             this.ravagerX = newX;
             this.ravagerY = newY;
 
-            console.log("COLLISON LEVEL: " +    this.collisions.rav);
+            //console.log("COLLISON LEVEL: " +    this.collisions.rav);
            this.ravagerZ += this.collisions.rav;
             // console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
             this.wanderMove--;

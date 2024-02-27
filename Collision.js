@@ -80,7 +80,7 @@ class Collision {
         // console.log(blockX, blockY, blockZ);
         // const standingBlock = ;
 
-        if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`]) {
+        if (this.game.camera.blocksMap[`${blockX },${blockY },${blockZ}`] && !this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 1}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         }
@@ -88,13 +88,13 @@ class Collision {
         
         
 
-        else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
+        else if (this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 2}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             this.game.camera.steve.playerZ += 1;
             return true;
         }
 
-        else if(this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
+        else if(this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 2}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return false;
         }
@@ -128,14 +128,14 @@ class Collision {
         // No collision detected at current or adjacent layers
         console.log("No collision detected for Ravager.");
         return false;
-    }*/
+    }
 
     isCollisionRavager(x, y, z) {
         // Calculate the block key for the Ravager's current position
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z);
-        console.log(x + " " + y + " " + z);
+        //console.log(x + " " + y + " " + z);
         // Check for collisions at the current layer
         // let currentBlockKey = ;
         if (this.game.camera.blocksMap[`${blockX},${blockY + 1},${blockZ}`]) {
