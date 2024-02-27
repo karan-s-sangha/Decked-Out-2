@@ -63,7 +63,6 @@
 class Collision {
     constructor(game) {
         Object.assign(this, { game });
-        this.rav = 0;
     }
 
     isCollision(x, y, z) {
@@ -75,50 +74,54 @@ class Collision {
         let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
 
 
-        const blockKey = `${blockX + 1},${blockY + 2},${blockZ}`;
+        // const blockKey = ;
 
-        // Construct a key from the block's coordinates to access the block directly
-        console.log(blockX, blockY, blockZ);
-        const standingBlock = this.game.camera.blocksMap[blockKey];
+        // // Construct a key from the block's coordinates to access the block directly
+        // console.log(blockX, blockY, blockZ);
+        // const standingBlock = ;
 
-        if (standingBlock) {
+        if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
-        } else {
-
-            if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ - 1}`]) {
-                //console.log(`Player is standing on block: ${standingBlock.label}`);
-                this.game.camera.steve.playerZ -= 1;
-                return true;
-            }
-            if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`]) {
-                //console.log(`Player is standing on block: ${standingBlock.label}`);
-                this.game.camera.steve.playerZ += 1;
-                return true;
-            }
-
-            return false;
         }
-    }
+       
+        
+        
 
-    /*isCollisionRavager(x, y, z, elevationChange) {
-        let blockX = Math.floor(x);
-        let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z); 
-        console.log(blockX, blockY, blockZ, elevationChange);
-        // Check the current layer for collisions
-        let currentBlockKey = `${blockX},${blockY},${blockZ}`;
-        if (this.game.camera.blocksMap[currentBlockKey]) {
-            console.log(`Collision detected at current layer: ${currentBlockKey}`);
+        else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            this.game.camera.steve.playerZ += 1;
             return true;
         }
-        
-        // Check for potential layer change collisions
-        if (elevationChange !== 0) {
-            let blockChangeKey = `${blockX},${blockY},${blockZ + elevationChange}`;
-            if (this.game.camera.blocksMap[blockChangeKey]) {
-                console.log(`Collision detected at layer ${elevationChange > 0 ? 'above' : 'below'}: ${blockChangeKey}`);
-                return true;
+
+        else if(this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            return false;
+        }
+
+            this.game.camera.steve.playerZ -= 1;
+            return true;
+   
+
+    }
+
+    isCollisionRavager(x, y, size) {
+        return false;
+        for (let offsetX = 0; offsetX < size; offsetX++) {
+            for (let offsetY = 0; offsetY < size; offsetY++) {
+                let scaledX = (x + offsetX) / this.game.GameScale;
+                let scaledY = (y + offsetY) / this.game.GameScale;
+
+                if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
+                    return true;
+                }
+
+                let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
+                let collisionColor = [116, 29, 50, 255];
+                if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] &&
+                    pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
+                    return true;
+                }
             }
         }
     
