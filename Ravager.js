@@ -33,8 +33,8 @@ class Ravager {
 
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
-        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/rav/ravager.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.2, 0, false, true);
+        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.02, 0, false, true);
 
        // this.attackingSpriteSheet = new Image();
        // this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
