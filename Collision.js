@@ -100,7 +100,7 @@ class Collision {
         }
     }
     
-    isCollisionRavager(x, y, z, elevationChange) {
+    /*isCollisionRavager(x, y, z, elevationChange) {
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z); 
@@ -113,7 +113,7 @@ class Collision {
         }
         
         // Check for potential layer change collisions
-       /* if (elevationChange !== 0) {
+        if (elevationChange !== 0) {
             let blockChangeKey = `${blockX},${blockY},${blockZ + elevationChange}`;
             if (this.game.camera.blocksMap[blockChangeKey]) {
                 console.log(`Collision detected at layer ${elevationChange > 0 ? 'above' : 'below'}: ${blockChangeKey}`);
@@ -121,9 +121,28 @@ class Collision {
             }
         }
     
-        // No collision detected at current or adjacent layers*/
+        // No collision detected at current or adjacent layers
         console.log("No collision detected for Ravager.");
         return false;
+    }*/
+
+    isCollisionRavager(x, y, z) {
+        // Calculate the block key for the Ravager's current position
+        let blockX = Math.floor(x);
+        let blockY = Math.floor(y);
+        let blockZ = Math.ceil(z); 
+    
+        // Check for collisions at the current layer
+        let currentBlockKey = `${blockX + 1},${blockY + 2},${blockZ}`;
+        if (this.game.camera.blocksMap[currentBlockKey]) {
+            //console.log(`Collision detected at current layer: ${currentBlockKey}`);
+            return false;
+        }
+    
+        // No collision detected at the current layer
+       // console.log("No collision detected for Ravager.");
+        return true;
     }
+
     
 }

@@ -29,7 +29,7 @@ class Animator {
 
             
 
-           // console.log("Drawing frame at:", this.xStart, x, y, "with frame index:", this.width * scale , this.height * scale, frame);
+        //console.log("Drawing frame at:", this.xStart, x, y, "with frame index:", this.width * scale , this.height * scale, frame);
 
     };
     drawMap(tick, ctx, x , y) {

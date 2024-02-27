@@ -7,9 +7,9 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = 18; 
-        this.steveInitialY = 82;   
-        this.steveInitialZ = 20;   
+        this.steveInitialX = 0; 
+        this.steveInitialY = 0;   
+        this.steveInitialZ = 0;   
         // this.steveInitialX = 0; 
         // this.steveInitialY = 0;   
         // this.steveInitialZ = 1;   
@@ -52,7 +52,7 @@ class Camera {
     async initialize() {
         console.log("In initialization");
         let temp = 20;
-        for (let i = 0; i < 21; i++) {
+        for (let i = 0; i < 2; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -141,7 +141,7 @@ class Camera {
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.15);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.25);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });

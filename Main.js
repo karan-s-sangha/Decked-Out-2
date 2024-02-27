@@ -12,9 +12,8 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
 
 
 // Animation for the Ravager
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-walking-running.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/Ravager-standing.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager-attacking.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/rav/ravager.png");
+
 
 // Animation for the Steve
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted.png");
