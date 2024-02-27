@@ -133,9 +133,9 @@ class Collision {
         let blockZ = Math.ceil(z); 
     
         // Check for collisions at the current layer
-        let currentBlockKey = `${blockX + 1},${blockY + 2},${blockZ}`;
+        let currentBlockKey = `${blockX},${blockY},${blockZ}`;
         if (this.game.camera.blocksMap[currentBlockKey]) {
-            //console.log(`Collision detected at current layer: ${currentBlockKey}`);
+            console.log(`Collision detected at current layer: ${currentBlockKey}`);
             return false;
         }
     
