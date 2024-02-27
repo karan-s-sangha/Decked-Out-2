@@ -19,7 +19,7 @@
 //         // console.log(this.y);
 //         // Ensure the coordinates are within the bounds of the canvas
 //         if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
-            
+
 //             // Get the pixel data from the canvas 
 //             let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
 
@@ -43,11 +43,11 @@
 //             for (let offsetY = 0; offsetY < size; offsetY++) {
 //                 let scaledX = (x + offsetX) / this.game.GameScale;
 //                 let scaledY = (y + offsetY) / this.game.GameScale;
-    
+
 //                 if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
 //                     return true;
 //                 }
-    
+
 //                 let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
 //                 let collisionColor = [116, 29, 50, 255];
 //                 if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && 
@@ -58,48 +58,49 @@
 //         }
 //         return false;
 //     }
-    
+
 // }
 class Collision {
     constructor(game) {
-        Object.assign(this, { game });  
+        Object.assign(this, { game });
+        this.rav = 0;
     }
 
     isCollision(x, y, z) {
-        console.log(x,y,z)
+        console.log(x, y, z)
         // return true;
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
-    
-         
-        const blockKey = `${blockX+1},${blockY+2},${blockZ}`;
-            
+
+
+        const blockKey = `${blockX + 1},${blockY + 2},${blockZ}`;
+
         // Construct a key from the block's coordinates to access the block directly
         console.log(blockX, blockY, blockZ);
         const standingBlock = this.game.camera.blocksMap[blockKey];
-    
+
         if (standingBlock) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         } else {
 
-            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ - 1}`]) {
+            if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ - 1}`]) {
                 //console.log(`Player is standing on block: ${standingBlock.label}`);
                 this.game.camera.steve.playerZ -= 1;
                 return true;
             }
-            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ + 1}`]) {
+            if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`]) {
                 //console.log(`Player is standing on block: ${standingBlock.label}`);
                 this.game.camera.steve.playerZ += 1;
                 return true;
             }
-            
+
             return false;
         }
     }
-    
+
     /*isCollisionRavager(x, y, z, elevationChange) {
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
@@ -130,19 +131,35 @@ class Collision {
         // Calculate the block key for the Ravager's current position
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z); 
-    
+        let blockZ = Math.ceil(z);
+        console.log(x + " " + y + " " + z);
         // Check for collisions at the current layer
-        let currentBlockKey = `${blockX},${blockY},${blockZ}`;
-        if (this.game.camera.blocksMap[currentBlockKey]) {
-            console.log(`Collision detected at current layer: ${currentBlockKey}`);
+        // let currentBlockKey = ;
+        if (this.game.camera.blocksMap[`${blockX},${blockY + 1},${blockZ}`]) {
+            //console.log(`Collision detected at current layer: ${currentBlockKey}`);
+            this.rav = 0;
+            return true;
+        }
+
+        else if (this.game.camera.blocksMap[`${blockX},${blockY + 1},${blockZ - 1}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+           
+            this.rav = -1;
+            return true;
+        }
+        else if (this.game.camera.blocksMap[`${blockX},${blockY + 1},${blockZ + 1}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            this.rav = 1;
+            console.log("this is running");
+            return true;
+        } else {
+
             return false;
         }
-    
-        // No collision detected at the current layer
-       // console.log("No collision detected for Ravager.");
-        return true;
+
+
+
     }
 
-    
+
 }
