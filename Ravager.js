@@ -356,7 +356,7 @@ class Ravager {
         } else {
             // If a collision is detected, reset wanderMove to change direction immediately
             this.wanderMove = 0;
-            // this.elevationChange = 0; // Reset elevation change if collision detected
+            this.elevationChange = 0; // Reset elevation change if collision detected
         }
     }
     
