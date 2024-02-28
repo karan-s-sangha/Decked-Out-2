@@ -63,41 +63,47 @@
 class Collision {
     constructor(game) {
         Object.assign(this, { game });  
+        this.rav = 0;
     }
 
     isCollision(x, y, z) {
-        console.log(x,y,z)
+        console.log(x, y, z)
         // return true;
         // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
-    
-         
-        const blockKey = `${blockX+1},${blockY+2},${blockZ}`;
-            
-        // Construct a key from the block's coordinates to access the block directly
-        console.log(blockX, blockY, blockZ);
-        const standingBlock = this.game.camera.blocksMap[blockKey];
-    
-        if (standingBlock) {
+
+
+        // const blockKey = ;
+
+        // // Construct a key from the block's coordinates to access the block directly
+        // console.log(blockX, blockY, blockZ);
+        // const standingBlock = ;
+
+        if (this.game.camera.blocksMap[`${blockX },${blockY },${blockZ}`] && !this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 1}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
-        } else {
+        }
+       
+        
+        
 
-            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ - 1}`]) {
-                //console.log(`Player is standing on block: ${standingBlock.label}`);
-                this.game.camera.steve.playerZ -= 1;
-                return true;
-            }
-            if ( this.game.camera.blocksMap[ `${blockX+1},${blockY+2},${blockZ + 1}`]) {
-                //console.log(`Player is standing on block: ${standingBlock.label}`);
-                this.game.camera.steve.playerZ += 1;
-                return true;
-            }
-            
+        else if (this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 2}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            this.game.camera.steve.playerZ += 1;
+            return true;
+        }
+
+        else if(this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 2}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
             return false;
         }
+
+            this.game.camera.steve.playerZ -= 1;
+            return true;
+   
+
     }
     
     /*isCollisionRavager(x, y, z, elevationChange) {
@@ -130,18 +136,34 @@ class Collision {
         // Calculate the block key for the Ravager's current position
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z); 
-    
+        let blockZ = Math.ceil(z);
+        console.log(x + " " + y + " " + z);
         // Check for collisions at the current layer
-        let currentBlockKey = `${blockX},${blockY},${blockZ}`;
-        if (this.game.camera.blocksMap[currentBlockKey]) {
-            console.log(`Collision detected at current layer: ${currentBlockKey}`);
+        // let currentBlockKey = ;
+        if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`]) {
+           // console.log(`Collision detected at current layer: ${currentBlockKey}`);
+            this.rav = 0;
+            return true;
+        }
+
+        else if (this.game.camera.blocksMap[`${blockX},${blockY + 1},${blockZ - 1}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+           
+            this.rav = -1;
+            return true;
+        }
+        else if (this.game.camera.blocksMap[`${blockX},${blockY + 1},${blockZ + 1}`]) {
+            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            this.rav = 1;
+            console.log("this is running");
+            return true;
+        } else {
+
             return false;
         }
-    
-        // No collision detected at the current layer
-       // console.log("No collision detected for Ravager.");
-        return true;
+
+
+
     }
 
     

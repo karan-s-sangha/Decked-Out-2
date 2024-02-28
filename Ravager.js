@@ -34,7 +34,7 @@ class Ravager {
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/rav/ravager.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 380, 200, 0.2, 0, false, true);
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 380, 60, 0.1, 0, false, true);
 
        // this.attackingSpriteSheet = new Image();
        // this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
@@ -240,7 +240,7 @@ class Ravager {
             if (this.moveAttemptTimer > this.moveAttemptDuration) {
                 // Switch to wandering if stuck
                 this.state = 'wandering';
-                this.wander();
+                //this.wander();
                 this.moveAttemptTimer = 0;
             }
         } else {
@@ -272,7 +272,7 @@ class Ravager {
     
         if (!foundPath) {
             this.state = 'wandering';
-            this.wander();
+            //this.wander();
         }
     }
     
@@ -319,46 +319,35 @@ class Ravager {
           console.log("Wander Move above: ", this.wanderMove);
           this.angle = Math.random() * 2 * Math.PI; // Full circle random direction
           this.wanderMove = Math.floor(Math.random() * 100) + 100; // Reset wanderMove
-            
-            const chance = Math.random(); // Generate a random number between 0 and 1
-            console.log("Chance:", chance); // Debugging
-    
-            if (chance < 0.25) { // 25% chance to attempt an elevation change
-                const elevationChance = Math.random(); // Random number between 0 and 1
-    
-                if (elevationChance < 0.5) {
-                    this.elevationChange = 1; // Move up
-                } else {
-                    this.elevationChange = -1; // Move down
-                }
-            } else {
-                this.elevationChange = 0; // No elevation change
-            }
         }
     
         // Calculate the potential new position
-        const baseSpeed = 2;
-        const speedVariance = Math.random() * 2;
+        const baseSpeed = 1;
+        const speedVariance = Math.random() * 0.5;
         const speed = baseSpeed + speedVariance;
         let newX = this.ravagerX + Math.cos(this.angle) * speed * this.game.clockTick;
         let newY = this.ravagerY + Math.sin(this.angle) * speed * this.game.clockTick;
-        let newZ = this.ravagerZ + this.elevationChange; // Apply potential elevation change
+        let newZ = this.ravagerZ; // Apply potential elevation change
     
         // Perform collision detection with the next position
-        if (!this.collisions.isCollisionRavager(newX, newY, newZ)) {
+        if (this.collisions.isCollisionRavager(newX, newY, newZ)) {
             // If no collision, update the ravager's position
             this.ravagerX = newX;
             this.ravagerY = newY;
-            this.ravagerZ = newZ;
-            console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
+
+           console.log("COLLISON LEVEL: BEfore update" +    this.collisions.rav);
+           this.ravagerZ += this.collisions.rav;
+            // console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
             this.wanderMove--;
-           console.log("Wander Move below: ", this.wanderMove);
+            console.log("COLLISON LEVEL: AFter update" +    this.collisions.rav);
+           // console.log("Wander Move below: ", this.wanderMove);
         } else {
             // If a collision is detected, reset wanderMove to change direction immediately
             this.wanderMove = 0;
-            this.elevationChange = 0; // Reset elevation change if collision detected
+           
         }
     }
+    
     
     
     

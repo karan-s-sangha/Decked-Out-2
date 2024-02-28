@@ -34,8 +34,8 @@ class StaticArt {
 
         if (!block || !blockImage) return;
 
-        let isoX = (x - y) * imageWidth * sizeFactor / 2 - isoCameraX;
-        let isoY = (x + y) * imageHeight * sizeFactor / 4 - (z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY;
+        let isoX = ((x - y) * imageWidth * sizeFactor / 2) - (isoCameraX) - (imageWidth * sizeFactor)/2;
+        let isoY = ((x + y) * imageHeight * sizeFactor / 4) - (z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + (imageHeight*sizeFactor)/4;
 
         ctx.drawImage(blockImage, isoX, isoY, imageWidth * sizeFactor, imageHeight * sizeFactor);
     }

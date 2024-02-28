@@ -1,3 +1,0 @@
-Number of frames 200
-width 1236 of each frame
-height 700 of each frame
