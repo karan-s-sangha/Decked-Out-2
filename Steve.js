@@ -17,7 +17,6 @@ class Steve {
         this.run = false;
         this.velocity = { z: 0 };
         this.elapsedTime = 0;
-        this.hungerTime = 0;
         this.jumped = false;
         this.jumpComplete = true;
 
@@ -36,6 +35,7 @@ class Steve {
 
 
         this.win = false;
+<<<<<<< HEAD
 
         this.collision = this.game.camera.collision;
         this.loadAnimations();
@@ -44,6 +44,14 @@ class Steve {
 
 
         //console.log("Z: " + this.playerZ);
+=======
+        this.hungerTime = 0;
+        
+        this.collision = new Collision(this.game);
+        this.loadAnimations();
+        this.live = true;
+        this.win = false;
+>>>>>>> origin
     };
 
     loadAnimations() {
@@ -65,6 +73,7 @@ class Steve {
 
     update() {
         // console.log(this.canMove);
+<<<<<<< HEAD
         if (this.game.keys.ctrl) {
             console.log("ctrl");
         }
@@ -201,6 +210,125 @@ class Steve {
 
         //console.log("Steve: " + this.playerX + " " + this.playerY);
     };
+=======
+         if (this.game.keys.ctrl) {
+             console.log("ctrl");
+         }
+         if (this.canMove) {
+             if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
+                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY)) {
+                     this.move = 1;
+                     this.playerX -= this.playerRunSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY)) {
+                     this.move = 1;
+                     this.playerX += this.playerRunSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick)) {
+                     this.move = 1;
+                     this.playerY -= this.playerRunSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick)) {
+                     this.move = 1;
+                     this.playerY += this.playerRunSpeed * this.game.clockTick;
+                 }
+ 
+                 this.run = true;
+                 this.hungerTime += 3 * this.game.clockTick;
+             }
+             else if (this.game.keys.shift && this.hunger >= 3) {
+                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY)) {
+                     this.move = 1;
+                     this.playerX -= this.playerRunSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.right && !this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY)) {
+                     this.move = 1;
+                     this.playerX += this.playerRunSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick)) {
+                     this.move = 1;
+                     this.playerY -= this.playerRunSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick)) {
+                     this.move = 1;
+                     this.playerY += this.playerRunSpeed * this.game.clockTick;
+                 }
+ 
+                 this.run = true;
+                 this.hungerTime += 3 * this.game.clockTick;
+             } else {
+                 if (this.game.keys.left && !this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
+                     this.move = 1;
+                     this.playerX -= this.playerWalkSpeed * this.game.clockTick;
+                     //console.log((this.game.clockTick));
+                 }
+                 if (this.game.keys.right && !this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY)) {
+                     this.move = 1;
+                     this.playerX += this.playerWalkSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.up && !this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick))) {
+                     this.move = 1;
+                     this.playerY -= this.playerWalkSpeed * this.game.clockTick;
+                 }
+                 if (this.game.keys.down && !this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick))) {
+                     this.move = 1;
+                     this.playerY += this.playerWalkSpeed * this.game.clockTick;
+                 }
+ 
+                 this.run = false;
+                 this.hungerTime += this.game.clockTick;
+             }
+ 
+ 
+             if (!this.game.keys.left && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down) {
+                 this.move = 0;
+             }
+ 
+             if (this.game.keys.space && !this.jumped) {
+                 this.jumped = true;
+                 this.jumpComplete = false;
+             }
+ 
+             if (this.hunger >= 9 && this.health < 10 && this.elapsedTime > 1) {
+                 this.health += 0.5;
+                 this.elapsedTime = 0;
+             }
+ console.log(this.hungerTime);
+             if(this.hungerTime > 20) {
+                 this.hunger -= 0.5;
+                 this.hungerTime = 0;
+             }
+ 
+         if(this.health  <= 0) {
+             this.health = 0;
+             this.live = false;
+         }
+         if(this.hunger  <= 0) {
+             this.hunger = 0;
+         }
+         // if(this.jumped) {
+         //     let x = this.playerX / this.game.GameScale;
+         //     let y = this.playerY / this.game.GameScale;
+         //     if(this.game.GameScale > 3.6 && !this.jumpComplete) {
+         //         this.game.GameScale -= this.game.clockTick * 1.5; 
+         //     } else {
+         //         this.jumpComplete = true;
+         //     }
+ 
+         //     if(this.game.GameScale < 4 && this.jumpComplete) {
+         //         this.game.GameScale += this.game.clockTick * 1.5;
+         //     }
+ 
+         //     if(this.jumpComplete && this.game.GameScale >= 4) {
+         //         this.jumped = false;
+         //     }
+         //     this.playerX = x * this.game.GameScale;
+         //     this.playerY = y * this.game.GameScale;               
+         // }
+         }
+         this.elapsedTime += this.game.clockTick;
+     };
+>>>>>>> origin
 
 
     drawAngle(ctx, angle, scale) {

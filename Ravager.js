@@ -217,7 +217,7 @@ class Ravager {
     
 
     followPlayer() {
-        const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
+        const ravagerSpeed = this.steve.playerWalkSpeed * 0.8;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
         let dz = this.steve.playerZ - this.ravagerZ
