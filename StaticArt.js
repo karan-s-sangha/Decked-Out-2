@@ -12,7 +12,7 @@ class StaticArt {
         let playerX = Math.floor(this.game.camera.steve.playerX);
         let playerY = Math.floor(this.game.camera.steve.playerY);
         let playerZ = Math.ceil(this.game.camera.steve.playerZ);
-        //console.log("player",playerX," ",playerY," ",playerZ);
+        console.log("player",playerX," ",playerY," ",playerZ);
     
         let blocks = this.getBlocksInRange(playerX, playerY, playerZ);
     

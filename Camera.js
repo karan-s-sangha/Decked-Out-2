@@ -7,12 +7,12 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        // this.steveInitialX = 18; 
-        // this.steveInitialY = 82;   
-        // this.steveInitialZ = 20;   
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
+        // this.steveInitialX = 7; 
+        // this.steveInitialY = 90;   
+        // this.steveInitialZ = 12;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
