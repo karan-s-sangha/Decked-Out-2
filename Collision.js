@@ -1,93 +1,20 @@
-// class Collision {
-//     constructor(game){
-//         this.game = game;
 
-//         // Load the image and create a canvas for it
-//         let image = ASSET_MANAGER.cache["./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png"];
-//         this.canvas = document.createElement("canvas");
-//         this.canvas.width = image.width;
-//         this.canvas.height = image.height;
-//         this.context = this.canvas.getContext("2d");
-//         this.context.drawImage(image, 0, 0);
-//     }
-
-//     isCollision(x, y) {
-//         return false;
-//         this.x = x / this.game.GameScale;
-//         this.y = y / this.game.GameScale;
-//         // console.log(this.x);
-//         // console.log(this.y);
-//         // Ensure the coordinates are within the bounds of the canvas
-//         if (this.x >= 0 && this.x < this.canvas.width && this.y >= 0 && this.y < this.canvas.height) {
-
-//             // Get the pixel data from the canvas 
-//             let pixelData = this.context.getImageData(Math.floor(this.x), Math.floor(this.y), 1, 1).data;
-
-//             // Define the collision color (RGBA values)
-//             let collisionColor = [116, 29, 50, 255]; // Assuming alpha value as well
-
-//             // Compare pixel data directly
-//             if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
-//                 return true; // Collision detected
-//             } else {
-//                 return false; // No collision
-//             }
-//         } else {
-//             console.error("Coordinates are out of bounds.");
-//             return false; // Return false for out-of-bounds coordinates
-//         }
-//     }
-
-//     isCollisionRavager(x, y, size) {
-//         for (let offsetX = 0; offsetX < size; offsetX++) {
-//             for (let offsetY = 0; offsetY < size; offsetY++) {
-//                 let scaledX = (x + offsetX) / this.game.GameScale;
-//                 let scaledY = (y + offsetY) / this.game.GameScale;
-
-//                 if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
-//                     return true;
-//                 }
-
-//                 let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
-//                 let collisionColor = [116, 29, 50, 255];
-//                 if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] && 
-//                     pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
-//                     return true;
-//                 }
-//             }
-//         }
-//         return false;
-//     }
-
-// }
 class Collision {
     constructor(game) {
         Object.assign(this, { game });
+        this.rav = 0;
     }
 
     isCollision(x, y, z) {
-        //console.log(x, y, z)
-        // return true;
-        // Getting the Block the player will end In.
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
-
-
-        // const blockKey = ;
-
-        // // Construct a key from the block's coordinates to access the block directly
-        // console.log(blockX, blockY, blockZ);
-        // const standingBlock = ;
+        let blockZ = Math.ceil(z); 
 
         if (this.game.camera.blocksMap[`${blockX },${blockY },${blockZ}`] && !this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 1}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             return true;
         }
        
-        
-        
-
         else if (this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX },${blockY },${blockZ + 2}`]) {
             //console.log(`Player is standing on block: ${standingBlock.label}`);
             this.game.camera.steve.playerZ += 1;
@@ -110,47 +37,95 @@ class Collision {
 
     }
 
-    isCollisionRavager(x, y, size) {
+    isCollisionRavager(x, y, z) {
+        let blockX = Math.floor(x);
+        let blockY = Math.floor(y);
+        let currentZ = Math.floor(z);
+        let aboveZ = currentZ + 1;
+        let belowZ = currentZ - 1;
+    
+        console.log(`Checking block at ${blockX},${blockY},${currentZ}: `, this.game.camera.blocksMap[`${blockX},${blockY},${currentZ}`]);
+    
+        // Direct collision check at the current Z level
+        if (this.game.camera.blocksMap[`${blockX},${blockY},${currentZ}`]) {
+            return true; // Collision detected, can't move horizontally
+        }
+    
+        // Restrict movement if there's no block at the current and below positions (preventing movement into undefined areas)
+        if (this.game.camera.blocksMap[`${blockX},${blockY},${currentZ}`] === undefined && 
+            this.game.camera.blocksMap[`${blockX},${blockY},${belowZ}`] === undefined) {
+            // Prevent movement if both the current position and the position below are undefined
+            return true; // Treat as a collision to prevent falling into undefined space
+        }
+    
+        // Check for potential step up
+        if (this.game.camera.blocksMap[`${blockX},${blockY},${aboveZ}`]) {
+            if (!this.game.camera.blocksMap[`${blockX},${blockY},${aboveZ + 1}`]) {
+                this.rav = 1; // Indicate movement up
+                return false; // Indicates a potential move up
+            }
+        }
+        
+        // Allow stepping down only if the block below the current level exists
+        if (this.game.camera.blocksMap[`${blockX},${blockY},${belowZ}`]) {
+            this.rav = -1; // Indicate movement down
+            return false; // Indicates a potential move down
+        }
+    
+        // Return false by default, allowing movement if none of the blocking conditions are met
         return false;
-        for (let offsetX = 0; offsetX < size; offsetX++) {
-            for (let offsetY = 0; offsetY < size; offsetY++) {
-                let scaledX = (x + offsetX) / this.game.GameScale;
-                let scaledY = (y + offsetY) / this.game.GameScale;
+    }
+}
+    
+    
 
-                if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
-                    return true;
-                }
-
-                let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
-                let collisionColor = [116, 29, 50, 255];
-                if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] &&
-                    pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
-                    return true;
-                }
+    /*isCollisionRavager(x, y, z) {
+        let directions = [
+            { dx: 1, dy: 0 }, { dx: -1, dy: 0 }, // East, West
+            { dx: 0, dy: 1 }, { dx: 0, dy: -1 }, // North, South
+            { dx: 1, dy: 1 }, { dx: -1, dy: -1 }, // Northeast, Southwest
+            { dx: 1, dy: -1 }, { dx: -1, dy: 1 }  // Southeast, Northwest
+        ];
+    
+        // Reset elevation adjustment
+        this.rav = 0;
+    
+        let isBlocked = true;
+        let canMoveUp = !this.game.camera.blocksMap[`${Math.floor(x)},${Math.floor(y)},${Math.ceil(z + 1)}`];
+        let canMoveDown = !this.game.camera.blocksMap[`${Math.floor(x)},${Math.floor(y)},${Math.ceil(z - 1)}`];
+    
+        // Check all 8 directions at the current level
+        for (let i = 0; i < directions.length; i++) {
+            let dir = directions[i];
+            let newX = x + dir.dx;
+            let newY = y + dir.dy;
+    
+            // If any direction is free at the current level, the Ravager is not blocked
+            if (!this.game.camera.blocksMap[`${Math.floor(newX)},${Math.floor(newY)},${Math.ceil(z)}`]) {
+                isBlocked = false;
+                break; // Exit the loop early if a free direction is found
             }
         }
     
-        // No collision detected at current or adjacent layers
-        console.log("No collision detected for Ravager.");
-        return false;
-    }
-
-    isCollisionRavager(x, y, z) {
-        // Calculate the block key for the Ravager's current position
-        let blockX = Math.floor(x);
-        let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z);
-        //console.log(x + " " + y + " " + z);
-        // Check for collisions at the current layer
-        let currentBlockKey = `${blockX},${blockY},${blockZ}`;
-        if (this.game.camera.blocksMap[currentBlockKey]) {
-            console.log(`Collision detected at current layer: ${currentBlockKey}`);
+        // If not blocked, no need to adjust Z or consider a collision
+        if (!isBlocked) {
             return false;
         }
-
-
-
+    
+        // Determine elevation change if blocked
+        if (canMoveUp) {
+            this.rav = 1; // Possible to move up
+        } else if (canMoveDown) {
+            this.rav = -1; // Possible to move down
+        } else {
+            // Cannot move up or down; truly blocked
+            return true;
+        }
+    
+        // Not truly blocked since an elevation change is possible
+        return false;
     }
+}*/
 
 
-}
+    

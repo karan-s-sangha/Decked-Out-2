@@ -3,9 +3,9 @@ class Ravager {
         this.game = game;
         this.steve = steve;
 
-        this.ravagerX = 2;
-        this.ravagerY = 3;
-        this.ravagerZ = 0;
+        this.ravagerX = x;
+        this.ravagerY = y;
+        this.ravagerZ = z;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.size = size; //0.25
@@ -25,7 +25,7 @@ class Ravager {
         this.loadAnimations();
         this.state = 'wandering';
         this.collisions = collisions;
-        this.wanderMove = 0;
+        this.wanderMove = 0.1;
         this.angle = Math.random() * 2 * Math.PI;
         this.moveAttemptTimer = 0; // Timer to track movement attempts
         this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
@@ -33,10 +33,8 @@ class Ravager {
 
     loadAnimations() {
         this.walkingSpriteSheet = new Image();
-        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/rav/ravager.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 380, 60, 0.1, 0, false, true);
         this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.02, 0, false, true);
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 380, 60, 0.1, 0, false, true);
 
        // this.attackingSpriteSheet = new Image();
        // this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
@@ -54,8 +52,8 @@ class Ravager {
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
     
         // Isometric position conversion for the ravager
-        let isoRavagerX = (this.ravagerX - this.ravagerY) * blockWidth / 2;
-        let isoRavagerY = (this.ravagerX + this.ravagerY) * blockHeight / 4;
+        let isoRavagerX = (this.ravagerX - this.ravagerY) * blockWidth / 6;
+        let isoRavagerY = (this.ravagerX + this.ravagerY) * blockHeight / 8;
         
         // If `z` affects visibility or layering, need to handle it here without adjusting `isoRavagerY`
     
@@ -88,13 +86,11 @@ class Ravager {
         }
 
     
-        // Optional: Draw a red stroke rectangle around the ravager for debugging
-        //ctx.strokeStyle = "red";
-        //ctx.strokeRect(isoRavagerX, isoRavagerY, 3, 3);
+       
 
         // Draw a simple shape for testing
     ctx.fillStyle = "red"; // For visibility
-    ctx.fillRect(isoRavagerX, isoRavagerY, 10, 10); // Draw a small square for the ravager
+    ctx.fillRect(isoRavagerX, isoRavagerY, 1, 1); // Draw a small square for the ravager
     }
     
     
@@ -277,6 +273,42 @@ class Ravager {
             //this.wander();
         }
     }
+
+    wander() {
+        if (this.wanderMove <= 0) {
+            this.angle = Math.random() * 2 * Math.PI; // Choose a new random direction
+            this.wanderMove = Math.floor(Math.random() * 100) + 100; // Reset the wander counter
+        }
+    
+        const baseSpeed = 0.1; // Adjust base speed as necessary
+        let newX = this.ravagerX + Math.cos(this.angle) * baseSpeed;
+        let newY = this.ravagerY + Math.sin(this.angle) * baseSpeed;
+        let newZ = this.ravagerZ;
+        
+        // Check for collisions including potential elevation change
+        if (this.collisions.isCollisionRavager(newX, newY, newZ)) {
+            if (this.collisions.rav !== 0) {
+                // Attempt elevation change if suggested
+                newZ += this.collisions.rav;
+                if (!this.collisions.isCollisionRavager(newX, newY, newZ)) {
+                    // Elevation change is viable, proceed
+                    this.ravagerZ = newZ;
+                } else {
+                    // Elevation change not possible, adjust direction or handle differently
+                    this.angle += Math.PI / 2;
+                    this.wanderMove = 0;
+                }
+            }
+        } else {
+            // No collision, proceed with movement
+            this.ravagerX = newX;
+            this.ravagerY = newY;
+        }
+    
+        this.wanderMove--;
+    }
+}
+    
     
 
 
@@ -311,48 +343,43 @@ class Ravager {
                 this.wanderMove = 0;
             }
         }
-    }*/
+    }
 
     wander() {
-        // console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
-    
-        // Decide the elevation change and direction at the beginning of the wandering phase
         if (this.wanderMove <= 0) {
-          console.log("Wander Move above: ", this.wanderMove);
-          this.angle = Math.random() * 2 * Math.PI; // Full circle random direction
-          this.wanderMove = Math.floor(Math.random() * 100) + 100; // Reset wanderMove
+            this.angle = Math.random() * 2 * Math.PI; // Choose a new random direction
+            this.wanderMove = Math.floor(Math.random() * 100) + 100; // Reset the wander counter
         }
-
-        // Calculate the potential new position
-        const baseSpeed = 1;
-        const speedVariance = Math.random() * 0.5;
-        const speed = baseSpeed + speedVariance;
-        let newX = this.ravagerX + Math.cos(this.angle) * speed * this.game.clockTick;
-        let newY = this.ravagerY + Math.sin(this.angle) * speed * this.game.clockTick;
-        let newZ = this.ravagerZ; // Apply potential elevation change
     
-        // Perform collision detection with the next position
-        if (this.collisions.isCollisionRavager(newX, newY, newZ)) {
-            // If no collision, update the ravager's position
+        const baseSpeed = 0.05; // Adjust the base speed as necessary
+        let newX = this.ravagerX + Math.cos(this.angle) * baseSpeed;
+        let newY = this.ravagerY + Math.sin(this.angle) * baseSpeed;
+        let newZ = this.ravagerZ;
+    
+        // First, attempt to move in the new direction without changing elevation
+        if (!this.collisions.isCollisionRavager(newX, newY, newZ)) {
+            // No collision detected at the current level, proceed with movement
             this.ravagerX = newX;
             this.ravagerY = newY;
-
-            console.log("COLLISON LEVEL: " +    this.collisions.rav);
-           this.ravagerZ += this.collisions.rav;
-            // console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
-            this.wanderMove--;
-
-           // console.log("Wander Move below: ", this.wanderMove);
         } else {
-            // If a collision is detected, reset wanderMove to change direction immediately
-            this.wanderMove = 0;
-           
+            // If blocked, check and apply necessary elevation changes based on this.rav
+            if (this.collisions.rav !== 0) {
+                let potentialNewZ = newZ + this.collisions.rav;
+                // Check if moving to the new Z level is possible without collisions
+                if (!this.collisions.isCollisionRavager(newX, newY, potentialNewZ)) {
+                    // Apply the elevation change if no collision is detected at the new Z level
+                    this.ravagerZ = potentialNewZ;
+                } else {
+                    // If a collision is detected even after considering elevation change,
+                    // it might be necessary to choose a new direction or handle the collision differently.
+                    this.angle += Math.PI / 2; // Optionally change direction by 90 degrees
+                    this.wanderMove = 0; // Force re-evaluation of direction in the next cycle
+                }
+            }
         }
+    
+        this.wanderMove--; // Decrement the wander counter
     }
     
-    
-    
-    
-    
 
-}
+}*/
