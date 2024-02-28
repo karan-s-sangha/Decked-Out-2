@@ -68,7 +68,7 @@ class Steve {
         if (this.game.keys.ctrl) {
             console.log("ctrl");
         }
-        console.log(this.playerY);
+        //console.log(this.playerY);
         if (this.canMove) {
             // if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
             //     if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {

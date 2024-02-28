@@ -39,6 +39,8 @@ class Ravager {
 =======
         this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.2, 0, false, true);
 >>>>>>> b55db3f1768373ff8cfa80614ada73a768b4939a
+        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.02, 0, false, true);
 
        // this.attackingSpriteSheet = new Image();
        // this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
@@ -364,13 +366,6 @@ class Ravager {
             this.ravagerX = newX;
             this.ravagerY = newY;
 
-<<<<<<< HEAD
-           console.log("COLLISON LEVEL: BEfore update" +    this.collisions.rav);
-           this.ravagerZ += this.collisions.rav;
-            // console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
-            this.wanderMove--;
-            console.log("COLLISON LEVEL: AFter update" +    this.collisions.rav);
-=======
             console.log("COLLISON LEVEL: " +    this.collisions.rav);
            this.ravagerZ += this.collisions.rav;
             // console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);

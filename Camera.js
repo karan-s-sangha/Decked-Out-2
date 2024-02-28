@@ -7,6 +7,9 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
+        // this.steveInitialX = 18; 
+        // this.steveInitialY = 82;   
+        // this.steveInitialZ = 20;   
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
@@ -36,7 +39,7 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 0.2;
+        this.sizeFactor = 2;
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
@@ -48,7 +51,8 @@ class Camera {
     };
     async initialize() {
         console.log("In initialization");
-        for (let i = 0; i < 2; i++) {
+        let temp = 20;
+        for (let i = 0; i < 5; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
