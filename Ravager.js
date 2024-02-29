@@ -52,8 +52,8 @@ class Ravager {
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
     
         // Isometric position conversion for the ravager
-        let isoRavagerX = (this.ravagerX - this.ravagerY) * blockWidth / 6;
-        let isoRavagerY = (this.ravagerX + this.ravagerY) * blockHeight / 8;
+        let isoRavagerX = (this.ravagerX - this.ravagerY) * blockWidth / 2;
+        let isoRavagerY = (this.ravagerX + this.ravagerY) * blockHeight / 4;
         
         // If `z` affects visibility or layering, need to handle it here without adjusting `isoRavagerY`
     
@@ -280,7 +280,7 @@ class Ravager {
             this.wanderMove = Math.floor(Math.random() * 100) + 100; // Reset the wander counter
         }
     
-        const baseSpeed = 0.1; // Adjust base speed as necessary
+        const baseSpeed = 0.01; // Adjust base speed as necessary
         let newX = this.ravagerX + Math.cos(this.angle) * baseSpeed;
         let newY = this.ravagerY + Math.sin(this.angle) * baseSpeed;
         let newZ = this.ravagerZ;
