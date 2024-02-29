@@ -40,9 +40,24 @@ class Ravager {
     }
 
     loadAnimations() {
-        this.walkingSpriteSheet = new Image();
-        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 400, 200, 0.02, 0, false, true);
+        this.walkingAnimationsWest = new Image();
+        this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
+        this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 506, 400, 60, 0.02, 0, false, true);
+
+        this.walkingAnimationsSouth = new Image();
+        this.walkingAnimationsSouth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager1.png"];
+        this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 433, 360, 60, 0.02, 0, false, true);
+
+      
+        this.walkingAnimationsEast = new Image();
+        this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager2.png"];
+        this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 372, 350, 60, 0.02, 0, false, true);
+
+        
+        this.walkingAnimationsNorth = new Image();
+        this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager3.png"];
+        this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 371, 350, 60, 0.02, 0, false, true);
+        
 
         /*this.attackingSpriteSheet = new Image();
         this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
@@ -74,7 +89,7 @@ class Ravager {
                 break;
             case 'wandering':
                 // Draw wandering animation
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, angle);
+                this.walkingAnimationsNorth.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, angle);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
