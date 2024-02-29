@@ -109,7 +109,7 @@ class Camera {
       this.addRavagers();
 
         //Adding the Compass Entity
-    //    this.game.addEntity(this.compass);
+        this.game.addEntity(this.compass);
 
         //Adding All the Item Entity
        this.game.addEntity(this.artifact);
