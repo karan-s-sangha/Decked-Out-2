@@ -63,45 +63,74 @@
 class Collision {
     constructor(game) {
         Object.assign(this, { game });
+        this.state = 0;
     }
 
     isCollision(x, y, z) {
-        console.log(x, y, z)
-        // return true;
-        // Getting the Block the player will end In.
+        console.log(x, y, z);
+
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
-
-
-        // const blockKey = ;
-
-        // // Construct a key from the block's coordinates to access the block directly
-        // console.log(blockX, blockY, blockZ);
-        // const standingBlock = ;
-
+ 
         if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`]) {
-            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            let standingBlock = this.game.camera.blocksMap[`${blockX + 1},${blockY+ 2},${blockZ}`];
+
+        console.log(`Player is standing on block: ${standingBlock.label}`);
+
+            this.state = 0;
             return true;
+            
         }
        
-        
-        
-
         else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
-            //console.log(`Player is standing on block: ${standingBlock.label}`);
-            this.game.camera.steve.playerZ += 1;
+            this.state = 1;
             return true;
+            
         }
 
         else if(this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
-            //console.log(`Player is standing on block: ${standingBlock.label}`);
+            console.log("i hit the wall!");
+            return false;
+        }  else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ - 1}`] || this.game.camera.blocksMap[`${blockX + 1},${blockY +2},${blockZ - 2}`]|| this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ - 3}`]) {
+            
+            this.state = -1;
+            return true;
+
+        } else {
+
+            console.log("i almost fell!");
             return false;
         }
 
-            this.game.camera.steve.playerZ -= 1;
-            return true;
-   
+
+        // if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`] && !this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 1}`]) {
+        //     let standingBlock = this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`];
+        // console.log(`Player is standing on block: ${standingBlock.label}`);
+        //     this.state = 0;
+        //     return true;
+            
+        // }
+       
+        // else if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
+        //     this.state = 1;
+        //     return true;
+            
+        // }
+
+        // else if(this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
+        //     console.log("i hit the wall!");
+        //     return false;
+        // } else if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ - 1}`] || this.game.camera.blocksMap[`${blockX},${blockY},${blockZ - 2}`]|| this.game.camera.blocksMap[`${blockX},${blockY},${blockZ - 3}`]) {
+            
+        //     this.state = -1;
+        //     return true;
+
+        // } else {
+
+        //     console.log("i almost fell!");
+        //     return false;
+        // }
 
     }
 
