@@ -10,10 +10,10 @@ class Collision {
 
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
-        let blockZ = Math.ceil(z); // Assuming z is always 0 for this example
+        let blockZ = Math.ceil(z); 
  
-        if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`]) {
-            let standingBlock = this.game.camera.blocksMap[`${blockX + 1},${blockY+ 2},${blockZ}`];
+        if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`] && !this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 1}`]) {
+            let standingBlock = this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`];
 
         console.log(`Player is standing on block: ${standingBlock.label}`);
 
@@ -22,16 +22,19 @@ class Collision {
             
         }
        
-        else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
+        else if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 1}`] && 
+        !this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
             this.state = 1;
             return true;
             
         }
 
-        else if(this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
+        else if(this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
             console.log("i hit the wall!");
             return false;
-        }  else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ - 1}`] || this.game.camera.blocksMap[`${blockX + 1},${blockY +2},${blockZ - 2}`]|| this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ - 3}`]) {
+        }  else if (this.game.camera.blocksMap[`${blockX},${blockY },${blockZ - 1}`] 
+        || this.game.camera.blocksMap[`${blockX },${blockY},${blockZ - 2}`]
+        || this.game.camera.blocksMap[`${blockX },${blockY},${blockZ - 3}`]) {
             
             this.state = -1;
             return true;
