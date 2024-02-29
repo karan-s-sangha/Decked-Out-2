@@ -9,39 +9,63 @@ class StaticArt {
     }
 
     draw(ctx) {
-        const playerX = Math.floor(this.game.camera.steve.playerX);
-        const playerY = Math.floor(this.game.camera.steve.playerY);
-        const playerZ = Math.floor(this.game.camera.steve.playerZ);
-
-        let reachableBlocks = this.getReachableBlocks(playerX, playerY, playerZ);
-        let blocksInRange = this.getBlocksInRange(playerX, playerY, playerZ);
-
-        // Filter out blocks in reachableBlocks from blocksInRange to avoid duplicates
-        blocksInRange = blocksInRange.filter(({ x, y, z }) => 
-            !reachableBlocks.some(block => block.x === x && block.y === y && block.z === z));
-
-        // Sort and combine blocks for drawing
-        [...blocksInRange, ...reachableBlocks]
-            .sort((a, b) => a.z - b.z || a.x - b.x || a.y - b.y)
-            .forEach(block => this.drawBlock(ctx, block.x, block.y, block.z));
+        let playerX = Math.floor(this.game.camera.steve.playerX);
+        let playerY = Math.floor(this.game.camera.steve.playerY);
+        let playerZ = Math.ceil(this.game.camera.steve.playerZ);
+        console.log("player",playerX," ",playerY," ",playerZ);
+    
+        let blocks = this.getBlocksInRange(playerX, playerY, playerZ);
+    
+        blocks.forEach(block => {
+            //console.log("In the loop");
+            this.drawBlock(ctx, block);
+           
+        });
     }
+    
+    drawBlock(ctx, block) {
+        const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
+    
+        if (!blockImage) return;
+    
+        ctx.save();
+        ctx.globalAlpha = 1 - block.transparency;
+        //console.log(ctx.globalAlpha);
+        //console.log(isoX,isoY);
+        //console.log("Hello");
+        //console.log(isoX,isoY,blockImage,sizeFactor);
+        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+    }
+    
+    calculateBlockDrawingParams(block) {
+        let playerZ = this.game.camera.steve.playerZ;
+        let isoCameraX = this.game.camera.isoCameraX;
+        let isoCameraY = this.game.camera.isoCameraY;
+        let imageWidth = this.game.camera.imageWidth;
+        let imageHeight = this.game.camera.imageHeight;
+        let sizeFactor = this.game.camera.sizeFactor;
 
-    drawBlock(ctx, x, y, z) {
-        const { playerX, playerY, playerZ, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.getDrawingParams();
-        const blockKey = `${x},${y},${z}`;
-        const block = this.game.camera.blocksMap[blockKey];
-        const blockImage = block ? ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`] : null;
-
-        if (!block || !blockImage) return;
-
-        let isoX = (x - y) * imageWidth * sizeFactor / 2 - isoCameraX;
-        let isoY = (x + y) * imageHeight * sizeFactor / 4 - (z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY;
-
-        ctx.drawImage(blockImage, isoX, isoY, imageWidth * sizeFactor, imageHeight * sizeFactor);
+        const blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`];
+        let isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - (imageWidth * sizeFactor) / 2;
+        let isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + (imageHeight * sizeFactor) / 2;
+    
+        return { isoX, isoY, blockImage, sizeFactor, imageWidth, imageHeight };
     }
 
     getBlocksInRange(playerX, playerY, playerZ) {
         let blocksInRange = [];
+        let closestBlocksInEachGroup = this.groupAndSortReachableBlocks(playerX, playerY, playerZ); 
+        // Contains on the closet reachable blocks in a single isometric view.
+    
+        const closestBlocksMap = {};
+        // Update the isoKey to match the new grouping logic
+        closestBlocksInEachGroup.forEach(block => {
+            const isoKey = `${block.x - block.y}, ${block.y - block.z}`;
+            closestBlocksMap[isoKey] = block;
+        });
+    
         for (let z = playerZ - 5; z <= playerZ + 5; z++) {
             for (let y = playerY - this.radius; y <= playerY + this.radius; y++) {
                 for (let x = playerX - this.radius; x <= playerX + this.radius; x++) {
@@ -56,7 +80,7 @@ class StaticArt {
                             blocksInRange.push({ ...block, x, y, z, transparency });
                         }
                         else {
-                            blocksInRange.push({ ...block, x, y, z, transparency: 1 });
+                            blocksInRange.push({ ...block, x, y, z, transparency: 0 });
                         }
                     }
                 }
@@ -65,81 +89,101 @@ class StaticArt {
     
         return blocksInRange;
     }
-
-    getDrawingParams() {
-        const playerX = Math.floor(this.game.camera.steve.playerX);
-        const playerY = Math.floor(this.game.camera.steve.playerY);
-        const playerZ = Math.ceil(this.game.camera.steve.playerZ);
-        const { isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
-        return { playerX, playerY, playerZ, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor };
+    
+    
+    groupAndSortReachableBlocks(playerX, playerY, playerZ) {
+        const reachableBlocks = this.getReachableBlocks(playerX, playerY, playerZ);
+    
+        // Object to hold the groups of blocks based on the new isometric view definition
+        const isometricGroups = {};
+    
+        reachableBlocks.forEach(block => {
+            // The isoKey calculation remains the same, identifying isometric views
+            const isoKey = `${block.x - block.y}, ${block.y - block.z}`;
+    
+            // Check if there isn't already a block in the same isometric view,
+            // or if the current block is closer in distance,
+            // or if it has a lower z value than the one currently stored.
+            if (!isometricGroups[isoKey] || 
+                isometricGroups[isoKey].distance > block.distance 
+                //|| Math.abs(isometricGroups[isoKey].z - this.game.camera.steve.playerZ) < (block.z - this.game.camera.steve.playerZ)
+                ) {
+                isometricGroups[isoKey] = block;
+            }
+        });
+    
+        // Convert the isometric groups object back into an array of blocks
+        return Object.values(isometricGroups);
     }
+    
+    
+
 
     getReachableBlocks(playerX, playerY, playerZ) {
-        const radius = this.radius;
-        let startBlockX = Math.floor(playerX);
-        let startBlockY = Math.floor(playerY);
-        let startBlockZ = Math.floor(playerZ);
+        let openSet = [{ x: playerX, y: playerY, z: playerZ, distance: 0 }];
+        let closedSet = new Set();
+        let distances = {};
+        //closedSet.add(`${playerX},${playerY},${current.z}`);
+        //distances[currentKey] = current.distance;
     
-        let openSet = [{ x: startBlockX, y: startBlockY, z: startBlockZ, distance: 0 }];
-        let closedSet = new Set(); // Stores only the coordinates as a string "x,y,z"
-        let distances = {}; // Stores distances for each block
-    
-        while (openSet.length > 0) {
+        while (openSet.length) {
             openSet.sort((a, b) => a.distance - b.distance);
             let current = openSet.shift();
             let currentKey = `${current.x},${current.y},${current.z}`;
-            if (!closedSet.has(currentKey)) { // Ensure we only add unique blocks
+    
+            if (!closedSet.has(currentKey)) {
                 closedSet.add(currentKey);
-                distances[currentKey] = current.distance; // Track distance separately
+                distances[currentKey] = current.distance;
     
-                for (let dz of [-1, 0, 1]) {
-                    for (let dy of [-1, 0, 1]) {
-                        for (let dx of [-1, 0, 1]) {
-                            if (dx === 0 && dy === 0 && dz === 0) continue;
-    
-                            let neighborX = current.x + dx;
-                            let neighborY = current.y + dy;
-                            let neighborZ = current.z + dz;
-    
-                            if (Math.abs(neighborX - startBlockX) > radius ||
-                                Math.abs(neighborY - startBlockY) > radius ||
-                                Math.abs(neighborZ - startBlockZ) > radius) continue;
-    
-                            let neighborKey = `${neighborX},${neighborY},${neighborZ}`;
-                            if (closedSet.has(neighborKey) || !this.isMovable(current.x, current.y, current.z, dx, dy, dz)) continue;
-    
-                            let existing = openSet.find(o => `${o.x},${o.y},${o.z}` === neighborKey);
-                            let newDistance = current.distance + 1;
-                            if (!existing) {
-                                openSet.push({ x: neighborX, y: neighborY, z: neighborZ, distance: newDistance });
-                            }
-                        }
-                    }
+                // Check if the current block is within the specified radius before adding neighbors
+                if (current.distance <= this.radius) {
+                    this.addNeighborsToOpenSet(current, openSet, closedSet, distances);
                 }
             }
         }
     
-        // Convert closedSet to an array of objects including distance for further processing
         return Array.from(closedSet).map(key => {
             let [x, y, z] = key.split(',').map(Number);
             return { x, y, z, distance: distances[key] };
+        }).filter(block => block.distance <= this.radius); // Ensure only blocks within the radius are returned
+    }
+    
+    
+    addNeighborsToOpenSet(current, openSet, closedSet, distances) {
+        const { x, y, z } = current;
+        const neighbors = this.getNeighborPositions(x, y, z);
+    
+        neighbors.forEach(({ dx, dy, dz }) => {
+            let neighborX = x + dx, neighborY = y + dy, neighborZ = z + dz;
+            let neighborKey = `${neighborX},${neighborY},${neighborZ}`;
+            if (!closedSet.has(neighborKey) && this.isMovable(x, y, z, dx, dy, dz)) {
+                let newDistance = distances[`${x},${y},${z}`] + 1;
+                if (!openSet.some(o => `${o.x},${o.y},${o.z}` === neighborKey)) {
+                    openSet.push({ x: neighborX, y: neighborY, z: neighborZ, distance: newDistance });
+                }
+            }
         });
+    }
+
+    getNeighborPositions(x, y, z) {
+        let positions = [];
+        for (let dz of [-1, 0, 1]) {
+            for (let dy of [-1, 0, 1]) {
+                for (let dx of [-1, 0, 1]) {
+                    if (dx || dy || dz) { // Exclude the current block
+                        positions.push({ dx, dy, dz });
+                    }
+                }
+            }
+        }
+        return positions;
     }
     
     isMovable(currX, currY, currZ, dx, dy, dz) {
-        // Check for the existence of the block in the target location
-        let targetBlockExists = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz}`];
-        // Check if there are two blocks of free space above the target location for Steve to stand
-        let oneSpaceAbove = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz + 1}`];
-        let twoSpaceAbove = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz + 2}`];
-    
-        // // For falling down (dz = -1), ensure the destination block below is clear
-        // if (dz === -1) {
-        //     // Only need to check the block directly below is not existing (Steve can fall into it)
-        //     return !this.game.camera.blocksMap[`${currX},${currY},${currZ - 1}`];
-        // }
+        const targetBlockExists = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz}`];
+        const oneSpaceAbove = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz + 1}`];
+        const twoSpaceAbove = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz + 2}`];
     
         return targetBlockExists && !oneSpaceAbove && !twoSpaceAbove;
     }
-    
 }

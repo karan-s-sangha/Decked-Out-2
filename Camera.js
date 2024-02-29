@@ -4,18 +4,16 @@ class Camera {
         this.ctx = game.ctx;
         this.game.camera = this;
 
-        this.steveCollision = new Collision(game);
-        this.ravCollision = new Collision(game);
-        
-
+        this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
-        // this.steveInitialX = 7; 
-        // this.steveInitialY = 90;   
-        // this.steveInitialZ = 12;   
+        //75   58   14
+        // this.steveInitialX = 18; 
+        // this.steveInitialY = 58;   
+        // this.steveInitialZ = 14;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -42,7 +40,7 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 0.2;
+        this.sizeFactor = 2;
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
@@ -111,7 +109,7 @@ class Camera {
       this.addRavagers();
 
         //Adding the Compass Entity
-    //    this.game.addEntity(this.compass);
+        this.game.addEntity(this.compass);
 
         //Adding All the Item Entity
        this.game.addEntity(this.artifact);
@@ -127,7 +125,7 @@ class Camera {
         this.ravagerPositions = [
                 //{ x: 1, y: 0, z: 0 }
                 //{ x: 1, y: 10, z: 0 },
-               { x: 2, y: 2, z:0 }
+               { x: 5, y: 2, z: 1 }
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },
@@ -144,7 +142,7 @@ class Camera {
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.ravCollision, pos.x, pos.y, pos.z, 0.9, 1, 0.15);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.25);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });

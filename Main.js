@@ -17,6 +17,7 @@ ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager1.png");
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager2.png");
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager3.png");
 
+
 // Animation for the Steve
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted.png");
 ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted1.png");

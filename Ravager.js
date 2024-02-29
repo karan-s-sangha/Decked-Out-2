@@ -65,9 +65,15 @@ class Ravager {
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
-        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX;
-        let isoY = (this.ravagerX + this.ravagerY) * blockHeight / 4 - (this.ravagerZ - 2.5 - this.steve.playerZ) * blockWidth / 2 - this.game.camera.isoCameraY;
+        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX ;
+        let isoY = (this.ravagerX + this.ravagerY) * blockHeight / 4 - (this.ravagerZ - 2.5
+             - this.steve.playerZ) * blockWidth / 2 - this.game.camera.isoCameraY ;
 
+
+       // let isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - (imageWidth * sizeFactor) / 2;
+       // let isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - playerZ) * 
+       //imageHeight * sizeFactor / 2 - isoCameraY + (imageHeight * sizeFactor) / 2;
+    
         // Draw entity
         let angle =  0; 
         switch (this.state) {
@@ -89,7 +95,7 @@ class Ravager {
         }
 
         // Store current position
-       /* this.prevPositions.push({ x: isoX, y: isoY });
+       this.prevPositions.push({ x: isoX, y: isoY });
 
         // Draw lines between previous positions
         ctx.strokeStyle = "blue"; // Line color
@@ -104,7 +110,7 @@ class Ravager {
         // Limit number of stored positions to prevent memory issues
         if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
             this.prevPositions.shift(); // Remove the oldest position
-        }*/
+        }
 
         // Draw a simple shape for testing
         ctx.fillStyle = "red"; // For visibility
@@ -304,7 +310,7 @@ class Ravager {
             this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
         } else {
             
-            const baseSpeed = 1; 
+            const baseSpeed = 100; 
             const speedVariance = Math.random() * 0.5; 
             const speed = baseSpeed + speedVariance;
             
