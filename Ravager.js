@@ -10,6 +10,14 @@ class Ravager {
         this.runSpeed = runSpeed;
         this.size = size; //0.25
 
+
+
+
+        this.prevPositions = [];
+
+
+
+
         this.attack = false;
         this.push = 300;
         this.attackCoolDown = 0;
@@ -47,38 +55,33 @@ class Ravager {
 
 
     draw(ctx) {
-    
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
     
         // Isometric position conversion for the ravager
-        let isoRavagerX = (this.ravagerX - this.ravagerY) * blockWidth / 2;
-        let isoRavagerY = (this.ravagerX + this.ravagerY) * blockHeight / 4;
+        let isoRavagerX = (this.ravagerX - this.ravagerY) * blockWidth / 2.35;
+        let isoRavagerY = (this.ravagerX + this.ravagerY) * blockHeight / 4.7;
         
         // If `z` affects visibility or layering, need to handle it here without adjusting `isoRavagerY`
     
         // Adjust the drawing position based on the camera's position
         isoRavagerX -= this.game.camera.isoCameraX;
         isoRavagerY -= this.game.camera.isoCameraY;
-
-        //let isoX = (x - y) * imageWidth * sizeFactor / 2 - isoCameraX;
-        //let isoY = (x + y) * imageHeight * sizeFactor / 4 - (z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY;
-
     
         // need to adjust my angle
-        let angle =  0 ; 
+        let angle =  Math.PI ; 
         switch (this.state) {
             case 'attacking':
                 // Draw attacking animation
-               // this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
+                // this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
                 break;
             case 'running':
                 // Draw walking/running animation
-               // this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
                 break;
             case 'wandering':
                 // Draw wandering animation
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, angle);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
@@ -86,11 +89,9 @@ class Ravager {
         }
 
     
-       
-
-        // Draw a simple shape for testing
-    ctx.fillStyle = "red"; // For visibility
-    ctx.fillRect(isoRavagerX, isoRavagerY, 1, 1); // Draw a small square for the ravager
+        // Optional: Draw a red stroke rectangle around the ravager for debugging
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(isoRavagerX, isoRavagerY, 3, 3);
     }
     
     
@@ -195,7 +196,7 @@ class Ravager {
             const checkY = this.ravagerY + (dy / steps) * i;
             const checkZ = this.ravagerZ;
 
-            if (this.collisions.isCollisionRavager(checkX, checkY, checkZ, this.size)) {
+            if (this.collisions.isCollision(checkX, checkY, checkZ, this.size)) {
                 return false; // Collision detected, obstruction
             }
         }
@@ -231,7 +232,7 @@ class Ravager {
         let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
         let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
 
-        if (this.collisions.isCollisionRavager(nextX, nextY, nextZ, this.size)) {
+        if (this.collisions.isCollision(nextX, nextY, nextZ, this.size)) {
             // If there's a collision, attempt to avoid the obstacle
             this.avoidObstacle(nextX, nextY, nextZ, this.steve.playerWalkSpeed / 2);
             this.moveAttemptTimer += this.game.clockTick;
@@ -259,7 +260,7 @@ class Ravager {
             let newY = this.ravagerY + Math.sin(angle) * speed * this.game.clockTick;
             let newZ = this.ravagerZ; 
     
-            if (!this.collisions.isCollisionRavager(newX, newY, newZ, this.size)) {
+            if (!this.collisions.isCollision(newX, newY, newZ, this.size)) {
                 this.ravagerX = newX;
                 this.ravagerY = newY;
                 this.ravagerZ = newZ; 
@@ -322,7 +323,7 @@ class Ravager {
             this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
         } else {
             
-            const baseSpeed = 1; 
+            const baseSpeed = 100; 
             const speedVariance = Math.random() * 0.5; 
             const speed = baseSpeed + speedVariance;
             
@@ -332,13 +333,23 @@ class Ravager {
             let newZ = this.ravagerZ; 
     
             // Perform collision detection with the next position
-            if (!this.collisions.isCollisionRavager(newX, newY, newZ, this.size)) {
+            if (this.collisions.isCollision(newX, newY, newZ)) {
+                console.log(newX + " " + newY + " " + newZ);
                 // If no collision, update the ravager's position
                 this.ravagerX = newX;
                 this.ravagerY = newY;
-                this.ravagerZ = newZ;
+
+                if(this.collisions.state === -1) {
+                    this.ravagerZ--;
+                   // this.collisions.state = 0;
+                } else if(this.collisions.state === 1) {
+                    this.ravagerZ++;
+                  //  this.collisions.state = 0;
+                }  
                 this.wanderMove--; 
-            } else {
+            } 
+            
+            else {
                 // If a collision is detected, reset wanderMove to change direction immediately
                 this.wanderMove = 0;
             }

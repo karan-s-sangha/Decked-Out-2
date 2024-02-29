@@ -4,16 +4,16 @@ class Camera {
         this.ctx = game.ctx;
         this.game.camera = this;
 
-        this.collision = new Collision(game);
+        this.steveCollision = new Collision(game);
+        this.ravCollision = new Collision(game);
+        
+
         this.staticArt = new StaticArt(game);   
         
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
-        // this.steveInitialX = 7; 
-        // this.steveInitialY = 90;   
-        // this.steveInitialZ = 12;   
-        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
+        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ, this.steveCollision );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
@@ -124,7 +124,7 @@ class Camera {
         this.ravagerPositions = [
                 //{ x: 1, y: 0, z: 0 }
                 //{ x: 1, y: 10, z: 0 },
-               { x: 3, y: 2, z: 0 }
+               { x: 28, y: 37, z: 0 }
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },
@@ -141,7 +141,7 @@ class Camera {
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.25);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.15);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });
