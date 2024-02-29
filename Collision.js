@@ -86,7 +86,6 @@ class Collision {
         else if (this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
             this.state = 1;
             return true;
-            
         }
 
         else if(this.game.camera.blocksMap[`${blockX + 1},${blockY + 2},${blockZ + 2}`]) {
@@ -98,61 +97,11 @@ class Collision {
             return true;
 
         } else {
-
             console.log("i almost fell!");
             return false;
         }
 
-
-        // if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`] && !this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 1}`]) {
-        //     let standingBlock = this.game.camera.blocksMap[`${blockX},${blockY},${blockZ}`];
-        // console.log(`Player is standing on block: ${standingBlock.label}`);
-        //     this.state = 0;
-        //     return true;
-            
-        // }
-       
-        // else if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 1}`] && !this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
-        //     this.state = 1;
-        //     return true;
-            
-        // }
-
-        // else if(this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
-        //     console.log("i hit the wall!");
-        //     return false;
-        // } else if (this.game.camera.blocksMap[`${blockX},${blockY},${blockZ - 1}`] || this.game.camera.blocksMap[`${blockX},${blockY},${blockZ - 2}`]|| this.game.camera.blocksMap[`${blockX},${blockY},${blockZ - 3}`]) {
-            
-        //     this.state = -1;
-        //     return true;
-
-        // } else {
-
-        //     console.log("i almost fell!");
-        //     return false;
-        // }
-
     }
 
-    isCollisionRavager(x, y, size) {
-        return false;
-        for (let offsetX = 0; offsetX < size; offsetX++) {
-            for (let offsetY = 0; offsetY < size; offsetY++) {
-                let scaledX = (x + offsetX) / this.game.GameScale;
-                let scaledY = (y + offsetY) / this.game.GameScale;
-
-                if (scaledX < 0 || scaledX >= this.canvas.width || scaledY < 0 || scaledY >= this.canvas.height) {
-                    return true;
-                }
-
-                let pixelData = this.context.getImageData(Math.floor(scaledX), Math.floor(scaledY), 1, 1).data;
-                let collisionColor = [116, 29, 50, 255];
-                if (pixelData[0] === collisionColor[0] && pixelData[1] === collisionColor[1] &&
-                    pixelData[2] === collisionColor[2] && pixelData[3] === collisionColor[3]) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    
 }
