@@ -10,6 +10,9 @@ class Camera {
 
         this.staticArt = new StaticArt(game);   
         
+        // this.steveInitialX = 18; 
+        // this.steveInitialY = 82;   
+        // this.steveInitialZ = 20;   
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
@@ -39,7 +42,7 @@ class Camera {
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 2;
+        this.sizeFactor = 0.2;
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
@@ -124,7 +127,7 @@ class Camera {
         this.ravagerPositions = [
                 //{ x: 1, y: 0, z: 0 }
                 //{ x: 1, y: 10, z: 0 },
-               { x: 28, y: 37, z: 0 }
+               { x: 2, y: 2, z:0 }
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },
@@ -141,7 +144,7 @@ class Camera {
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.15);
+            let ravager = new Ravager(this.game, this.steve, this.ravCollision, pos.x, pos.y, pos.z, 0.9, 1, 0.15);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });
