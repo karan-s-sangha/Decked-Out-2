@@ -74,13 +74,13 @@ class StaticArt {
                         // Update the isoKey here as well to ensure it matches the grouping logic
                         const isoKey = `${x - y}, ${y - z}`;
                         if (closestBlocksMap[isoKey]) {
-                            let transparency = z > closestBlocksMap[isoKey].z ? Math.min(1, (z - closestBlocksMap[isoKey].z) * 0.25) : 0;
+                            let transparency = z > closestBlocksMap[isoKey].z ? Math.min(1, (z - closestBlocksMap[isoKey].z) * 0.20) : 0;
                             //let transparency = z > closestBlocksMap[isoKey].z ? 1 : 0;
 
                             blocksInRange.push({ ...block, x, y, z, transparency });
                         }
                         else {
-                            blocksInRange.push({ ...block, x, y, z, transparency: 0 });
+                            blocksInRange.push({ ...block, x, y, z, transparency: 1 });
                         }
                     }
                 }
