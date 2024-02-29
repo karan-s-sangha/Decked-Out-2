@@ -7,13 +7,13 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        // this.steveInitialX = 0; 
-        // this.steveInitialY = 0;   
-        // this.steveInitialZ = 1;   
+        this.steveInitialX = 0; 
+        this.steveInitialY = 0;   
+        this.steveInitialZ = 1;   
         //75   58   14
-        this.steveInitialX = 18; 
-        this.steveInitialY = 58;   
-        this.steveInitialZ = 14;   
+        // this.steveInitialX = 18; 
+        // this.steveInitialY = 58;   
+        // this.steveInitialZ = 14;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -125,7 +125,7 @@ class Camera {
         this.ravagerPositions = [
                 //{ x: 1, y: 0, z: 0 }
                 //{ x: 1, y: 10, z: 0 },
-               { x: 3, y: 2, z: 0 }
+               { x: 0, y: 0, z: 1 }
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },

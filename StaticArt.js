@@ -80,7 +80,7 @@ class StaticArt {
                             blocksInRange.push({ ...block, x, y, z, transparency });
                         }
                         else {
-                            blocksInRange.push({ ...block, x, y, z, transparency: 1 });
+                            blocksInRange.push({ ...block, x, y, z, transparency: 0 });
                         }
                     }
                 }

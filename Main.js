@@ -13,6 +13,9 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
 
 // Animation for the Ravager
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager1.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager2.png");
+ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager3.png");
 
 
 // Animation for the Steve
