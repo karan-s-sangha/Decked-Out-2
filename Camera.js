@@ -10,13 +10,13 @@ class Camera {
 
         this.staticArt = new StaticArt(game);   
         
-        // this.steveInitialX = 18; 
-        // this.steveInitialY = 82;   
-        // this.steveInitialZ = 20;   
         this.steveInitialX = 0; 
         this.steveInitialY = 0;   
         this.steveInitialZ = 1;   
-        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ, this.steveCollision );
+        // this.steveInitialX = 7; 
+        // this.steveInitialY = 90;   
+        // this.steveInitialZ = 12;   
+        this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
@@ -55,7 +55,7 @@ class Camera {
     async initialize() {
         console.log("In initialization");
         let temp = 20;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i <  this.layerCount; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
