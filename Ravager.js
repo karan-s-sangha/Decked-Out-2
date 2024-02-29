@@ -65,17 +65,11 @@ class Ravager {
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
-       /* let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX - (blockWidth /2);
-        let isoY = ((this.ravagerX + this.ravagerY) * blockHeight / 4 )- (this.ravagerZ - 2.5
-             - this.steve.playerZ) * blockWidth / 2 - this.game.camera.isoCameraY ;*/
+     
 
-
-        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX - (blockWidth /2);
+        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX;
         let isoY = ((this.ravagerX + this.ravagerY) * blockHeight / 4)- (this.ravagerZ 
-                 - this.steve.playerZ) * blockWidth/2 - this.game.camera.isoCameraY + blockHeight/2;
-    
-        // Draw entity
-        let angle =  0; 
+                    - this.steve.playerZ) * blockWidth/2 - this.game.camera.isoCameraY + blockHeight/2;
         switch (this.state) {
             case 'attacking':
                 // Draw attacking animation
@@ -87,7 +81,7 @@ class Ravager {
                 break;
             case 'wandering':
                 // Draw wandering animation
-                this.walkingAnimationsNorth.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, angle);
+                this.walkingAnimationsNorth.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
@@ -95,10 +89,10 @@ class Ravager {
         }
 
         // Store current position
-       this.prevPositions.push({ x: isoX, y: isoY });
+      /* this.prevPositions.push({ x: isoX, y: isoY });
 
         // Draw lines between previous positions
-        ctx.strokeStyle = "blue"; // Line color
+      ctx.strokeStyle = "blue"; // Line color
         ctx.lineWidth = 3;
         ctx.beginPath();
         for (let i = 1; i < this.prevPositions.length; i++) {
@@ -110,7 +104,7 @@ class Ravager {
         // Limit number of stored positions to prevent memory issues
         if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
             this.prevPositions.shift(); // Remove the oldest position
-        }
+        }*/
 
         // Draw a simple shape for testing
         ctx.fillStyle = "red"; // For visibility
@@ -310,7 +304,7 @@ class Ravager {
             this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
         } else {
             
-            const baseSpeed = 100; 
+            const baseSpeed = 1; 
             const speedVariance = Math.random() * 0.5; 
             const speed = baseSpeed + speedVariance;
             
