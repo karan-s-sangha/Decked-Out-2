@@ -68,9 +68,12 @@ class Ravager {
        /* let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX - (blockWidth /2);
         let isoY = ((this.ravagerX + this.ravagerY) * blockHeight / 4 )- (this.ravagerZ - 2.5
              - this.steve.playerZ) * blockWidth / 2 - this.game.camera.isoCameraY ;*/
+             
+        // let isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - (imageWidth * sizeFactor) / 2;
+        // let isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + (imageHeight * sizeFactor) / 2;
+         
 
-
-        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX - (blockWidth /2);
+        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX;// - (blockWidth /2);
         let isoY = ((this.ravagerX + this.ravagerY) * blockHeight / 4)- (this.ravagerZ 
                  - this.steve.playerZ) * blockWidth/2 - this.game.camera.isoCameraY + blockHeight/2;
     
