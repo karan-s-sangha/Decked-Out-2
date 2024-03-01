@@ -23,6 +23,7 @@ class Camera {
         
         new SceneManager(this.game, this.steve);
 
+        
         this.ravagers = [];
         this.ravagerPositions = [];
         this.levelX=0;
@@ -88,6 +89,7 @@ class Camera {
         const key = `${x},${y},${z}`;
         return this.blocksMap[key]; // Fast lookup
     }
+    
     clearEntities() {
         this.game.entities.forEach(function (entity) {
             entity.removeFromWorld = true;
@@ -151,51 +153,51 @@ class Camera {
 
     // This update is for the whole website including the HTML 
     update() {
-       // console.log(this.steve.playerX, this.steve.playerY);
-        if (this.steve.jumped) {
-            let x = this.steve.playerX / this.game.GameScale;
-            let y = this.steve.playerY / this.game.GameScale;
-            let z = this.steve.playerZ / this.game.GameScale; // Assuming Steve has a Z position
-            let newRavX = [];
-            let newRavY = [];
-            let newRavZ = []; // Store new Z positions for ravagers
+    //    // console.log(this.steve.playerX, this.steve.playerY);
+    //     if (this.steve.jumped) {
+    //         let x = this.steve.playerX / this.game.GameScale;
+    //         let y = this.steve.playerY / this.game.GameScale;
+    //         let z = this.steve.playerZ / this.game.GameScale; // Assuming Steve has a Z position
+    //         let newRavX = [];
+    //         let newRavY = [];
+    //         let newRavZ = []; // Store new Z positions for ravagers
     
-            this.ravagers.forEach(rav => {
-                newRavX.push(rav.ravagerX / this.game.GameScale);
-                newRavY.push(rav.ravagerY / this.game.GameScale);
-                newRavZ.push(rav.ravagerZ / this.game.GameScale); // Adjust for Z
-            });
+    //         this.ravagers.forEach(rav => {
+    //             newRavX.push(rav.ravagerX / this.game.GameScale);
+    //             newRavY.push(rav.ravagerY / this.game.GameScale);
+    //             newRavZ.push(rav.ravagerZ / this.game.GameScale); // Adjust for Z
+    //         });
     
-            if (this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
-                this.game.GameScale -= this.game.clockTick * 1.5;
-                this.ravagers.forEach(rav => {
-                    rav.size -= this.game.clockTick * 0.1;
-                });
-            } else {
-                this.steve.jumpComplete = true;
-            }
+    //         if (this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
+    //             this.game.GameScale -= this.game.clockTick * 1.5;
+    //             this.ravagers.forEach(rav => {
+    //                 rav.size -= this.game.clockTick * 0.1;
+    //             });
+    //         } else {
+    //             this.steve.jumpComplete = true;
+    //         }
     
-            if (this.game.GameScale < 4 && this.steve.jumpComplete) {
-                this.game.GameScale += this.game.clockTick * 1.5;
-                this.ravagers.forEach(rav => {
-                    rav.size += this.game.clockTick * 0.1;
-                });
-            }
+    //         if (this.game.GameScale < 4 && this.steve.jumpComplete) {
+    //             this.game.GameScale += this.game.clockTick * 1.5;
+    //             this.ravagers.forEach(rav => {
+    //                 rav.size += this.game.clockTick * 0.1;
+    //             });
+    //         }
     
-            if (this.steve.jumpComplete && this.game.GameScale >= 4) {
-                this.steve.jumped = false;
-            }
+    //         if (this.steve.jumpComplete && this.game.GameScale >= 4) {
+    //             this.steve.jumped = false;
+    //         }
     
-            this.steve.playerX = x * this.game.GameScale;
-            this.steve.playerY = y * this.game.GameScale;
-            this.steve.playerZ = z * this.game.GameScale; // Scale Steve's Z
+    //         this.steve.playerX = x * this.game.GameScale;
+    //         this.steve.playerY = y * this.game.GameScale;
+    //         this.steve.playerZ = z * this.game.GameScale; // Scale Steve's Z
     
-            for (let i = 0; i < this.ravagers.length; i++) {
-                this.ravagers[i].ravagerX = newRavX[i] * this.game.GameScale;
-                this.ravagers[i].ravagerY = newRavY[i] * this.game.GameScale;
-                this.ravagers[i].ravagerZ = newRavZ[i] * this.game.GameScale; // Scale Ravager's Z
-            }
-        }
+    //         for (let i = 0; i < this.ravagers.length; i++) {
+    //             this.ravagers[i].ravagerX = newRavX[i] * this.game.GameScale;
+    //             this.ravagers[i].ravagerY = newRavY[i] * this.game.GameScale;
+    //             this.ravagers[i].ravagerZ = newRavZ[i] * this.game.GameScale; // Scale Ravager's Z
+    //         }
+    //     }
         
         // For Drawing Everyone At the right Location
         // Just Subtract isoCameraX and isoCameraY 
