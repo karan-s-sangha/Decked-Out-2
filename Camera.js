@@ -5,8 +5,6 @@ class Camera {
         this.game.camera = this;
 
         this.collision = new Collision(game);
-        this.staticArt = new StaticArt(game);   
-        
         // this.steveInitialX = 0; 
         // this.steveInitialY = 0;   
         // this.steveInitialZ = 1;   
@@ -20,6 +18,8 @@ class Camera {
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.isoCameraX = 0;
         this.isoCameraY = 0;
+        
+        this.staticArt = new StaticArt(game);   
         
         new SceneManager(this.game, this.steve);
 
@@ -97,15 +97,21 @@ class Camera {
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(steve) {
-        
+         // // Adding the first upper level dynamic art
+        //this.game.addEntity(new DynamicArt(this.game));
+
+
         // Adding the first upper level static art
        this.game.addEntity(this.staticArt);
 
-        // // Adding the first upper level dynamic art
-  //this.game.addEntity(new DynamicArt(this.game));
-            
+    //    this.blocksUnderPlayer = new BlocksUnderPlayer(this.game);
+    //    this.game.addEntity(blocksUnderPlayer);
       
        this.game.addEntity(steve);
+
+    //    this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.game);
+    //    this.game.addEntity(blocksAtOrAbovePlayer);
+
 
       //this.addRavagers();
 

@@ -263,8 +263,15 @@ class Steve {
 
         //    }
         //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
+        
+        //For drawing Blocks under steve
+        //this.game.camera.staticArt.drawBelowSteve(ctx);
+
         ctx.drawImage(offscreenCanvas, this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
+        //For drawing Blocks Above steve
+        //this.game.camera.staticArt.drawAboveSteve(ctx);
+        
     }
 
 
