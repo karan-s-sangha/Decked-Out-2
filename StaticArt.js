@@ -17,10 +17,10 @@ class StaticArt {
         
         this.blocks = this.expandAroundSteve(playerX, playerY, playerZ);
 
-        // Sort the blocks for proper drawing order
-        let blocks = this.sortBlocksForDrawing(this.blocks);
+        // // Sort the blocks for proper drawing order
+        // let blocks = this.sortBlocksForDrawing(this.blocks);
 
-        blocks.forEach(block => this.drawBlock(ctx, block));
+        // blocks.forEach(block => this.drawBlock(ctx, block));
     }
 
     sortBlocksForDrawing(blocks) {

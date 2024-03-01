@@ -104,13 +104,13 @@ class Camera {
         // Adding the first upper level static art
        this.game.addEntity(this.staticArt);
 
-    //    this.blocksUnderPlayer = new BlocksUnderPlayer(this.game);
-    //    this.game.addEntity(blocksUnderPlayer);
+       this.blocksUnderPlayer = new BlocksUnderPlayer(this.game);
+       this.game.addEntity(blocksUnderPlayer);
       
        this.game.addEntity(steve);
 
-    //    this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.game);
-    //    this.game.addEntity(blocksAtOrAbovePlayer);
+       this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.game);
+       this.game.addEntity(blocksAtOrAbovePlayer);
 
 
       //this.addRavagers();
