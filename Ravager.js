@@ -111,11 +111,18 @@ class Ravager {
         break;
     }
 
+<<<<<<< HEAD
     animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
 
 
     // Store current position for any subsequent logic
   /*  this.prevPositions.push({ x: isoX, y: isoY });
+=======
+    loadAnimations() {
+        this.walkingAnimationsWest = new Image();
+        this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
+        this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 506, 400, 60, 0.02, 0, false, true);
+>>>>>>> 9e3bf3f8404df78d5781904d18e2d8437452073e
 
     // Draw lines between previous positions
     ctx.strokeStyle = "blue"; // Line color
@@ -127,9 +134,22 @@ class Ravager {
     }
     ctx.stroke();
 
+<<<<<<< HEAD
     // Limit number of stored positions to prevent memory issues
     if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
       this.prevPositions.shift(); // Remove the oldest position
+=======
+      
+        this.walkingAnimationsEast = new Image();
+        this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager2.png"];
+        this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 372, 350, 60, 0.02, 0, false, true);
+
+        
+        this.walkingAnimationsNorth = new Image();
+        this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager3.png"];
+        this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 371, 350, 60, 0.02, 0, false, true);
+
+>>>>>>> 9e3bf3f8404df78d5781904d18e2d8437452073e
     }
 
     // Draw a simple shape for testing
@@ -324,6 +344,7 @@ class Ravager {
     } else {
       const speed = 0.2 + Math.random() * 0.5; // Adjust speed by game clock
 
+<<<<<<< HEAD
       let dx = Math.cos(this.angle) * speed * this.game.clockTick;
       let dy = Math.sin(this.angle) * speed * this.game.clockTick;
 
@@ -430,4 +451,50 @@ class Ravager {
  
   
 
+=======
+    wander() {
+        //console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
+        
+        if (this.wanderMove <= 0) {
+            // Generate a new direction angle at random
+            this.angle = Math.random() * 2 * Math.PI; // Full circle random direction
+            this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
+        } else {
+            
+            const baseSpeed = 1; 
+            const speedVariance = Math.random() * 0.5; 
+            const speed = baseSpeed + speedVariance;
+            
+            // Calculate the next position based on the current angle and speed
+            let newX = this.ravagerX + Math.cos(this.angle) * speed * this.game.clockTick;
+            let newY = this.ravagerY + Math.sin(this.angle) * speed * this.game.clockTick;
+            let newZ = this.ravagerZ; 
+    
+            // Perform collision detection with the next position
+            if (this.collisions.isCollision(newX, newY, newZ)) {
+           //     console.log(newX + " " + newY + " " + newZ);
+                // If no collision, update the ravager's position
+                this.ravagerX = newX;
+                this.ravagerY = newY;
+
+                if(this.collisions.state === -1) {
+                    this.ravagerZ--;
+                   // this.collisions.state = 0;
+                } else if(this.collisions.state === 1) {
+                    this.ravagerZ++;
+                  //  this.collisions.state = 0;
+                }  
+                this.wanderMove--; 
+            } 
+            
+            else {
+                // If a collision is detected, reset wanderMove to change direction immediately
+                this.wanderMove = 0;
+            }
+        }
+    }
+    
+    
+    
+>>>>>>> 9e3bf3f8404df78d5781904d18e2d8437452073e
 
