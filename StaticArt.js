@@ -1,7 +1,7 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radius = 12; // Radius for drawing and calculations
+        this.radius = 18; // Radius for drawing and calculations
     }
     
     update() {
@@ -66,7 +66,7 @@ class StaticArt {
             closestBlocksMap[isoKey] = block;
         });
     
-        for (let z = playerZ - 5; z <= playerZ + 5; z++) {
+        for (let z = playerZ - 8; z <= playerZ + 8; z++) {
             for (let y = playerY - this.radius; y <= playerY + this.radius; y++) {
                 for (let x = playerX - this.radius; x <= playerX + this.radius; x++) {
                     const block = this.game.camera.blocksMap[`${x},${y},${z}`];

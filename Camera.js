@@ -7,13 +7,13 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = 0; 
-        this.steveInitialY = 0;   
-        this.steveInitialZ = 1;   
+        // this.steveInitialX = 0; 
+        // this.steveInitialY = 0;   
+        // this.steveInitialZ = 1;   
         //75   58   14
-        // this.steveInitialX = 18; 
-        // this.steveInitialY = 58;   
-        // this.steveInitialZ = 14;   
+        this.steveInitialX = 75; 
+        this.steveInitialY = 58;   
+        this.steveInitialZ = 14;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -107,7 +107,7 @@ class Camera {
       
        this.game.addEntity(steve);
 
-      this.addRavagers();
+      //this.addRavagers();
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
