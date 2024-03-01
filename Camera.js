@@ -11,8 +11,8 @@ class Camera {
         // this.steveInitialY = 0;
         // this.steveInitialZ = 1;
         //75   58   14 20 86 11 124, 58, 34)
-        this.steveInitialX = 20; 
-        this.steveInitialY = 86;   
+        this.steveInitialX = 130; 
+        this.steveInitialY = 60;   
         this.steveInitialZ = 36;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
