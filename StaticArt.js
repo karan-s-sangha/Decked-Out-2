@@ -14,13 +14,13 @@ class StaticArt {
         const playerX = Math.floor(this.game.camera.steve.playerX);
         const playerY = Math.floor(this.game.camera.steve.playerY);
         const playerZ = Math.ceil(this.game.camera.steve.playerZ);
-        
+
         this.blocks = this.expandAroundSteve(playerX, playerY, playerZ);
 
-        // Sort the blocks for proper drawing order
-        let blocks = this.sortBlocksForDrawing(this.blocks);
+        // // Sort the blocks for proper drawing order
+        // let blocks = this.sortBlocksForDrawing(this.blocks);
 
-        blocks.forEach(block => this.drawBlock(ctx, block));
+        // blocks.forEach(block => this.drawBlock(ctx, block));
     }
 
     sortBlocksForDrawing(blocks) {
@@ -39,34 +39,9 @@ class StaticArt {
         const queue = [{ x: playerX, y: playerY, z: playerZ }];
         const blocksInRange = [];
 
-<<<<<<< HEAD
-    getBlocksInRange(playerX, playerY, playerZ) {
-        let blocksInRange = [];
-        let closestBlocksInEachGroup = this.groupAndSortReachableBlocks(playerX, playerY, playerZ); 
-        // Contains on the closet reachable blocks in a single isometric view.
-    
-        const closestBlocksMap = {};
-        // Update the isoKey to match the new grouping logic
-        closestBlocksInEachGroup.forEach(block => {
-            const isoKey = `${block.x - block.y}, ${block.y - block.z}`;
-            closestBlocksMap[isoKey] = block;
-        });
-    
-        for (let z = playerZ - 5; z <= playerZ + 5; z++) {
-            for (let y = playerY - this.radius; y <= playerY + this.radius; y++) {
-                for (let x = playerX - this.radius; x <= playerX + this.radius; x++) {
-                    const block = this.game.camera.blocksMap[`${x},${y},${z}`];
-                    if (block) {
-                        // Update the isoKey here as well to ensure it matches the grouping logic
-                        const isoKey = `${x - y}, ${y - z}`;
-                        if (closestBlocksMap[isoKey]) {
-                            let transparency = z > closestBlocksMap[isoKey].z ? Math.min(1, (z - closestBlocksMap[isoKey].z) * 0.20) : 0;
-                            //let transparency = z > closestBlocksMap[isoKey].z ? 1 : 0;
-=======
         while (queue.length > 0) {
             const { x, y, z } = queue.shift();
             const key = `${x},${y},${z}`;
->>>>>>> 102de24e760debac05298bd1c164c595dfc664fc
 
             if (visited.has(key)) continue;
             visited.add(key);
