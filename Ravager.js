@@ -121,6 +121,7 @@ class Ravager {
     }
 
     animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
+    console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
 
 
     // Store current position for any subsequent logic
@@ -222,6 +223,7 @@ class Ravager {
            } else {
                this.state = 'running';
                 this.followPlayer();
+                
            }
         }
         else {
@@ -260,7 +262,7 @@ class Ravager {
 
 
   shouldAttackPlayer() {
-    const attackDistance = 2;
+    const attackDistance = 1;
     const dx = this.steve.playerX - this.ravagerX;
     const dy = this.steve.playerY - this.ravagerY;
     const dz = this.steve.playerZ - this.ravagerZ;
