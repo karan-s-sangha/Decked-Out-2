@@ -36,35 +36,35 @@ class Ravager {
   loadAnimations() {
     this.walkingAnimationsEast = new Image();
     this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/0.png"];
-    this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 211, 541, 56, 0.02, 0, false, true);
+    this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 211, 541, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsSouthEast = new Image();
     this.walkingAnimationsSouthEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/45.png"];
-    this.walkingAnimationsSouthEast = new Animator(this.game, this.walkingAnimationsSouthEast, 0, 0, 651, 612, 56, 0.02, 0, false, true);
+    this.walkingAnimationsSouthEast = new Animator(this.game, this.walkingAnimationsSouthEast, 0, 0, 651, 612, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsSouth = new Image();
     this.walkingAnimationsSouth = ASSET_MANAGER.cache["./Art/Ravager_Animations/90.png"];
-    this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 651, 436, 56, 0.02, 0, false, true);
+    this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 651, 436, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsSouthWest = new Image();
     this.walkingAnimationsSouthWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/135.png"];
-    this.walkingAnimationsSouthWest = new Animator(this.game, this.walkingAnimationsSouthWest, 0, 0, 651, 541, 56, 0.02, 0, false, true);
+    this.walkingAnimationsSouthWest = new Animator(this.game, this.walkingAnimationsSouthWest, 0, 0, 651, 541, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsWest = new Image();
     this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/180.png"];
-    this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 257, 541, 56, 0.02, 0, false, true);
+    this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 257, 541, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsNorthWest = new Image();
     this.walkingAnimationsNorthWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/225.png"];
-    this.walkingAnimationsNorthWest = new Animator(this.game, this.walkingAnimationsNorthWest, 0, 0, 651, 540, 56, 0.02, 0, false, true);
+    this.walkingAnimationsNorthWest = new Animator(this.game, this.walkingAnimationsNorthWest, 0, 0, 651, 540, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsNorth = new Image();
     this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/270.png"];
-    this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 651, 436, 56, 0.02, 0, false, true);
+    this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 651, 436, 50, 0.02, 0, false, true);
 
     this.walkingAnimationsNorthEast = new Image();
     this.walkingAnimationsNorthEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/315.png"];
-    this.walkingAnimationsNorthEast = new Animator(this.game, this.walkingAnimationsNorthEast, 0, 0, 651, 610, 56, 0.02, 0, false, true);
+    this.walkingAnimationsNorthEast = new Animator(this.game, this.walkingAnimationsNorthEast, 0, 0, 651, 610, 50, 0.02, 0, false, true);
   }
 
   draw(ctx) {
@@ -406,7 +406,7 @@ class Ravager {
     const normalizedDx = dx / magnitude;
     const normalizedDy = dy / magnitude;
 
-    const diagonalThreshold = Math.cos(Math.PI / 8); // Adjusted to be more forgiving for diagonals
+    const diagonalThreshold = Math.cos(Math.PI / 8); 
 
     if (Math.abs(normalizedDx) > diagonalThreshold) {
       return normalizedDx > 0 ? "east" : "west";
@@ -427,38 +427,7 @@ class Ravager {
 
 }
   
- /* calculateWanderDirection() {
-    let angleDeg = this.angle * (180 / Math.PI); // Convert radians to degrees
-    console.log(angleDeg + " angle");
-
-    // Correcting the angle ranges to match the updated game world directions
-    if (angleDeg >= 337.5 || angleDeg < 22.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"east"}`); // 270 degrees
-      return "east";
-    } else if (angleDeg >= 22.5 && angleDeg < 67.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"northEast"}`); // Transitioning towards north
-      return "northEast";
-    } else if (angleDeg >= 67.5 && angleDeg < 112.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"north"}`); // 180 degrees
-      return "north";
-    } else if (angleDeg >= 112.5 && angleDeg < 157.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"northWest"}`); // Transitioning towards west
-      return "northWest";
-    } else if (angleDeg >= 157.5 && angleDeg < 202.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"west"}`); // 0/360 degrees
-      return "west";
-    } else if (angleDeg >= 202.5 && angleDeg < 247.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"southWest"}`); // Transitioning towards south
-      return "southWest";
-    } else if (angleDeg >= 247.5 && angleDeg < 292.5) {
-      console.log(`Angle: ${angleDeg}, Direction: ${"south"}`); // 90 degrees
-      return "south";
-    } else {
-      // angleDeg >= 292.5 && angleDeg < 337.5
-      console.log(`Angle: ${angleDeg}, Direction: ${"southEast"}`); // Transitioning towards east
-      return "southEast";
-    }
-  }*/
+ 
   
 
 

@@ -143,7 +143,7 @@ class Camera {
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.15);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.25);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });
