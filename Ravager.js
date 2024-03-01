@@ -28,7 +28,6 @@ class Ravager {
     this.angle = Math.random() * 2 * Math.PI;
     this.moveAttemptTimer = 0; // Timer to track movement attempts
     this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
-    this.direction = "East";
     this.wanderDirection = "west";
 
     this.prevPositions = [];
@@ -79,45 +78,44 @@ class Ravager {
 
     let direction = this.state === "wandering" ? this.wanderDirection : this.calculateDirection();
     ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
-    console.log(`Current direction: ${direction}`);
+   // console.log(`Current direction: ${direction}`);
 
-    //Determine the animation to use based on direction
+
     let animation;
-    
-
     switch (direction) {
       case "north":
-        animation = this.walkingAnimationsNorth;
-        break;
-      case "south":
-        animation = this.walkingAnimationsSouth;
-        break;
-      case "east":
-        animation = this.walkingAnimationsEast;
-        break;
-      case "west":
-        animation = this.walkingAnimationsWest;
-        break;
-      case "northEast":
         animation = this.walkingAnimationsNorthEast;
         break;
-      case "northWest":
+      case "south":
+        animation = this.walkingAnimationsSouthWest;
+        break;
+      case "east":
         animation = this.walkingAnimationsNorthWest;
         break;
-      case "southEast":
+      case "west":
         animation = this.walkingAnimationsSouthEast;
         break;
+      case "northEast":
+        animation = this.walkingAnimationsNorth;
+        break;
+      case "northWest":
+        animation = this.walkingAnimationsEast;
+        break;
+      case "southEast":
+        animation = this.walkingAnimationsWest;
+        break;
       case "southWest":
-        animation = this.walkingAnimationsSouthWest;
+        animation = this.walkingAnimationsSouth;
         break;
       default:
         break;
     }
-   
+
     animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
 
+
     // Store current position for any subsequent logic
-    this.prevPositions.push({ x: isoX, y: isoY });
+  /*  this.prevPositions.push({ x: isoX, y: isoY });
 
     // Draw lines between previous positions
     ctx.strokeStyle = "blue"; // Line color
@@ -135,8 +133,8 @@ class Ravager {
     }
 
     // Draw a simple shape for testing
-    ctx.fillStyle = "red"; // For visibility
-    ctx.fillRect(isoX, isoY, 1, 1); // Draw a small square for the ravager
+    ctx.fillStyle = "blue"; // For visibility
+    ctx.fillRect(isoX, isoY, 1, 1); // Draw a small square for the ravager*/
   }
 
   /*update() {
@@ -362,8 +360,11 @@ class Ravager {
   }
   wander() {
     if (this.wanderMove <= 0) {
-      // Generate a new direction angle at random
-      this.angle = Math.random() * 2 * Math.PI; // Full circle random direction
+      if (Math.random() < 0.3) { // 30% chance to keep going in the same direction
+        this.angle = this.angle; // Keep the same angle
+      } else {
+        this.angle = Math.random() * 2 * Math.PI; // Choose a new direction randomly
+      }
 
       this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
     } else {
@@ -390,7 +391,6 @@ class Ravager {
         } else if (this.collisions.state === 1) {
           this.ravagerZ++;
         }
-        console.log("Checking collision for:", newX, newY, newZ);
         this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY); 
         this.wanderMove--;
       } else {
@@ -400,30 +400,29 @@ class Ravager {
   }
 
   calculateWanderDirection(dx, dy) {
-    // Normalize the deltas to get the direction of movement
     const magnitude = Math.sqrt(dx * dx + dy * dy);
+    if (magnitude === 0) return this.wanderDirection; // No movement, keep last direction
+
     const normalizedDx = dx / magnitude;
     const normalizedDy = dy / magnitude;
 
-    // Define the threshold for diagonal movement
-    const diagonalThreshold = Math.cos(Math.PI / 4); // cos(45°)
+    const diagonalThreshold = Math.cos(Math.PI / 8); // Adjusted to be more forgiving for diagonals
 
-    // Determine the primary direction of movement based on the normalized deltas
-    if (Math.abs(normalizedDx) > diagonalThreshold && Math.abs(normalizedDy) <= diagonalThreshold) {
-      //console.log(`Angle: ${angleDeg}, Direction: ${"east"}`);
+    if (Math.abs(normalizedDx) > diagonalThreshold) {
       return normalizedDx > 0 ? "east" : "west";
-    } else if (Math.abs(normalizedDy) > diagonalThreshold && Math.abs(normalizedDx) <= diagonalThreshold) {
+    } else if (Math.abs(normalizedDy) > diagonalThreshold) {
       return normalizedDy > 0 ? "south" : "north";
-    } else if (normalizedDx > 0 && normalizedDy > 0) {
-      return "southEast";
-    } else if (normalizedDx > 0 && normalizedDy < 0) {
-      return "northEast";
-    } else if (normalizedDx < 0 && normalizedDy > 0) {
-      return "southWest";
-    } else if (normalizedDx < 0 && normalizedDy < 0) {
-      return "northWest";
+    } else {
+      if (normalizedDx > 0 && normalizedDy > 0) {
+        return "southEast";
+      } else if (normalizedDx > 0 && normalizedDy < 0) {
+        return "northEast";
+      } else if (normalizedDx < 0 && normalizedDy > 0) {
+        return "southWest";
+      } else { // normalizedDx < 0 && normalizedDy < 0
+        return "northWest";
+      }
     }
-    return "unknown"; // Default case if no direction is determined
   }
 
 }
