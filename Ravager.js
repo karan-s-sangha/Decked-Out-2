@@ -310,35 +310,39 @@ class Ravager {
     let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
     let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
 
-    this.collisions.isCollision(nextX, nextY, nextZ);
     
+    if (this.collisions.isCollision(nextX, nextY, nextZ)) {
 
-  
-    switch (this.collisions.state) {
-      case 0:  // same level
-        this.ravagerX = nextX;
-        this.ravagerY = nextY;
-        this.ravagerZ = nextZ;
-        break;
-      case 1: // Move up
-       
-        if (this.collisions.isCollision(nextX, nextY, nextZ + 1)) {
-          this.ravagerZ += 1;
-        }
-        break;
-      case -1: // Move down
-       if (this.collisions.isCollision(nextX, nextY, nextZ - 1)) {
-          this.ravagerZ -= 1; 
-        }
-        break;
-      default:
-        this.wander();
-        this.state = 'wandering';
-        break;
-      
+      this.ravagerX = nextX;
+      this.ravagerY = nextY;
+      this.ravagerZ = nextZ;
+    } else {
+      switch (this.collisions.state) {
+        
+        case 1: // move up.
+          // Only move up if there's a significant height difference.
+          if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
+            this.ravagerX = nextX;
+            this.ravagerY = nextY;
+            this.ravagerZ = this.steve.playerZ; 
+          }
+          break;
+        case -1: // Imove down.
+          // Only move down if there's a significant height difference.
+          if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
+            this.ravagerX = nextX;
+            this.ravagerY = nextY;
+            this.ravagerZ = this.steve.playerZ; 
+          }
+          break;
+        default:
+          this.wander();
+          this.state = 'wandering';
+          break;
+      }
     }
-   
   }
+
 
 
 
