@@ -40,17 +40,24 @@ class Ravager {
     }
 
     loadAnimations() {
-        this.walkingSpriteSheet = new Image();
-        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
-        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.02, 0, false, true);
+        this.walkingAnimationsWest = new Image();
+        this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
+        this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 506, 400, 60, 0.02, 0, false, true);
 
-       // this.attackingSpriteSheet = new Image();
-       // this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
-      //  this.attackingAnimations = new Animator(this.game, this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.02, 0, false, true);
+        this.walkingAnimationsSouth = new Image();
+        this.walkingAnimationsSouth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager1.png"];
+        this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 433, 360, 60, 0.02, 0, false, true);
 
-       // this.standingSpriteSheet = new Image();
-       // this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
-        //this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.02, 0, false, true);
+      
+        this.walkingAnimationsEast = new Image();
+        this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager2.png"];
+        this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 372, 350, 60, 0.02, 0, false, true);
+
+        
+        this.walkingAnimationsNorth = new Image();
+        this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager3.png"];
+        this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 371, 350, 60, 0.02, 0, false, true);
+
     }
 
 
@@ -58,11 +65,11 @@ class Ravager {
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
-        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX;
-        let isoY = (this.ravagerX + this.ravagerY) * blockHeight / 4 - (this.ravagerZ - 1.5 - this.steve.playerZ) * blockWidth / 2 - this.game.camera.isoCameraY;
+     
 
-        // Draw entity
-        let angle =  0; 
+        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX;
+        let isoY = ((this.ravagerX + this.ravagerY) * blockHeight / 4)- (this.ravagerZ 
+                    - this.steve.playerZ) * blockWidth/2 - this.game.camera.isoCameraY + blockHeight/2;
         switch (this.state) {
             case 'attacking':
                 // Draw attacking animation
@@ -74,7 +81,7 @@ class Ravager {
                 break;
             case 'wandering':
                 // Draw wandering animation
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, angle);
+                this.walkingAnimationsNorth.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
                 break;
             default:
                 // If state is unknown, you might want to log an error or handle it in some way
@@ -82,10 +89,10 @@ class Ravager {
         }
 
         // Store current position
-        this.prevPositions.push({ x: isoX, y: isoY });
+      /* this.prevPositions.push({ x: isoX, y: isoY });
 
         // Draw lines between previous positions
-        ctx.strokeStyle = "blue"; // Line color
+      ctx.strokeStyle = "blue"; // Line color
         ctx.lineWidth = 3;
         ctx.beginPath();
         for (let i = 1; i < this.prevPositions.length; i++) {
@@ -97,7 +104,7 @@ class Ravager {
         // Limit number of stored positions to prevent memory issues
         if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
             this.prevPositions.shift(); // Remove the oldest position
-        }
+        }*/
 
         // Draw a simple shape for testing
         ctx.fillStyle = "red"; // For visibility
@@ -297,7 +304,7 @@ class Ravager {
             this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
         } else {
             
-            const baseSpeed = 100; 
+            const baseSpeed = 1; 
             const speedVariance = Math.random() * 0.5; 
             const speed = baseSpeed + speedVariance;
             
