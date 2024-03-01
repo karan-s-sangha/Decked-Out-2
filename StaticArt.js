@@ -2,7 +2,7 @@ class StaticArt {
     constructor(game) {
         this.game = game;
         this.radiusXY = 15; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 5;  // Radius for drawing and calculations in the Z dimension
+        this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
         this.blocks;
     }
 
@@ -68,7 +68,7 @@ class StaticArt {
     drawBlock(ctx, block) {
         const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
         if (!blockImage) return;
-
+ 
         ctx.save();
         //ctx.globalAlpha = 1 - (block.transparency || 0); // Default transparency to 0 if not defined
         ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
