@@ -87,7 +87,7 @@ class Ravager {
       direction = this.followDirection; // Use the updated follow direction
     }
     ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
-   // console.log(`Current direction: ${direction}`);
+    // console.log(`Current direction: ${direction}`);
 
 
     let animation;
@@ -125,26 +125,26 @@ class Ravager {
 
 
     // Store current position for any subsequent logic
-  /*  this.prevPositions.push({ x: isoX, y: isoY });
-
-    // Draw lines between previous positions
-    ctx.strokeStyle = "blue"; // Line color
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    for (let i = 1; i < this.prevPositions.length; i++) {
-      ctx.moveTo(this.prevPositions[i - 1].x, this.prevPositions[i - 1].y);
-      ctx.lineTo(this.prevPositions[i].x, this.prevPositions[i].y);
-    }
-    ctx.stroke();
-
-    // Limit number of stored positions to prevent memory issues
-    if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
-      this.prevPositions.shift(); // Remove the oldest position
-    }
-
-    // Draw a simple shape for testing
-    ctx.fillStyle = "blue"; // For visibility
-    ctx.fillRect(isoX, isoY, 1, 1); // Draw a small square for the ravager*/
+    /*  this.prevPositions.push({ x: isoX, y: isoY });
+  
+      // Draw lines between previous positions
+      ctx.strokeStyle = "blue"; // Line color
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let i = 1; i < this.prevPositions.length; i++) {
+        ctx.moveTo(this.prevPositions[i - 1].x, this.prevPositions[i - 1].y);
+        ctx.lineTo(this.prevPositions[i].x, this.prevPositions[i].y);
+      }
+      ctx.stroke();
+  
+      // Limit number of stored positions to prevent memory issues
+      if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
+        this.prevPositions.shift(); // Remove the oldest position
+      }
+  
+      // Draw a simple shape for testing
+      ctx.fillStyle = "blue"; // For visibility
+      ctx.fillRect(isoX, isoY, 1, 1); // Draw a small square for the ravager*/
   }
 
   /*update() {
@@ -215,21 +215,21 @@ class Ravager {
 
   update() {
     console.log(this.canSeePlayer());
-   // if (this.canSeePlayer() && this.steve.health > 0) {
-    if (this.canSeePlayer()){
-           if (this.shouldAttackPlayer()) {
-               this.state = 'attacking'; 
-               this.steve.health -= 0.5;
-           } else {
-               this.state = 'running';
-                this.followPlayer();
-                
-           }
-        }
-        else {
-            this.state = 'wandering';
-            this.wander();
-        }
+    // if (this.canSeePlayer() && this.steve.health > 0) {
+    if (this.canSeePlayer()) {
+      if (this.shouldAttackPlayer()) {
+        this.state = 'attacking';
+        this.steve.health -= 0.5;
+      } else {
+        this.state = 'running';
+        this.followPlayer();
+
+      }
+    }
+    else {
+      this.state = 'wandering';
+      this.wander();
+    }
   }
 
   canSeePlayer() {
@@ -249,7 +249,7 @@ class Ravager {
     for (let i = 1; i <= steps; i++) {
       const checkX = this.ravagerX + (dx / steps) * i;
       const checkY = this.ravagerY + (dy / steps) * i;
-      const checkZ = this.ravagerZ; 
+      const checkZ = this.ravagerZ;
       // If a collision is detected at any point, there is an obstruction.
       if (this.collisions.isObstructed(checkX, checkY, checkZ)) {
         return false; // Obstruction detected, Steve cannot be seen.
@@ -270,7 +270,7 @@ class Ravager {
     return Math.sqrt(dx * dx + dy * dy + dz * dz) < attackDistance;
   }
 
-  
+
   /*followPlayer() {
     const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
     let dx = this.steve.playerX - this.ravagerX;
@@ -312,7 +312,7 @@ class Ravager {
     let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
     let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
 
-    
+
     if (this.collisions.isCollision(nextX, nextY, nextZ)) {
 
       this.ravagerX = nextX;
@@ -320,13 +320,13 @@ class Ravager {
       this.ravagerZ = nextZ;
     } else {
       switch (this.collisions.state) {
-        
+
         case 1: // move up.
           // Only move up if there's a significant height difference.
           if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
             this.ravagerX = nextX;
             this.ravagerY = nextY;
-            this.ravagerZ = this.steve.playerZ; 
+            this.ravagerZ = this.steve.playerZ;
           }
           break;
         case -1: // Imove down.
@@ -334,7 +334,7 @@ class Ravager {
           if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
             this.ravagerX = nextX;
             this.ravagerY = nextY;
-            this.ravagerZ = this.steve.playerZ; 
+            this.ravagerZ = this.steve.playerZ;
           }
           break;
         default:
@@ -373,7 +373,7 @@ class Ravager {
       this.wander();
     }
   }
-  
+
 
 
 
@@ -422,7 +422,7 @@ class Ravager {
 
       this.wanderMove = Math.floor(Math.random() * 100 + 100); // Reset wanderMove
     } else {
-      const speed = 0.2 + Math.random() * 0.5; 
+      const speed = 0.2 + Math.random() * 0.5;
 
       let dx = Math.cos(this.angle) * speed * this.game.clockTick;
       let dy = Math.sin(this.angle) * speed * this.game.clockTick;
@@ -445,7 +445,7 @@ class Ravager {
         } else if (this.collisions.state === 1) {
           this.ravagerZ++;
         }
-        this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY); 
+        this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY);
         this.wanderMove--;
       } else {
         this.wanderMove = 0;
@@ -460,7 +460,7 @@ class Ravager {
     const normalizedDx = dx / magnitude;
     const normalizedDy = dy / magnitude;
 
-    const diagonalThreshold = Math.cos(Math.PI / 8); 
+    const diagonalThreshold = Math.cos(Math.PI / 8);
 
     if (Math.abs(normalizedDx) > diagonalThreshold) {
       return normalizedDx > 0 ? "east" : "west";
@@ -480,8 +480,7 @@ class Ravager {
   }
 
 }
-  
- 
-  
+
+
 
 
