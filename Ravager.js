@@ -315,7 +315,7 @@ class Ravager {
     
             // Perform collision detection with the next position
             if (this.collisions.isCollision(newX, newY, newZ)) {
-                console.log(newX + " " + newY + " " + newZ);
+           //     console.log(newX + " " + newY + " " + newZ);
                 // If no collision, update the ravager's position
                 this.ravagerX = newX;
                 this.ravagerY = newY;
