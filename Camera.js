@@ -23,6 +23,7 @@ class Camera {
         
         new SceneManager(this.game, this.steve);
 
+        
         this.ravagers = [];
         this.ravagerPositions = [];
         this.levelX=0;
