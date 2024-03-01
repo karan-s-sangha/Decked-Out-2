@@ -40,24 +40,17 @@ class Ravager {
     }
 
     loadAnimations() {
-        this.walkingAnimationsWest = new Image();
-        this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
-        this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 506, 400, 60, 0.02, 0, false, true);
+        this.walkingSpriteSheet = new Image();
+        this.walkingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
+        this.walkingAnimations = new Animator(this.game, this.walkingSpriteSheet, 0, 0, 506, 420, 200, 0.02, 0, false, true);
 
-        this.walkingAnimationsSouth = new Image();
-        this.walkingAnimationsSouth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager1.png"];
-        this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 433, 360, 60, 0.02, 0, false, true);
+       // this.attackingSpriteSheet = new Image();
+       // this.attackingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager-attacking.png"];
+      //  this.attackingAnimations = new Animator(this.game, this.attackingSpriteSheet, 0, 0, 286, 723, 40, 0.02, 0, false, true);
 
-      
-        this.walkingAnimationsEast = new Image();
-        this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager2.png"];
-        this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 372, 350, 60, 0.02, 0, false, true);
-
-        
-        this.walkingAnimationsNorth = new Image();
-        this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager3.png"];
-        this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 371, 350, 60, 0.02, 0, false, true);
-
+       // this.standingSpriteSheet = new Image();
+       // this.standingSpriteSheet = ASSET_MANAGER.cache["./Art/Ravager_Animations/Ravager-standing.png"];
+        //this.standingAnimations = new Animator(this.game, this.standingSpriteSheet, 0, 0, 286, 679, 1, 0.02, 0, false, true);
     }
 
 
@@ -295,7 +288,7 @@ class Ravager {
 
 
 
-    wander() {
+    /*wander() {
         //console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
         
         if (this.wanderMove <= 0) {
@@ -335,7 +328,59 @@ class Ravager {
                 this.wanderMove = 0;
             }
         }
+    }*/
+
+    wander() {
+        // console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
+    
+        // Decide the elevation change and direction at the beginning of the wandering phase
+        if (this.wanderMove <= 0) {
+          ///  console.log("Wander Move above: ", this.wanderMove);
+            this.angle = Math.random() * 2 * Math.PI; // Full circle random direction
+            this.wanderMove = Math.floor(Math.random() * 100) + 100; // Reset wanderMove
+            
+          //  const chance = Math.random(); // Generate a random number between 0 and 1
+            // console.log("Chance:", chance); // Debugging
+    
+            // if (chance < 0.25) { // 25% chance to attempt an elevation change
+            //     const elevationChance = Math.random(); // Random number between 0 and 1
+    
+            //     if (elevationChance < 0.5) {
+            //         this.elevationChange = 1; // Move up
+            //     } else {
+            //         this.elevationChange = -1; // Move down
+            //     }
+            // } else {
+            //     this.elevationChange = 0; // No elevation change
+            // }
+        }
+
+        // Calculate the potential new position
+        const baseSpeed = 1;
+        const speedVariance = Math.random() * 0.5;
+        const speed = baseSpeed + speedVariance;
+        let newX = this.ravagerX + Math.cos(this.angle) * speed * this.game.clockTick;
+        let newY = this.ravagerY + Math.sin(this.angle) * speed * this.game.clockTick;
+        let newZ = this.ravagerZ; // Apply potential elevation change
+    
+        // Perform collision detection with the next position
+        if (this.collisions.isCollisionRavager(newX, newY, this.ravagerZ)) {
+            // If no collision, update the ravager's position
+            this.ravagerX = newX;
+            this.ravagerY = newY;
+
+            //console.log("COLLISON LEVEL: " +    this.collisions.rav);
+           this.ravagerZ += this.collisions.rav;
+            // console.log(`New Ravager position: X=${newX} Y=${newY} Z=${newZ}`);
+            this.wanderMove--;
+           // console.log("Wander Move below: ", this.wanderMove);
+        } else {
+            // If a collision is detected, reset wanderMove to change direction immediately
+            this.wanderMove = 0;
+            this.elevationChange = 0; // Reset elevation change if collision detected
+        }
     }
+    
     
     
     
