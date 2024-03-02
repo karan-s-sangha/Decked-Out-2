@@ -1,9 +1,7 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radiusXY = 15; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
-        this.blocks;
+        this.radius = 12; // Radius for drawing and calculations
     }
     
     update() {
@@ -11,26 +9,17 @@ class StaticArt {
     }
 
     draw(ctx) {
-        const playerX = Math.floor(this.game.camera.steve.playerX);
-        const playerY = Math.floor(this.game.camera.steve.playerY);
-        const playerZ = Math.ceil(this.game.camera.steve.playerZ);
-        
-        this.blocks = this.expandAroundSteve(playerX, playerY, playerZ);
-
-        // // Sort the blocks for proper drawing order
-        // let blocks = this.sortBlocksForDrawing(this.blocks);
-
-        // blocks.forEach(block => this.drawBlock(ctx, block));
-    }
-
-    sortBlocksForDrawing(blocks) {
-        // Sort by Z first to ensure vertical positioning is respected
-        // Then sort by the sum of X and Y for proper isometric depth sorting
-        return blocks.sort((a, b) => {
-            if (a.z !== b.z) {
-                return a.z - b.z;
-            }
-            return (a.x + a.y) - (b.x + b.y);
+        let playerX = Math.floor(this.game.camera.steve.playerX);
+        let playerY = Math.floor(this.game.camera.steve.playerY);
+        let playerZ = Math.ceil(this.game.camera.steve.playerZ);
+        console.log("player",playerX," ",playerY," ",playerZ);
+    
+        let blocks = this.getBlocksInRange(playerX, playerY, playerZ);
+    
+        blocks.forEach(block => {
+            //console.log("In the loop");
+            this.drawBlock(ctx, block);
+           
         });
     }
     
@@ -65,50 +54,34 @@ class StaticArt {
         return { isoX, isoY, blockImage, sizeFactor, imageWidth, imageHeight };
     }
 
-        while (queue.length > 0) {
-            const { x, y, z } = queue.shift();
-            const key = `${x},${y},${z}`;
+    getBlocksInRange(playerX, playerY, playerZ) {
+        let blocksInRange = [];
+        let closestBlocksInEachGroup = this.groupAndSortReachableBlocks(playerX, playerY, playerZ); 
+        // Contains on the closet reachable blocks in a single isometric view.
+    
+        const closestBlocksMap = {};
+        // Update the isoKey to match the new grouping logic
+        closestBlocksInEachGroup.forEach(block => {
+            const isoKey = `${block.x - block.y}, ${block.y - block.z}`;
+            closestBlocksMap[isoKey] = block;
+        });
+    
+        for (let z = playerZ - 5; z <= playerZ + 5; z++) {
+            for (let y = playerY - this.radius; y <= playerY + this.radius; y++) {
+                for (let x = playerX - this.radius; x <= playerX + this.radius; x++) {
+                    const block = this.game.camera.blocksMap[`${x},${y},${z}`];
+                    if (block) {
+                        // Update the isoKey here as well to ensure it matches the grouping logic
+                        const isoKey = `${x - y}, ${y - z}`;
+                        if (closestBlocksMap[isoKey]) {
+                            let transparency = z > closestBlocksMap[isoKey].z ? Math.min(1, (z - closestBlocksMap[isoKey].z) * 0.20) : 0;
+                            //let transparency = z > closestBlocksMap[isoKey].z ? 1 : 0;
 
                             blocksInRange.push({ ...block, x, y, z, transparency });
                         }
                         else {
                             blocksInRange.push({ ...block, x, y, z, transparency: 0 });
                         }
-                    });
-                }
-            }
-        }
-
-        return blocksInRange;
-    }
-
-    drawBlock(ctx, block) {
-        const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
-        if (!blockImage) return;
- 
-        ctx.save();
-        //ctx.globalAlpha = 1 - (block.transparency || 0); // Default transparency to 0 if not defined
-        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
-        ctx.restore();
-    }
-
-    calculateBlockDrawingParams(block) {
-        const { steve, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
-        const blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`];
-
-        const isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX;
-        const isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - steve.playerZ) * imageHeight * sizeFactor / 2 - isoCameraY;
-
-        return { isoX, isoY, blockImage, sizeFactor };
-    }
-
-    getNeighborPositions(x, y, z) {
-        const neighbors = [];
-        for (let dz = -1; dz <= 1; dz++) {
-            for (let dy = -1; dy <= 1; dy++) {
-                for (let dx = -1; dx <= 1; dx++) {
-                    if (dx !== 0 || dy !== 0 || dz !== 0) {
-                        neighbors.push({ dx, dy, dz });
                     }
                 }
             }
