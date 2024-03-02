@@ -233,7 +233,7 @@ class Steve {
 
         if (this.health <= 0) {
             this.health = 0;
-            this.live = true;
+            this.live = false;
         }
         if (this.hunger <= 0) {
             this.hunger = 0;

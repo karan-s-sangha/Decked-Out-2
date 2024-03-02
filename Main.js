@@ -39,6 +39,10 @@ ASSET_MANAGER.queueDownload("./Art/Player/hunger.png");
 // Image for the compass
 ASSET_MANAGER.queueDownload("./Art/RedArrow.png");
 
+//Main Page
+
+ASSET_MANAGER.queueDownload("./Art/titlepage.png");
+
 
 //Image for the Artifacts
 ASSET_MANAGER.queueDownload("./Art/Artifacts/Axeofthescreaminvoid.png");
@@ -1356,7 +1360,7 @@ ASSET_MANAGER.queueDownload("./Art/resources/zombified_piglin_spawn_egg.png");
 
 // music
 ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
-// ASSET_MANAGER.queueDownload("./music/underworld.mp3");
+ASSET_MANAGER.queueDownload("./Art/music/tileMusic.mp3");
 // ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
 
@@ -1367,7 +1371,7 @@ ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
 // ASSET_MANAGER.queueDownload("./audio/block.mp3");
 // ASSET_MANAGER.queueDownload("./audio/bump.wav");
 
-ASSET_MANAGER.downloadAll(function () {
+/*ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
 	ASSET_MANAGER.autoRepeat("./Art/music/Decked_Out.mp3");
 	 //ASSET_MANAGER.autoRepeat("./music/overworld.mp3");
@@ -1386,7 +1390,91 @@ ASSET_MANAGER.downloadAll(function () {
 	PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-	// new SceneManager(gameEngine);
+	//new SceneManager(gameEngine);
 	new Camera(gameEngine);
 	gameEngine.start();
+});*/
+
+ASSET_MANAGER.downloadAll(function () {
+	// Setup and display the title screen
+	initTitleScreen();
 });
+
+function initTitleScreen() {
+	var canvas = document.getElementById('gameWorld');
+	var ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = false;
+
+	function drawTitleScreen() {
+		var backgroundImage = ASSET_MANAGER.getAsset("./Art/titlepage.png");
+		ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+
+		var buttonX = canvas.width / 2 - 100;
+		var buttonY = canvas.height / 2;
+		var buttonWidth = 200;
+		var buttonHeight = 50;
+
+		
+		ctx.fillStyle = '#8B4513'; 
+		ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight); 
+
+		ctx.fillStyle = '#654321'; // Darker shade for the side
+		ctx.fillRect(buttonX, buttonY + buttonHeight, buttonWidth, 10); // Side face
+
+		ctx.fillStyle = 'white';
+		ctx.font = '30% 2P'; 
+		ctx.textAlign = 'center';
+
+		ctx.shadowColor = 'black';
+		ctx.shadowBlur = 7;
+		ctx.shadowOffsetX = 3;
+		ctx.shadowOffsetY = 3;
+
+		ctx.fillText('Start Game', buttonX + buttonWidth / 2, buttonY + buttonHeight / 2 + 10);
+
+		// Reset shadow for other drawing
+		ctx.shadowColor = 'transparent';
+		ctx.shadowBlur = 0;
+		ctx.shadowOffsetX = 0;
+		ctx.shadowOffsetY = 0;
+
+		
+		ctx.strokeStyle = 'rgba(255, 255, 0, 0.6)'; 
+		ctx.lineWidth = 2;
+		ctx.strokeRect(buttonX - 5, buttonY - 5, buttonWidth + 10, buttonHeight + 10); 
+	}
+
+	function isClickInsideButton(x, y) {
+		return x >= canvas.width / 2 - 100 && x <= canvas.width / 2 + 100 &&
+			y >= canvas.height / 2 && y <= canvas.height / 2 + 50;
+	}
+
+	canvas.addEventListener('click', function (event) {
+		var rect = canvas.getBoundingClientRect();
+		var x = event.clientX - rect.left;
+		var y = event.clientY - rect.top;
+
+		if (isClickInsideButton(x, y)) {
+			startGame();
+		}
+	});
+
+	drawTitleScreen();
+}
+
+function startGame() {
+	var gameEngine = new GameEngine();
+	ASSET_MANAGER.autoRepeat("./Art/music/music.mp4");
+
+	var canvas = document.getElementById('gameWorld');
+	var ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = false;
+
+	PARAMS.CANVAS_WIDTH = canvas.width;
+	PARAMS.CANVAS_HEIGHT = canvas.height;
+
+	gameEngine.init(ctx);
+	new Camera(gameEngine);
+	gameEngine.start();
+}
+

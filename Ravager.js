@@ -86,7 +86,7 @@ class Ravager {
       this.followDirection = this.calculateFollowDirection(); // Update this.followDirection with the new direction
       direction = this.followDirection; // Use the updated follow direction
     }
-    ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
+   // ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
    // console.log(`Current direction: ${direction}`);
 
 

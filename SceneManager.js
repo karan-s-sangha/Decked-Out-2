@@ -12,17 +12,16 @@ class SceneManager {
         this.level = null;
         this.gameOver = false;
         this.frontend = new FrontEnd(game, this);
-       // this.titlescreen = new Titlescreen(game, this);
         this.loadSceneManager(this.level, false);
     };
 
     loadSceneManager(level, isTransition) {
         if (isTransition) {
             this.game.transition = new TransitionScreen(this.game, level);
-        } else if (this.frontend.isInMenu == false && this.frontend.isInCredits == false 
+        } else if (this.frontend.isInMenu == false && this.frontend.isInCredits == false
             && this.frontend.isShowInstructions == false) {
             this.game.play = true;
-        } 
+        }
     }
 
     updateAudio() {
@@ -36,28 +35,28 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-       /* if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
+        if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions) {
             this.frontend.update();
         } else if (this.steve.live === false) {
             this.frontend.isInLoseScreen = !this.steve.live;
             //this.frontend.update();
-        } else if(this.steve.win === true) {
+        } else if (this.steve.win === true) {
             this.frontend.isInWinScreen = this.steve.win;
             //this.frontend.update();
-        }*/
+        }
 
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) { 
-       /* if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
+        if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
-        } else if (this.frontend.isInLoseScreen){
-           this.frontend.drawLoseScreen(ctx);
-           } else if (this.frontend.isInWinScreen){
+        } else if (this.frontend.isInLoseScreen) {
+            this.frontend.drawLoseScreen(ctx);
+        } else if (this.frontend.isInWinScreen) {
             this.frontend.drawWinScreen(ctx);
-           }*/
-       
+        }
+
     };
 
 };
