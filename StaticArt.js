@@ -20,8 +20,8 @@ class StaticArt {
         this.reachableBlocks = [];
         this.expandAroundSteve(playerX, playerY, playerZ);
 
-        let blocks = this.sortBlocksForDrawing(this.blocks);
-        blocks.forEach(block => this.drawBlock(ctx, block));
+        // let blocks = this.sortBlocksForDrawing(this.blocks);
+        // blocks.forEach(block => this.drawBlock(ctx, block));
     }
     
     drawBlock(ctx, block) {
