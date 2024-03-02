@@ -49,32 +49,29 @@ class Camera {
         this.blocksUnderPlayer = new BlocksUnderPlayer(this.staticArt);
         this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.staticArt);
 
-        this.initialize();
-
-        //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
-        this.loadLevel(this.steve, this.level, game.cameraWorldTopLeftX, game.cameraWorldTopLeftY);
+        this.initializeAndLoadLevel();
 
     };
-    async initialize() {
+    async initializeAndLoadLevel() {
         console.log("In initialization");
-        let temp = 20;
-        for (let i = 0; i < this.layerCount; i++) {
-            // for (let i = 34; i < 37; i++) {
-            try {
+        try {
+            for (let i = 0; i < this.layerCount; i++) {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const text = await response.text();
                 this.processTextFile(text);
-            } catch (error) {
-                console.error(`Error loading the text file for layer ${i}:`, error);
             }
+            this.loadLevel(this.steve); // Call loadLevel() after initialization completes
+        } catch (error) {
+            console.error('Error during initialization:', error);
         }
     }
+    
 
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
-            //console.log(line);
+            console.log("READING MAP");
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
@@ -103,7 +100,7 @@ class Camera {
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(steve) {
-
+        console.log("this should be running unless the map finish loading");
         // Adding the first upper level static art
         this.game.addEntity(this.staticArt);
 
@@ -132,7 +129,7 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-               { x: 4, y: 2, z: 2 }
+             //  { x: 4, y: 2, z: 2 }
             //   { x: 20, y: 90, z: 11 }
             // { x: 130, y: 60, z: 34}
             /*{ x: 1332, y: 2348, z: 1 },

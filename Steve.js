@@ -66,9 +66,8 @@ class Steve {
 
     update() {
         // console.log(this.canMove);
-        if (this.game.keys.ctrl) {
-            console.log("ctrl");
-        }
+
+
         //console.log(this.playerY);
         // if (this.canMove) {
         // if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
@@ -113,98 +112,179 @@ class Steve {
         //     this.run = true;
         //     this.hungerTime += 3 * this.game.clockTick;
         // } else {
-        if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-            if (this.collision.state != 1) {
-                this.move = 1;
-                this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-                if (this.collision.state === 0) {
-                    this.canMove = true;
-                } else {
-                    this.canMove = false;
+        this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+        if(this.collision.state === -1) {
+            if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.floor(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerX -= this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
+                    this.width = 185;
+                    this.height = 329;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
                 }
-                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
-                this.width = 185;
-                this.height = 329;
-                this.walkingAnimations.spritesheet = this.spritesheet;
-                this.runningAnimations.spritesheet = this.spritesheet;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-            } else {
-              //  this.game.keys.left = false;
+    
             }
-
-        }
-        if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-            if (this.collision.state != 1) {
-                this.move = 1;
-                this.playerX += this.playerWalkSpeed * this.game.clockTick;
-                if (this.collision.state === 0) {
-                    this.canMove = true;
-                } else {
-                    this.canMove = false;
-                }
-                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
-                this.width = 200;
-                this.height = 356;
-                this.walkingAnimations.spritesheet = this.spritesheet;
-                this.runningAnimations.spritesheet = this.spritesheet;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-            } else {
-              //  this.game.keys.left = false;
+            if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.floor(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerX += this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
+                    this.width = 200;
+                    this.height = 356;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
             }
-
-        }
-        if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-            if (this.collision.state != 1) {
-                this.move = 1;
-                this.playerY -= this.playerWalkSpeed * this.game.clockTick;
-                if (this.collision.state === 0) {
-                    this.canMove = true;
-                } else {
-                    this.canMove = false;
-                }
-                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
-                this.width = 186;
-                this.height = 356;
-                this.walkingAnimations.spritesheet = this.spritesheet;
-                this.runningAnimations.spritesheet = this.spritesheet;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-            } else {
-             //   this.game.keys.left = false;
+            if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), Math.floor(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerY -= this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
+                    this.width = 186;
+                    this.height = 356;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
             }
-
-        }
-        if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-            if (this.collision.state != 1) {
-                this.move = 1;
-                this.playerY += this.playerWalkSpeed * this.game.clockTick;
-                if (this.collision.state === 0) {
-                    this.canMove = true;
-                } else {
-                    this.canMove = false;
-                }
-                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
-                this.width = 202;
-                this.height = 384;
-                this.walkingAnimations.spritesheet = this.spritesheet;
-                this.runningAnimations.spritesheet = this.spritesheet;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-                this.walkingAnimations.width = this.width;
-                this.runningAnimations.height = this.height;
-            } else {
-            //    this.game.keys.left = false;
+            if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), Math.floor(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerY += this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
+                    this.width = 202;
+                    this.height = 384;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
             }
-
+        } else  {
+            if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.ceil(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerX -= this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
+                    this.width = 185;
+                    this.height = 329;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
+            }
+            if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.ceil(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerX += this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
+                    this.width = 200;
+                    this.height = 356;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
+            }
+            if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), Math.ceil(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerY -= this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
+                    this.width = 186;
+                    this.height = 356;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
+            }
+            if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), Math.ceil(this.playerZ))) {
+                if (this.collision.state != 1) {
+                    this.move = 1;
+                    this.playerY += this.playerWalkSpeed * this.game.clockTick;
+                    if (this.collision.state === 0) {
+                        this.canMove = true;
+                    } else {
+                        this.canMove = false;
+                    }
+                    this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
+                    this.width = 202;
+                    this.height = 384;
+                    this.walkingAnimations.spritesheet = this.spritesheet;
+                    this.runningAnimations.spritesheet = this.spritesheet;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                    this.walkingAnimations.width = this.width;
+                    this.runningAnimations.height = this.height;
+                } 
+    
+            }
         }
+       
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
@@ -212,13 +292,13 @@ class Steve {
 
         if (!this.game.keys.left && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down) {
             this.move = 0;
-            console.log("this should be printing");
+         //   console.log("this should be printing");
         }
 
-        if (this.game.keys.space && !this.jumped && this.jumpDelay === 0) {
-            console.log("steve jumped");
+        if (this.game.keys.space && !this.jumped && this.jumpDelay === 0 && this.collision.state != -1) {
+         //  console.log("steve jumped");
             this.jumped = true;
-            this.jumpDelay = 30;
+            this.jumpDelay = 36;
         }
 
         if (this.hunger >= 9 && this.health < 10 && this.elapsedTime > 1) {
@@ -250,19 +330,25 @@ class Steve {
             }
         }
 
+
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-        if (this.collision.state === 0) {
-        } else if (this.collision.state === -1 && !this.jumped) {
+     //  console.log(this.collision.state);
+
+        if (this.collision.state === -1 && !this.jumped) {
+        //    console.log("why did this run");
             this.playerZ -= 0.1;
+            //this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+           
+        }  
+        else if(this.collision.state === 0 && !this.jumped) {
+            this.playerZ = Math.ceil(this.playerZ);
         }
-
-
-
 
         this.elapsedTime += this.game.clockTick;
 
         //console.log("Steve: " + this.playerX + " " + this.playerY);
     };
+
 
 
     drawAngle(ctx, angle, scale) {
@@ -316,6 +402,7 @@ class Steve {
 
 
     draw(ctx) {
+        // console.log("Player " + this.playerX + " " + this.playerY + " " + this.playerZ) ;
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
         */

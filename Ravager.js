@@ -153,10 +153,10 @@ class Ravager {
         // console.log(this.canSeePlayer());
         // if (this.canSeePlayer() && this.steve.health > 0) {
         if (this.canSeePlayer()) {
-            if (this.shouldAttackPlayer()) {
+            if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
                 this.state = 'attacking';
                 this.steve.health -= 0.5;
-                this.attackCoolDown =  0.5;
+                this.attackCoolDown =  1;
 
                 this.attack = true;
                 this.steve.canMove = false;
