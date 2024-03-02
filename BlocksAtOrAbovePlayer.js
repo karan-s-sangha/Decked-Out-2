@@ -8,15 +8,20 @@ class BlocksAtOrAbovePlayer {
     }
 
     draw(ctx) {
-        // Access the playerZ through the staticArt reference to its game object
+        const playerX = Math.floor(this.staticArt.game.camera.steve.playerX);
+        const playerY = Math.floor(this.staticArt.game.camera.steve.playerY);
         const playerZ = Math.ceil(this.staticArt.game.camera.steve.playerZ);
-        // Filter the blocks that are at or above the playerZ level
-        let blocks = this.staticArt.reachableBlocks.filter(block => block.z > playerZ);
 
-        // Sort the blocks for drawing using the staticArt's sorting method
+        // Filter blocks that are visually behind or at the same level as Steve in isometric view
+        let blocks = this.staticArt.blocks.filter(block => 
+            block.x > playerX ||  block.y > playerY 
+            //&& block.y >= playerY
+        );
+
+        // Sort blocks for isometric drawing; blocks with lower y values are drawn first, then x, then z
         blocks = this.staticArt.sortBlocksForDrawing(blocks);
-        // Draw each block using the staticArt's drawBlock method
+
         blocks.forEach(block => this.staticArt.drawBlock(ctx, block));
-        //console.log("Above block");
+        //this.staticArt.drawBlock(ctx, block);
     }
 }

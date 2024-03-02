@@ -2,7 +2,7 @@ class StaticArt {
     constructor(game) {
         this.game = game;
         this.radiusXY = 10; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
+        this.radiusZ = 4;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
     }
@@ -123,28 +123,34 @@ class StaticArt {
     }
 
     isMovable(currX, currY, currZ, dx, dy, dz) {
-        // Example logic for a simple movement rule: movement is possible if there's no obstacle
-        // const currenttargetKey = `${currX},${currY },${currZ }`;
-        // const currenttargetBlock = this.game.camera.blocksMap[currenttargetKey];
-        // const currentoneAboveTargetKey = `${currX},${currY },${currZ + dz + 1}`;
-        // const currenttwoAboveTargetKey = `${currX},${currY },${currZ + dz + 2}`;
-        // const currentoneAboveTargetBlock = this.game.camera.blocksMap[currentoneAboveTargetKey];
-        // const currenttwoAboveTargetBlock = this.game.camera.blocksMap[currenttwoAboveTargetKey];
-        
-
+        // Target position based on the intended direction of movement
         const targetKey = `${currX + dx},${currY + dy},${currZ + dz}`;
         const targetBlock = this.game.camera.blocksMap[targetKey];
+    
+        // Blocks directly above the target position
         const oneAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 1}`;
         const twoAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 2}`;
         const oneAboveTargetBlock = this.game.camera.blocksMap[oneAboveTargetKey];
         const twoAboveTargetBlock = this.game.camera.blocksMap[twoAboveTargetKey];
-
-        // if(currenttwoAboveTargetKey && (dz === 1 || dz == -1) && this.game.camera.blocksMap[dz] ){
-        //     return false;
-        // }
-
-        return targetBlock && !oneAboveTargetBlock && !twoAboveTargetBlock; // Ensure the target block exists and there's no block directly above it
+    
+        // Block directly above the current position
+        const blockAboveCurrentKey = `${currX},${currY},${currZ + 1}`;
+        const blockAboveCurrent = this.game.camera.blocksMap[blockAboveCurrentKey];
+    
+        // Ensure the target block exists and there are no blocks directly above it, allowing for movement.
+        // Additionally, check if the block above the current position is clear to allow for potential jumping.
+        // This implementation assumes a simple movement model where the player cannot move if there's a block directly above them.
+        // It doesn't fully account for Minecraft's nuanced movement mechanics, such as sneaking, swimming, or ladder climbing.
+        if (blockAboveCurrent) {
+            // If there's a block directly above the player, they cannot jump, hence cannot initiate movements that would require jumping.
+            return false;
+        } else {
+            // The player can move to the target position if it's solid ground and there are no blocks directly above it,
+            // thus ensuring there's space for the player's height.
+            return targetBlock && !oneAboveTargetBlock && !twoAboveTargetBlock;
+        }
     }
+    
 
     calculateBlockDrawingParams(block) {
         const { steve, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
