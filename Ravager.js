@@ -268,33 +268,6 @@ class Ravager {
         return Math.sqrt(dx * dx + dy * dy + dz * dz) < attackDistance;
     }
 
-
-    /*followPlayer() {
-      const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
-      let dx = this.steve.playerX - this.ravagerX;
-      let dy = this.steve.playerY - this.ravagerY;
-      let dz = this.steve.playerZ - this.ravagerZ;
-  
-      let magnitude = Math.sqrt(dx * dx + dy * dy + dz * dz);
-      let dirX = dx / magnitude;
-      let dirY = dy / magnitude;
-      let dirZ = dz / magnitude;
-  
-      let nextX = this.ravagerX + dirX * ravagerSpeed * this.game.clockTick;
-      let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
-      let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
-  
-      if (this.collisions.isCollision(nextX, nextY, nextZ)) {
-        // If no collision, move the Ravager
-        this.ravagerX = nextX;
-        this.ravagerY = nextY;
-        this.ravagerZ = nextZ;
-      } else {
-        this.wander();
-        this.state = 'wandering';
-      }
-    }*/
-
     followPlayer() {
         const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
         let dx = this.steve.playerX - this.ravagerX;
