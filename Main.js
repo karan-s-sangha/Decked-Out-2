@@ -1386,7 +1386,7 @@ ASSET_MANAGER.downloadAll(function () {
 	PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-	// new SceneManager(gameEngine);
+	new SceneManager(gameEngine);
 	new Camera(gameEngine);
 	gameEngine.start();
 });
