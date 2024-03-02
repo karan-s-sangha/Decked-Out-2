@@ -18,7 +18,7 @@ class FrontEnd {
     }
 
     playTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3";
+        let titleMusicPath = "./Art/music/titleMusic.mp3";
         let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
         if (titleMusic && titleMusic.paused) {
             ASSET_MANAGER.autoRepeat(titleMusicPath);
@@ -28,7 +28,7 @@ class FrontEnd {
 
 
     stopTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3";
+        let titleMusicPath = "./Art/music/titleMusic.mp3";
         ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
 
     }

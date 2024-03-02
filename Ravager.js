@@ -407,7 +407,7 @@ class Ravager {
 
     wander() {
         if (this.wanderMove <= 0) {
-            if (Math.random() < 0.3) { // 30% chance to keep going in the same direction
+            if (Math.random() < 0.4) { // 30% chance to keep going in the same direction
                 this.angle = this.angle; // Keep the same angle
             } else {
                 this.angle = Math.random() * 2 * Math.PI; // Choose a new direction randomly
