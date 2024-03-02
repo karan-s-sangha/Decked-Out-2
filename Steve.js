@@ -21,7 +21,6 @@ class Steve {
         this.jumped = false;
         this.jumpCount = 0;
         this.jumpDelay = 0;
-        this.fall = true;
 
         this.canMove = true;
 
@@ -66,49 +65,161 @@ class Steve {
     }
 
     update() {
-   
-        if(this.jumped){
-            if (this.game.keys.left){
-                this.moveLeft();
-            }
-            if(this.game.keys.right){
-                this.moveRight();
-            }
-            if(this.game.keys.down){          
-                this.moveDown();
-            }
-            if(this.game.keys.up){
-                this.moveUp();
-            }
-        } else {
-            if (this.game.keys.left){
-                this.moveLeftJump();
-            }
-            if(this.game.keys.right){
-                this.moveRightJump();
-            }
-            if(this.game.keys.down){          
-                this.moveDownJump();
-            }
-            if(this.game.keys.up){
-                this.moveUpJump();
-            }
+        // console.log(this.canMove);
+        if (this.game.keys.ctrl) {
+            console.log("ctrl");
         }
-        
-        if(!this.game.keys.left && !this.game.keys.right && !this.game.keys.down && !this.game.keys.up){
-            this.move = 0;
-        }
-        if(this.game.keys.space && this.jumpDelay == 0){
-            this.fall = false;
-        }
-        this.gravity();
+        //console.log(this.playerY);
+        // if (this.canMove) {
+        // if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
+        //     if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerX -= this.playerRunSpeed * this.game.clockTick;
+        //     }
+        //     if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerX += this.playerRunSpeed * this.game.clockTick;
+        //     }
+        //     if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerY -= this.playerRunSpeed * this.game.clockTick;
+        //     }
+        //     if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerY += this.playerRunSpeed * this.game.clockTick;
+        //     }
 
-        if (this.jumpDelay > 0) {
-            this.jumpDelay--;
+        //     this.run = true;
+        //     this.hungerTime += 3 * this.game.clockTick;
+        // }
+        // else if (this.game.keys.shift && this.hunger >= 3) {
+        //     if (this.game.keys.left && this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerX -= this.playerRunSpeed * this.game.clockTick;
+        //     }
+        //     if (this.game.keys.right && this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerX += this.playerRunSpeed * this.game.clockTick;
+        //     }
+        //     if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerY -= this.playerRunSpeed * this.game.clockTick;
+        //     }
+        //     if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
+        //         this.move = 1;
+        //         this.playerY += this.playerRunSpeed * this.game.clockTick;
+        //     }
+
+        //     this.run = true;
+        //     this.hungerTime += 3 * this.game.clockTick;
+        // } else {
+        if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+            if (this.collision.state != 1) {
+                this.move = 1;
+                this.playerX -= this.playerWalkSpeed * this.game.clockTick;
+                if (this.collision.state === 0) {
+                    this.canMove = true;
+                } else {
+                    this.canMove = false;
+                }
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
+                this.width = 185;
+                this.height = 329;
+                this.walkingAnimations.spritesheet = this.spritesheet;
+                this.runningAnimations.spritesheet = this.spritesheet;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+            } else {
+              //  this.game.keys.left = false;
+            }
+
+        }
+        if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
+            if (this.collision.state != 1) {
+                this.move = 1;
+                this.playerX += this.playerWalkSpeed * this.game.clockTick;
+                if (this.collision.state === 0) {
+                    this.canMove = true;
+                } else {
+                    this.canMove = false;
+                }
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
+                this.width = 200;
+                this.height = 356;
+                this.walkingAnimations.spritesheet = this.spritesheet;
+                this.runningAnimations.spritesheet = this.spritesheet;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+            } else {
+              //  this.game.keys.left = false;
+            }
+
+        }
+        if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
+            if (this.collision.state != 1) {
+                this.move = 1;
+                this.playerY -= this.playerWalkSpeed * this.game.clockTick;
+                if (this.collision.state === 0) {
+                    this.canMove = true;
+                } else {
+                    this.canMove = false;
+                }
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
+                this.width = 186;
+                this.height = 356;
+                this.walkingAnimations.spritesheet = this.spritesheet;
+                this.runningAnimations.spritesheet = this.spritesheet;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+            } else {
+             //   this.game.keys.left = false;
+            }
+
+        }
+        if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
+            if (this.collision.state != 1) {
+                this.move = 1;
+                this.playerY += this.playerWalkSpeed * this.game.clockTick;
+                if (this.collision.state === 0) {
+                    this.canMove = true;
+                } else {
+                    this.canMove = false;
+                }
+                this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
+                this.width = 202;
+                this.height = 384;
+                this.walkingAnimations.spritesheet = this.spritesheet;
+                this.runningAnimations.spritesheet = this.spritesheet;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+                this.walkingAnimations.width = this.width;
+                this.runningAnimations.height = this.height;
+            } else {
+            //    this.game.keys.left = false;
+            }
+
         }
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
+
+
+        if (!this.game.keys.left && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down) {
+            this.move = 0;
+            console.log("this should be printing");
+        }
+
+        if (this.game.keys.space && !this.jumped && this.jumpDelay === 0) {
+            console.log("steve jumped");
+            this.jumped = true;
+            this.jumpDelay = 30;
+        }
 
         if (this.hunger >= 9 && this.health < 10 && this.elapsedTime > 1) {
             this.health += 0.5;
@@ -122,217 +233,39 @@ class Steve {
 
         if (this.health <= 0) {
             this.health = 0;
-            this.live = true;
+            this.live = false;
         }
         if (this.hunger <= 0) {
             this.hunger = 0;
         }
+        if (this.jumpDelay > 0) {
+            this.jumpDelay--;
+        }
+        if (this.jumped) {
+            this.playerZ += 0.1;
+            this.jumpCount++;
+            if (this.jumpCount >= 18) {
+                this.jumped = false;
+                this.jumpCount = 0;
+            }
+        }
+
+        this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+        if (this.collision.state === 0) {
+        } else if (this.collision.state === -1 && !this.jumped) {
+            this.playerZ -= 0.1;
+        }
+
+
+
 
         this.elapsedTime += this.game.clockTick;
 
         //console.log("Steve: " + this.playerX + " " + this.playerY);
     };
 
-    jump(){
-        if(!this.jumped && this.jumpDelay == 0){
-            this.jumped = true;
-            this.jumpDelay = 40;
-        }
-        if(this.jumped && this.jumpDelay > 0) {
-            if (this.jumpCount < 18) {
-                this.playerZ += 0.1;
-                this.jumpCount++;
-            } else {
-                this.jumped = false;
-                this.jumpCount = 0;
-                this.fall = true;
-            }
-        }
-            
-    }
-    stand(){
-        this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-        if (this.collision.state === -1 && !this.jumped) {
-            this.playerZ -= 0.1;
-        }
-    }
 
-    gravity(){
-        if(!this.fall){
-            this.jump();
-        } else {
-            this.stand();
-        }
-    }
-    moveLeft(){
-        this.move = 1;
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
-        this.width = 185;
-        this.height = 329;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-
-        if(this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-            } 
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveRight(){
-        this.move = 1;
-        console.log("please walk");
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
-        this.width = 200;
-        this.height = 356;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-
-        if(this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerX += this.playerWalkSpeed * this.game.clockTick; 
-            }
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveUp(){
-        this.move = 1;
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
-        this.width = 186;
-        this.height = 356;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        if(this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerY -= this.playerWalkSpeed * this.game.clockTick;
-            } 
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveDown(){
-        this.move = 1;
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
-        this.width = 202;
-        this.height = 384;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-
-        if(this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerY += this.playerWalkSpeed * this.game.clockTick;
-            }
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveLeftJump(){
-        this.move = 1;
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
-        this.width = 185;
-        this.height = 329;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-
-        if(this.collision.isCollisionJump(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-            } 
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveRightJump(){
-        this.move = 1;
-        console.log("please walk");
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
-        this.width = 200;
-        this.height = 356;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-
-        if(this.collision.isCollisionJump(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerX += this.playerWalkSpeed * this.game.clockTick; 
-            }
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveUpJump(){
-        this.move = 1;
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
-        this.width = 186;
-        this.height = 356;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        if(this.collision.isCollisionJump(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerY -= this.playerWalkSpeed * this.game.clockTick;
-            } 
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-    moveDownJump(){
-        this.move = 1;
-        this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
-        this.width = 202;
-        this.height = 384;
-        this.walkingAnimations.spritesheet = this.spritesheet;
-        this.runningAnimations.spritesheet = this.spritesheet;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-        this.walkingAnimations.width = this.width;
-        this.runningAnimations.height = this.height;
-
-        if(this.collision.isCollisionJump(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)){
-            if (this.collision.state != 1) {
-                this.playerY += this.playerWalkSpeed * this.game.clockTick;
-            }
-            if (this.collision.state == -1){
-                this.playerZ -= 0.1;
-            }
-        }
-    }
-   drawAngle(ctx, angle, scale) {
+    drawAngle(ctx, angle, scale) {
         // Make sure it's a valid angle.
         if (angle < 0 || angle > 359) {
             return;
@@ -376,7 +309,7 @@ class Steve {
 
         //    }
         //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
-        ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.playerX - this.game.camera.cameraX - this.scale * this.height / 4, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2 + 5, this.width * scale, this.height * scale);
+        ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.playerX - this.game.camera.cameraX - this.scale * this.height / 4, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2, this.width * scale, this.height * scale);
 
     }
 
@@ -387,14 +320,13 @@ class Steve {
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
         */
         if (this.move == 1) {
-        
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
             */
             if (this.run == true) {
-                this.runningAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY + 5, this.scale, 0);
+                this.runningAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale, 0);
             } else {
-                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY + 5, this.scale, 0);
+                this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, this.screenX, this.screenY, this.scale, 0);
             }
 
         } else {
@@ -414,282 +346,3 @@ class Steve {
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
     };
 };
-
-//console.log(this.playerY);
-// if (this.canMove) {
-// if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
-//     if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-//         this.move = 1;
-//         this.playerX -= this.playerRunSpeed * this.game.clockTick;
-//     }
-//     if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerRunSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-//         this.move = 1;
-//         this.playerX += this.playerRunSpeed * this.game.clockTick;
-//     }
-//     if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-//         this.move = 1;
-//         this.playerY -= this.playerRunSpeed * this.game.clockTick;
-//     }
-//     if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-//         this.move = 1;
-//         this.playerY += this.playerRunSpeed * this.game.clockTick;
-//     }
-
-//     this.run = true;
-//     this.hungerTime += 3 * this.game.clockTick;
-// }
-// else if (this.game.keys.shift && this.hunger >= 3) {
-//     if (this.game.keys.left && this.collision.isCollision(this.playerX - this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
-//         this.move = 1;
-//         this.playerX -= this.playerRunSpeed * this.game.clockTick;
-//     }
-//     if (this.game.keys.right && this.collision.isCollision(this.playerX + this.playerRunSpeed * this.game.clockTick, this.playerY, this.playerZ)) {
-//         this.move = 1;
-//         this.playerX += this.playerRunSpeed * this.game.clockTick;
-//     }
-//     if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-//         this.move = 1;
-//         this.playerY -= this.playerRunSpeed * this.game.clockTick;
-//     }
-//     if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + this.playerRunSpeed * this.game.clockTick, this.playerZ)) {
-//         this.move = 1;
-//         this.playerY += this.playerRunSpeed * this.game.clockTick;
-//     }
-
-//     this.run = true;
-//     this.hungerTime += 3 * this.game.clockTick;
-// } else {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-//     if (this.collision.state != 1) {
-//         this.move = 1;
-//         this.playerX += this.playerWalkSpeed * this.game.clockTick;
-//         if (this.collision.state === 0) {
-//             this.canMove = true;
-//         } else {
-//             this.canMove = false;
-//         }
-//         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted1.png"];
-//         this.width = 200;
-//         this.height = 356;
-//         this.walkingAnimations.spritesheet = this.spritesheet;
-//         this.runningAnimations.spritesheet = this.spritesheet;
-//         this.walkingAnimations.width = this.width;
-//         this.runningAnimations.height = this.height;
-//         this.walkingAnimations.width = this.width;
-//         this.runningAnimations.height = this.height;
-//     } else {
-//       //  this.game.keys.right = false;
-//     }
-
-// }
-// if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-//     if (this.collision.state != 1) {
-//         this.move = 1;
-//         this.playerY -= this.playerWalkSpeed * this.game.clockTick;
-//         if (this.collision.state === 0) {
-//             this.canMove = true;
-//         } else {
-//             this.canMove = false;
-//         }
-//         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted2.png"];
-//         this.width = 186;
-//         this.height = 356;
-//         this.walkingAnimations.spritesheet = this.spritesheet;
-//         this.runningAnimations.spritesheet = this.spritesheet;
-//         this.walkingAnimations.width = this.width;
-//         this.runningAnimations.height = this.height;
-//         this.walkingAnimations.width = this.width;
-//         this.runningAnimations.height = this.height;
-//     } else {
-//        // this.game.keys.up = false;
-//     }
-
-// }
-// if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-//     if (this.collision.state != 1) {
-//         this.move = 1;
-//         this.playerY += this.playerWalkSpeed * this.game.clockTick;
-//         if (this.collision.state === 0) {
-//             this.canMove = true;
-//         } else {
-//             this.canMove = false;
-//         }
-//         this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted.png"];
-//         this.width = 202;
-//         this.height = 384;
-//         this.walkingAnimations.spritesheet = this.spritesheet;
-//         this.runningAnimations.spritesheet = this.spritesheet;
-//         this.walkingAnimations.width = this.width;
-//         this.runningAnimations.height = this.height;
-//         this.walkingAnimations.width = this.width;
-//         this.runningAnimations.height = this.height;
-//     } else {
-//      //   this.game.keys.down = false;
-//     }
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     // if (this.game.keys.space && !this.jumped && this.jumpDelay == 0) {
-//         //     console.log("hello");
-//         //     this.jumped = true;
-//         //     this.jumpDelay = 40;
-//         // }
-
-//      //   if (this.jumped) {
-//         if (this.game.keys.space && !this.jumped && this.jumpDelay == 0 && this.game.keys.left 
-//             && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-//             this.move = 1;
-//             if(!this.jumped){
-//                 this.jumped = true;
-//                 this.jumpDelay = 40;
-//             }
-            
-//             this.spritesheet = ASSET_MANAGER.cache["./Art/Steve_Animations/Iso/player - Converted3.png"];
-//             this.width = 185;
-//             this.height = 329;
-//             this.walkingAnimations.spritesheet = this.spritesheet;
-//             this.runningAnimations.spritesheet = this.spritesheet;
-//             this.walkingAnimations.width = this.width;
-//             this.runningAnimations.height = this.height;
-//             this.walkingAnimations.width = this.width;
-//             this.runningAnimations.height = this.height;
-
-//             if (this.collision.state != 1) {
-//                 this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-//                 if (this.jumpCount < 18) {
-//                     this.playerZ += 0.1;
-//                     this.jumpCount++;
-//                 } else {
-//                     this.jumped = false;
-//                 }
-//             } else {
-//                 if (this.jumpCount < 18) {
-//                     this.playerZ += 0.1;
-//                     this.jumpCount++;
-//                 } else {
-//                     this.jumped = false;
-//                 }
-//             }
-
-//         }
-
-//         if (this.game.keys.space && this.jumpDelay == 0 && this.game.keys.left 
-//             && !this.game.keys.left && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down) {
-//             this.move = 0;
-            
-//             if(!this.jumped){
-//                 this.jumped = true;
-//                 this.jumpDelay = 40;
-//             }
-
-//             if (this.jumpCount < 18) {
-//                 this.playerZ += 0.1;
-//                 this.jumpCount++;
-//             } else {
-//                 this.jumped = false;
-//                 this.jumpCount = 0;
-//             }
-
-//         }
-
-//     //} else {
-//         if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-//             if (this.collision.state != 1) {
-//                 this.move = 1;
-//                 this.playerX -= this.playerWalkSpeed * this.game.clockTick;
-//                 if (this.collision.state === 0) {
-//                     this.canMove = true;
-//                 } else {
-//                     this.canMove = false;
-//                 }
-
-//             } else {
-//                 this.game.keys.left = false;
-//             }
-
-//         }
-//         if (this.game.keys.right && this.collision.isCollision(this.playerX + (this.playerWalkSpeed * this.game.clockTick), this.playerY, this.playerZ)) {
-//             if (this.collision.state != 1) {
-//                 this.move = 1;
-//                 this.playerX += this.playerWalkSpeed * this.game.clockTick;
-//                 if (this.collision.state === 0) {
-//                     this.canMove = true;
-//                 } else {
-//                     this.canMove = false;
-//                 }
-//                
-//             } else {
-//                 this.game.keys.right = false;
-//             }
-
-//         }
-//         if (this.game.keys.up && this.collision.isCollision(this.playerX, this.playerY - (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-//             if (this.collision.state != 1) {
-//                 this.move = 1;
-//                 this.playerY -= this.playerWalkSpeed * this.game.clockTick;
-//                 if (this.collision.state === 0) {
-//                     this.canMove = true;
-//                 } else {
-//                     this.canMove = false;
-//                 }
-//                 
-//             } else {
-//                 this.game.keys.up = false;
-//             }
-
-//         }
-//         if (this.game.keys.down && this.collision.isCollision(this.playerX, this.playerY + (this.playerWalkSpeed * this.game.clockTick), this.playerZ)) {
-//             if (this.collision.state != 1) {
-//                 this.move = 1;
-//                 this.playerY += this.playerWalkSpeed * this.game.clockTick;
-//                 if (this.collision.state === 0) {
-//                     this.canMove = true;
-//                 } else {
-//                     this.canMove = false;
-//                 }
-//                 
-//             } else {
-//                 this.game.keys.down = false;
-//             }
-
-//         }
-//         
-//   //  }

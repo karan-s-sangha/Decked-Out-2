@@ -32,16 +32,18 @@ class Collision {
         else if(this.game.camera.blocksMap[`${blockX},${blockY},${blockZ + 2}`]) {
             this.state = -2;
             return false;
-        }  else if (this.game.camera.blocksMap[`${blockX},${blockY },${blockZ - 1}`] 
-        || this.game.camera.blocksMap[`${blockX },${blockY},${blockZ - 2}`]
-        || this.game.camera.blocksMap[`${blockX },${blockY},${blockZ - 3}`]) {
+        // }         
+        // else if (this.game.camera.blocksMap[`${blockX},${blockY },${blockZ - 1}`] 
+        // || this.game.camera.blocksMap[`${blockX },${blockY},${blockZ - 2}`]
+        // || this.game.camera.blocksMap[`${blockX },${blockY},${blockZ - 3}`]) {
             
-            this.state = -1;
-            return true;
+        //     this.state = -1;
+        //     return true;
 
         } else {
     //        console.log("i almost fell!");
-            return false;
+            this.state = -1;
+            return true;
         }
 
     }
