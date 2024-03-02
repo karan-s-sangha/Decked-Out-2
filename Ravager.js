@@ -29,6 +29,7 @@ class Ravager {
     this.moveAttemptTimer = 0; // Timer to track movement attempts
     this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
     this.wanderDirection = "west";
+    this.followDirection = "west";
 
     this.prevPositions = [];
   }
@@ -76,7 +77,15 @@ class Ravager {
       ((this.ravagerZ - this.steve.playerZ) * blockWidth) / 2 -
       this.game.camera.isoCameraY + blockHeight / 2;
 
-    let direction = this.state === "wandering" ? this.wanderDirection : this.calculateDirection();
+    let direction;
+    if (this.state === "wandering") {
+      // If wandering, the direction has presumably been calculated elsewhere and stored in this.wanderDirection
+      direction = this.wanderDirection;
+    } else {
+      // When following, calculate the new direction based on the current positions of Steve and the Ravager
+      this.followDirection = this.calculateFollowDirection(); // Update this.followDirection with the new direction
+      direction = this.followDirection; // Use the updated follow direction
+    }
     ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
    // console.log(`Current direction: ${direction}`);
 
@@ -112,17 +121,24 @@ class Ravager {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 4e6522c4c5978f0a758b9cfebdffd58e62e8597d
     animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
+    console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
 
 
     // Store current position for any subsequent logic
   /*  this.prevPositions.push({ x: isoX, y: isoY });
+<<<<<<< HEAD
 =======
     loadAnimations() {
         this.walkingAnimationsWest = new Image();
         this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
         this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 506, 400, 60, 0.02, 0, false, true);
 >>>>>>> 9e3bf3f8404df78d5781904d18e2d8437452073e
+=======
+>>>>>>> 4e6522c4c5978f0a758b9cfebdffd58e62e8597d
 
     // Draw lines between previous positions
     ctx.strokeStyle = "blue"; // Line color
@@ -134,6 +150,7 @@ class Ravager {
     }
     ctx.stroke();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     // Limit number of stored positions to prevent memory issues
     if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
@@ -150,6 +167,11 @@ class Ravager {
         this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 371, 350, 60, 0.02, 0, false, true);
 
 >>>>>>> 9e3bf3f8404df78d5781904d18e2d8437452073e
+=======
+    // Limit number of stored positions to prevent memory issues
+    if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
+      this.prevPositions.shift(); // Remove the oldest position
+>>>>>>> 4e6522c4c5978f0a758b9cfebdffd58e62e8597d
     }
 
     // Draw a simple shape for testing
@@ -224,64 +246,70 @@ class Ravager {
     }*/
 
   update() {
-    this.wander();
-    /* if (this.canSeePlayer() && this.steve.health > 0){
+    console.log(this.canSeePlayer());
+   // if (this.canSeePlayer() && this.steve.health > 0) {
+    if (this.canSeePlayer()){
            if (this.shouldAttackPlayer()) {
                this.state = 'attacking'; 
                this.steve.health -= 0.5;
            } else {
                this.state = 'running';
                 this.followPlayer();
+                
            }
         }
         else {
             this.state = 'wandering';
             this.wander();
-        }*/
+        }
   }
 
   canSeePlayer() {
-    // visibility and collision checks
-    const visibilityDistance = 300;
+    // Visibility and collision checks
+    const visibilityDistance = 10;
     const dx = this.steve.playerX - this.ravagerX;
     const dy = this.steve.playerY - this.ravagerY;
     const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
-
+    // If the player is beyond the visibility distance, the player cannot be seen.
     if (distanceToPlayer > visibilityDistance) {
       return false;
     }
 
-    const steps = Math.max(Math.abs(dx), Math.abs(dy));
+    const steps = Math.ceil(Math.max(Math.abs(dx), Math.abs(dy)));
+
+    // Check each step along the line for obstructions
     for (let i = 1; i <= steps; i++) {
       const checkX = this.ravagerX + (dx / steps) * i;
       const checkY = this.ravagerY + (dy / steps) * i;
-      const checkZ = this.ravagerZ;
-
-      if (this.collisions.isCollision(checkX, checkY, checkZ, this.size)) {
-        return false; // Collision detected, obstruction
+      const checkZ = this.ravagerZ; 
+      // If a collision is detected at any point, there is an obstruction.
+      if (this.collisions.isObstructed(checkX, checkY, checkZ)) {
+        return false; // Obstruction detected, Steve cannot be seen.
       }
     }
 
-    return true; // No obstruction detected
+    // If no obstructions are detected, the player can be seen
+    return true;
   }
 
+
   shouldAttackPlayer() {
-    const attackDistance = 50;
+    const attackDistance = 1;
     const dx = this.steve.playerX - this.ravagerX;
     const dy = this.steve.playerY - this.ravagerY;
     const dz = this.steve.playerZ - this.ravagerZ;
 
-    // 3D distance check, considering elevation differences
     return Math.sqrt(dx * dx + dy * dy + dz * dz) < attackDistance;
   }
 
-  followPlayer() {
+  
+  /*followPlayer() {
     const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
     let dx = this.steve.playerX - this.ravagerX;
     let dy = this.steve.playerY - this.ravagerY;
     let dz = this.steve.playerZ - this.ravagerZ;
 
-    let magnitude = Math.sqrt(dx * dx + dy * dy);
+    let magnitude = Math.sqrt(dx * dx + dy * dy + dz * dz);
     let dirX = dx / magnitude;
     let dirY = dy / magnitude;
     let dirZ = dz / magnitude;
@@ -290,36 +318,83 @@ class Ravager {
     let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
     let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
 
-    if (this.collisions.isCollision(nextX, nextY, nextZ, this.size)) {
-      // If there's a collision, attempt to avoid the obstacle
-      this.avoidObstacle(nextX, nextY, nextZ, this.steve.playerWalkSpeed / 2);
-      this.moveAttemptTimer += this.game.clockTick;
-      if (this.moveAttemptTimer > this.moveAttemptDuration) {
-        // Switch to wandering if stuck
-        this.state = "wandering";
-        this.wander();
-        this.moveAttemptTimer = 0;
-      }
-    } else {
-      // Move the Ravager if no collision
+    if (this.collisions.isCollision(nextX, nextY, nextZ)) {
+      // If no collision, move the Ravager
       this.ravagerX = nextX;
       this.ravagerY = nextY;
       this.ravagerZ = nextZ;
-      this.moveAttemptTimer = 0;
+    } else {
+      this.wander();
+      this.state = 'wandering';
+    }
+  }*/
+
+  followPlayer() {
+    const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
+    let dx = this.steve.playerX - this.ravagerX;
+    let dy = this.steve.playerY - this.ravagerY;
+    let dz = this.steve.playerZ - this.ravagerZ;
+
+    let magnitude = Math.sqrt(dx * dx + dy * dy + dz * dz);
+    let dirX = dx / magnitude;
+    let dirY = dy / magnitude;
+    let dirZ = dz / magnitude;
+
+    let nextX = this.ravagerX + dirX * ravagerSpeed * this.game.clockTick;
+    let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
+    let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
+
+    
+    if (this.collisions.isCollision(nextX, nextY, nextZ)) {
+
+      this.ravagerX = nextX;
+      this.ravagerY = nextY;
+      this.ravagerZ = nextZ;
+    } else {
+      switch (this.collisions.state) {
+        
+        case 1: // move up.
+          // Only move up if there's a significant height difference.
+          if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
+            this.ravagerX = nextX;
+            this.ravagerY = nextY;
+            this.ravagerZ = this.steve.playerZ; 
+          }
+          break;
+        case -1: // Imove down.
+          // Only move down if there's a significant height difference.
+          if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
+            this.ravagerX = nextX;
+            this.ravagerY = nextY;
+            this.ravagerZ = this.steve.playerZ; 
+          }
+          break;
+        default:
+          this.wander();
+          this.state = 'wandering';
+          break;
+      }
     }
   }
 
+
+
+
+
+
   avoidObstacle(predictedX, predictedY, predictedZ, speed) {
     let foundPath = false;
-    for (let angle = 0; angle <= 2 * Math.PI; angle += Math.PI / 18) {
+
+    // Try to find a horizontal path first
+    for (let angle = 0; angle < 2 * Math.PI; angle += Math.PI / 18) {
       let newX = this.ravagerX + Math.cos(angle) * speed * this.game.clockTick;
       let newY = this.ravagerY + Math.sin(angle) * speed * this.game.clockTick;
-      let newZ = this.ravagerZ;
 
-      if (!this.collisions.isCollision(newX, newY, newZ, this.size)) {
+      // Keep the initial attempt on the same Z level
+      if (this.collisions.isCollision(newX, newY, predictedZ)) {
         this.ravagerX = newX;
         this.ravagerY = newY;
-        this.ravagerZ = newZ;
+        this.ravagerZ = predictedZ;
         foundPath = true;
         break;
       }
@@ -330,6 +405,7 @@ class Ravager {
       this.wander();
     }
   }
+<<<<<<< HEAD
 
 /*  wander() {
     if (this.wanderMove <= 0) {
@@ -367,18 +443,47 @@ class Ravager {
       }
     }
   }*/
+=======
+  
+>>>>>>> 4e6522c4c5978f0a758b9cfebdffd58e62e8597d
 
 
-  calculateDirection() {
+
+
+  calculateFollowDirection() {
     let dx = this.steve.playerX - this.ravagerX;
     let dy = this.steve.playerY - this.ravagerY;
 
-    if (Math.abs(dx) > Math.abs(dy)) {
-      return dx > 0 ? "east" : "west";
+    // Calculate the magnitude of the vector for normalization
+    const magnitude = Math.sqrt(dx * dx + dy * dy);
+    if (magnitude === 0) return this.followDirection; // No movement, keep last direction
+
+    // Normalize the direction vector
+    const normalizedDx = dx / magnitude;
+    const normalizedDy = dy / magnitude;
+
+    // Define the threshold for diagonal movement based on the angle
+    const diagonalThreshold = Math.cos(Math.PI / 8);
+
+    // Determine the primary and diagonal directions
+    if (Math.abs(normalizedDx) > diagonalThreshold) {
+      return normalizedDx > 0 ? "east" : "west";
+    } else if (Math.abs(normalizedDy) > diagonalThreshold) {
+      return normalizedDy > 0 ? "south" : "north";
     } else {
-      return dy > 0 ? "south" : "north";
+      // Diagonal movement
+      if (normalizedDx > 0 && normalizedDy > 0) {
+        return "southEast";
+      } else if (normalizedDx > 0 && normalizedDy < 0) {
+        return "northEast";
+      } else if (normalizedDx < 0 && normalizedDy > 0) {
+        return "southWest";
+      } else { // normalizedDx < 0 && normalizedDy < 0
+        return "northWest";
+      }
     }
   }
+
   wander() {
     if (this.wanderMove <= 0) {
       if (Math.random() < 0.3) { // 30% chance to keep going in the same direction
@@ -451,6 +556,7 @@ class Ravager {
  
   
 
+<<<<<<< HEAD
 =======
     wander() {
         //console.log(this.ravagerX + " X " + this.ravagerY + " Y " + this.ravagerZ + " Z ");
@@ -497,4 +603,6 @@ class Ravager {
     
     
 >>>>>>> 9e3bf3f8404df78d5781904d18e2d8437452073e
+=======
+>>>>>>> 4e6522c4c5978f0a758b9cfebdffd58e62e8597d
 

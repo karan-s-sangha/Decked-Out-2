@@ -36,7 +36,7 @@ class SceneManager {
 
     // This update is for the whole website including the HTML 
     update() {
-        if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
+       /* if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
             this.frontend.update();
         } else if (this.steve.live === false) {
             this.frontend.isInLoseScreen = !this.steve.live;
@@ -44,19 +44,19 @@ class SceneManager {
         } else if(this.steve.win === true) {
             this.frontend.isInWinScreen = this.steve.win;
             //this.frontend.update();
-        }
+        }*/
 
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) { 
-        if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
+       /* if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
         } else if (this.frontend.isInLoseScreen){
            this.frontend.drawLoseScreen(ctx);
            } else if (this.frontend.isInWinScreen){
             this.frontend.drawWinScreen(ctx);
-           }
+           }*/
        
     };
 

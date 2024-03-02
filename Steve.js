@@ -233,7 +233,7 @@ class Steve {
 
         if (this.health <= 0) {
             this.health = 0;
-            this.live = false;
+            this.live = true;
         }
         if (this.hunger <= 0) {
             this.hunger = 0;
@@ -244,7 +244,7 @@ class Steve {
         if (this.jumped) {
             this.playerZ += 0.1;
             this.jumpCount++;
-            if (this.jumpCount >= 10) {
+            if (this.jumpCount >= 18) {
                 this.jumped = false;
                 this.jumpCount = 0;
             }
@@ -311,9 +311,6 @@ class Steve {
         //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
         ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.playerX - this.game.camera.cameraX - this.scale * this.height / 4, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2, this.width * scale, this.height * scale);
 
-        //For drawing Blocks Above steve
-        //this.game.camera.staticArt.drawAboveSteve(ctx);
-        
     }
 
 

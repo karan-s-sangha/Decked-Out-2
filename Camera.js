@@ -5,21 +5,21 @@ class Camera {
         this.game.camera = this;
 
         this.collision = new Collision(game);
-        // this.steveInitialX = 0; 
-        // this.steveInitialY = 0;   
-        // this.steveInitialZ = 1;   
-        //75   58   14
-        this.steveInitialX = 75; 
-        this.steveInitialY = 58;   
-        this.steveInitialZ = 14;   
+        this.staticArt = new StaticArt(game);   
+        
+        this.steveInitialX = 0; 
+        this.steveInitialY = 0;
+        this.steveInitialZ = 1;
+        //75   58   14 20 86 11 124, 58, 34)
+        // this.steveInitialX = 20; 
+        // this.steveInitialY = 86;   
+        // this.steveInitialZ = 11;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
         this.cameraY= this.steveInitialY -this.ctx.canvas.height/2;
         this.isoCameraX = 0;
         this.isoCameraY = 0;
-        
-        this.staticArt = new StaticArt(game);   
         
         new SceneManager(this.game, this.steve);
 
@@ -58,7 +58,8 @@ class Camera {
     async initialize() {
         console.log("In initialization");
         let temp = 20;
-        for (let i = 0; i <  this.layerCount; i++) {
+       for (let i = 0; i <  this.layerCount; i++) {
+       // for (let i = 34; i < 37; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -102,10 +103,7 @@ class Camera {
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(steve) {
-         // // Adding the first upper level dynamic art
-        //this.game.addEntity(new DynamicArt(this.game));
-
-
+        
         // Adding the first upper level static art
        this.game.addEntity(this.staticArt);
 
@@ -134,9 +132,9 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-                //{ x: 1, y: 0, z: 0 }
-                //{ x: 1, y: 10, z: 0 },
                { x: 0, y: 0, z: 1 }
+         //   { x: 20, y: 90, z: 11 }
+           // { x: 130, y: 60, z: 34}
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },
