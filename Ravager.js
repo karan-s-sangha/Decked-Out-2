@@ -3,90 +3,122 @@ class Ravager {
         this.game = game;
         this.steve = steve;
 
-        this.ravagerX = x;
-        this.ravagerY = y;
-        this.ravagerZ = z;
-        this.walkSpeed = walkSpeed;
-        this.runSpeed = runSpeed;
-        this.size = size; //0.25
+    this.ravagerX = x;
+    this.ravagerY = y;
+    this.ravagerZ = z;
+    this.walkSpeed = walkSpeed;
+    this.runSpeed = runSpeed;
+    this.size = size;
 
+    this.attack = false;
+    this.push = 300;
+    this.attackCoolDown = 0;
 
+    this.attackFlag = false;
 
+    this.dx = 0;
+    this.dy = 0;
+    this.dz = 0;
+    this.count = 0;
 
-        this.prevPositions = [];
+    this.loadAnimations();
+    this.state = "wandering";
+    this.collisions = collisions;
+    this.wanderMove = 0;
+    this.angle = Math.random() * 2 * Math.PI;
+    this.moveAttemptTimer = 0; // Timer to track movement attempts
+    this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
+    this.wanderDirection = "west";
+    this.followDirection = "west";
 
+    this.prevPositions = [];
+  }
 
+  loadAnimations() {
+    this.walkingAnimationsEast = new Image();
+    this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/0.png"];
+    this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 211, 541, 50, 0.02, 0, false, true);
 
+    this.walkingAnimationsSouthEast = new Image();
+    this.walkingAnimationsSouthEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/45.png"];
+    this.walkingAnimationsSouthEast = new Animator(this.game, this.walkingAnimationsSouthEast, 0, 0, 651, 612, 50, 0.02, 0, false, true);
 
-        this.attack = false;
-        this.push = 300;
-        this.attackCoolDown = 0;
+    this.walkingAnimationsSouth = new Image();
+    this.walkingAnimationsSouth = ASSET_MANAGER.cache["./Art/Ravager_Animations/90.png"];
+    this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 651, 436, 50, 0.02, 0, false, true);
 
-        this.attackFlag = false;
-       
+    this.walkingAnimationsSouthWest = new Image();
+    this.walkingAnimationsSouthWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/135.png"];
+    this.walkingAnimationsSouthWest = new Animator(this.game, this.walkingAnimationsSouthWest, 0, 0, 651, 541, 50, 0.02, 0, false, true);
 
-        this.dx = 0;
-        this.dy = 0;
-        this.dz = 0;
-        this.count = 0;
+    this.walkingAnimationsWest = new Image();
+    this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/180.png"];
+    this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 257, 541, 50, 0.02, 0, false, true);
 
-        this.loadAnimations();
-        this.state = 'wandering';
-        this.collisions = collisions;
-        this.wanderMove = 0;
-        this.angle = Math.random() * 2 * Math.PI;
-        this.moveAttemptTimer = 0; // Timer to track movement attempts
-        this.moveAttemptDuration = 2; // Duration in seconds after which to switch state
+    this.walkingAnimationsNorthWest = new Image();
+    this.walkingAnimationsNorthWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/225.png"];
+    this.walkingAnimationsNorthWest = new Animator(this.game, this.walkingAnimationsNorthWest, 0, 0, 651, 540, 50, 0.02, 0, false, true);
+
+    this.walkingAnimationsNorth = new Image();
+    this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/270.png"];
+    this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 651, 436, 50, 0.02, 0, false, true);
+
+    this.walkingAnimationsNorthEast = new Image();
+    this.walkingAnimationsNorthEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/315.png"];
+    this.walkingAnimationsNorthEast = new Animator(this.game, this.walkingAnimationsNorthEast, 0, 0, 651, 610, 50, 0.02, 0, false, true);
+  }
+
+  draw(ctx) {
+    let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
+    let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
+
+    let isoX = ((this.ravagerX - this.ravagerY) * blockWidth) / 2 - this.game.camera.isoCameraX;
+    let isoY = ((this.ravagerX + this.ravagerY) * blockHeight) / 4 -
+      ((this.ravagerZ - this.steve.playerZ) * blockWidth) / 2 -
+      this.game.camera.isoCameraY + blockHeight / 2;
+
+    let direction;
+    if (this.state === "wandering") {
+      // If wandering, the direction has presumably been calculated elsewhere and stored in this.wanderDirection
+      direction = this.wanderDirection;
+    } else {
+      // When following, calculate the new direction based on the current positions of Steve and the Ravager
+      this.followDirection = this.calculateFollowDirection(); // Update this.followDirection with the new direction
+      direction = this.followDirection; // Use the updated follow direction
     }
+   // ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
+   // console.log(`Current direction: ${direction}`);
 
-    loadAnimations() {
-        this.walkingAnimationsWest = new Image();
-        this.walkingAnimationsWest = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager.png"];
-        this.walkingAnimationsWest = new Animator(this.game, this.walkingAnimationsWest, 0, 0, 506, 400, 60, 0.02, 0, false, true);
 
-        this.walkingAnimationsSouth = new Image();
-        this.walkingAnimationsSouth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager1.png"];
-        this.walkingAnimationsSouth = new Animator(this.game, this.walkingAnimationsSouth, 0, 0, 433, 360, 60, 0.02, 0, false, true);
-
-      
-        this.walkingAnimationsEast = new Image();
-        this.walkingAnimationsEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager2.png"];
-        this.walkingAnimationsEast = new Animator(this.game, this.walkingAnimationsEast, 0, 0, 372, 350, 60, 0.02, 0, false, true);
-
-        
-        this.walkingAnimationsNorth = new Image();
-        this.walkingAnimationsNorth = ASSET_MANAGER.cache["./Art/Ravager_Animations/ravager3.png"];
-        this.walkingAnimationsNorth = new Animator(this.game, this.walkingAnimationsNorth, 0, 0, 371, 350, 60, 0.02, 0, false, true);
-
+    let animation;
+    switch (direction) {
+      case "north":
+        animation = this.walkingAnimationsNorthEast;
+        break;
+      case "south":
+        animation = this.walkingAnimationsSouthWest;
+        break;
+      case "east":
+        animation = this.walkingAnimationsNorthWest;
+        break;
+      case "west":
+        animation = this.walkingAnimationsSouthEast;
+        break;
+      case "northEast":
+        animation = this.walkingAnimationsNorth;
+        break;
+      case "northWest":
+        animation = this.walkingAnimationsEast;
+        break;
+      case "southEast":
+        animation = this.walkingAnimationsWest;
+        break;
+      case "southWest":
+        animation = this.walkingAnimationsSouth;
+        break;
+      default:
+        break;
     }
-
-
-    draw(ctx) {
-        let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
-        let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
-
-     
-
-        let isoX = (this.ravagerX - this.ravagerY) * blockWidth / 2 - this.game.camera.isoCameraX;
-        let isoY = ((this.ravagerX + this.ravagerY) * blockHeight / 4)- (this.ravagerZ 
-                    - this.steve.playerZ) * blockWidth/2 - this.game.camera.isoCameraY + blockHeight/2;
-        switch (this.state) {
-            case 'attacking':
-                // Draw attacking animation
-                // this.attackingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
-                break;
-            case 'running':
-                // Draw walking/running animation
-                // this.walkingAnimations.drawFrameAngle(this.game.clockTick, ctx, isoRavagerX, isoRavagerY, this.size, angle);
-                break;
-            case 'wandering':
-                // Draw wandering animation
-                this.walkingAnimationsNorth.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY, this.size, 0);
-                break;
-            default:
-                // If state is unknown, you might want to log an error or handle it in some way
-                break;
-        }
 
         // Store current position
       /* this.prevPositions.push({ x: isoX, y: isoY });
