@@ -111,6 +111,8 @@ class Camera {
       
        this.game.addEntity(this.blocksUnderPlayer);    
        this.game.addEntity(steve);
+       this.addRavagers();
+
        this.game.addEntity(this.blocksAtOrAbovePlayer);    
 
        //this.addRavagers();

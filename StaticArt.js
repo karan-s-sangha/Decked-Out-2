@@ -35,7 +35,7 @@ class StaticArt {
         ctx.globalAlpha = isReachable ? 1 : 0; // Adjust transparency: fully opaque for reachable, semi-transparent for not
     
         // Draw the block
-        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
+        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor , blockImage.height * sizeFactor );
     
         ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
     }
@@ -119,6 +119,14 @@ class StaticArt {
 
     isMovable(currX, currY, currZ, dx, dy, dz) {
         // Example logic for a simple movement rule: movement is possible if there's no obstacle
+        const currenttargetKey = `${currX},${currY },${currZ }`;
+        const currenttargetBlock = this.game.camera.blocksMap[currenttargetKey];
+        const currentoneAboveTargetKey = `${currX},${currY },${currZ + dz + 1}`;
+        const currenttwoAboveTargetKey = `${currX},${currY },${currZ + dz + 2}`;
+        const currentoneAboveTargetBlock = this.game.camera.blocksMap[currentoneAboveTargetKey];
+        const currenttwoAboveTargetBlock = this.game.camera.blocksMap[currenttwoAboveTargetKey];
+        
+
         const targetKey = `${currX + dx},${currY + dy},${currZ + dz}`;
         const targetBlock = this.game.camera.blocksMap[targetKey];
         const oneAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 1}`;
@@ -126,6 +134,10 @@ class StaticArt {
         const oneAboveTargetBlock = this.game.camera.blocksMap[oneAboveTargetKey];
         const twoAboveTargetBlock = this.game.camera.blocksMap[twoAboveTargetKey];
 
+        if(currenttwoAboveTargetKey && (dz === 1 || dz == -1) && this.game.camera.blocksMap[dz] ){
+            return false;
+
+        }
         return targetBlock && !oneAboveTargetBlock && !twoAboveTargetBlock; // Ensure the target block exists and there's no block directly above it
     }
 
