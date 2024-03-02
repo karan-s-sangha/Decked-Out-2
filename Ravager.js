@@ -21,6 +21,8 @@ class Ravager {
         this.dz = 0;
         this.count = 0;
 
+        this.jump = false;
+
         this.loadAnimations();
         this.state = "wandering";
         this.collisions = collisions;
@@ -152,6 +154,7 @@ class Ravager {
     update() {
         // console.log(this.canSeePlayer());
         // if (this.canSeePlayer() && this.steve.health > 0) {
+
         if (this.canSeePlayer()) {
             if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
                 this.state = 'attacking';
@@ -220,7 +223,7 @@ class Ravager {
 
     canSeePlayer() {
         // Visibility and collision checks
-        const visibilityDistance = 5;
+        const visibilityDistance = 3;
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
@@ -257,34 +260,9 @@ class Ravager {
     }
 
 
-    /*followPlayer() {
-      const ravagerSpeed = this.steve.playerWalkSpeed * 1.025;
-      let dx = this.steve.playerX - this.ravagerX;
-      let dy = this.steve.playerY - this.ravagerY;
-      let dz = this.steve.playerZ - this.ravagerZ;
-  
-      let magnitude = Math.sqrt(dx * dx + dy * dy + dz * dz);
-      let dirX = dx / magnitude;
-      let dirY = dy / magnitude;
-      let dirZ = dz / magnitude;
-  
-      let nextX = this.ravagerX + dirX * ravagerSpeed * this.game.clockTick;
-      let nextY = this.ravagerY + dirY * ravagerSpeed * this.game.clockTick;
-      let nextZ = this.ravagerZ + dirZ * ravagerSpeed * this.game.clockTick;
-  
-      if (this.collisions.isCollision(nextX, nextY, nextZ)) {
-        // If no collision, move the Ravager
-        this.ravagerX = nextX;
-        this.ravagerY = nextY;
-        this.ravagerZ = nextZ;
-      } else {
-        this.wander();
-        this.state = 'wandering';
-      }
-    }*/
-
     followPlayer() {
-        const ravagerSpeed = this.steve.playerWalkSpeed * 0.8;
+        console.log("ravager location: " + this.ravagerX + " " + this.ravagerY + " " + this.ravagerZ)
+        const ravagerSpeed = this.steve.playerWalkSpeed * 0.5;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
         let dz = this.steve.playerZ - this.ravagerZ;
@@ -302,75 +280,18 @@ class Ravager {
         if (this.collisions.isCollision(nextX, nextY, nextZ)) {
             this.ravagerX = nextX;
             this.ravagerY = nextY;
-            this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
-            if (this.collisions.state === -1 && !this.jumped) {
-                this.ravagerZ -= 0.1;
-            } else if (this.collisions.state === 1) {
-                this.ravagerZ += 0.1;
-            }  
+        }
+        
+        this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
+        if (this.collisions.state === -1 && !this.jumped) {
+            this.ravagerZ -= 0.1;
+        } else if (this.collisions.state === 1) {
+            this.ravagerZ += 0.1;
+        } else if(this.collisions.state === 0 && !this.jumped) {
+            this.ravagerZ = Math.ceil(this.ravagerZ);
         }
 
-
-        // else {
-        //   switch (this.collisions.state) {
-
-        //     case 1: // move up.
-        //       // Only move up if there's a significant height difference.
-        //       if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
-        //         this.ravagerX = nextX;
-        //         this.ravagerY = nextY;
-        //         this.ravagerZ = this.steve.playerZ; 
-        //       }
-        //       break;
-        //     case -1: // Imove down.
-        //       // Only move down if there's a significant height difference.
-        //       if (this.collisions.isCollision(nextX, nextY, this.steve.playerZ) && Math.abs(this.steve.playerZ - this.ravagerZ) > 1) {
-        //         this.ravagerX = nextX;
-        //         this.ravagerY = nextY;
-        //         this.ravagerZ = this.steve.playerZ; 
-        //       }
-        //       break;
-        //     default:
-        //       this.wander();
-        //       this.state = 'wandering';
-        //       break;
-        //   }
-        // }
     }
-
-
-
-
-
-
-    // avoidObstacle(predictedX, predictedY, predictedZ, speed) {
-    //     let foundPath = false;
-
-    //     // Try to find a horizontal path first
-    //     for (let angle = 0; angle < 2 * Math.PI; angle += Math.PI / 18) {
-    //         let newX = this.ravagerX + Math.cos(angle) * speed * this.game.clockTick;
-    //         let newY = this.ravagerY + Math.sin(angle) * speed * this.game.clockTick;
-
-    //         // Keep the initial attempt on the same Z level
-    //         //   if (this.collisions.isCollision(newX, newY, predictedZ)) {
-    //         //     this.ravagerX = newX;
-    //         //     this.ravagerY = newY;
-    //         //     this.ravagerZ = predictedZ;
-    //         //     foundPath = true;
-    //         //     break;
-    //         //   }
-    //     }
-
-    //     if (!foundPath) {
-    //         this.state = "wandering";
-    //         this.wander();
-    //     }
-    // }
-
-
-
-
-
     calculateFollowDirection() {
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
@@ -432,21 +353,19 @@ class Ravager {
                 // If no collision, update the ravager's position
                 this.ravagerX = newX;
                 this.ravagerY = newY;
-
-        
-        
-                this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
-                if (this.collisions.state === -1 && !this.jumped) {
-                    this.ravagerZ -= 0.1;
-                } else if (this.collisions.state === 1) {
-                    this.ravagerZ += 0.1;
-                }  
-
-
                 this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY); 
                 this.wanderMove--;
               } else {
                 this.wanderMove = 0;
+              }
+
+              this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
+              if (this.collisions.state === -1 && !this.jumped) {
+                  this.ravagerZ -= 0.1;
+              } else if (this.collisions.state === 1) {
+                  this.ravagerZ += 0.1;
+              } else if(this.collisions.state === 0 && !this.jumped) {
+                  this.ravagerZ = Math.ceil(this.ravagerZ);
               }
         }
     }
