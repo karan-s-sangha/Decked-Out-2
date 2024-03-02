@@ -7,13 +7,13 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);   
         
-        this.steveInitialX = 0; 
-        this.steveInitialY = 0;   
-        this.steveInitialZ = 1;   
+        // this.steveInitialX = 0; 
+        // this.steveInitialY = 0;   
+        // this.steveInitialZ = 1;   
         //75   58   14
-        // this.steveInitialX = 75; 
-        // this.steveInitialY = 58;   
-        // this.steveInitialZ = 14;   
+        this.steveInitialX = 75; 
+        this.steveInitialY = 58;   
+        this.steveInitialZ = 14;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -76,7 +76,7 @@ class Camera {
                 const [x, y, z] = parts[1].trim().slice(1, -1).split(',').map(Number);
                 // Use a unique key for each block, e.g., by serializing x, y, z coordinates
                 const key = `${x},${y},${z}`;
-                this.blocksMap[key] = { label, x, y, z };
+                this.blocksMap[key] = { label, x, y, z, reachable : false };
             } else {
                 console.error(`Invalid format in line ${index + 1}: ${line}`);
             }
@@ -109,9 +109,9 @@ class Camera {
        this.game.addEntity(this.staticArt);            
       
       
-       this.game.addEntity(this.blocksUnderPlayer);    
+       //this.game.addEntity(this.blocksUnderPlayer);    
        this.game.addEntity(steve);
-       this.game.addEntity(this.blocksAtOrAbovePlayer);    
+       //this.game.addEntity(this.blocksAtOrAbovePlayer);    
 
        //this.addRavagers();
 

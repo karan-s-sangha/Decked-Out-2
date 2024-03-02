@@ -212,7 +212,7 @@ class Steve {
 
         if (!this.game.keys.left && !this.game.keys.right && !this.game.keys.up && !this.game.keys.down) {
             this.move = 0;
-            console.log("this should be printing");
+            //console.log("this should be printing");
         }
 
         if (this.game.keys.space && !this.jumped && this.jumpDelay === 0) {
