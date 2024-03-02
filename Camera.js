@@ -8,12 +8,12 @@ class Camera {
         this.staticArt = new StaticArt(game);   
         
         this.steveInitialX = 0; 
-        this.steveInitialY = 0;
-        this.steveInitialZ = 1;
-        //75   58   14 20 86 11 124, 58, 34)
-        // this.steveInitialX = 20; 
-        // this.steveInitialY = 86;   
-        // this.steveInitialZ = 11;   
+        this.steveInitialY = 0;   
+        this.steveInitialZ = 1;   
+        //75   58   14
+        // this.steveInitialX = 18; 
+        // this.steveInitialY = 58;   
+        // this.steveInitialZ = 14;   
         this.steve = new Steve(this.game , this.steveInitialX, this.steveInitialY,this.steveInitialZ );
         
         this.cameraX= this.steveInitialX - this.ctx.canvas.width/2;
@@ -45,10 +45,6 @@ class Camera {
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
-
-        this.blocksUnderPlayer = new BlocksUnderPlayer( this.staticArt);
-        this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer( this.staticArt);
-
         this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
@@ -58,8 +54,7 @@ class Camera {
     async initialize() {
         console.log("In initialization");
         let temp = 20;
-       for (let i = 0; i <  this.layerCount; i++) {
-       // for (let i = 34; i < 37; i++) {
+        for (let i = 0; i <  this.layerCount; i++) {
             try {
                 const response = await fetch(`./map/layer_${i}.txt`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -107,15 +102,13 @@ class Camera {
         // Adding the first upper level static art
        this.game.addEntity(this.staticArt);
 
-       this.game.addEntity( this.blocksUnderPlayer);
+        // // Adding the first upper level dynamic art
+  //this.game.addEntity(new DynamicArt(this.game));
+            
       
        this.game.addEntity(steve);
 
-     
-       this.game.addEntity(this.blocksAtOrAbovePlayer);
-
-
-      //this.addRavagers();
+      this.addRavagers();
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
@@ -132,9 +125,9 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
+                //{ x: 1, y: 0, z: 0 }
+                //{ x: 1, y: 10, z: 0 },
                { x: 0, y: 0, z: 1 }
-         //   { x: 20, y: 90, z: 11 }
-           // { x: 130, y: 60, z: 34}
                 /*{ x: 1332, y: 2348, z: 1 },
                 { x: 556, y: 4572, z: 2 },
                 { x: 1468, y: 6348, z: 3 },
@@ -151,7 +144,7 @@ class Camera {
         ];
     
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.25);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.35);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });

@@ -233,7 +233,7 @@ class Steve {
 
         if (this.health <= 0) {
             this.health = 0;
-            this.live = true;
+            this.live = false;
         }
         if (this.hunger <= 0) {
             this.hunger = 0;
@@ -244,7 +244,7 @@ class Steve {
         if (this.jumped) {
             this.playerZ += 0.1;
             this.jumpCount++;
-            if (this.jumpCount >= 18) {
+            if (this.jumpCount >= 10) {
                 this.jumped = false;
                 this.jumpCount = 0;
             }

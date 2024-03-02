@@ -12,21 +12,10 @@ ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
 
 
 // Animation for the Ravager
-<<<<<<< HEAD
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager.png");
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager1.png");
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager2.png");
 ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/ravager3.png");
-=======
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/0.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/45.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/90.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/135.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/180.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/225.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/270.png");
-ASSET_MANAGER.queueDownload("./Art/Ravager_Animations/315.png");
->>>>>>> 4e6522c4c5978f0a758b9cfebdffd58e62e8597d
 
 
 // Animation for the Steve
