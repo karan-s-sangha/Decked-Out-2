@@ -80,8 +80,6 @@ class AssetManager {
 
     playAsset(path) {
         let audio = this.cache[path];
-        audio.volume = 1.0; // Max volume
-        audio.muted = false; // Ensure not muted
         audio.currentTime = 0;
         audio.play();
     };

@@ -144,7 +144,6 @@ class GameEngine {
             this.camera.update();
         } else {
             this.screen.update();
-            console.log("this is here");
         }
         this.wheel = 0;
     };

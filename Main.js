@@ -1339,7 +1339,7 @@ ASSET_MANAGER.queueDownload("./Art/resources/zombified_piglin_spawn_egg.png");
 
 // music
 ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
-ASSET_MANAGER.queueDownload("./Art/music/tileMusic.mp3");
+ASSET_MANAGER.queueDownload("./Art/music/tileMusic.wav");
 // ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
 
@@ -1412,7 +1412,7 @@ function initTitleScreen() {
 
 function startGame() {
 	var gameEngine = new GameEngine();
-	ASSET_MANAGER.autoRepeat("./Art/music/Decked_Out.mp3");
+	ASSET_MANAGER.autoRepeat("./Art/music/titleMusic.wav");
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
@@ -1422,8 +1422,9 @@ function startGame() {
 	PARAMS.CANVAS_HEIGHT = canvas.height;
 
 	gameEngine.init(ctx);
-	gameEngine.start();
 	new Camera(gameEngine);
+	gameEngine.start();
+	
 }
 
 
