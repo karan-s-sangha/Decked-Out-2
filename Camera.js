@@ -76,7 +76,7 @@ class Camera {
                 const [x, y, z] = parts[1].trim().slice(1, -1).split(',').map(Number);
                 // Use a unique key for each block, e.g., by serializing x, y, z coordinates
                 const key = `${x},${y},${z}`;
-                this.blocksMap[key] = { label, x, y, z };
+                this.blocksMap[key] = { label, x, y, z, reachable : false };
             } else {
                 console.error(`Invalid format in line ${index + 1}: ${line}`);
             }
@@ -109,14 +109,14 @@ class Camera {
        this.game.addEntity(this.staticArt);            
       
       
-       this.game.addEntity(this.blocksUnderPlayer);    
+       //this.game.addEntity(this.blocksUnderPlayer);    
        this.game.addEntity(steve);
-       this.game.addEntity(this.blocksAtOrAbovePlayer);    
+       //this.game.addEntity(this.blocksAtOrAbovePlayer);    
 
-      this.addRavagers();
+       //this.addRavagers();
 
         //Adding the Compass Entity
-        this.game.addEntity(this.compass);
+        //this.game.addEntity(this.compass);
 
         //Adding All the Item Entity
        this.game.addEntity(this.artifact);
