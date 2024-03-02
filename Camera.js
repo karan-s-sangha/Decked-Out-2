@@ -45,6 +45,10 @@ class Camera {
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
+
+        this.blocksUnderPlayer = new BlocksUnderPlayer( this.staticArt);
+        this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer( this.staticArt);
+
         this.initialize();
         
         //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("./sprites/coins.png"), 0, 160, 8, 8, 4, 0.2, 0, false, true);
@@ -103,13 +107,15 @@ class Camera {
         // Adding the first upper level static art
        this.game.addEntity(this.staticArt);
 
-        // // Adding the first upper level dynamic art
-  //this.game.addEntity(new DynamicArt(this.game));
-            
+       this.game.addEntity( this.blocksUnderPlayer);
       
        this.game.addEntity(steve);
 
-      this.addRavagers();
+     
+       this.game.addEntity(this.blocksAtOrAbovePlayer);
+
+
+      //this.addRavagers();
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
