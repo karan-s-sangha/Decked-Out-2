@@ -23,7 +23,25 @@ class StaticArt {
         let blocks = this.sortBlocksForDrawing(this.blocks);
         blocks.forEach(block => this.drawBlock(ctx, block));
     }
+    
+    drawBlock(ctx, block) {
+        const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
+        if (!blockImage) return; // Skip drawing if there's no image for the block
+    
+        // Check if the block is in the list of reachable blocks
+        const isReachable = this.reachableBlocks.some(b => b.x === block.x && b.y === block.y && b.z === block.z).reachable;
+    
+        ctx.save(); // Save the current context state
+        ctx.globalAlpha = isReachable ? 0 : 1; // Set transparency based on reachability
+    
+        // Draw the block
+        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
 
+        ctx.globalAlpha = 1;
+
+        ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
+    }
+    
     expandAroundSteve(playerX, playerY, playerZ) {
         const visited = new Set(); // Tracks all visited blocks for expansion
         this.blocks = []; // Reset the blocks list to ensure it's empty at the start of each expansion
@@ -48,7 +66,7 @@ class StaticArt {
                 const block = this.game.camera.blocksMap[key];
                 if (block) {
                     // If the block exists in the map, add it to the blocks list
-                    //this.blocks.push(block);
+                    this.blocks.push(block);
     
                     if (isReachable) {
                         // If the block is marked as reachable and hasn't been added to the reachableBlocks list yet
@@ -68,9 +86,9 @@ class StaticArt {
                         if (this.isMovable(x, y, z, dx, dy, dz) ) {
                             queue.push({ x: x + dx, y: y + dy, z: z + dz, isReachable: isReachable && this.isMovable(x, y, z, dx, dy, dz) });
                         }
-                        else if (this.game.camera.blocksMap[k]){
-                            this.blocks.push(block);
-                        }
+                        // else if (this.game.camera.blocksMap[k]){
+                        //     this.blocks.push(block);
+                        // }
                     });
                 }
             }
@@ -102,24 +120,6 @@ class StaticArt {
         return targetBlock && !oneAboveTargetBlock && !twoAboveTargetBlock; // Ensure the target block exists and there's no block directly above it
     }
 
-    drawBlock(ctx, block) {
-        const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
-        if (!blockImage) return; // Skip drawing if there's no image for the block
-    
-        // Check if the block is in the list of reachable blocks
-        const isReachable = this.reachableBlocks.some(b => b.x === block.x && b.y === block.y && b.z === block.z).reachable;
-    
-        ctx.save(); // Save the current context state
-        //ctx.globalAlpha = isReachable ? 0 : 0.5; // Set transparency based on reachability
-    
-        // Draw the block
-        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
-
-        ctx.globalAlpha = 0;
-
-        ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
-    }
-    
     calculateBlockDrawingParams(block) {
         const { steve, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
         const blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`];
