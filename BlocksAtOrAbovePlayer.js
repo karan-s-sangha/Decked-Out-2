@@ -11,7 +11,7 @@ class BlocksAtOrAbovePlayer {
         // Access the playerZ through the staticArt reference to its game object
         const playerZ = Math.ceil(this.staticArt.game.camera.steve.playerZ);
         // Filter the blocks that are at or above the playerZ level
-        let blocks = this.staticArt.blocks.filter(block => block.z > playerZ);
+        let blocks = this.staticArt.reachableBlocks.filter(block => block.z > playerZ);
 
         // Sort the blocks for drawing using the staticArt's sorting method
         blocks = this.staticArt.sortBlocksForDrawing(blocks);

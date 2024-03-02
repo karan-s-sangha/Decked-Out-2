@@ -1,7 +1,7 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radiusXY = 12; // Radius for drawing and calculations in the XY plane
+        this.radiusXY = 10; // Radius for drawing and calculations in the XY plane
         this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
@@ -14,7 +14,13 @@ class StaticArt {
     draw(ctx) {
         const playerX = Math.floor(this.game.camera.steve.playerX);
         const playerY = Math.floor(this.game.camera.steve.playerY);
-        const playerZ = Math.ceil(this.game.camera.steve.playerZ);
+        let playerZ = Math.ceil(this.game.camera.steve.playerZ);
+        let key = `${playerX},${playerY},${playerZ}`;
+        console.log(playerX," ",playerY," ",playerZ);
+        while(!this.game.camera.blocksMap[key]){
+            playerZ = playerZ -1;
+            key = `${playerX},${playerY},${playerZ}`;
+        }
         
         this.blocks = [];
         this.reachableBlocks = [];
@@ -49,7 +55,7 @@ class StaticArt {
         let queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
     
         while (queue.length > 0) {
-            const { x, y, z, isReachable } = queue.shift();
+            const { x, y, z } = queue.shift();
             const key = `${x},${y},${z}`;
     
             if (visited.has(key) || !this.game.camera.blocksMap[key]) continue; // Skip visited or non-existing
@@ -61,7 +67,7 @@ class StaticArt {
                 const block = this.game.camera.blocksMap[key];
                 //this.blocks.push(block); // Add to blocks list
     
-                if (isReachable && !this.reachableBlocks.some(b => b.x === x && b.y === y && b.z === z)) {
+                if (!this.reachableBlocks.some(b => b.x === x && b.y === y && b.z === z)) {
                     block.reachable = true; // Mark the block as reachable
                     this.reachableBlocks.push(block); // Add to reachable blocks list
                 }
@@ -69,9 +75,8 @@ class StaticArt {
                 // Queue neighbors for exploration
                 this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
                     let newX = x + dx, newY = y + dy, newZ = z + dz;
-                    let newKey = `${newX},${newY},${newZ}`;
-                    if (!visited.has(newKey) && this.isMovable(x, y, z, dx, dy, dz)) {
-                        queue.push({ x: newX, y: newY, z: newZ, isReachable });
+                    if (this.isMovable(x, y, z, dx, dy, dz)) {
+                        queue.push({ x: newX, y: newY, z: newZ });
                     }
                 });
             }
@@ -119,12 +124,12 @@ class StaticArt {
 
     isMovable(currX, currY, currZ, dx, dy, dz) {
         // Example logic for a simple movement rule: movement is possible if there's no obstacle
-        const currenttargetKey = `${currX},${currY },${currZ }`;
-        const currenttargetBlock = this.game.camera.blocksMap[currenttargetKey];
-        const currentoneAboveTargetKey = `${currX},${currY },${currZ + dz + 1}`;
-        const currenttwoAboveTargetKey = `${currX},${currY },${currZ + dz + 2}`;
-        const currentoneAboveTargetBlock = this.game.camera.blocksMap[currentoneAboveTargetKey];
-        const currenttwoAboveTargetBlock = this.game.camera.blocksMap[currenttwoAboveTargetKey];
+        // const currenttargetKey = `${currX},${currY },${currZ }`;
+        // const currenttargetBlock = this.game.camera.blocksMap[currenttargetKey];
+        // const currentoneAboveTargetKey = `${currX},${currY },${currZ + dz + 1}`;
+        // const currenttwoAboveTargetKey = `${currX},${currY },${currZ + dz + 2}`;
+        // const currentoneAboveTargetBlock = this.game.camera.blocksMap[currentoneAboveTargetKey];
+        // const currenttwoAboveTargetBlock = this.game.camera.blocksMap[currenttwoAboveTargetKey];
         
 
         const targetKey = `${currX + dx},${currY + dy},${currZ + dz}`;
@@ -134,19 +139,16 @@ class StaticArt {
         const oneAboveTargetBlock = this.game.camera.blocksMap[oneAboveTargetKey];
         const twoAboveTargetBlock = this.game.camera.blocksMap[twoAboveTargetKey];
 
-        if(currenttwoAboveTargetKey && (dz === 1 || dz == -1) && this.game.camera.blocksMap[dz] ){
-            return false;
+        // if(currenttwoAboveTargetKey && (dz === 1 || dz == -1) && this.game.camera.blocksMap[dz] ){
+        //     return false;
+        // }
 
-        }
         return targetBlock && !oneAboveTargetBlock && !twoAboveTargetBlock; // Ensure the target block exists and there's no block directly above it
     }
 
     calculateBlockDrawingParams(block) {
         const { steve, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
         const blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`];
-
-        // const isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - imageWidth/2;
-        // const isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - steve.playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + imageHeight/2;;
 
         let isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - (imageWidth * sizeFactor) / 2;
         let isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z -  steve.playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + (imageHeight * sizeFactor) / 2;

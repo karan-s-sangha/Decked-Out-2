@@ -71,7 +71,7 @@ class Camera {
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
-            console.log("READING MAP");
+            //console.log("READING MAP");
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
@@ -111,18 +111,7 @@ class Camera {
        this.game.addEntity(this.blocksUnderPlayer);    
        this.game.addEntity(steve);
        //this.addRavagers();
-
        this.game.addEntity(this.blocksAtOrAbovePlayer);    
-
-        //  this.game.addEntity( this.blocksUnderPlayer);
-
-        this.game.addEntity(steve);
-
-
-        // this.game.addEntity(this.blocksAtOrAbovePlayer);
-
-
-        this.addRavagers();
 
         //Adding the Compass Entity
         this.game.addEntity(this.compass);
