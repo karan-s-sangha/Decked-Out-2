@@ -145,8 +145,8 @@ class Ravager {
       
           // Draw a simple shape for testing
 */
-          ctx.fillStyle = "blue"; // For visibility
-          ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
+        ctx.fillStyle = "blue"; // For visibility
+        ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
     }
 
     update() {
@@ -156,7 +156,7 @@ class Ravager {
             if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
                 this.state = 'attacking';
                 this.steve.health -= 0.5;
-                this.attackCoolDown =  1;
+                this.attackCoolDown = 1;
 
                 this.attack = true;
                 this.steve.canMove = false;
@@ -187,12 +187,12 @@ class Ravager {
                 let newX = this.steve.playerX + dirX * 25 * this.game.clockTick;
                 let newY = this.steve.playerY + dirY * 25 * this.game.clockTick;
 
-                if(this.attackFlag = false) {
+                if (this.attackFlag = false) {
                     this.attackFlag = true;
                     this.steve.jumped = true;
                     this.steve.jumpComplete = false;
                 }
-                
+
                 if (this.collisions.isCollision(newX, newY, this.steve.playerZ)) {
                     // this.steve.p
                     this.steve.playerX = newX;
@@ -202,16 +202,16 @@ class Ravager {
                 } else {
                     this.push = 0;
                 }
-                
+
             } else {
                 this.attack = false;
                 this.push = 10;
-                this.steve.canMove = true;    
-                this.attackFlag = false;     
+                this.steve.canMove = true;
+                this.attackFlag = false;
             }
-            
+
         }
-        if(this.attackCoolDown > 0) {
+        if (this.attackCoolDown > 0) {
             this.attackCoolDown -= this.game.clockTick;
         } else {
             this.attackCoolDown = 0;
@@ -307,7 +307,7 @@ class Ravager {
                 this.ravagerZ -= 0.1;
             } else if (this.collisions.state === 1) {
                 this.ravagerZ += 0.1;
-            }  
+            }
         }
 
 
@@ -427,27 +427,27 @@ class Ravager {
             let newY = oldY + dy;
             let newZ = this.ravagerZ;
 
-              // Perform collision detection with the next position
-              if (this.collisions.isCollision(newX, newY, newZ)) {
+            // Perform collision detection with the next position
+            if (this.collisions.isCollision(newX, newY, newZ)) {
                 // If no collision, update the ravager's position
                 this.ravagerX = newX;
                 this.ravagerY = newY;
 
-        
-        
+
+
                 this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
                 if (this.collisions.state === -1 && !this.jumped) {
                     this.ravagerZ -= 0.1;
                 } else if (this.collisions.state === 1) {
                     this.ravagerZ += 0.1;
-                }  
+                }
 
 
-                this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY); 
+                this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY);
                 this.wanderMove--;
-              } else {
+            } else {
                 this.wanderMove = 0;
-              }
+            }
         }
     }
 
@@ -478,7 +478,6 @@ class Ravager {
     }
 
 }
-
 
 
 

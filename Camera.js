@@ -7,13 +7,13 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);
 
-        this.steveInitialX = -6;
-        this.steveInitialY = 3;
-        this.steveInitialZ = 1;
+        // this.steveInitialX = -6;
+        // this.steveInitialY = 3;
+        // this.steveInitialZ = 1;
         //75   58   14 20 86 11 124, 58, 34)
-        // this.steveInitialX = 20; 
-        // this.steveInitialY = 86;   
-        // this.steveInitialZ = 11;   
+        this.steveInitialX = 75;
+        this.steveInitialY = 58;
+        this.steveInitialZ = 14;
         this.steve = new Steve(this.game, this.steveInitialX, this.steveInitialY, this.steveInitialZ);
 
         this.cameraX = this.steveInitialX - this.ctx.canvas.width / 2;
@@ -66,12 +66,12 @@ class Camera {
             console.error('Error during initialization:', error);
         }
     }
-    
+
 
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
-           // console.log("READING MAP");
+            console.log("READING MAP");
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
@@ -102,7 +102,17 @@ class Camera {
     loadLevel(steve) {
         console.log("this should be running unless the map finish loading");
         // Adding the first upper level static art
+        this.blocksUnderPlayer = new BlocksUnderPlayer(this.staticArt);
+        this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.staticArt);
+
         this.game.addEntity(this.staticArt);
+
+
+        this.game.addEntity(this.blocksUnderPlayer);
+        this.game.addEntity(steve);
+        //this.addRavagers();
+
+        this.game.addEntity(this.blocksAtOrAbovePlayer);
 
         //  this.game.addEntity( this.blocksUnderPlayer);
 
@@ -129,7 +139,7 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-              { x: -6 , y: 4, z: 1 }
+            { x: 90, y: 58, z: 14}
             //   { x: 20, y: 90, z: 11 }
             // { x: 130, y: 60, z: 34}
             /*{ x: 1332, y: 2348, z: 1 },
