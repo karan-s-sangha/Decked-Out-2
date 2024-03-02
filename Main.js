@@ -38,6 +38,7 @@ ASSET_MANAGER.queueDownload("./Art/RedArrow.png");
 //Main Page
 
 ASSET_MANAGER.queueDownload("./Art/titlepage.png");
+ASSET_MANAGER.queueDownload("./Art/loading.png");
 
 
 //Image for the Artifacts
@@ -1384,31 +1385,41 @@ function initTitleScreen() {
 	ctx.imageSmoothingEnabled = false;
 
 	function drawTitleScreen() {
-		var backgroundImage = ASSET_MANAGER.getAsset("./Art/titlepage.png");
-		ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+		//var backgroundImage = ASSET_MANAGER.getAsset("./Art/titlepage.png");
+		//ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+		var backgroundImage = ASSET_MANAGER.getAsset("./Art/loading.png");
+		ctx.drawImage(backgroundImage, -250, 0, backgroundImage.width/1.4, backgroundImage.height/1.4);
 
 		var buttonX = canvas.width / 2 - 100;
 		var buttonY = canvas.height / 2;
-		var buttonWidth = 200;
-		var buttonHeight = 50;
+
+		// Draw the transition screen with the current message
+		//ctx.fillStyle = "white";
+		//ctx.fillRect(0, 0, 768, 768);
+		ctx.fillStyle = "white";
+		ctx.textAlign = "center";
+		ctx.font = "40px 'Press Start 2P'";
+		ctx.fillText("Click to Start", 768 / 2 , 768 / 1.1); 
+		//var buttonWidth = 200;
+		//var buttonHeight = 50;
 
 		
-		ctx.fillStyle = '#8B4513'; 
-		ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight); 
+		//ctx.fillStyle = '#8B4513'; 
+		//ctx.fillRect(buttonX, buttonY, canvas.width, canvas.height); 
 
-		ctx.fillStyle = '#654321'; // Darker shade for the side
-		ctx.fillRect(buttonX, buttonY + buttonHeight, buttonWidth, 10); // Side face
+		//ctx.fillStyle = '#654321'; // Darker shade for the side
+		//ctx.fillRect(buttonX, buttonY, buttonWidth, 10); // Side face
 
-		ctx.fillStyle = 'white';
+		/*ctx.fillStyle = 'white';
 		ctx.font = '30% 2P'; 
 		ctx.textAlign = 'center';
 
-		ctx.shadowColor = 'black';
+		//ctx.shadowColor = 'black';
 		ctx.shadowBlur = 7;
 		ctx.shadowOffsetX = 3;
 		ctx.shadowOffsetY = 3;
 
-		ctx.fillText('Start Game', buttonX + buttonWidth / 2, buttonY + buttonHeight / 2 + 10);
+		ctx.fillText('Click to start', canvas.width, canvas.height);
 
 		// Reset shadow for other drawing
 		ctx.shadowColor = 'transparent';
@@ -1419,7 +1430,7 @@ function initTitleScreen() {
 		
 		ctx.strokeStyle = 'rgba(255, 255, 0, 0.6)'; 
 		ctx.lineWidth = 2;
-		ctx.strokeRect(buttonX - 5, buttonY - 5, buttonWidth + 10, buttonHeight + 10); 
+		ctx.strokeRect(buttonX - 5, buttonY - 5, buttonWidth + 10, buttonHeight + 10); */
 	}
 
 	function isClickInsideButton(x, y) {
@@ -1432,9 +1443,7 @@ function initTitleScreen() {
 		var x = event.clientX - rect.left;
 		var y = event.clientY - rect.top;
 
-		if (isClickInsideButton(x, y)) {
-			startGame();
-		}
+		startGame();
 	});
 
 	drawTitleScreen();

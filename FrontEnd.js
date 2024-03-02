@@ -37,7 +37,7 @@ class FrontEnd {
     setupButtons() {
         this.menuButtonDimensions = { w: 250, h: 50 };
         const canvasCenterX = this.game.ctx.canvas.width / 2 - this.menuButtonDimensions.w / 2;
-        const canvasCenterY = this.game.ctx.canvas.height / 3;
+        const canvasCenterY = this.game.ctx.canvas.height / 1.5;
 
 
         this.buttons = {
@@ -178,9 +178,13 @@ class FrontEnd {
     }
 
     draw(ctx) {
+
         ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
+        let backgroundImage = ASSET_MANAGER.cache["./Art/titlepage.png"];
+        ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+
+        //ctx.fillStyle = 'white';
+       //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
 
         if (this.isInMenu && !this.isShowInstructions && !this.isInCredits) {
             // Draw menu buttons except the back button

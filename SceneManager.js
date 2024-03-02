@@ -43,7 +43,7 @@ class SceneManager {
         } else if (this.steve.win === true) {
             this.frontend.isInWinScreen = this.steve.win;
             //this.frontend.update();
-        }*/
+        }
 
     };
 
