@@ -244,7 +244,7 @@ class Steve {
         if (this.jumped) {
             this.playerZ += 0.1;
             this.jumpCount++;
-            if (this.jumpCount >= 10) {
+            if (this.jumpCount >= 18) {
                 this.jumped = false;
                 this.jumpCount = 0;
             }
