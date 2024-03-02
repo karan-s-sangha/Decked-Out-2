@@ -122,7 +122,7 @@ class Ravager {
         }
 
         animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY + 50, this.size, 0);
-        console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
+        // console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
 
 
         // Store current position for any subsequent logic

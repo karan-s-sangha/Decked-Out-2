@@ -67,7 +67,7 @@ class Steve {
     update() {
         // console.log(this.canMove);
 
-
+  console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         //console.log(this.playerY);
         // if (this.canMove) {
         // if (this.game.keys.shift && this.hunger >= 3 && this.game.keys.space) {
@@ -346,7 +346,7 @@ class Steve {
 
         this.elapsedTime += this.game.clockTick;
 
-        //console.log("Steve: " + this.playerX + " " + this.playerY);
+      
     };
 
 
