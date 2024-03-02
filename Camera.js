@@ -109,11 +109,11 @@ class Camera {
        this.game.addEntity(this.staticArt);            
       
       
-       //this.game.addEntity(this.blocksUnderPlayer);    
+       this.game.addEntity(this.blocksUnderPlayer);    
        this.game.addEntity(steve);
-       //this.game.addEntity(this.blocksAtOrAbovePlayer);    
+       this.game.addEntity(this.blocksAtOrAbovePlayer);    
 
-       //this.addRavagers();
+       this.addRavagers();
 
         //Adding the Compass Entity
         //this.game.addEntity(this.compass);

@@ -20,81 +20,90 @@ class StaticArt {
         this.reachableBlocks = [];
         this.expandAroundSteve(playerX, playerY, playerZ);
 
-        let blocks = this.sortBlocksForDrawing(this.blocks);
-        blocks.forEach(block => this.drawBlock(ctx, block));
+        // let blocks = this.sortBlocksForDrawing(this.blocks);
+        // blocks.forEach(block => this.drawBlock(ctx, block));
     }
     
     drawBlock(ctx, block) {
         const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
         if (!blockImage) return; // Skip drawing if there's no image for the block
     
-        // Check if the block is in the list of reachable blocks
-        const isReachable = this.reachableBlocks.some(b => b.x === block.x && b.y === block.y && b.z === block.z).reachable;
+        // Correctly check if the block is in the list of reachable blocks
+        const isReachable = this.reachableBlocks.some(b => b.x === block.x && b.y === block.y && b.z === block.z);
     
         ctx.save(); // Save the current context state
-        ctx.globalAlpha = isReachable ? 0 : 1; // Set transparency based on reachability
+        ctx.globalAlpha = isReachable ? 1 : 0; // Adjust transparency: fully opaque for reachable, semi-transparent for not
     
         // Draw the block
         ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
-
-        ctx.globalAlpha = 1;
-
+    
         ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
     }
     
-    expandAroundSteve(playerX, playerY, playerZ) {
-        const visited = new Set(); // Tracks all visited blocks for expansion
-        this.blocks = []; // Reset the blocks list to ensure it's empty at the start of each expansion
-        this.reachableBlocks = []; // Similarly, reset the reachable blocks list
     
-        const queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point is always reachable
+    expandAroundSteve(playerX, playerY, playerZ) {
+        let visited = new Set(); // Tracks all visited blocks for expansion
+        this.blocks = []; // Reset the blocks list
+        this.reachableBlocks = []; // Reset the reachable blocks list
+    
+        let queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
     
         while (queue.length > 0) {
             const { x, y, z, isReachable } = queue.shift();
             const key = `${x},${y},${z}`;
     
-            if (visited.has(key) || !this.game.camera.blocksMap[key]) {
-                continue; // Skip already visited locations
-            }
+            if (visited.has(key) || !this.game.camera.blocksMap[key]) continue; // Skip visited or non-existing
     
-            // Mark as visited
-            visited.add(key);
+            visited.add(key); // Mark as visited
             let isInRadius = Math.abs(x - playerX) <= this.radiusXY && Math.abs(y - playerY) <= this.radiusXY && Math.abs(z - playerZ) <= this.radiusZ;
     
-            // Check if this block is within the defined radius from the player
             if (isInRadius) {
                 const block = this.game.camera.blocksMap[key];
-                if (block) {
-                    // If the block exists in the map, add it to the blocks list
-                    this.blocks.push(block);
+                //this.blocks.push(block); // Add to blocks list
     
-                    if (isReachable) {
-                        // If the block is marked as reachable and hasn't been added to the reachableBlocks list yet
-                        if (!this.reachableBlocks.find(b => b.x === x && b.y === y && b.z === z)) {
-                            block.reachable = true; // Mark the block as reachable
-                            this.reachableBlocks.push(block); // Add this block to the list of reachable blocks
-                        }
-                    }
-    
-                    // Queue neighboring positions for further exploration
-                    this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
-                        // Only consider this neighbor if moving to it is possible
-                        let xe = x+dx;
-                        let ye = y+dy;
-                        let ze = z+dz;
-                        let k = `${xe},${ye},${ze}`;
-                        if (this.isMovable(x, y, z, dx, dy, dz) ) {
-                            queue.push({ x: x + dx, y: y + dy, z: z + dz, isReachable: isReachable && this.isMovable(x, y, z, dx, dy, dz) });
-                        }
-                        // else if (this.game.camera.blocksMap[k]){
-                        //     this.blocks.push(block);
-                        // }
-                    });
+                if (isReachable && !this.reachableBlocks.some(b => b.x === x && b.y === y && b.z === z)) {
+                    block.reachable = true; // Mark the block as reachable
+                    this.reachableBlocks.push(block); // Add to reachable blocks list
                 }
+    
+                // Queue neighbors for exploration
+                this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
+                    let newX = x + dx, newY = y + dy, newZ = z + dz;
+                    let newKey = `${newX},${newY},${newZ}`;
+                    if (!visited.has(newKey) && this.isMovable(x, y, z, dx, dy, dz)) {
+                        queue.push({ x: newX, y: newY, z: newZ, isReachable });
+                    }
+                });
+            }
+        }
+        
+        visited = new Set(); // Tracks all visited blocks for expansion
+        this.blocks = []; // Reset the blocks list
+        queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
+        while (queue.length > 0) {
+            const { x, y, z, isReachable } = queue.shift();
+            const key = `${x},${y},${z}`;
+    
+            if (visited.has(key) || !this.game.camera.blocksMap[key]) continue; // Skip visited or non-existing
+    
+            visited.add(key); // Mark as visited
+            let isInRadius = Math.abs(x - playerX) <= this.radiusXY && Math.abs(y - playerY) <= this.radiusXY && Math.abs(z - playerZ) <= this.radiusZ;
+    
+            if (isInRadius) {
+                const block = this.game.camera.blocksMap[key];
+                this.blocks.push(block); // Add to blocks list
+    
+                // Queue neighbors for exploration
+                this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
+                    let newX = x + dx, newY = y + dy, newZ = z + dz;
+                    let newKey = `${newX},${newY},${newZ}`;
+                    if (!visited.has(newKey)) {
+                        queue.push({ x: newX, y: newY, z: newZ, isReachable });
+                    }
+                });
             }
         }
     }
-    
     
     
     sortBlocksForDrawing(blocks) {
