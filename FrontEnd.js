@@ -18,22 +18,17 @@ class FrontEnd {
     }
 
     playTitleMusic() {
-       /* let titleMusicPath = "./Art/music/titleMusic.mp3";
+        let titleMusicPath = "./Art/music/Decked_Out.mp3";
         let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
         if (titleMusic && titleMusic.paused) {
             ASSET_MANAGER.autoRepeat(titleMusicPath);
-        }*/
-
-          //  let titleMusicPath = "./Art/music/titleMusic.wav";
-            // Use playAsset method to play the title music.
-           // ASSET_MANAGER.playAsset(titleMusicPath);
-
+        }
     }
 
 
 
     stopTitleMusic() {
-        let titleMusicPath = "./Art/music/titleMusic.wav";
+        let titleMusicPath = "./Art/music/Decked_Out.mp3";
         ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
 
     }
@@ -182,14 +177,14 @@ class FrontEnd {
 
     draw(ctx) {
         ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-       // ctx.fillStyle = 'white';
-       // ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
+        // ctx.fillStyle = 'white';
+        // ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
 
         // Check if the game is in the main menu state
         if (this.isInMenu && !this.isShowInstructions && !this.isInCredits) {
             let backgroundImage = ASSET_MANAGER.cache["./Art/titlepage.png"];
             if (backgroundImage && backgroundImage.complete) {
-               ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+                ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
             }
 
             // Draw menu buttons except the "Back" button
@@ -330,7 +325,7 @@ class FrontEnd {
 
 
     drawCredits(ctx) {
-        
+
         const lines = [
             { text: "Credits", style: "bolder 40px 'Press Start 2P'" },
             { text: "Game Developed by", style: "30px 'Press Start 2P'" },

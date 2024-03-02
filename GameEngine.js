@@ -9,13 +9,13 @@ class GameEngine {
         this.wheel = 0;
         this.keys = { left: false, right: false, up: false, down: false, A: false, B: false, shift: false, space: false, ctrl: false };
         this.gamepad = null;
-        this.GameScale = 2;
+        this.GameScale = 4;
         this.fps = 120;
         this.running = false;
         this.transition = null;
 
 
-        this.play = false;
+        this.play = true;
     };
 
     init(ctx) {
