@@ -79,9 +79,12 @@ class StaticArt {
         const { steve, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;
         const blockImage = ASSET_MANAGER.cache[`./Art/resources/${block.label}.png`];
 
-        const isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX;
-        const isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - steve.playerZ) * imageHeight * sizeFactor / 2 - isoCameraY;
+        // const isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - imageWidth/2;
+        // const isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z - steve.playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + imageHeight/2;;
 
+        let isoX = ((block.x - block.y) * imageWidth * sizeFactor / 2) - isoCameraX - (imageWidth * sizeFactor) / 2;
+        let isoY = ((block.x + block.y) * imageHeight * sizeFactor / 4) - (block.z -  steve.playerZ) * imageHeight * sizeFactor / 2 - isoCameraY + (imageHeight * sizeFactor) / 2;
+  
         return { isoX, isoY, blockImage, sizeFactor };
     }
 
