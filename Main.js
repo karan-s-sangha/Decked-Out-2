@@ -1384,6 +1384,59 @@ function initTitleScreen() {
 	var ctx = canvas.getContext('2d');
 	ctx.imageSmoothingEnabled = false;
 
+	// Function to draw the title screen
+	function drawTitleScreen() {
+		var backgroundImage = ASSET_MANAGER.getAsset("./Art/loading.png");
+		if (backgroundImage) {
+			ctx.drawImage(backgroundImage, -250, 0, backgroundImage.width / 1.4, backgroundImage.height / 1.4);
+		}
+
+		// Draw "Click to Start" text
+		ctx.fillStyle = "white";
+		ctx.textAlign = "center";
+		ctx.font = "40px 'Press Start 2P'";
+		ctx.fillText("Click to Start", canvas.width / 2, canvas.height / 1.1);
+	}
+
+	function onCanvasClick(event) {
+		startGame();
+		// Remove the event listener after starting the game
+		canvas.removeEventListener('click', onCanvasClick);
+	}
+
+	// Use the named function for the click event listener
+	canvas.addEventListener('click', onCanvasClick);
+
+	drawTitleScreen();
+}
+
+function startGame() {
+	var gameEngine = new GameEngine();
+	ASSET_MANAGER.autoRepeat("./Art/music/Decked_Out.mp3");
+
+	var canvas = document.getElementById('gameWorld');
+	var ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = false;
+
+	PARAMS.CANVAS_WIDTH = canvas.width;
+	PARAMS.CANVAS_HEIGHT = canvas.height;
+
+	gameEngine.init(ctx);
+	gameEngine.start();
+	new Camera(gameEngine);
+}
+
+
+
+
+
+
+
+/*function initTitleScreen() {
+	var canvas = document.getElementById('gameWorld');
+	var ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = false;
+
 	function drawTitleScreen() {
 		//var backgroundImage = ASSET_MANAGER.getAsset("./Art/titlepage.png");
 		//ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -1410,7 +1463,7 @@ function initTitleScreen() {
 		//ctx.fillStyle = '#654321'; // Darker shade for the side
 		//ctx.fillRect(buttonX, buttonY, buttonWidth, 10); // Side face
 
-		/*ctx.fillStyle = 'white';
+		ctx.fillStyle = 'white';
 		ctx.font = '30% 2P'; 
 		ctx.textAlign = 'center';
 
@@ -1430,7 +1483,7 @@ function initTitleScreen() {
 		
 		ctx.strokeStyle = 'rgba(255, 255, 0, 0.6)'; 
 		ctx.lineWidth = 2;
-		ctx.strokeRect(buttonX - 5, buttonY - 5, buttonWidth + 10, buttonHeight + 10); */
+		ctx.strokeRect(buttonX - 5, buttonY - 5, buttonWidth + 10, buttonHeight + 10); 
 	}
 
 	function isClickInsideButton(x, y) {
@@ -1439,12 +1492,9 @@ function initTitleScreen() {
 	}
 
 	canvas.addEventListener('click', function (event) {
-		var rect = canvas.getBoundingClientRect();
-		var x = event.clientX - rect.left;
-		var y = event.clientY - rect.top;
-
 		startGame();
 	});
+
 
 	drawTitleScreen();
 }
@@ -1463,5 +1513,5 @@ function startGame() {
 	gameEngine.init(ctx);
 	new Camera(gameEngine);
 	gameEngine.start();
-}
+}*/
 
