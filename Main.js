@@ -1345,7 +1345,7 @@ ASSET_MANAGER.queueDownload("./Art/resources/zombified_piglin_spawn_egg.png");
 
 // music
 ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
-ASSET_MANAGER.queueDownload("./Art/music/tileMusic.mp3");
+ASSET_MANAGER.queueDownload("./Art/music/titleMusic.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/walksound1.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/ravager.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/damage.mp3");
