@@ -253,10 +253,6 @@ class Ravager {
     }
 
     canSeePlayer() {
-        // Visibility and collision checks
-        
-
-        
         const visibilityDistance = 3;
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
@@ -265,7 +261,7 @@ class Ravager {
         if (distanceToPlayer > visibilityDistance) {
             return false;
         }
-        console.log(this.soundCoolDown);
+       // console.log(this.soundCoolDown);
         if(this.soundCoolDown >= 800) {
             this.playRavagerSound();
         } 
@@ -302,7 +298,7 @@ class Ravager {
 
 
     followPlayer() {
-        console.log("ravager location: " + this.ravagerX + " " + this.ravagerY + " " + this.ravagerZ)
+        //console.log("ravager location: " + this.ravagerX + " " + this.ravagerY + " " + this.ravagerZ)
         const ravagerSpeed = this.steve.playerWalkSpeed * 0.5;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
@@ -369,7 +365,7 @@ class Ravager {
 
     wander() {
         if (this.wanderMove <= 0) {
-            if (Math.random() < 0.4) { // 30% chance to keep going in the same direction
+            if (Math.random() < 0.4) { // 40% chance to keep going in the same direction
                 this.angle = this.angle; // Keep the same angle
             } else {
                 this.angle = Math.random() * 2 * Math.PI; // Choose a new direction randomly
