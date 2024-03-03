@@ -97,6 +97,7 @@ class Ravager {
     // }
 
     draw(ctx) {
+   
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
@@ -172,8 +173,8 @@ class Ravager {
       
           // Draw a simple shape for testing
 */
-          ctx.fillStyle = "blue"; // For visibility
-          ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
+        ctx.fillStyle = "blue"; // For visibility
+        ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
     }
 
     update() {
@@ -219,12 +220,12 @@ class Ravager {
                 let newX = this.steve.playerX + dirX * 25 * this.game.clockTick;
                 let newY = this.steve.playerY + dirY * 25 * this.game.clockTick;
 
-                if(this.attackFlag = false) {
+                if (this.attackFlag = false) {
                     this.attackFlag = true;
                     this.steve.jumped = true;
                     this.steve.jumpComplete = false;
                 }
-                
+
                 if (this.collisions.isCollision(newX, newY, this.steve.playerZ)) {
                     // this.steve.p
 
@@ -235,16 +236,16 @@ class Ravager {
                 } else {
                     this.push = 0;
                 }
-                
+
             } else {
                 this.attack = false;
                 this.push = 10;
-                this.steve.canMove = true;    
-                this.attackFlag = false;     
+                this.steve.canMove = true;
+                this.attackFlag = false;
             }
-            
+
         }
-        if(this.attackCoolDown > 0) {
+        if (this.attackCoolDown > 0) {
             this.attackCoolDown -= this.game.clockTick;
         } else {
             this.attackCoolDown = 0;
@@ -368,7 +369,7 @@ class Ravager {
 
     wander() {
         if (this.wanderMove <= 0) {
-            if (Math.random() < 0.3) { // 30% chance to keep going in the same direction
+            if (Math.random() < 0.4) { // 30% chance to keep going in the same direction
                 this.angle = this.angle; // Keep the same angle
             } else {
                 this.angle = Math.random() * 2 * Math.PI; // Choose a new direction randomly
@@ -388,14 +389,14 @@ class Ravager {
             let newY = oldY + dy;
             let newZ = this.ravagerZ;
 
-              // Perform collision detection with the next position
-              if (this.collisions.isCollision(newX, newY, newZ)) {
+            // Perform collision detection with the next position
+            if (this.collisions.isCollision(newX, newY, newZ)) {
                 // If no collision, update the ravager's position
                 this.ravagerX = newX;
                 this.ravagerY = newY;
                 this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY); 
                 this.wanderMove--;
-              } else {
+            } else {
                 this.wanderMove = 0;
               }
 
@@ -437,7 +438,6 @@ class Ravager {
     }
 
 }
-
 
 
 

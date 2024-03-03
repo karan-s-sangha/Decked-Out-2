@@ -8,27 +8,26 @@ class FrontEnd {
         this.isShowInstructions = false; // Only true when viewing the instructions screen.
 
         this.isInWinScreen = false; // Only true when the player wins the game.
-        this.isInLoseScreen = false; // Only true when the player loses the game.
+      
 
         // Setup buttons with dimensions and positions
         this.setupButtons();
         this.initializeReturnToTitleButton();
-        //this.playTitleMusic = this.playTitleMusic.bind(this);
+        this.initCredits();
+
+        // Variables for scrolling control
+        this.creditsElapsedTime = 0;
+        this.creditsScrollSpeed = 0.5; // Adjust as needed for speed
 
     }
 
-    playTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3";
-        let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
-        if (titleMusic && titleMusic.paused) {
-            ASSET_MANAGER.autoRepeat(titleMusicPath);
-        }
+    playTitleMusic(path) {
+        ASSET_MANAGER.autoRepeat(path);
+
     }
-
-
-
-    stopTitleMusic() {
-        let titleMusicPath = "./Art/music/Decked_Out.mp3";
+    
+    stopTitleMusic(path) {
+        let titleMusicPath = path;
         ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
 
     }
@@ -80,7 +79,6 @@ class FrontEnd {
         this.isInCredits = false;
         this.isShowInstructions = false;
         this.isInWinScreen = false; // Only true when the player wins the game.
-        this.isInLoseScreen = false;
         this.sceneManager.loadSceneManager("levelOne", true);
     }
 
@@ -88,7 +86,6 @@ class FrontEnd {
         this.isInMenu = false;
         this.isShowInstructions = true;
         this.isInCredits = false;
-        this.isInLoseScreen = false;
         this.isInWinScreen = false;
     }
 
@@ -96,7 +93,6 @@ class FrontEnd {
         this.isInMenu = false;
         this.isInCredits = true;
         this.isShowInstructions = false;
-        this.isInLoseScreen = false;
         this.isInWinScreen = false;
     }
 
@@ -104,7 +100,6 @@ class FrontEnd {
         this.isInMenu = true;
         this.isInCredits = false;
         this.isShowInstructions = false;
-        this.isInLoseScreen = false;
         this.isInWinScreen = false;
     }
 
@@ -146,7 +141,6 @@ class FrontEnd {
 
                 if (this.game.click && this.mouseHover(this.game.click, button)) {
                     button.action();
-                    console.log(button.action());
                     this.game.click = null; // Reset click to prevent repeat actions
                 }
             });
@@ -162,9 +156,9 @@ class FrontEnd {
 
         // Background music control 
         if (this.isInMenu || this.isInCredits || this.isShowInstructions) {
-            this.playTitleMusic();
+            this.playTitleMusic("./Art/music/titleMusic.mp3");
         } else {
-            this.stopTitleMusic();
+            this.stopTitleMusic("./Art/music/titleMusic.mp3");
         }
     }
 
@@ -177,8 +171,6 @@ class FrontEnd {
 
     draw(ctx) {
         ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-        // ctx.fillStyle = 'white';
-        // ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); // Fill the entire canvas
 
         // Check if the game is in the main menu state
         if (this.isInMenu && !this.isShowInstructions && !this.isInCredits) {
@@ -209,40 +201,46 @@ class FrontEnd {
         }
     }
 
-
-    drawWinScreen(ctx) {
-        // Assume both images are loaded and complete for simplicity
-        let backgroundImage = ASSET_MANAGER.cache["./Art/background.png"];
-        let winImage = ASSET_MANAGER.cache["./Art/win.png"];
-
-        // Draw the background image first
-        if (backgroundImage && backgroundImage.complete) {
-            ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-        }
-
-        // Then draw the win image on top of the background
-        if (winImage && winImage.complete) {
-            // Set the desired scale factor for the win image (e.g., 0.7)
-            const scaleFactor = 0.7;
-
-            // Calculate the scaled dimensions for the win image
-            const scaledWidth = winImage.width * scaleFactor;
-            const scaledHeight = winImage.height * scaleFactor;
-
-            // Calculate the position to center the scaled win image on the canvas
-            const x = (this.game.ctx.canvas.width - scaledWidth) / 2;
-            const y = (this.game.ctx.canvas.height - scaledHeight) / 2;
-
-            // Draw the scaled win image on top of the background
-            ctx.drawImage(winImage, x, y, scaledWidth, scaledHeight);
-        }
-        //this.drawReturnToTitleButton(ctx);
+    initCredits() {
+        this.credits = [
+            "Congratulations! You win!",
+            "Lead Problem Solver: Every Coffee Cup in a 5-Mile Radius",
+            "Bug Hunter Extraordinaire: Stack Overflow",
+            "Infinite Loop Director: That One Misplaced Semi-Colon",
+            "Memory Leak Investigator: Yours Truly at 3 AM",
+            "Thanks to All Nighters, Pizza, and Passion",
+            "Ready for the Next Challenge: You!"
+        ];
     }
 
+    drawWinScreen(ctx) {
+
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+
+        // Increment time for scrolling effect
+        this.creditsElapsedTime += this.creditsScrollSpeed;
+
+        // Start position for credits, adjusted by elapsed time for scrolling effect
+        let startY = ctx.canvas.height - this.creditsElapsedTime;
+
+        this.credits.forEach((credit, index) => {
+            let lineStartY = startY + (index * 50); // Adjust line height + margin
+
+            let minecraftColors = ['#6A7324', '#564D33', '#787878', '#4C7F99', '#8DB360'];
 
 
+            // Draw each credit line
+            this.drawMulticoloredText(ctx, credit, ctx.canvas.width / 2, lineStartY, "20px 'Press Start 2P'", minecraftColors);
+        });
 
-    drawLoseScreen(ctx) {
+        // Reset or loop credits if they've all scrolled past
+        if (startY + (this.credits.length * 50) < 0) {
+            this.creditsElapsedTime = 0; // Reset to start scrolling again from the bottom
+        }
+    }
+
+      /* drawLoseScreen(ctx) {
 
         // Fill the background
         let backgroundLoseImage = ASSET_MANAGER.cache["./Art/losing_background.png"];
@@ -287,22 +285,11 @@ class FrontEnd {
             ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
         }
         //this.drawReturnToTitleButton(ctx);
-    }
+    }*/
 
-    /*  drawWinScreen(ctx) {
-          //ctx.clearRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-          ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
-          //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-          this.drawReturnToTitleButton(ctx);
-      }
+   
       
-      
-      drawLoseScreen(ctx) {
-          ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
-          //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-          this.drawReturnToTitleButton(ctx);
-      }*/
-
+    
 
 
     drawButton(ctx, button) {

@@ -6,7 +6,7 @@ class Steve {
         this.width = 200;
         this.height = 356;
         this.game = game;
-        this.health = 10;
+        this.health = 1;
         this.hunger = 5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
@@ -41,6 +41,10 @@ class Steve {
         this.loadAnimations();
         this.live = true;
         this.win = false;
+
+        // this.lastPlayerX = 0;
+        // this.lastPlayerY = 0;
+        // this.lastPlayerZ = 0;
 
 
         //console.log("Z: " + this.playerZ);
@@ -248,6 +252,8 @@ class Steve {
                     this.runningAnimations.height = this.height;
                 }
 
+                }
+
             }
         }
     
@@ -262,6 +268,7 @@ class Steve {
         }
 
         if (this.game.keys.space && !this.jumped && this.jumpDelay === 0 && this.collision.state != -1) {
+            //  console.log("steve jumped");
             //  console.log("steve jumped");
             this.jumped = true;
             this.jumpDelay = 36;
@@ -304,6 +311,9 @@ class Steve {
             //    console.log("why did this run");
             this.playerZ -= 0.1;
             //this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+
+        }
+        else if (this.collision.state === 0 && !this.jumped) {
 
         }
         else if (this.collision.state === 0 && !this.jumped) {

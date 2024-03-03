@@ -15,8 +15,7 @@ class UI {
         this.hungerImg = null;
         this.hungerScale = 0.5;
         this.hungerX = 480;
-        this.hungerY = 40
-        ;
+        this.hungerY = 40;
         this.loadAnimations();
     };
 
