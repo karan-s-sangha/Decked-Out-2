@@ -6,7 +6,7 @@ class Steve {
         this.width = 200;
         this.height = 356;
         this.game = game;
-        this.health = 10;
+        this.health = 1;
         this.hunger = 5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
@@ -35,12 +35,15 @@ class Steve {
         this.playerRunSpeed = 20;
         this.playerWalkSpeed = 5;
 
-        this.angle = 0;
 
         this.collision = this.game.camera.collision;
         this.loadAnimations();
         this.live = true;
         this.win = false;
+
+        // this.lastPlayerX = 0;
+        // this.lastPlayerY = 0;
+        // this.lastPlayerZ = 0;
 
 
         //console.log("Z: " + this.playerZ);
@@ -78,7 +81,6 @@ class Steve {
 
         console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-        if(this.live){
         if (this.collision.state === -1) {
             if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.floor(this.playerZ))) {
                 if (this.collision.state != 1) {
@@ -250,7 +252,6 @@ class Steve {
 
             }
         }
-    
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
@@ -298,9 +299,9 @@ class Steve {
 
 
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-         console.log(this.collision.state);
+        //  console.log(this.collision.state);
 
-        if ((this.collision.state == -1 || this.collision.state == -2) && !this.jumped) {
+        if (this.collision.state === -1 && !this.jumped) {
             //    console.log("why did this run");
             this.playerZ -= 0.1;
             //this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
@@ -378,20 +379,8 @@ class Steve {
 
 
     draw(ctx) {
-        /* 
-        Game Engine has mouse listener along with keyboard listener. By calling game.mouse, I can retrieve 
-        the mouse input from the user. Here, by calling arctan method from math class, I can find the angle 
-        between the cursor and the steve in radian.
 
-        Ex:     
-                    cursor(pi/2)
-          
-                            cursor(pi/4)
-
-                    steve        cursor(0 or 2*pi)
-
-        */
-        // For debug purpose I drew an red rectangle where the sprite should locate
+        // console.log("Player " + this.playerX + " " + this.playerY + " " + this.playerZ) ;
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
         */
