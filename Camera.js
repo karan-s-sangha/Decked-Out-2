@@ -10,8 +10,8 @@ class Camera {
         // this.steveInitialX = -6;
         // this.steveInitialY = 3;
         // this.steveInitialZ = 1;
-        //75   58   14 20 86 11 124, 58, 34)
-        this.steveInitialX = 75; 
+        //75   58   14         20 86 11        124, 58, 34)
+        this.steveInitialX = 78; 
         this.steveInitialY = 58;   
         this.steveInitialZ = 14;   
         this.steve = new Steve(this.game, this.steveInitialX, this.steveInitialY, this.steveInitialZ);
@@ -30,13 +30,10 @@ class Camera {
         this.levelY = 0;
         this.menuButtonCooldown = 0.15;
 
-
-        // Checking the Compass and the Artifact
-        this.artifact = new Artifact(this.game, this.steve);
-        this.ember = new FrostEmbers(this.game, this.steve);
+        this.difficulty = new Difficulty(game, "Hard");
+        //this.ember = new FrostEmbers(this.game, this.steve);
         //this.gold = new Gold(this.game, this.steve);
 
-        this.compass = new Compass(this.artifact, this.steve, this.game);
         this.ui = new UI(this.steve);
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
@@ -107,20 +104,16 @@ class Camera {
        
        this.game.addEntity(this.staticArt);            
       
-      
        this.game.addEntity(this.blocksUnderPlayer);    
        this.game.addEntity(steve);
+
        //this.addRavagers();
        this.game.addEntity(this.blocksAtOrAbovePlayer);    
+       
+       this.game.addEntity(this.difficulty);
 
-        //Adding the Compass Entity
-        this.game.addEntity(this.compass);
 
-        //Adding All the Item Entity
-        this.game.addEntity(this.artifact);
-
-        this.game.addEntity(this.ember);
-
+        //this.game.addEntity(this.ember);
 
         this.game.addEntity(this.ui);
 

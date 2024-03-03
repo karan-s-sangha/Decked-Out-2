@@ -22,6 +22,8 @@ class Compass {
 
     // Function
     update() {
+        //console.log("compass");
+
         this.playerX = this.steve.playerX;
         this.playerY = this.steve.playerY;
        
@@ -39,7 +41,8 @@ class Compass {
         }
     draw(ctx) {
         // ctx.fillStyle = 'red';
-       
+       //console.log("Drawing the compass");
+
         this.angleDegree = Math.floor(this.angleRadians * (180 / Math.PI));
     
         this.drawAngle(ctx, this.angleDegree, this.scale);
