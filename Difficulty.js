@@ -38,7 +38,7 @@ class Difficulty {
         if(this.artifact.item.picked){
             this.artifact = new Artifact(this.game, this.game.camera.steve);
             this.compass = new Compass(this.artifact, this.game.camera.steve, this.game);
-            // this.artifactsCollected++;
+            this.artifactsCollected++;
             // console.log(this.artifactsCollected);
         }
         else {
