@@ -11,9 +11,9 @@ class Camera {
         // this.steveInitialY = 3;
         // this.steveInitialZ = 1;
         //75   58   14 20 86 11 124, 58, 34)
-        this.steveInitialX = 75;
-        this.steveInitialY = 58;
-        this.steveInitialZ = 14;
+        this.steveInitialX = 75; 
+        this.steveInitialY = 58;   
+        this.steveInitialZ = 14;   
         this.steve = new Steve(this.game, this.steveInitialX, this.steveInitialY, this.steveInitialZ);
 
         this.cameraX = this.steveInitialX - this.ctx.canvas.width / 2;
@@ -30,18 +30,15 @@ class Camera {
         this.levelY = 0;
         this.menuButtonCooldown = 0.15;
 
-
-        // Checking the Compass and the Artifact
-        this.artifact = new Artifact(this.game, this.steve);
-        this.ember = new FrostEmbers(this.game, this.steve);
+        this.difficulty = new Difficulty(game, "Hard");
+        //this.ember = new FrostEmbers(this.game, this.steve);
         //this.gold = new Gold(this.game, this.steve);
 
-        this.compass = new Compass(this.artifact, this.steve, this.game);
         this.ui = new UI(this.steve);
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 2;
+        this.sizeFactor = 0.3;
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
@@ -53,6 +50,7 @@ class Camera {
 
     };
     async initializeAndLoadLevel() {
+        console.log("In initialization");
         try {
             for (let i = 0; i < this.layerCount; i++) {
                 const response = await fetch(`./map/layer_${i}.txt`);
@@ -65,7 +63,7 @@ class Camera {
             console.error('Error during initialization:', error);
         }
     }
-
+    
 
     processTextFile(text) {
         const lines = text.split('\n');
@@ -99,37 +97,23 @@ class Camera {
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(steve) {
+        console.log("this should be running unless the map finish loading");
         // Adding the first upper level static art
         this.blocksUnderPlayer = new BlocksUnderPlayer(this.staticArt);
         this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.staticArt);
+       
+       this.game.addEntity(this.staticArt);            
+      
+       this.game.addEntity(this.blocksUnderPlayer);    
+       this.game.addEntity(steve);
 
-        this.game.addEntity(this.staticArt);
-
-
-        this.game.addEntity(this.blocksUnderPlayer);
-        this.game.addEntity(steve);
-        //this.addRavagers();
-
-        this.game.addEntity(this.blocksAtOrAbovePlayer);
-
-        //  this.game.addEntity( this.blocksUnderPlayer);
-
-        this.game.addEntity(steve);
+    
+       this.game.addEntity(this.blocksAtOrAbovePlayer);    
+       this.addRavagers();
+       this.game.addEntity(this.difficulty);
 
 
-        // this.game.addEntity(this.blocksAtOrAbovePlayer);
-
-
-        this.addRavagers();
-
-        //Adding the Compass Entity
-        this.game.addEntity(this.compass);
-
-        //Adding All the Item Entity
-        this.game.addEntity(this.artifact);
-
-        this.game.addEntity(this.ember);
-
+        //this.game.addEntity(this.ember);
 
         this.game.addEntity(this.ui);
 
@@ -137,8 +121,8 @@ class Camera {
 
     addRavagers() {
         this.ravagerPositions = [
-            { x: 80, y: 58, z: 14}
-            //   { x: 20, y: 90, z: 11 }
+            //  { x:-2, y: 8, z: 1 }
+              { x: 70, y: 58, z: 14 }
             // { x: 130, y: 60, z: 34}
             /*{ x: 1332, y: 2348, z: 1 },
             { x: 556, y: 4572, z: 2 },
@@ -156,7 +140,7 @@ class Camera {
         ];
 
         this.ravagerPositions.forEach(pos => {
-            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.35);
+            let ravager = new Ravager(this.game, this.steve, this.collision, pos.x, pos.y, pos.z, 0.3, 1, 0.25);
             this.game.addEntity(ravager);
             this.ravagers.push(ravager);
         });
@@ -230,16 +214,16 @@ class Camera {
         this.isoCameraY = isoPlayerY - this.game.ctx.canvas.height / 2;
 
 
-
-        // if (this.steve.live == false) {
-        //     this.game.play = false;
-        // }
+        // if win -> pause Camera then run scenemanagaer
+        // if lose -> you have to stay in the Camera
+        if (this.steve.live == false && this.steve.win) {
+            this.game.play = false;
+        }
 
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
-
 
     };
 
