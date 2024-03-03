@@ -231,15 +231,15 @@ class Camera {
 
 
 
-        if (this.steve.live == false) {
-            this.game.play = false;
-        }
+        // if (this.steve.live == false) {
+        //     this.game.play = false;
+        // }
 
     };
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {
-        
+
 
     };
 

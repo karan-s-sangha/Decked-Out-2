@@ -68,9 +68,6 @@ class Steve {
     }
 
     update() {
-        if (!this.live) {
-            return;
-        }
         // console.log(this.canMove);
 
 
@@ -316,17 +313,9 @@ class Steve {
             this.hunger -= 0.5;
             this.hungerTime = 0;
         }
-        // if (this.health <= 0.5){
-        //     this.lastPlayerX = this.playerX;
-        //     this.lastPlayerY = this.playerY;
-        //     this.lastPlayerZ = this.playerZ;
-        // }
 
         if (this.health <= 0) {
             this.health = 0;
-            // this.playerX = this.lastPlayerX;
-            // this.playerY = this.lastPlayerY;
-            // this.playerZ = this.lastPlayerZ;
             this.live = false;
         }
         if (this.hunger <= 0) {
@@ -416,9 +405,7 @@ class Steve {
 
 
     draw(ctx) {
-        if (!this.live){
-            return;
-        }
+
         // console.log("Player " + this.playerX + " " + this.playerY + " " + this.playerZ) ;
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0

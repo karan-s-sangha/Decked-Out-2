@@ -79,7 +79,6 @@ class FrontEnd {
         this.isInCredits = false;
         this.isShowInstructions = false;
         this.isInWinScreen = false; // Only true when the player wins the game.
-        this.isInLoseScreen = false;
         this.sceneManager.loadSceneManager("levelOne", true);
     }
 
@@ -87,7 +86,6 @@ class FrontEnd {
         this.isInMenu = false;
         this.isShowInstructions = true;
         this.isInCredits = false;
-        this.isInLoseScreen = false;
         this.isInWinScreen = false;
     }
 
@@ -95,7 +93,6 @@ class FrontEnd {
         this.isInMenu = false;
         this.isInCredits = true;
         this.isShowInstructions = false;
-        this.isInLoseScreen = false;
         this.isInWinScreen = false;
     }
 
@@ -103,7 +100,6 @@ class FrontEnd {
         this.isInMenu = true;
         this.isInCredits = false;
         this.isShowInstructions = false;
-        this.isInLoseScreen = false;
         this.isInWinScreen = false;
     }
 

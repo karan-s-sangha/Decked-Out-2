@@ -70,9 +70,7 @@ class Ravager {
     }
 
     draw(ctx) {
-        if (!this.steve.live) {
-            return;
-        }
+   
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
         let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
@@ -153,9 +151,6 @@ class Ravager {
     }
 
     update() {
-        if (!this.steve.live) {
-            return;
-        }
         // console.log(this.canSeePlayer());
         // if (this.canSeePlayer() && this.steve.health > 0) {
         if (this.canSeePlayer()) {
