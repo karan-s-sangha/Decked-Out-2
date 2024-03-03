@@ -150,7 +150,7 @@ class Ravager {
         }
 
         animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY + 50, this.size, 0);
-        //console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
+        // console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
 
 
         // Store current position for any subsequent logic
@@ -180,11 +180,6 @@ class Ravager {
     update() {
         // console.log(this.canSeePlayer());
         // if (this.canSeePlayer() && this.steve.health > 0) {
-        if (this.canSeePlayer()) {
-            if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
-                this.state = 'attacking';
-                this.steve.health -= 0.5;
-                this.attackCoolDown = 1;
 
         if (this.canSeePlayer()) {
            
@@ -326,12 +321,15 @@ class Ravager {
         if (this.collisions.isCollision(nextX, nextY, nextZ)) {
             this.ravagerX = nextX;
             this.ravagerY = nextY;
-            this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
-            if (this.collisions.state === -1 && !this.jumped) {
-                this.ravagerZ -= 0.1;
-            } else if (this.collisions.state === 1) {
-                this.ravagerZ += 0.1;
-            }
+        }
+        
+        this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
+        if (this.collisions.state === -1 && !this.jumped) {
+            this.ravagerZ -= 0.1;
+        } else if (this.collisions.state === 1) {
+            this.ravagerZ += 0.1;
+        } else if(this.collisions.state === 0 && !this.jumped) {
+            this.ravagerZ = Math.ceil(this.ravagerZ);
         }
 
     }
@@ -396,22 +394,20 @@ class Ravager {
                 // If no collision, update the ravager's position
                 this.ravagerX = newX;
                 this.ravagerY = newY;
-
-
-
-                this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
-                if (this.collisions.state === -1 && !this.jumped) {
-                    this.ravagerZ -= 0.1;
-                } else if (this.collisions.state === 1) {
-                    this.ravagerZ += 0.1;
-                }
-
-
-                this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY);
+                this.wanderDirection = this.calculateWanderDirection(newX - oldX, newY - oldY); 
                 this.wanderMove--;
             } else {
                 this.wanderMove = 0;
-            }
+              }
+
+              this.collisions.isCollision(this.ravagerX, this.ravagerY, this.ravagerZ);
+              if (this.collisions.state === -1 && !this.jumped) {
+                  this.ravagerZ -= 0.1;
+              } else if (this.collisions.state === 1) {
+                  this.ravagerZ += 0.1;
+              } else if(this.collisions.state === 0 && !this.jumped) {
+                  this.ravagerZ = Math.ceil(this.ravagerZ);
+              }
         }
     }
 
@@ -442,7 +438,6 @@ class Ravager {
     }
 
 }
-
 
 
 

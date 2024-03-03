@@ -35,6 +35,7 @@ class Steve {
         this.playerRunSpeed = 20;
         this.playerWalkSpeed = 5;
 
+        this.angle = 0;
 
         this.collision = this.game.camera.collision;
         this.loadAnimations();
@@ -81,6 +82,7 @@ class Steve {
 
         console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+        if(this.live){
         if (this.collision.state === -1) {
             if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.floor(this.playerZ))) {
                 if (this.collision.state != 1) {
@@ -250,8 +252,9 @@ class Steve {
                     this.runningAnimations.height = this.height;
                 }
 
+                }
+
             }
-        }
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
@@ -263,6 +266,7 @@ class Steve {
         }
 
         if (this.game.keys.space && !this.jumped && this.jumpDelay === 0 && this.collision.state != -1) {
+            //  console.log("steve jumped");
             //  console.log("steve jumped");
             this.jumped = true;
             this.jumpDelay = 36;
@@ -299,12 +303,15 @@ class Steve {
 
 
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-        //  console.log(this.collision.state);
+         console.log(this.collision.state);
 
-        if (this.collision.state === -1 && !this.jumped) {
+        if ((this.collision.state == -1 || this.collision.state == -2) && !this.jumped) {
             //    console.log("why did this run");
             this.playerZ -= 0.1;
             //this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+
+        }
+        else if (this.collision.state === 0 && !this.jumped) {
 
         }
         else if (this.collision.state === 0 && !this.jumped) {
@@ -379,8 +386,20 @@ class Steve {
 
 
     draw(ctx) {
+        /* 
+        Game Engine has mouse listener along with keyboard listener. By calling game.mouse, I can retrieve 
+        the mouse input from the user. Here, by calling arctan method from math class, I can find the angle 
+        between the cursor and the steve in radian.
 
-        // console.log("Player " + this.playerX + " " + this.playerY + " " + this.playerZ) ;
+        Ex:     
+                    cursor(pi/2)
+          
+                            cursor(pi/4)
+
+                    steve        cursor(0 or 2*pi)
+
+        */
+        // For debug purpose I drew an red rectangle where the sprite should locate
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
         */
