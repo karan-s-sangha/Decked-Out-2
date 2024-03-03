@@ -17,9 +17,14 @@ class StaticArt {
         let playerZ = Math.ceil(this.game.camera.steve.playerZ);
         let key = `${playerX},${playerY},${playerZ}`;
         console.log(playerX," ",playerY," ",playerZ);
+        let count = 0;
         while(!this.game.camera.blocksMap[key]){
             playerZ = playerZ -1;
             key = `${playerX},${playerY},${playerZ}`;
+            count++;
+            if(count>100){
+                break;
+            }
         }
         
         this.blocks = [];
