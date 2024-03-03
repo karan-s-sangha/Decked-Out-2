@@ -36,7 +36,6 @@ class Steve {
         this.playerWalkSpeed = 5;
 
 
-        this.win = false;
 
         this.collision = this.game.camera.collision;
         this.loadAnimations();
@@ -72,13 +71,6 @@ class Steve {
     }
 
 
-
-    stopWalkSound() {
-        let titleMusicPath ="./Art/music/walksound1.mp3";;
-        ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
-
-    }
-
     update() {
         // console.log(this.canMove);
         let prevX = this.playerX;
@@ -86,6 +78,7 @@ class Steve {
 
         console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
+        if(this.live){
         if (this.collision.state === -1) {
             if (this.game.keys.left && this.collision.isCollision(this.playerX - (this.playerWalkSpeed * this.game.clockTick), this.playerY, Math.floor(this.playerZ))) {
                 if (this.collision.state != 1) {
@@ -257,7 +250,7 @@ class Steve {
 
             }
         }
-
+    }
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
@@ -321,9 +314,7 @@ class Steve {
 
         if(this.playerX != prevX || this.playerY != prevY && this.collision.state != -1){
             this.playWalkSound();
-        } else {
-            //this.stopWalkSound();
-        }
+        } 
     };
 
 
@@ -359,8 +350,8 @@ class Steve {
         offscreenCtx.translate(offscreenCanvas.width / 2, offscreenCanvas.height / 2);
         offscreenCtx.rotate(radian);
         offscreenCtx.translate(-offscreenCanvas.width / 2, -offscreenCanvas.height / 2);
-        offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.screenX
-            , this.screenY, this.width * scale, this.height * scale);
+        offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, (offscreenCanvas.width - (this.width * scale)) / 2
+            , (offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
         offscreenCtx.restore();
         // offscreenCtx.save();
 
@@ -372,17 +363,53 @@ class Steve {
 
         //    }
         //ctx.drawImage(this.cache[angle],this.game.camera.cameraX - this.cache[angle].width / 2, this.game.camera.cameraY - this.cache[angle].height / 2);
-        ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.playerX - this.game.camera.cameraX - this.scale * this.height / 4, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2, this.width * scale, this.height * scale);
+        ctx.drawImage(offscreenCanvas, this.playerX - this.game.camera.cameraX - this.scale * this.height / 2, this.playerY - this.game.camera.cameraY - this.scale * this.height / 2);
 
     }
 
 
 
     draw(ctx) {
-        // console.log("Player " + this.playerX + " " + this.playerY + " " + this.playerZ) ;
+        /* 
+        Game Engine has mouse listener along with keyboard listener. By calling game.mouse, I can retrieve 
+        the mouse input from the user. Here, by calling arctan method from math class, I can find the angle 
+        between the cursor and the steve in radian.
+
+        Ex:     
+                    cursor(pi/2)
+          
+                            cursor(pi/4)
+
+                    steve        cursor(0 or 2*pi)
+
+        */
+        let angle = Math.atan2(this.game.mouse.y - this.screenY, this.game.mouse.x - this.screenX) - (Math.PI / 2);
+        /*
+        Because we don't to have negative angle, if the angle is negative, you have to convert into positive.
+
+         Ex:     
+                    steve      
+
+
+
+                    cursor(-pi/2 + 2pi = 3/2 pi) 
+        */
+        if (angle < 0) {
+            angle += Math.PI * 2;
+        }
+        /*
+        Now convert radian into degree.
+        */
+        let degrees = Math.floor(angle / Math.PI / 2 * 360);
+        // For debug purpose I drew an red rectangle where the sprite should locate
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.screenX, this.screenY, 1, 1);
+       // ctx.save();
+
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
         */
+       if(this.live){
         if (this.move == 1) {
             /*
             If the player pressed key, we will call animator to animate the movement of a player.
@@ -405,7 +432,9 @@ class Steve {
             }
 
         }
-
+       } else {
+        this.drawAngle(ctx, 90, this.scale);
+       }
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
     };

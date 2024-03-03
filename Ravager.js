@@ -22,7 +22,7 @@ class Ravager {
         this.count = 0;
 
         this.jump = false;
-
+        this.soundCoolDown = 800;
         this.loadAnimations();
         this.state = "wandering";
         this.collisions = collisions;
@@ -77,7 +77,13 @@ class Ravager {
             ASSET_MANAGER.playAsset(titleMusicPath);
         }
     }
- 
+    playRavagerSound() {
+        let titleMusicPath = "./Art/music/ravager.mp3";
+        let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
+        if (titleMusic && titleMusic.paused) {
+            ASSET_MANAGER.playAsset(titleMusicPath);
+        }
+    }
     // playRavagerSound() {
     //     let titleMusicPath = "./Art/music/walksound.mp3";
     //     let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
@@ -247,6 +253,9 @@ class Ravager {
 
     canSeePlayer() {
         // Visibility and collision checks
+        
+
+        
         const visibilityDistance = 3;
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
@@ -255,7 +264,14 @@ class Ravager {
         if (distanceToPlayer > visibilityDistance) {
             return false;
         }
-
+        console.log(this.soundCoolDown);
+        if(this.soundCoolDown >= 800) {
+            this.playRavagerSound();
+        } 
+        this.soundCoolDown--;
+        if(this.soundCoolDown < 0) {
+            this.soundCoolDown = 800;
+        }
         const steps = Math.ceil(Math.max(Math.abs(dx), Math.abs(dy)));
 
         // Check each step along the line for obstructions
@@ -268,7 +284,7 @@ class Ravager {
                 return false; // Obstruction detected, Steve cannot be seen.
             }
         }
-
+        
         // If no obstructions are detected, the player can be seen
         return true;
     }
