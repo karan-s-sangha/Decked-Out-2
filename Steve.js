@@ -35,7 +35,7 @@ class Steve {
         this.playerRunSpeed = 20;
         this.playerWalkSpeed = 5;
 
-
+        this.angle = 0;
 
         this.collision = this.game.camera.collision;
         this.loadAnimations();
@@ -250,7 +250,7 @@ class Steve {
 
             }
         }
-    }
+    
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
@@ -315,6 +315,14 @@ class Steve {
         if(this.playerX != prevX || this.playerY != prevY && this.collision.state != -1){
             this.playWalkSound();
         } 
+
+    } else { 
+        if(this.angle < 90) {
+            this.angle += 2;
+        }
+    }
+
+
     };
 
 
@@ -338,20 +346,20 @@ class Steve {
         var offscreenCanvas = document.createElement('canvas');
 
         if (this.width > this.height) {
-            offscreenCanvas.width = this.width * scale;
+            offscreenCanvas.width = this.width * 2 *scale;
             offscreenCanvas.height = this.width * scale;
         } else {
-            offscreenCanvas.width = this.height * scale;
+            offscreenCanvas.width = this.height * 2 * scale;
             offscreenCanvas.height = this.height * scale;
         }
 
         var offscreenCtx = offscreenCanvas.getContext('2d');
         offscreenCtx.save();
-        offscreenCtx.translate(offscreenCanvas.width / 2, offscreenCanvas.height / 2);
+        offscreenCtx.translate(offscreenCanvas.width / 4, offscreenCanvas.height - 20);
         offscreenCtx.rotate(radian);
-        offscreenCtx.translate(-offscreenCanvas.width / 2, -offscreenCanvas.height / 2);
-        offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, (offscreenCanvas.width - (this.width * scale)) / 2
-            , (offscreenCanvas.width - (this.height * scale)) / 2, this.width * scale, this.height * scale);
+        offscreenCtx.translate(-offscreenCanvas.width / 4, -offscreenCanvas.height + 20);
+        offscreenCtx.drawImage(this.spritesheet, 0, 0, this.width, this.height, (offscreenCanvas.width / 2- (this.width * scale)) / 2
+            , (offscreenCanvas.width / 2 - (this.height * scale)) / 2, this.width * scale, this.height * scale);
         offscreenCtx.restore();
         // offscreenCtx.save();
 
@@ -383,29 +391,7 @@ class Steve {
                     steve        cursor(0 or 2*pi)
 
         */
-        let angle = Math.atan2(this.game.mouse.y - this.screenY, this.game.mouse.x - this.screenX) - (Math.PI / 2);
-        /*
-        Because we don't to have negative angle, if the angle is negative, you have to convert into positive.
-
-         Ex:     
-                    steve      
-
-
-
-                    cursor(-pi/2 + 2pi = 3/2 pi) 
-        */
-        if (angle < 0) {
-            angle += Math.PI * 2;
-        }
-        /*
-        Now convert radian into degree.
-        */
-        let degrees = Math.floor(angle / Math.PI / 2 * 360);
         // For debug purpose I drew an red rectangle where the sprite should locate
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.screenX, this.screenY, 1, 1);
-       // ctx.save();
-
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
         */
@@ -433,7 +419,7 @@ class Steve {
 
         }
        } else {
-        this.drawAngle(ctx, 90, this.scale);
+        this.drawAngle(ctx, this.angle, this.scale);
        }
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.screenX, this.screenY, 1, 1);
