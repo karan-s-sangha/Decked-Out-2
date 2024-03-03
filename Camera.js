@@ -122,7 +122,7 @@ class Camera {
     addRavagers() {
         this.ravagerPositions = [
             //  { x:-2, y: 8, z: 1 }
-            //   { x: 20, y: 90, z: 11 }
+              { x: 70, y: 58, z: 14 }
             // { x: 130, y: 60, z: 34}
             /*{ x: 1332, y: 2348, z: 1 },
             { x: 556, y: 4572, z: 2 },
