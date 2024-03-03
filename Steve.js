@@ -255,8 +255,6 @@ class Steve {
                 }
 
             }
-        }
-    
 
         this.run = false;
         this.hungerTime += this.game.clockTick;
