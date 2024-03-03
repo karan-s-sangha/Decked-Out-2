@@ -114,14 +114,6 @@ class AssetManager {
         }
     };
 
-   /**  autoRepeat(path) {
-        var aud = this.cache[path];
-        aud.addEventListener("ended", function () {
-            console.log("Audio ended, replaying:", path);
-            aud.play();
-        });
-    };*/
-
     autoRepeat(path) {
         var aud = this.cache[path];
         if (aud) {

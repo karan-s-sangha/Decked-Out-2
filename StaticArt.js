@@ -11,10 +11,13 @@ class StaticArt {
         // Placeholder for future update logic
     }
 
+
     draw(ctx) {
+       
         const playerX = Math.floor(this.game.camera.steve.playerX);
         const playerY = Math.floor(this.game.camera.steve.playerY);
         const playerZ = Math.ceil(this.game.camera.steve.playerZ);
+       // console.log(playerX + "X " + playerY + "Y " + playerZ);
 
         this.blocks = [];
         this.reachableBlocks = [];

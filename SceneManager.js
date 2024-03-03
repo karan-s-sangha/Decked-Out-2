@@ -37,10 +37,8 @@ class SceneManager {
     // This update is for the whole website including the HTML 
     update() {
        if (this.frontend.isInMenu || this.frontend.isInCredits || this.frontend.isShowInstructions){
-            this.frontend.update();
-        } else if (this.steve.live === false) {
-            this.frontend.isInLoseScreen = !this.steve.live;
-            //this.frontend.update();
+           this.frontend.update();
+           //this.frontend.isInWinScreen = this.steve.win;
         } else if(this.steve.win === true) {
             this.frontend.isInWinScreen = this.steve.win;
             //this.frontend.update();
@@ -52,10 +50,9 @@ class SceneManager {
     draw(ctx) { 
        if (this.frontend.isInMenu || this.frontend.isShowInstructions || this.frontend.isInCredits) {
             this.frontend.draw(ctx);
-        } else if (this.frontend.isInLoseScreen){
-           this.frontend.drawLoseScreen(ctx);
-           } else if (this.frontend.isInWinScreen){
+        } else if (this.frontend.isInWinScreen){
             this.frontend.drawWinScreen(ctx);
+           this.frontend.playTitleMusic("./Art/music/winningSound.mp3");
            }
        
     };

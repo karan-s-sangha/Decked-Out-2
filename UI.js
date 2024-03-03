@@ -15,9 +15,9 @@ class UI {
         this.hungerImg = null;
         this.hungerScale = 0.5;
         this.hungerX = 480;
-        this.hungerY = 40
-        ;
+        this.hungerY = 40;
         this.loadAnimations();
+        this.isInLoseScreen = false; // Only true when the player loses the game.
     };
 
     loadAnimations() {
@@ -65,8 +65,36 @@ class UI {
         for(let i = 0; i < 10 - Math.ceil(hunger); i++) {
             ctx.drawImage(this.hungerImg,2*this.hungerWidth,0,this.hungerWidth,this.hungerHeight,this.hungerX + (Math.ceil(hunger) + i) *this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
         }
+        if (this.steve.live == false){
+            this.drawLoseScreen(ctx);
+        }
         // ctx.strokeStyle = "red";
         // ctx.strokeRect(this.hungerX, this.hungerY, 1, 1);
         // ctx.save();
     };
+
+    drawLoseScreen(ctx) {
+        // ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
+        //ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
+
+
+        ctx.font = "48px 'Press Start 2P'";
+        ctx.fillStyle = 'white'; // Text color
+        ctx.textAlign = 'center';
+
+        // Define the lose message
+        let loseMessage = "Bruh, YOU LOSE!, slain by Ravagers";
+
+        // Calculate the position of the text to be in the center of the canvas
+        let textX = ctx.canvas.width / 2;
+        let textY = ctx.canvas.height / 2; // Adjust this value as needed to position the text vertically
+
+        // Draw the lose message on the canvas
+        ctx.fillText(loseMessage, textX, textY);
+
+        // Optional: Draw a button or instruction to return to the title screen or retry
+        // this.drawReturnToTitleButton(ctx);
+    }
+
+
 }

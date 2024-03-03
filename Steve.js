@@ -6,7 +6,7 @@ class Steve {
         this.width = 200;
         this.height = 356;
         this.game = game;
-        this.health = 10;
+        this.health = 1;
         this.hunger = 5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
@@ -36,12 +36,15 @@ class Steve {
         this.playerWalkSpeed = 5;
 
 
-        this.win = false;
 
         this.collision = this.game.camera.collision;
         this.loadAnimations();
         this.live = true;
         this.win = false;
+
+        // this.lastPlayerX = 0;
+        // this.lastPlayerY = 0;
+        // this.lastPlayerZ = 0;
 
 
         //console.log("Z: " + this.playerZ);
@@ -65,6 +68,9 @@ class Steve {
     }
 
     update() {
+        if (!this.live) {
+            return;
+        }
         // console.log(this.canMove);
 
 
@@ -310,9 +316,17 @@ class Steve {
             this.hunger -= 0.5;
             this.hungerTime = 0;
         }
+        // if (this.health <= 0.5){
+        //     this.lastPlayerX = this.playerX;
+        //     this.lastPlayerY = this.playerY;
+        //     this.lastPlayerZ = this.playerZ;
+        // }
 
         if (this.health <= 0) {
             this.health = 0;
+            // this.playerX = this.lastPlayerX;
+            // this.playerY = this.lastPlayerY;
+            // this.playerZ = this.lastPlayerZ;
             this.live = false;
         }
         if (this.hunger <= 0) {
@@ -402,6 +416,9 @@ class Steve {
 
 
     draw(ctx) {
+        if (!this.live){
+            return;
+        }
         // console.log("Player " + this.playerX + " " + this.playerY + " " + this.playerZ) ;
         /*
         I made an boolean value "move". When keyboard is pressed, this.move = 1, otherwise, 0
