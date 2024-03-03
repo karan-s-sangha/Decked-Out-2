@@ -222,8 +222,9 @@ class Camera {
         this.isoCameraY = isoPlayerY - this.game.ctx.canvas.height / 2;
 
 
-
-        if (this.steve.live == false) {
+        // if win -> pause Camera then run scenemanagaer
+        // if lose -> you have to stay in the Camera
+        if (this.steve.live == false && this.steve.win) {
             this.game.play = false;
         }
 

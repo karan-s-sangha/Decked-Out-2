@@ -77,10 +77,7 @@ class Ravager {
             ASSET_MANAGER.playAsset(titleMusicPath);
         }
     }
-    stopHitSound() {
-        let titleMusicPath ="./Art/music/damage.mp3";;
-        ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
-    }
+ 
     // playRavagerSound() {
     //     let titleMusicPath = "./Art/music/walksound.mp3";
     //     let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
@@ -178,17 +175,20 @@ class Ravager {
         // if (this.canSeePlayer() && this.steve.health > 0) {
 
         if (this.canSeePlayer()) {
+           
             if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
+               
                 this.state = 'attacking';
-                this.steve.health -= 0.5;
+                this.steve.health -= 7.5;
+               // this.playHitSound();
                 this.attackCoolDown =  1;
-
                 this.attack = true;
                 this.steve.canMove = false;
                 this.steve.jumped = true;
                 this.steve.jumpDelay = 30;
 
             } else {
+              
                 this.state = 'running';
                 this.followPlayer();
 
@@ -199,6 +199,7 @@ class Ravager {
             this.wander();
         }
         if (this.attack) {
+          
             if (this.push > 0) {
                 let dx = this.steve.playerX - this.ravagerX;
                 let dy = this.steve.playerY - this.ravagerY;
@@ -220,7 +221,7 @@ class Ravager {
                 
                 if (this.collisions.isCollision(newX, newY, this.steve.playerZ)) {
                     // this.steve.p
-                    this.playHitSound();
+
                     this.steve.playerX = newX;
                     this.steve.playerY = newY;
                     this.push -= 1;

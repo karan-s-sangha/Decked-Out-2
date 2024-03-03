@@ -62,19 +62,19 @@ class Steve {
         this.playerY = y;
         this.move = true;
 
-    }   
+    }
     playWalkSound() {
-        let titleMusicPath = "./Art/music/walksound.mp3";
+        let titleMusicPath = "./Art/music/walksound1.mp3";
         let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
         if (titleMusic && titleMusic.paused) {
-            ASSET_MANAGER.autoRepeat(titleMusicPath);
+            ASSET_MANAGER.playAsset(titleMusicPath);
         }
     }
 
 
 
     stopWalkSound() {
-        let titleMusicPath ="./Art/music/walksound.mp3";;
+        let titleMusicPath ="./Art/music/walksound1.mp3";;
         ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
 
     }
@@ -286,7 +286,7 @@ class Steve {
 
         if (this.health <= 0) {
             this.health = 0;
-            this.live = false;
+           this.live = false;
         }
         if (this.hunger <= 0) {
             this.hunger = 0;
@@ -305,9 +305,9 @@ class Steve {
 
 
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-        //  console.log(this.collision.state);
+         console.log(this.collision.state);
 
-        if (this.collision.state === -1 && !this.jumped) {
+        if ((this.collision.state == -1 || this.collision.state == -2) && !this.jumped) {
             //    console.log("why did this run");
             this.playerZ -= 0.1;
             //this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
@@ -319,10 +319,10 @@ class Steve {
 
         this.elapsedTime += this.game.clockTick;
 
-        if(this.playerX != prevX || this.playerY != prevY){
+        if(this.playerX != prevX || this.playerY != prevY && this.collision.state != -1){
             this.playWalkSound();
         } else {
-            this.stopWalkSound();
+            //this.stopWalkSound();
         }
     };
 
