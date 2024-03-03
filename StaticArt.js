@@ -6,10 +6,11 @@ class StaticArt {
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
     }
-    
+
     update() {
         // Placeholder for future update logic
     }
+
 
     draw(ctx) {
         const playerX = Math.floor(this.game.camera.steve.playerX);
@@ -37,7 +38,7 @@ class StaticArt {
         // let blocks = this.sortBlocksForDrawing(this.blocks);
         // blocks.forEach(block => this.drawBlock(ctx, block));
     }
-    
+
     drawBlock(ctx, block) {
         const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
     
@@ -94,7 +95,7 @@ class StaticArt {
                     if (this.isMovable(x, y, z, dx, dy, dz)) {
                         queue.push({ x: newX, y: newY, z: newZ });
                     }
-                }
+                });
             }
         }
 
@@ -179,24 +180,16 @@ class StaticArt {
     }
 
     getNeighborPositions(x, y, z) {
-        let positions = [];
-        for (let dz of [-1, 0, 1]) {
-            for (let dy of [-1, 0, 1]) {
-                for (let dx of [-1, 0, 1]) {
-                    if (dx || dy || dz) { // Exclude the current block
-                        positions.push({ dx, dy, dz });
+        const neighbors = [];
+        for (let dz = -1; dz <= 1; dz++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    if (dx !== 0 || dy !== 0 || dz !== 0) {
+                        neighbors.push({ dx, dy, dz });
                     }
                 }
             }
         }
-        return positions;
-    }
-    
-    isMovable(currX, currY, currZ, dx, dy, dz) {
-        const targetBlockExists = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz}`];
-        const oneSpaceAbove = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz + 1}`];
-        const twoSpaceAbove = this.game.camera.blocksMap[`${currX + dx},${currY + dy},${currZ + dz + 2}`];
-    
-        return targetBlockExists && !oneSpaceAbove && !twoSpaceAbove;
+        return neighbors;
     }
 }
