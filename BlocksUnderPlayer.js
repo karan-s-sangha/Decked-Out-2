@@ -27,5 +27,6 @@ class BlocksUnderPlayer {
         blocks = this.staticArt.sortBlocksForDrawing(blocks);
 
         blocks.forEach(block => this.staticArt.drawBlock(ctx, block));
+        console.log("game is updating");
     }
 }
