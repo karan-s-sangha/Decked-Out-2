@@ -70,6 +70,28 @@ class Ravager {
         this.walkingAnimationsNorthEast = ASSET_MANAGER.cache["./Art/Ravager_Animations/315.png"];
         this.walkingAnimationsNorthEast = new Animator(this.game, this.walkingAnimationsNorthEast, 0, 0, 651, 610, 50, 0.02, 0, false, true);
     }
+    playHitSound() {
+        let titleMusicPath = "./Art/music/damage.mp3";
+        let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
+        if (titleMusic && titleMusic.paused) {
+            ASSET_MANAGER.playAsset(titleMusicPath);
+        }
+    }
+    stopHitSound() {
+        let titleMusicPath ="./Art/music/damage.mp3";;
+        ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
+    }
+    // playRavagerSound() {
+    //     let titleMusicPath = "./Art/music/walksound.mp3";
+    //     let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
+    //     if (titleMusic && titleMusic.paused) {
+    //         ASSET_MANAGER.playAsset(titleMusicPath);
+    //     }
+    // }
+    // stopRavagerSound() {
+    //     let titleMusicPath ="./Art/music/walksound.mp3";;
+    //     ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
+    // }
 
     draw(ctx) {
         let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
@@ -198,6 +220,7 @@ class Ravager {
                 
                 if (this.collisions.isCollision(newX, newY, this.steve.playerZ)) {
                     // this.steve.p
+                    this.playHitSound();
                     this.steve.playerX = newX;
                     this.steve.playerY = newY;
                     this.push -= 1;
