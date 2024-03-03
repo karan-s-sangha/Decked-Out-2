@@ -30,18 +30,15 @@ class Camera {
         this.levelY = 0;
         this.menuButtonCooldown = 0.15;
 
-
-        // Checking the Compass and the Artifact
-        this.artifact = new Artifact(this.game, this.steve);
-        this.ember = new FrostEmbers(this.game, this.steve);
+        this.difficulty = new Difficulty(game, "Hard");
+        //this.ember = new FrostEmbers(this.game, this.steve);
         //this.gold = new Gold(this.game, this.steve);
 
-        this.compass = new Compass(this.artifact, this.steve, this.game);
         this.ui = new UI(this.steve);
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
-        this.sizeFactor = 2;
+        this.sizeFactor = 0.3;
         let image = ASSET_MANAGER.cache["./Art/resources/tnt.png"];
         this.imageWidth = image.width;
         this.imageHeight = image.height;
@@ -102,26 +99,21 @@ class Camera {
     loadLevel(steve) {
         console.log("this should be running unless the map finish loading");
         // Adding the first upper level static art
-        this.game.addEntity(this.staticArt);
+        this.blocksUnderPlayer = new BlocksUnderPlayer(this.staticArt);
+        this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.staticArt);
+       
+       this.game.addEntity(this.staticArt);            
+      
+       this.game.addEntity(this.blocksUnderPlayer);    
+       this.game.addEntity(steve);
 
-        //  this.game.addEntity( this.blocksUnderPlayer);
-
-        this.game.addEntity(steve);
-
-
-        // this.game.addEntity(this.blocksAtOrAbovePlayer);
+       //this.addRavagers();
+       this.game.addEntity(this.blocksAtOrAbovePlayer);    
+       
+       this.game.addEntity(this.difficulty);
 
 
-        this.addRavagers();
-
-        //Adding the Compass Entity
-        this.game.addEntity(this.compass);
-
-        //Adding All the Item Entity
-        this.game.addEntity(this.artifact);
-
-        this.game.addEntity(this.ember);
-
+        //this.game.addEntity(this.ember);
 
         this.game.addEntity(this.ui);
 

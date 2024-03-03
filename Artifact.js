@@ -2,12 +2,14 @@ class Artifact  {
     constructor(game, steve) {
         this.game = game;
         this.steve = steve;
-        this.item = new Item  (game, steve, [
-            [950, 500], [750, 1500], [595, 1624], [372, 1588], [340, 1700],
-            [177, 1442], [113, 1156], [126, 784], [1235, 1090], [1058, 980],
-            [1050, 1284], [990, 1505], [890, 1294], [447, 930], [333, 1080],
-            [997, 1390], [463, 1416], [865, 1000], [1115, 720]
-        ], [
+        this.item = new Item  (game, steve, 
+            [
+            [73, 58,14], 
+            [68, 58,14] 
+            // [75, 58,14], 
+            // [75, 58,14]
+            ]
+        , [
             "./Art/Artifacts/Axeofthescreaminvoid.png",
             "./Art/Artifacts/Butchersapron.png",
             "./Art/Artifacts/Chiselundead.png",
@@ -24,11 +26,12 @@ class Artifact  {
         ]);
     }
     update(){
+        //console.log("artifact");
         this.item.update();
-        if(this.item.picked) {
-            this.steve.win = true;
-            this.game.play = false;
-        }
+        // if(this.item.picked) {
+        //     this.steve.win = true;
+        //     this.game.play = false;
+        // }
     }
     draw(ctx){
         this.item.draw(ctx);
@@ -52,3 +55,8 @@ class Artifact  {
 //     "./Art/Artifacts/Shadesofthedog.png": 9,
 //     "./Art/Artifacts/Tomeofthehills.png": 12
 // };
+
+// [950, 500], [750, 1500], [595, 1624], [372, 1588], [340, 1700],
+// [177, 1442], [113, 1156], [126, 784], [1235, 1090], [1058, 980],
+// [1050, 1284], [990, 1505], [890, 1294], [447, 930], [333, 1080],
+// [997, 1390], [463, 1416], [865, 1000], [1115, 720]
