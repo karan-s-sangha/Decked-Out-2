@@ -7,13 +7,13 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);
 
-        // this.steveInitialX = -6;
-        // this.steveInitialY = 3;
-        // this.steveInitialZ = 1;
-        //75   58   14         20 86 11        124, 58, 34)
-        this.steveInitialX = 78; 
-        this.steveInitialY = 58;   
-        this.steveInitialZ = 14;   
+        this.steveInitialX = -6;
+        this.steveInitialY = 3;
+        this.steveInitialZ = 1;
+        //75   58   14 20 86 11 124, 58, 34)
+        // this.steveInitialX = 75; 
+        // this.steveInitialY = 58;   
+        // this.steveInitialZ = 14;   
         this.steve = new Steve(this.game, this.steveInitialX, this.steveInitialY, this.steveInitialZ);
 
         this.cameraX = this.steveInitialX - this.ctx.canvas.width / 2;
@@ -214,8 +214,9 @@ class Camera {
         this.isoCameraY = isoPlayerY - this.game.ctx.canvas.height / 2;
 
 
-
-        if (this.steve.live == false) {
+        // if win -> pause Camera then run scenemanagaer
+        // if lose -> you have to stay in the Camera
+        if (this.steve.live == false && this.steve.win) {
             this.game.play = false;
         }
 
