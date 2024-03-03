@@ -181,7 +181,7 @@ class Ravager {
         // console.log(this.canSeePlayer());
         // if (this.canSeePlayer() && this.steve.health > 0) {
 
-        if (this.canSeePlayer()) {
+        if (this.canSeePlayer() && this.steve.live) {
            
             if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
                
