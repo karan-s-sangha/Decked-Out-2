@@ -180,7 +180,7 @@ class Ravager {
                
                 this.state = 'attacking';
                 this.steve.health -= 7.5;
-               // this.playHitSound();
+               
                 this.attackCoolDown =  1;
                 this.attack = true;
                 this.steve.canMove = false;
@@ -208,7 +208,7 @@ class Ravager {
                 let magnitude = Math.sqrt(dx * dx + dy * dy);
                 let dirX = dx / magnitude;
                 let dirY = dy / magnitude;
-
+                this.playHitSound();
                 // Move the Ravager towards the player
                 let newX = this.steve.playerX + dirX * 25 * this.game.clockTick;
                 let newY = this.steve.playerY + dirY * 25 * this.game.clockTick;
