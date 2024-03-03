@@ -1,7 +1,7 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radiusXY = 10; // Radius for drawing and calculations in the XY plane
+        this.radiusXY = 12; // Radius for drawing and calculations in the XY plane
         this.radiusZ = 4;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
@@ -32,19 +32,27 @@ class StaticArt {
     
     drawBlock(ctx, block) {
         const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
-        if (!blockImage) return; // Skip drawing if there's no image for the block
     
-        // Correctly check if the block is in the list of reachable blocks
+        // Check if the blockImage exists and is loaded. Skip drawing if not.
+        if (!blockImage || blockImage.complete === false || blockImage.naturalWidth === 0) {
+            // Log or handle the case where the image is not available
+            console.warn(`Image for block ${block.label} is not available or not loaded.`);
+            return; // Skip the drawing code below
+        }
+    
+        // Proceed with drawing since the image is available and loaded
         const isReachable = this.reachableBlocks.some(b => b.x === block.x && b.y === block.y && b.z === block.z);
     
         ctx.save(); // Save the current context state
         ctx.globalAlpha = isReachable ? 1 : 0; // Adjust transparency: fully opaque for reachable, semi-transparent for not
     
         // Draw the block
-        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor , blockImage.height * sizeFactor );
+        ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
     
         ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
     }
+    
+    
     
     
     expandAroundSteve(playerX, playerY, playerZ) {
