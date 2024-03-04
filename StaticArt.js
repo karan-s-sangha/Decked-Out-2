@@ -1,8 +1,8 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radiusXY = 12; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 4;  // Radius for drawing and calculations in the Z dimension
+        this.radiusXY = 8; // Radius for drawing and calculations in the XY plane
+        this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
     }
@@ -45,15 +45,17 @@ class StaticArt {
         // Check if the blockImage exists and is loaded. Skip drawing if not.
         if (!blockImage || blockImage.complete === false || blockImage.naturalWidth === 0) {
             // Log or handle the case where the image is not available
-            console.warn(`Image for block ${block.label} is not available or not loaded.`);
+            //console.warn(`Image for block ${block.label} is not available or not loaded.`);
             return; // Skip the drawing code below
         }
     
-        // Proceed with drawing since the image is available and loaded
-        const isReachable = this.reachableBlocks.some(b => b.x === block.x && b.y === block.y && b.z === block.z);
+        const blockKey = `${block.x},${block.y},${block.z}`;
 
         ctx.save(); // Save the current context state
-        //ctx.globalAlpha = isReachable ? 1 : 0; // Adjust transparency: fully opaque for reachable, semi-transparent for not
+        const shouldBeTransparent = this.transparency.has(blockKey);
+        ctx.globalAlpha = shouldBeTransparent ? 0.15 : 1; // Adjust opacity based on transparency flag
+        // if(ctx.globalAlpha === 0.5)
+        //    console.log("transparent");  
 
         // Draw the block
         ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
@@ -64,44 +66,15 @@ class StaticArt {
     
     
     
+    
     expandAroundSteve(playerX, playerY, playerZ) {
         let visited = new Set(); // Tracks all visited blocks for expansion
         this.blocks = []; // Reset the blocks list
         this.reachableBlocks = []; // Reset the reachable blocks list
     
         let queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
-    
-        while (queue.length > 0) {
-            const { x, y, z } = queue.shift();
-            const key = `${x},${y},${z}`;
-    
-            if (visited.has(key) || !this.game.camera.blocksMap[key]) continue; // Skip visited or non-existing
+        let isDiagonallyAbove  = false;
 
-            visited.add(key); // Mark as visited
-            let isInRadius = Math.abs(x - playerX) <= this.radiusXY && Math.abs(y - playerY) <= this.radiusXY && Math.abs(z - playerZ) <= this.radiusZ;
-
-            if (isInRadius) {
-                const block = this.game.camera.blocksMap[key];
-                //this.blocks.push(block); // Add to blocks list
-    
-                if (!this.reachableBlocks.some(b => b.x === x && b.y === y && b.z === z)) {
-                    block.reachable = true; // Mark the block as reachable
-                    this.reachableBlocks.push(block); // Add to reachable blocks list
-                }
-
-                // Queue neighbors for exploration
-                this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
-                    let newX = x + dx, newY = y + dy, newZ = z + dz;
-                    if (this.isMovable(x, y, z, dx, dy, dz)) {
-                        queue.push({ x: newX, y: newY, z: newZ });
-                    }
-                });
-            }
-        }
-
-        visited = new Set(); // Tracks all visited blocks for expansion
-        this.blocks = []; // Reset the blocks list
-        queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
         while (queue.length > 0) {
             const { x, y, z, isReachable } = queue.shift();
             const key = `${x},${y},${z}`;
@@ -114,6 +87,7 @@ class StaticArt {
             if (isInRadius) {
                 const block = this.game.camera.blocksMap[key];
                 this.blocks.push(block); // Add to blocks list
+                isDiagonallyAbove = isDiagonallyAbove || (x - y) === (playerX - playerY) && (y - z) === (playerY - playerZ) && (z - playerZ) > 0;
 
                 // Queue neighbors for exploration
                 this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
@@ -125,6 +99,63 @@ class StaticArt {
                 });
             }
         }
+        console.log(isDiagonallyAbove);
+       
+        visited = new Set(); // Tracks all visited blocks for expansion
+        let transparency= new Set(); // Map to track blocks that should be transparent
+
+        queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
+        let count = 1;
+        let flag = false;
+
+        if(isDiagonallyAbove){
+            console.log("Trying to find the transparent");
+            while (queue.length > 0) {
+                const { x, y, z } = queue.shift();
+                const key = `${x},${y},${z}`;
+        
+                if (visited.has(key) || !this.game.camera.blocksMap[key]) continue; // Skip visited or non-existing
+    
+                visited.add(key); // Mark as visited
+                let isInRadius = Math.abs(x - playerX) <= this.radiusXY && Math.abs(y - playerY) <= this.radiusXY && Math.abs(z - playerZ) <= this.radiusZ;
+    
+                if (isInRadius) {
+                    const block = this.game.camera.blocksMap[key];
+                  
+                    // Queue neighbors for exploration
+                    this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
+                        let newX = x + dx, newY = y + dy, newZ = z + dz;
+
+                        //let currentZ = newZ + 1; // Start checking from one block above the current one.
+                        
+                        if (this.isMovable(x, y, z, dx, dy, dz) ) {
+                            while(newZ + count <= playerZ + this.radiusZ) {
+                                let X = newX+count;
+                                let Y = newY+count;
+                                let Z = newZ+count;
+
+                                let aboveKey = `${X},${Y},${Z}`;
+                                if(this.game.camera.blocksMap[aboveKey]) {
+                                    // If there is a block directly above, mark it for transparency.
+                                    // Assuming you have a mechanism to mark blocks as transparent, e.g., adding to a map or modifying the block object.
+                                    transparency.add(aboveKey);
+
+                                    flag = true;
+                                }
+                                count++; // Move one block further up.
+                            }
+                            if(flag === true){
+                               queue.push({ x: newX, y: newY, z: newZ });
+                            }
+                        }
+                        flag = false;
+                        count = 1;
+                    });
+                }
+            }
+        }
+        this.transparency = transparency; // Store the map for use in drawBlock
+
     }
     
     
