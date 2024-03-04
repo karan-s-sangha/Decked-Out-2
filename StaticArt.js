@@ -1,8 +1,8 @@
 class StaticArt {
     constructor(game) {
         this.game = game;
-        this.radiusXY = 8; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
+        this.radiusXY = 12; // Radius for drawing and calculations in the XY plane
+        this.radiusZ = 5;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
     }
@@ -44,8 +44,6 @@ class StaticArt {
     
         // Check if the blockImage exists and is loaded. Skip drawing if not.
         if (!blockImage || blockImage.complete === false || blockImage.naturalWidth === 0) {
-            // Log or handle the case where the image is not available
-            //console.warn(`Image for block ${block.label} is not available or not loaded.`);
             return; // Skip the drawing code below
         }
     
@@ -53,18 +51,14 @@ class StaticArt {
 
         ctx.save(); // Save the current context state
         const shouldBeTransparent = this.transparency.has(blockKey);
-        ctx.globalAlpha = shouldBeTransparent ? 0.15 : 1; // Adjust opacity based on transparency flag
-        // if(ctx.globalAlpha === 0.5)
-        //    console.log("transparent");  
+        ctx.globalAlpha = shouldBeTransparent ? 0.1 : 1; // Adjust opacity based on transparency flag
+      
 
         // Draw the block
         ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
     
         ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
     }
-    
-    
-    
     
     
     expandAroundSteve(playerX, playerY, playerZ) {
@@ -135,6 +129,9 @@ class StaticArt {
                                 let Z = newZ+count;
 
                                 let aboveKey = `${X},${Y},${Z}`;
+                                transparency.add(`${X},${Y},${Z+1}`);
+                                transparency.add(`${X},${Y},${Z+1}`);
+
                                 if(this.game.camera.blocksMap[aboveKey]) {
                                     // If there is a block directly above, mark it for transparency.
                                     // Assuming you have a mechanism to mark blocks as transparent, e.g., adding to a map or modifying the block object.
