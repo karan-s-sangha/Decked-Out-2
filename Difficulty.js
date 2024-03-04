@@ -12,6 +12,9 @@ class Difficulty {
 
     setLevel(level) {
         this.level = level;
+        if (level == null){
+            this.level = 'easy';
+        }
         switch(level) {
             case 'easy':
                 this.artifactsToWin = 3; // Player needs to collect 5 artifacts to win

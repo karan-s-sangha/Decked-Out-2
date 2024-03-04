@@ -340,7 +340,6 @@ class FrontEnd {
             { text: "* Follow the Arrow to the Artifact", style: "100%'Press Start 2P'" },
             { text: "* Space to Jump", style: "100% 'Press Start 2P'" },
             { text: "* Shift + WSAD to move faster", style: "100% 'Press Start 2P'" },
-            { text: "* Use Cursor to rotate Steve", style: "100% 'Press Start 2P'" },
             { text: "", style: "'Press Start 2P'" },
             { text: " BE CAREFUL OF RAVAGERS!!", style: "bolder 150% 'Press Start 2P' italic" },
         ];
