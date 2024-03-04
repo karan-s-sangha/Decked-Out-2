@@ -84,17 +84,7 @@ class Ravager {
             ASSET_MANAGER.playAsset(titleMusicPath);
         }
     }
-    // playRavagerSound() {
-    //     let titleMusicPath = "./Art/music/walksound.mp3";
-    //     let titleMusic = ASSET_MANAGER.getAsset(titleMusicPath);
-    //     if (titleMusic && titleMusic.paused) {
-    //         ASSET_MANAGER.playAsset(titleMusicPath);
-    //     }
-    // }
-    // stopRavagerSound() {
-    //     let titleMusicPath ="./Art/music/walksound.mp3";;
-    //     ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
-    // }
+
 
     draw(ctx) {
    
@@ -115,9 +105,7 @@ class Ravager {
             this.followDirection = this.calculateFollowDirection(); // Update this.followDirection with the new direction
             direction = this.followDirection; // Use the updated follow direction
         }
-       // ctx.fillText(`Direction: ${direction}`, isoX, isoY - 10);
-        // console.log(`Current direction: ${direction}`);
-
+    
 
         let animation;
         switch (direction) {
@@ -150,8 +138,7 @@ class Ravager {
         }
         if (Math.abs(this.ravagerZ - this.steve.playerZ) <= this.game.camera.staticArt.radiusZ){
         animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY + 50, this.size, 0);
-        ctx.fillStyle = "blue"; // For visibility
-        ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
+      
         }
     }
 
@@ -236,7 +223,7 @@ class Ravager {
         if (distanceToPlayer > visibilityDistance) {
             return false;
         }
-       // console.log(this.soundCoolDown);
+
         if(this.soundCoolDown >= 800) {
             this.playRavagerSound();
         } 
