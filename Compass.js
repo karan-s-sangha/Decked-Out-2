@@ -41,6 +41,7 @@ class Compass {
         this.angleRadians = this.findAngle(
             this.playerX, this.playerY,
             this.artifact.item.itemIsoX, this.artifact.item.itemIsoY);
+
         this.drawX = 0;
         this.drawY = 0;
 

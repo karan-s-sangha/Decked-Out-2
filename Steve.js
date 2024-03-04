@@ -269,7 +269,6 @@ class Steve {
             && this.collision.isCollision(this.playerX, this.playerY, this.playerZ + 2)) {
             //  console.log("steve jumped");
             //  console.log("steve jumped");
-            //  console.log("steve jumped");
             this.jumped = true;
             this.jumpDelay = 36;
         }
