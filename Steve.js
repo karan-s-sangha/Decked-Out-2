@@ -80,7 +80,7 @@ class Steve {
         let prevX = this.playerX;
         let prevY = this.playerY;
 
-        //console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
+        console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
         if(this.live){
         if (this.collision.state === -1) {
@@ -280,6 +280,10 @@ class Steve {
         if (this.hungerTime > 20) {
             this.hunger -= 0.5;
             this.hungerTime = 0;
+        }
+
+        if (this.playerZ <= -3){
+            this.health = 0;
         }
 
         if (this.health <= 0) {

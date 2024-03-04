@@ -148,39 +148,14 @@ class Ravager {
             default:
                 break;
         }
-
+        if (Math.abs(this.ravagerZ - this.steve.playerZ) <= this.game.camera.staticArt.radiusZ){
         animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY + 50, this.size, 0);
-        // console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
-
-
-        // Store current position for any subsequent logic
-        /*  this.prevPositions.push({ x: isoX, y: isoY });
-      
-          // Draw lines between previous positions
-          ctx.strokeStyle = "blue"; // Line color
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          for (let i = 1; i < this.prevPositions.length; i++) {
-            ctx.moveTo(this.prevPositions[i - 1].x, this.prevPositions[i - 1].y);
-            ctx.lineTo(this.prevPositions[i].x, this.prevPositions[i].y);
-          }
-          ctx.stroke();
-      
-          // Limit number of stored positions to prevent memory issues
-          if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
-            this.prevPositions.shift(); // Remove the oldest position
-          }
-      
-          // Draw a simple shape for testing
-*/
         ctx.fillStyle = "blue"; // For visibility
         ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
+        }
     }
 
     update() {
-        // console.log(this.canSeePlayer());
-        // if (this.canSeePlayer() && this.steve.health > 0) {
-
         if (this.canSeePlayer() && this.steve.live) {
            
             if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {

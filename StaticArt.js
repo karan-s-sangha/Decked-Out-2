@@ -2,7 +2,7 @@ class StaticArt {
     constructor(game) {
         this.game = game;
         this.radiusXY = 12; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 5;  // Radius for drawing and calculations in the Z dimension
+        this.radiusZ = 3;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
     }
@@ -51,7 +51,7 @@ class StaticArt {
 
         ctx.save(); // Save the current context state
         const shouldBeTransparent = this.transparency.has(blockKey);
-        ctx.globalAlpha = shouldBeTransparent ? 0.1 : 1; // Adjust opacity based on transparency flag
+        ctx.globalAlpha = shouldBeTransparent ? 0.3 : 1; // Adjust opacity based on transparency flag
 
 
         // Draw the block

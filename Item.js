@@ -158,8 +158,9 @@ class Item {
             //console.log(`Item X: ${item.x}, Item Y: ${item.y}, Item Z: ${item.z}`);
             //console.log(`Calculated isoX: ${isoX}, Calculated isoY: ${isoY}`);
             //console.log("Height ",item.verticalMovement);
-        
+            if (Math.abs(item.z - this.steve.playerZ) <= this.game.camera.staticArt.radiusZ){
             ctx.drawImage(item.image, isoX - morfedWidth / 2, isoY - morfedHeight / 2 + this.verticalMovement, morfedWidth, morfedHeight);
+            }
         });
     }
 
