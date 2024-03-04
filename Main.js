@@ -1347,6 +1347,9 @@ ASSET_MANAGER.queueDownload("./Art/resources/zombified_piglin_spawn_egg.png");
 ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/titleMusic.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/winningSound.mp3");
+ASSET_MANAGER.queueDownload("./Art/music/walksound1.mp3");
+ASSET_MANAGER.queueDownload("./Art/music/ravager.mp3");
+ASSET_MANAGER.queueDownload("./Art/music/damage.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
 
 // // sound effects
@@ -1401,7 +1404,7 @@ function initTitleScreen() {
 		ctx.fillStyle = "white";
 		ctx.textAlign = "center";
 		ctx.font = "40px 'Press Start 2P'";
-		ctx.fillText("Click to Start", canvas.width / 2, canvas.height / 1.1);
+		ctx.fillText("Click to Start", canvas.width /2 , canvas.height / 1.1);
 	}
 
 	function onCanvasClick(event) {

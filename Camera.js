@@ -30,7 +30,7 @@ class Camera {
         this.levelY = 0;
         this.menuButtonCooldown = 0.15;
 
-        this.difficulty = new Difficulty(game, "Hard");
+        this.difficulty = new Difficulty(game);
         //this.ember = new FrostEmbers(this.game, this.steve);
         //this.gold = new Gold(this.game, this.steve);
 
@@ -50,7 +50,6 @@ class Camera {
 
     };
     async initializeAndLoadLevel() {
-        console.log("In initialization");
         try {
             for (let i = 0; i < this.layerCount; i++) {
                 const response = await fetch(`./map/layer_${i}.txt`);
@@ -68,7 +67,6 @@ class Camera {
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
-            console.log("READING MAP");
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
@@ -221,6 +219,12 @@ class Camera {
         }
 
     };
+
+    updateDifficulty(level) {
+        if (this.difficulty) {
+            this.difficulty.setLevel(level); 
+        }
+    }
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {

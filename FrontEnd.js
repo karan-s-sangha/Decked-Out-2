@@ -8,7 +8,7 @@ class FrontEnd {
         this.isShowInstructions = false; // Only true when viewing the instructions screen.
 
         this.isInWinScreen = false; // Only true when the player wins the game.
-      
+
 
         // Setup buttons with dimensions and positions
         this.setupButtons();
@@ -18,14 +18,19 @@ class FrontEnd {
         // Variables for scrolling control
         this.creditsElapsedTime = 0;
         this.creditsScrollSpeed = 0.5; // Adjust as needed for speed
+        this.selectedLevel = 'easy'; // Default level
+        this.selectLevel(this.selectedLevel);
+
 
     }
+
+    
 
     playTitleMusic(path) {
         ASSET_MANAGER.autoRepeat(path);
 
     }
-    
+
     stopTitleMusic(path) {
         let titleMusicPath = path;
         ASSET_MANAGER.pauseBackgroundMusic(titleMusicPath);
@@ -63,6 +68,7 @@ class FrontEnd {
                 color: "#3B92E4",
                 action: () => this.showCreditsScreen()
             },
+
             backButton: {
                 x: 20,
                 y: this.game.ctx.canvas.height - 70,
@@ -72,14 +78,48 @@ class FrontEnd {
                 action: () => this.goBack()
             }
         };
+
+        // Calculate positions for level selection buttons
+        const levelLabels = ['Easy', 'Medium', 'Hard'];
+        const buttonSpacing = 10; // Space between each level button
+        const levelButtonWidth = 140; // Increased width for better text fitting
+        const levelButtonHeight = 50;
+        const totalButtonsWidth = levelLabels.length * levelButtonWidth + (levelLabels.length - 1) * buttonSpacing;
+        const baseX = this.buttons.creditsButton.x - (totalButtonsWidth/4);
+        const baseY = this.buttons.creditsButton.y + 70; // Position below the Credits button
+
+        // Dynamically add level selection buttons to the this.buttons object
+        levelLabels.forEach((level, index) => {
+            this.buttons[`${level.toLowerCase()}LevelButton`] = {
+                x: baseX + index * (levelButtonWidth + buttonSpacing),
+                y: baseY,
+                w: levelButtonWidth,
+                h: levelButtonHeight,
+                text: level,
+                color: "#3B92E4", 
+                action: () => this.selectLevel(level.toLowerCase())
+            };
+        });
+
     }
+    selectLevel(level) {
+        this.selectedLevel = level;
+        // Update button colors to indicate the selected level
+        ['easy', 'medium', 'hard'].forEach(lvl => {
+            this.buttons[`${lvl}LevelButton`].color = lvl === level ? "orange" : "#3B92E4"; 
+        });
+        this.sceneManager.updateGameDifficulty(level);
+       // console.log(level + " level");
+    }
+
 
     startGame() {
         this.isInMenu = false;
         this.isInCredits = false;
         this.isShowInstructions = false;
         this.isInWinScreen = false; // Only true when the player wins the game.
-        this.sceneManager.loadSceneManager("levelOne", true);
+        this.sceneManager.loadSceneManager(this.selectedLevel, true);
+        
     }
 
     showInstructionsScreen() {
@@ -135,7 +175,8 @@ class FrontEnd {
         // Handle button interactions based on the current game state m
         if (this.isInMenu) {
             // Only interact with start, instructions, and credits buttons
-            ['startButton', 'instructionsButton', 'creditsButton'].forEach(key => {
+            ['startButton', 'instructionsButton', 'creditsButton', 'easyLevelButton', 
+            'mediumLevelButton', 'hardLevelButton'].forEach(key => {
                 let button = this.buttons[key];
                 button.color = this.mouseHover(this.game.mouse, button) ? '#FF5733' : '#3B92E4';
 
@@ -179,13 +220,23 @@ class FrontEnd {
                 ctx.drawImage(backgroundImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
             }
 
-            // Draw menu buttons except the "Back" button
-            Object.keys(this.buttons).forEach(key => {
-                let button = this.buttons[key];
-                if (button.text !== "Back") {
-                    this.drawButton(ctx, button);
-                }
-            });
+            if (this.isInMenu) {
+                Object.keys(this.buttons).forEach(key => {
+                    if (key.includes('LevelButton')) {
+                        // Keep the selected level button highlighted
+                        const level = key.replace('LevelButton', '');
+                        if (this.selectedLevel === level) {
+                            this.buttons[key].color = "orange";
+                        } else {
+                            this.buttons[key].color = "#3B92E4";
+                        }
+                    }
+                    // Exclude the "Back" button unless you're in instructions or credits
+                    if (!this.isShowInstructions && !this.isInCredits && key !== "backButton") {
+                        this.drawButton(ctx, this.buttons[key]);
+                    }
+                });
+            }
         } else if (this.isShowInstructions) {
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
@@ -239,57 +290,6 @@ class FrontEnd {
             this.creditsElapsedTime = 0; // Reset to start scrolling again from the bottom
         }
     }
-
-      /* drawLoseScreen(ctx) {
-
-        // Fill the background
-        let backgroundLoseImage = ASSET_MANAGER.cache["./Art/losing_background.png"];
-        let loseImage = ASSET_MANAGER.cache["./Art/lose.png"];
-        let bruhImage = ASSET_MANAGER.cache["./Art/bruh.png"];
-
-        // Ensure the background image for losing is drawn first
-        if (backgroundLoseImage && backgroundLoseImage.complete) {
-            ctx.drawImage(backgroundLoseImage, 0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height);
-        }
-
-        // Set the desired scale factor for the lose image
-        const scaleFactorLose = 0.7;
-
-        // Calculate the scaled dimensions for the lose image
-        const scaledWidthLose = loseImage.width * scaleFactorLose;
-        const scaledHeightLose = loseImage.height * scaleFactorLose;
-
-        // Calculate the position to center the scaled lose image on the canvas
-        const xLose = (this.game.ctx.canvas.width - scaledWidthLose) / 2;
-        const yLose = (this.game.ctx.canvas.height - scaledHeightLose) / 2;
-
-        // Draw the scaled lose image onto the canvas at position (xLose, yLose)
-        if (loseImage && loseImage.complete) {
-            ctx.drawImage(loseImage, xLose, yLose, scaledWidthLose, scaledHeightLose);
-        }
-
-        // Draw the "Bruh" image next to the "You Lose" image
-        if (bruhImage && bruhImage.complete) {
-            // Set the desired scale factor for the bruh image 
-            const scaleFactorBruh = 0.5;
-
-            // Calculate the scaled dimensions for the bruh image
-            const scaledWidthBruh = bruhImage.width * scaleFactorBruh;
-            const scaledHeightBruh = bruhImage.height * scaleFactorBruh;
-
-            // Position the "Bruh" image next to the "You Lose" image
-            const xBruh = xLose + scaledWidthLose - 90;
-            const yBruh = yLose - 200;
-
-            // Draw the scaled "Bruh" image onto the canvas at position (xBruh, yBruh)
-            ctx.drawImage(bruhImage, xBruh, yBruh, scaledWidthBruh, scaledHeightBruh);
-        }
-        //this.drawReturnToTitleButton(ctx);
-    }*/
-
-   
-      
-    
 
 
     drawButton(ctx, button) {

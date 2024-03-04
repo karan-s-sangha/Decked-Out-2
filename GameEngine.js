@@ -14,6 +14,7 @@ class GameEngine {
         this.running = false;
         this.transition = null;
         this.play = false;
+        this.gameLevel = null;
     };
 
     init(ctx) {
@@ -127,6 +128,8 @@ class GameEngine {
             return;
         }
         if (this.play == true) {
+            this.gameLevel = this.screen.frontend.selectedLevel;
+           // console.log(this.gameLevel + "level");
 
             for (let i = 0; i < this.entities.length; i++) {
                 let entity = this.entities[i];

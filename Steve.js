@@ -80,7 +80,7 @@ class Steve {
         let prevX = this.playerX;
         let prevY = this.playerY;
 
-        console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
+        //console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
         if(this.live){
         if (this.collision.state === -1) {
@@ -303,7 +303,7 @@ class Steve {
 
 
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
-         console.log(this.collision.state);
+        // console.log(this.collision.state);
 
         if ((this.collision.state == -1 || this.collision.state == -2) && !this.jumped) {
             //    console.log("why did this run");
