@@ -2,7 +2,7 @@ class StaticArt {
     constructor(game) {
         this.game = game;
         this.radiusXY = 12; // Radius for drawing and calculations in the XY plane
-        this.radiusZ = 5;  // Radius for drawing and calculations in the Z dimension
+        this.radiusZ = 4;  // Radius for drawing and calculations in the Z dimension
         this.blocks = [];
         this.reachableBlocks = []; // Updated to store blocks that are reachable in a relative manner
         this.playerIsoX = 0;
