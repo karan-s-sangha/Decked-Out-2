@@ -1397,7 +1397,7 @@ function initTitleScreen() {
 	function drawTitleScreen() {
 		var backgroundImage = ASSET_MANAGER.getAsset("./Art/loading.png");
 		if (backgroundImage) {
-			ctx.drawImage(backgroundImage, -250, 0, backgroundImage.width / 1.4, backgroundImage.height / 1.4);
+			ctx.drawImage(backgroundImage, -150, 0, backgroundImage.width / 1.4, backgroundImage.height / 1.4);
 		}
 
 		// Draw "Click to Start" text

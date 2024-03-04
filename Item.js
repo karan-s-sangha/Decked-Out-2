@@ -7,7 +7,7 @@ class Item {
         this.imagePaths = imagePaths;
         this.itemLifeTime = 300000; // 5 minutes
         //this.pickupRadius = 0;
-        this.pickupRadius = 1 * this.game.GameScale;
+        this.pickupRadius = 0.5 * this.game.GameScale;
 
         this.items = []; // Array to hold multiple items
 
@@ -27,6 +27,8 @@ class Item {
 
         this.jumpFlag = false;
         this.picked = false;
+        this.itemIsoX = 0;
+        this.itemIsoY = 0;
 
         this.AddItem();
     }
@@ -54,7 +56,7 @@ class Item {
             verticalTime: Math.random() * 10,
             pickedUp: false,
             morf: this.morf,
-            morfingDown : this.morfingDown,
+            morfingDown: this.morfingDown,
             image: image,
             creationTime: Date.now()
         });
@@ -68,17 +70,17 @@ class Item {
             }
             // Scaling effect for each item
             if (item.morfingDown) {
-               if (item.morf > this.minMorf) {
+                if (item.morf > this.minMorf) {
                     item.morf -= this.morfSpeed;
-               } else {
+                } else {
                     item.morfingDown = false;
-               }
+                }
             } else {
                 if (item.morf < this.maxMorf) {
                     item.morf += this.morfSpeed;
                 } else {
                     item.morfingDown = true;
-              }
+                }
             }
         });
 
@@ -87,11 +89,11 @@ class Item {
         //         this.jumpComplete = false;
         //         this.jumpFlag = true;
         //     }
-           
+
         //     let x = [];
         //     let y = [];
 
-            
+
         //     this.items.forEach(item => {   
         //         x.push(item.x / this.gameScale);
         //         y.push(item.y / this.gameScale);
@@ -122,7 +124,7 @@ class Item {
         //         this.items[i].x = x[i] * this.gameScale;
         //         this.items[i].y = y[i] * this.gameScale;
         //     }
-            //console.log(this.gameScale);
+        //console.log(this.gameScale);
         //}
 
 
@@ -140,9 +142,11 @@ class Item {
             let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
 
             let isoX = ((item.x - item.y) * blockWidth) / 2 - this.game.camera.isoCameraX;
-            let isoY = ((item.x + item.y) * blockHeight) / 4 - ((item.z - this.steve.playerZ) * blockWidth) / 2 
-            - this.game.camera.isoCameraY + blockHeight / 2;
+            let isoY = ((item.x + item.y) * blockHeight) / 4 - ((item.z - this.steve.playerZ) * blockWidth) / 2
+                - this.game.camera.isoCameraY + blockHeight / 2;
 
+            this.itemIsoX = isoX;
+            this.itemIsoY = isoY;
             //let isoX = 340;
             //let isoY = 340; 
             // Updating the verticalTime property of the item object
@@ -154,13 +158,12 @@ class Item {
             // let morfedWidth = 0;
             // let morfedHeight = 0;
 
-             // Log all the relevant values
+            // Log all the relevant values
             //console.log(`Item X: ${item.x}, Item Y: ${item.y}, Item Z: ${item.z}`);
             //console.log(`Calculated isoX: ${isoX}, Calculated isoY: ${isoY}`);
             //console.log("Height ",item.verticalMovement);
-            if (Math.abs(item.z - this.steve.playerZ) <= this.game.camera.staticArt.radiusZ){
+
             ctx.drawImage(item.image, isoX - morfedWidth / 2, isoY - morfedHeight / 2 + this.verticalMovement, morfedWidth, morfedHeight);
-            }
         });
     }
 
@@ -170,13 +173,13 @@ class Item {
         item.x += (this.steve.playerX - item.x) / moveSpeed; // Move towards Steve X
         item.y += (this.steve.playerY - item.y) / moveSpeed; // Move towards Steve Y
 
-        if (  Math.abs(this.steve.playerX - item.x) < 6*this.game.GameScale 
-            && Math.abs(this.steve.playerY - item.y) < 6*this.game.GameScale ) {
+        if (Math.abs(this.steve.playerX - item.x) < 6 * this.game.GameScale
+            && Math.abs(this.steve.playerY - item.y) < 6 * this.game.GameScale) {
             item.pickedUp = true; // Mark as picked up to remove it later
             this.picked = true;
-       
-          //  console.log("steve picked up item")
-        //   console.log(this.steve.win);
+
+            //  console.log("steve picked up item")
+            //   console.log(this.steve.win);
         }
     }
 
@@ -185,12 +188,12 @@ class Item {
     }
 
     getX() {
-        let x = this.items.map(item => item.x)[0]; 
+        let x = this.items.map(item => item.x)[0];
         return x;
     }
 
     getY() {
-        let y = this.items.map(item => item.y)[0]; 
+        let y = this.items.map(item => item.y)[0];
         return y;
     }
 }

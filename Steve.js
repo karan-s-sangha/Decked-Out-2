@@ -6,7 +6,7 @@ class Steve {
         this.width = 200;
         this.height = 356;
         this.game = game;
-        this.health = 1;
+        this.health = 10;
         this.hunger = 5;
         this.steve = 10;
         this.spritesheet = null;  // Placeholder for the image
@@ -80,7 +80,7 @@ class Steve {
         let prevX = this.playerX;
         let prevY = this.playerY;
 
-        console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
+       // console.log("Steve: " + this.playerX + " " + this.playerY + " " + this.playerZ);
         this.collision.isCollision(this.playerX, this.playerY, this.playerZ);
         if(this.live){
         if (this.collision.state === -1) {
@@ -265,7 +265,8 @@ class Steve {
             //   console.log("this should be printing");
         }
 
-        if (this.game.keys.space && !this.jumped && this.jumpDelay === 0 && this.collision.state != -1) {
+        if (this.game.keys.space && !this.jumped && this.jumpDelay === 0 && this.collision.state != -1
+            && this.collision.isCollision(this.playerX, this.playerY, this.playerZ + 2)) {
             //  console.log("steve jumped");
             //  console.log("steve jumped");
             this.jumped = true;

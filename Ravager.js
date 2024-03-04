@@ -228,7 +228,7 @@ class Ravager {
     }
 
     canSeePlayer() {
-        const visibilityDistance = 3;
+        const visibilityDistance = 6;
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
@@ -274,7 +274,7 @@ class Ravager {
 
     followPlayer() {
         //console.log("ravager location: " + this.ravagerX + " " + this.ravagerY + " " + this.ravagerZ)
-        const ravagerSpeed = this.steve.playerWalkSpeed * 0.5;
+        const ravagerSpeed = this.steve.playerWalkSpeed * 0.75;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
         let dz = this.steve.playerZ - this.ravagerZ;
