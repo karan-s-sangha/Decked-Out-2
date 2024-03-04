@@ -27,6 +27,8 @@ class Item {
 
         this.jumpFlag = false;
         this.picked = false;
+        this.itemIsoX = 0;
+        this.itemIsoY = 0;
 
         this.AddItem();
     }
@@ -143,6 +145,8 @@ class Item {
             let isoY = ((item.x + item.y) * blockHeight) / 4 - ((item.z - this.steve.playerZ) * blockWidth) / 2 
             - this.game.camera.isoCameraY + blockHeight / 2;
 
+            this.itemIsoX = isoX;
+            this.itemIsoY = isoY;
             //let isoX = 340;
             //let isoY = 340; 
             // Updating the verticalTime property of the item object

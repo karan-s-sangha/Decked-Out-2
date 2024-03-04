@@ -26,10 +26,21 @@ class Compass {
 
         this.playerX = this.steve.playerX;
         this.playerY = this.steve.playerY;
+        this.playerZ = this.steve.playerZ;
        
+        let blockWidth = this.game.camera.imageWidth * this.game.camera.sizeFactor;
+        let blockHeight = this.game.camera.imageHeight * this.game.camera.sizeFactor;
+        
+        let isoX = ((this.playerX - this.playerY) * blockWidth) / 2 - this.game.camera.isoCameraX;
+        let isoY = ((this.playerX + this.playerY) * blockHeight) / 4 - ((this.playerZ - this.steve.playerZ) * blockWidth) / 2 
+        - this.game.camera.isoCameraY + blockHeight / 2;
+
+        this.playerX = isoX;
+        this.playerY = isoY;
+
         this.angleRadians = this.findAngle(
             this.playerX, this.playerY,
-            this.artifact.item.getX(), this.artifact.item.getY());
+            this.artifact.item.itemIsoX, this.artifact.item.itemIsoY);
     
         this.drawX = 0;
         this.drawY = 0;
