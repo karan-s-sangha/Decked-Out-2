@@ -80,7 +80,6 @@ class Camera {
         });
     }
 
-    // Example method to retrieve a block by its coordinates
     getBlock(x, y, z) {
         const key = `${x},${y},${z}`;
         return this.blocksMap[key]; // Fast lookup
@@ -95,7 +94,6 @@ class Camera {
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(steve) {
-        console.log("this should be running unless the map finish loading");
         // Adding the first upper level static art
         this.blocksUnderPlayer = new BlocksUnderPlayer(this.staticArt);
         this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.staticArt);
@@ -120,7 +118,8 @@ class Camera {
     addRavagers() {
         this.ravagerPositions = [
             //  { x:-2, y: 8, z: 1 }
-              { x: 70, y: 58, z: 14 }
+            { x: 70, y: 58, z: 14 },
+            { x: 72, y: 58, z: 14 },
             // { x: 130, y: 60, z: 34}
             /*{ x: 1332, y: 2348, z: 1 },
             { x: 556, y: 4572, z: 2 },

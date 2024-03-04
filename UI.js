@@ -50,22 +50,7 @@ class UI {
         for(let i = 0; i < 10 - Math.ceil(health); i++) {
             ctx.drawImage(this.healthImg,2*this.healthWidth,0,this.healthWidth,this.healthHeight,this.healthX + (Math.ceil(health) + i) *this.healthWidth* this.healthScale,this.healthY,this.healthWidth * this.healthScale,this.healthHeight * this.healthScale);
         }
-
-
-
-        let hunger = this.steve.hunger;
-        for(let i = 0; i < Math.floor(hunger); i++) {
-            ctx.drawImage(this.hungerImg,0,0,this.hungerWidth,this.hungerHeight,this.hungerX + i*this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
-        }
-
-        if(hunger - Math.floor(hunger) >  0) {
-            ctx.drawImage(this.hungerImg,this.hungerWidth,0,this.hungerWidth,this.hungerHeight,this.hungerX + Math.floor(hunger)*this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
-        }
-   
-        for(let i = 0; i < 10 - Math.ceil(hunger); i++) {
-            ctx.drawImage(this.hungerImg,2*this.hungerWidth,0,this.hungerWidth,this.hungerHeight,this.hungerX + (Math.ceil(hunger) + i) *this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
-        }
-    } else {
+        }else {
         this.drawLoseScreen(ctx);
     }
 };

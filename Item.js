@@ -7,7 +7,7 @@ class Item {
         this.imagePaths = imagePaths;
         this.itemLifeTime = 300000; // 5 minutes
         //this.pickupRadius = 0;
-        this.pickupRadius = 0.5*this.game.GameScale;
+        this.pickupRadius = 1 * this.game.GameScale;
 
         this.items = []; // Array to hold multiple items
 
