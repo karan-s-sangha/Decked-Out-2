@@ -1350,8 +1350,6 @@ ASSET_MANAGER.queueDownload("./Art/music/winningSound.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/walksound1.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/ravager.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/damage.mp3");
-
-// ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
 // ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
 
 // // sound effects
@@ -1395,19 +1393,19 @@ function initTitleScreen() {
     var ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
 
-    // Function to draw the title screen
-    function drawTitleScreen() {
-        var backgroundImage = ASSET_MANAGER.getAsset("./Art/loading.png");
-        if (backgroundImage) {
-            ctx.drawImage(backgroundImage, -250, 0, backgroundImage.width / 1.4, backgroundImage.height / 1.4);
-        }
+	// Function to draw the title screen
+	function drawTitleScreen() {
+		var backgroundImage = ASSET_MANAGER.getAsset("./Art/loading.png");
+		if (backgroundImage) {
+			ctx.drawImage(backgroundImage, -150, 0, backgroundImage.width / 1.4, backgroundImage.height / 1.4);
+		}
 
-        // Draw "Click to Start" text
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.font = "40px 'Press Start 2P'";
-        ctx.fillText("Click to Start", canvas.width / 2, canvas.height / 1.1);
-    }
+		// Draw "Click to Start" text
+		ctx.fillStyle = "white";
+		ctx.textAlign = "center";
+		ctx.font = "40px 'Press Start 2P'";
+		ctx.fillText("Click to Start", canvas.width /2 , canvas.height / 1.1);
+	}
 
     function onCanvasClick(event) {
         startGame();

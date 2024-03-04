@@ -148,39 +148,14 @@ class Ravager {
             default:
                 break;
         }
-
+        if (Math.abs(this.ravagerZ - this.steve.playerZ) <= this.game.camera.staticArt.radiusZ){
         animation.drawFrameAngle(this.game.clockTick, ctx, isoX, isoY + 50, this.size, 0);
-        // console.log("ravanger " + this.ravagerX + " ravanger Y " + this.ravagerY + "ravanger Z " + this.ravagerZ);
-
-
-        // Store current position for any subsequent logic
-        /*  this.prevPositions.push({ x: isoX, y: isoY });
-      
-          // Draw lines between previous positions
-          ctx.strokeStyle = "blue"; // Line color
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          for (let i = 1; i < this.prevPositions.length; i++) {
-            ctx.moveTo(this.prevPositions[i - 1].x, this.prevPositions[i - 1].y);
-            ctx.lineTo(this.prevPositions[i].x, this.prevPositions[i].y);
-          }
-          ctx.stroke();
-      
-          // Limit number of stored positions to prevent memory issues
-          if (this.prevPositions.length > Number.MAX_SAFE_INTEGER) {
-            this.prevPositions.shift(); // Remove the oldest position
-          }
-      
-          // Draw a simple shape for testing
-*/
         ctx.fillStyle = "blue"; // For visibility
         ctx.fillRect(isoX, isoY, 4, 4); // Draw a small square for the ravager
+        }
     }
 
     update() {
-        // console.log(this.canSeePlayer());
-        // if (this.canSeePlayer() && this.steve.health > 0) {
-
         if (this.canSeePlayer() && this.steve.live) {
            
             if (this.shouldAttackPlayer() && this.attackCoolDown == 0) {
@@ -253,11 +228,7 @@ class Ravager {
     }
 
     canSeePlayer() {
-        // Visibility and collision checks
-        
-
-        
-        const visibilityDistance = 3;
+        const visibilityDistance = 6;
         const dx = this.steve.playerX - this.ravagerX;
         const dy = this.steve.playerY - this.ravagerY;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
@@ -265,7 +236,7 @@ class Ravager {
         if (distanceToPlayer > visibilityDistance) {
             return false;
         }
-        console.log(this.soundCoolDown);
+       // console.log(this.soundCoolDown);
         if(this.soundCoolDown >= 800) {
             this.playRavagerSound();
         } 
@@ -302,8 +273,8 @@ class Ravager {
 
 
     followPlayer() {
-        console.log("ravager location: " + this.ravagerX + " " + this.ravagerY + " " + this.ravagerZ)
-        const ravagerSpeed = this.steve.playerWalkSpeed * 0.5;
+        //console.log("ravager location: " + this.ravagerX + " " + this.ravagerY + " " + this.ravagerZ)
+        const ravagerSpeed = this.steve.playerWalkSpeed * 0.75;
         let dx = this.steve.playerX - this.ravagerX;
         let dy = this.steve.playerY - this.ravagerY;
         let dz = this.steve.playerZ - this.ravagerZ;
@@ -369,7 +340,7 @@ class Ravager {
 
     wander() {
         if (this.wanderMove <= 0) {
-            if (Math.random() < 0.4) { // 30% chance to keep going in the same direction
+            if (Math.random() < 0.4) { // 40% chance to keep going in the same direction
                 this.angle = this.angle; // Keep the same angle
             } else {
                 this.angle = Math.random() * 2 * Math.PI; // Choose a new direction randomly

@@ -1,33 +1,37 @@
 class Difficulty {
-    constructor(game, level = 'Normal') {
+    constructor(game) {
+        
         this.game = game;
-        this.setLevel(level);
+        this.level = 'easy'; // Default level
+        this.setLevel(this.game.gameLevel); // update it
         this.artifact = new Artifact(this.game, this.game.camera.steve);
         this.compass = new Compass(this.artifact, this.game.camera.steve, this.game);
+        this.artifactsCollected = 0;
        
     }
 
     setLevel(level) {
         this.level = level;
+        if (level == null){
+            this.level = 'easy';
+        }
         switch(level) {
-            case 'Easy':
-                this.artifactsToWin = 1; // Player needs to collect 5 artifacts to win
+            case 'easy':
+                this.artifactsToWin = 3; // Player needs to collect 5 artifacts to win
                 break;
-            case 'Normal':
-                this.artifactsToWin = 2; // Player needs to collect 10 artifacts to win
+            case 'medium':
+                this.artifactsToWin = 5; // Player needs to collect 10 artifacts to win
                 break;
-            case 'Hard':
-                this.artifactsToWin = 3; // Player needs to collect 15 artifacts to win
+            case 'hard':
+                this.artifactsToWin = 7; // Player needs to collect 15 artifacts to win
                 break;
             default:
-                this.artifactsToWin = 2; // Default is Normal difficulty
+                this.artifactsToWin = 2; // Default is Medium difficulty
         }
         this.artifactsCollected = 0; // Reset collected artifacts counter
     }
 
     update() {
-        //console.log("updating in the difficulty class", this.level);
-
         // Check if the player has collected the required number of artifacts to win
         if (this.artifactsCollected >= this.artifactsToWin) {
             //console.log("Are the steve and play getting called?");

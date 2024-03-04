@@ -4,10 +4,15 @@ class Artifact  {
         this.steve = steve;
         this.item = new Item  (game, steve, 
             [
-            [73, 58,14], 
-            [68, 58,14] 
-            // [75, 58,14], 
-            // [75, 58,14]
+            [75, 58,14], 
+            [106, 60,5], 
+            [58, 46,15], 
+            [22, 86,11],
+            [117, 96, 15],
+            [122, 29, 19],
+            [83, 42, 19],
+            [132, 55, 19],
+            [58, 20, 19]
             ]
         , [
             "./Art/Artifacts/Axeofthescreaminvoid.png",

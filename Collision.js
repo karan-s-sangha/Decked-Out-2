@@ -6,8 +6,6 @@ class Collision {
     }
 
     isCollision(x, y, z) {
-        // console.log(x + " " + " " + y + " " + z);
-
         let blockX = Math.floor(x);
         let blockY = Math.floor(y);
         let blockZ = Math.ceil(z); 

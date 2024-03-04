@@ -27,10 +27,10 @@ class TransitionScreen {
     draw(ctx) {
         // Draw the transition screen with the current message
         ctx.fillStyle = "#337ECD";
-        ctx.fillRect(0, 0, 768, 768); 
+        ctx.fillRect(0, 0, this.game.ctx.canvas.width, this.game.ctx.canvas.height); 
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.font = "40px 'Press Start 2P'";
-        ctx.fillText(this.message, 768 / 2, 768 / 2); 
+        ctx.fillText(this.message, this.game.ctx.canvas.width / 2, this.game.ctx.canvas.height / 2); 
     };
 };

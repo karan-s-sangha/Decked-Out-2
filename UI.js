@@ -1,6 +1,7 @@
 class UI {
-    constructor(steve) {
+    constructor(steve, game) {
         this.steve = steve;
+        this.game = game;
 
         this.healthWidth = 163;
         this.healthHeight = 175; 
@@ -50,27 +51,30 @@ class UI {
         for(let i = 0; i < 10 - Math.ceil(health); i++) {
             ctx.drawImage(this.healthImg,2*this.healthWidth,0,this.healthWidth,this.healthHeight,this.healthX + (Math.ceil(health) + i) *this.healthWidth* this.healthScale,this.healthY,this.healthWidth * this.healthScale,this.healthHeight * this.healthScale);
         }
+        let level = this.game.camera.difficulty.level.toUpperCase();
+        let artifactsNeeded = this.game.camera.difficulty.artifactsToWin; // Total artifacts needed to win
+        let artifactsCollected = this.game.camera.difficulty.artifactsCollected; // Artifacts that have been collected
 
+        ctx.font = "60% 'Press Start 2P'";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "right"; 
 
+            // Construct the display string
+        let displayText = `${level}-Artifacts Needed: ${artifactsNeeded - artifactsCollected}`;
 
-        let hunger = this.steve.hunger;
-        for(let i = 0; i < Math.floor(hunger); i++) {
-            ctx.drawImage(this.hungerImg,0,0,this.hungerWidth,this.hungerHeight,this.hungerX + i*this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
-        }
+           
+        let textX = this.game.ctx.canvas.width - 10; 
+        let textY = this.healthY; 
 
-        if(hunger - Math.floor(hunger) >  0) {
-            ctx.drawImage(this.hungerImg,this.hungerWidth,0,this.hungerWidth,this.hungerHeight,this.hungerX + Math.floor(hunger)*this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
-        }
-   
-        for(let i = 0; i < 10 - Math.ceil(hunger); i++) {
-            ctx.drawImage(this.hungerImg,2*this.hungerWidth,0,this.hungerWidth,this.hungerHeight,this.hungerX + (Math.ceil(hunger) + i) *this.hungerWidth* this.hungerScale,this.hungerY,this.hungerWidth * this.hungerScale,this.hungerHeight * this.hungerScale);
-        }
-    } else {
+        ctx.fillText(displayText, textX, textY);
+
+        }else {
         this.drawLoseScreen(ctx);
     }
 };
 
     drawLoseScreen(ctx) {
+        let loseMessageBottom;
         ctx.fillStyle = 'rgba(170, 0, 0, 0.5)'; // Semi-transparent dark red
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -81,8 +85,11 @@ class UI {
       
         let loseMessageTop = "You Died!";
        
-
-        let loseMessageBottom = "You were slain by Ravager";
+        if (this.steve.playerZ <= -3){
+         loseMessageBottom = "You fell of the world";
+        } else {
+         loseMessageBottom = "You were slain by Ravager";
+        }
 
         
         let textX = ctx.canvas.width / 2;

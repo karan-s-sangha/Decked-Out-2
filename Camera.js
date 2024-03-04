@@ -7,12 +7,8 @@ class Camera {
         this.collision = new Collision(game);
         this.staticArt = new StaticArt(game);
 
-        // this.steveInitialX = -6;
-        // this.steveInitialY = 3;
-        // this.steveInitialZ = 1;
-        //75   58   14 20 86 11 124, 58, 34)
-        this.steveInitialX = 75; 
-        this.steveInitialY = 58;   
+        this.steveInitialX = 9; 
+        this.steveInitialY = 28;   
         this.steveInitialZ = 14;   
         this.steve = new Steve(this.game, this.steveInitialX, this.steveInitialY, this.steveInitialZ);
 
@@ -30,11 +26,11 @@ class Camera {
         this.levelY = 0;
         this.menuButtonCooldown = 0.15;
 
-        this.difficulty = new Difficulty(game, "Hard");
+        this.difficulty = new Difficulty(game);
         //this.ember = new FrostEmbers(this.game, this.steve);
         //this.gold = new Gold(this.game, this.steve);
 
-        this.ui = new UI(this.steve);
+        this.ui = new UI(this.steve, this.game);
 
         this.blocksMap = {}; // Use an object as a hash map to store block data as objects
         this.layerCount = 37; // Set the number of layers you want to read
@@ -68,7 +64,6 @@ class Camera {
     processTextFile(text) {
         const lines = text.split('\n');
         lines.forEach((line, index) => {
-            console.log("READING MAP");
             const parts = line.split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
@@ -82,7 +77,6 @@ class Camera {
         });
     }
 
-    // Example method to retrieve a block by its coordinates
     getBlock(x, y, z) {
         const key = `${x},${y},${z}`;
         return this.blocksMap[key]; // Fast lookup
@@ -120,22 +114,16 @@ class Camera {
     };
 
     addRavagers() {
-        this.ravagerPositions = [
-            //  { x:-2, y: 8, z: 1 }
-              { x: 70, y: 58, z: 14 }
-            // { x: 130, y: 60, z: 34}
-            /*{ x: 1332, y: 2348, z: 1 },
-            { x: 556, y: 4572, z: 2 },
-            { x: 1468, y: 6348, z: 3 },
-            { x: 4078, y: 4852, z: 4 },
-            { x: 1740, y: 4252, z: 0 },
-            { x: 2460, y: 2532, z: 5 },
-            { x: 4116, y: 2124, z: 0 },
-            { x: 4324, y: 4884, z: 0 },
-            { x: 3972, y: 1204, z: 0 },
-            { x: 444, y: 2340, z: 0 },
-            { x: 3492, y: 2796, z: 0 },
-            { x: 2276, y: 6060, z: 0 }*/
+    this.ravagerPositions = [
+             { x: 75, y: 58, z: 14 },
+             { x: 106, y: 60, z: 5 },
+             { x : 58, y: 46, z :15 },
+             { x: 22, y: 86, z: 11},
+             { x: 117, y: 96, z: 15 },
+             { x: 122, y: 29, z: 19 },
+             { x: 83, y: 42, z: 19 },
+             { x: 132, y: 55, z: 19 },
+             { x: 58, y: 20, z: 19 }
 
         ];
 
@@ -148,52 +136,6 @@ class Camera {
 
     // This update is for the whole website including the HTML 
     update() {
-        //    // console.log(this.steve.playerX, this.steve.playerY);
-        //     if (this.steve.jumped) {
-        //         let x = this.steve.playerX / this.game.GameScale;
-        //         let y = this.steve.playerY / this.game.GameScale;
-        //         let z = this.steve.playerZ / this.game.GameScale; // Assuming Steve has a Z position
-        //         let newRavX = [];
-        //         let newRavY = [];
-        //         let newRavZ = []; // Store new Z positions for ravagers
-
-        //         this.ravagers.forEach(rav => {
-        //             newRavX.push(rav.ravagerX / this.game.GameScale);
-        //             newRavY.push(rav.ravagerY / this.game.GameScale);
-        //             newRavZ.push(rav.ravagerZ / this.game.GameScale); // Adjust for Z
-        //         });
-
-        //         if (this.game.GameScale > 3.6 && !this.steve.jumpComplete) {
-        //             this.game.GameScale -= this.game.clockTick * 1.5;
-        //             this.ravagers.forEach(rav => {
-        //                 rav.size -= this.game.clockTick * 0.1;
-        //             });
-        //         } else {
-        //             this.steve.jumpComplete = true;
-        //         }
-
-        //         if (this.game.GameScale < 4 && this.steve.jumpComplete) {
-        //             this.game.GameScale += this.game.clockTick * 1.5;
-        //             this.ravagers.forEach(rav => {
-        //                 rav.size += this.game.clockTick * 0.1;
-        //             });
-        //         }
-
-        //         if (this.steve.jumpComplete && this.game.GameScale >= 4) {
-        //             this.steve.jumped = false;
-        //         }
-
-        //         this.steve.playerX = x * this.game.GameScale;
-        //         this.steve.playerY = y * this.game.GameScale;
-        //         this.steve.playerZ = z * this.game.GameScale; // Scale Steve's Z
-
-        //         for (let i = 0; i < this.ravagers.length; i++) {
-        //             this.ravagers[i].ravagerX = newRavX[i] * this.game.GameScale;
-        //             this.ravagers[i].ravagerY = newRavY[i] * this.game.GameScale;
-        //             this.ravagers[i].ravagerZ = newRavZ[i] * this.game.GameScale; // Scale Ravager's Z
-        //         }
-        //     }
-
         // For Drawing Everyone At the right Location
         // Just Subtract isoCameraX and isoCameraY 
 
@@ -221,6 +163,12 @@ class Camera {
         }
 
     };
+
+    updateDifficulty(level) {
+        if (this.difficulty) {
+            this.difficulty.setLevel(level); 
+        }
+    }
 
     // This Draw is for the whole website including the HTML 
     draw(ctx) {

@@ -14,6 +14,7 @@ class GameEngine {
         this.running = false;
         this.transition = null;
         this.play = false;
+        this.gameLevel = null;
     };
 
     init(ctx) {
@@ -127,7 +128,7 @@ class GameEngine {
             return;
         }
         if (this.play == true) {
-
+            this.gameLevel = this.screen.frontend.selectedLevel;
             for (let i = 0; i < this.entities.length; i++) {
                 let entity = this.entities[i];
                 if (!entity.removeFromWorld) {
@@ -140,54 +141,6 @@ class GameEngine {
         }
         this.wheel = 0;
     };
-
-
-   /* draw() {
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        if (this.transition) {
-            this.transition.draw(this.ctx);
-        }
-        this.timer.draw(this.ctx);
-
-        if (this.play == true || (this.play == false && this.screen.frontend.isInLoseScreen == true)) {
-            this.camera.draw(this.ctx);
-            for (let i = 0; i < this.entities.length; i++) {
-                this.entities[i].draw(this.ctx);
-            }
-        } else if (this.play == false && this.camera.steve.live == false) {
-            this.screen.draw(this.ctx);
-        } else {
-            this.screen.draw(this.ctx);
-        }
-
-    };
-
-    update() {
-        if (this.transition) {
-            this.transition.update();
-            return;
-        }
-
-        // for (var i = this.entities.length - 1; i >= 0; --i) {
-        //     if (this.entities[i].removeFromWorld) {
-        //         this.entities.splice(i, 1);
-        //     }
-        // }
-        if (this.play == true || (this.play == false && this.screen.frontend.isInLoseScreen == true)) {
-
-            for (let i = 0; i < this.entities.length; i++) {
-                let entity = this.entities[i];
-
-                if (!entity.removeFromWorld) {
-                    entity.update();
-                }
-            }
-            this.camera.update();
-        } else {
-            this.screen.update();
-        }
-        this.wheel = 0;
-    };*/
 
     loop() {
         this.clockTick = this.timer.tick();

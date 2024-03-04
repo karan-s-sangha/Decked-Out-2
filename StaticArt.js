@@ -19,20 +19,20 @@ class StaticArt {
         const playerY = Math.floor(this.game.camera.steve.playerY);
         let playerZ = Math.ceil(this.game.camera.steve.playerZ);
         let key = `${playerX},${playerY},${playerZ}`;
-        
+
         //console.log(playerX," ",playerY," ",playerZ);
         //console.log(this.game.camera.steve.playerX," ",this.game.camera.steve.playerY," ",this.game.camera.steve.playerZ);
-        
+
         let count = 0;
-        while(!this.game.camera.blocksMap[key]){
-            playerZ = playerZ -1;
+        while (!this.game.camera.blocksMap[key]) {
+            playerZ = playerZ - 1;
             key = `${playerX},${playerY},${playerZ}`;
             count++;
-            if(count>10){
+            if (count > 10) {
                 break;
             }
         }
-        
+
         this.blocks = [];
         this.reachableBlocks = [];
         this.expandAroundSteve(playerX, playerY, playerZ);
@@ -43,18 +43,16 @@ class StaticArt {
 
     drawBlock(ctx, block) {
         const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
-    
         // Check if the blockImage exists and is loaded. Skip drawing if not.
         if (!blockImage || blockImage.complete === false || blockImage.naturalWidth === 0) {
             return; // Skip the drawing code below
         }
-    
         const blockKey = `${block.x},${block.y},${block.z}`;
 
         ctx.save(); // Save the current context state
         const shouldBeTransparent = this.transparency.has(blockKey);
-        ctx.globalAlpha = shouldBeTransparent ? 0.1 : 1; // Adjust opacity based on transparency flag
-      
+        ctx.globalAlpha = shouldBeTransparent ? 0.5 : 1; // Adjust opacity based on transparency flag
+
         //this.playerIsoX = isoX;
         //this.playerIsoY = isoY;
 
@@ -71,7 +69,7 @@ class StaticArt {
         this.reachableBlocks = []; // Reset the reachable blocks list
     
         let queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
-        let isDiagonallyAbove  = false;
+        let isDiagonallyAbove = false;
 
         while (queue.length > 0) {
             const { x, y, z, isReachable } = queue.shift();
@@ -98,45 +96,45 @@ class StaticArt {
             }
         }
         console.log(isDiagonallyAbove);
-       
+
         visited = new Set(); // Tracks all visited blocks for expansion
-        let transparency= new Set(); // Map to track blocks that should be transparent
+        let transparency = new Set(); // Map to track blocks that should be transparent
 
         queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
         let count = 1;
         let flag = false;
 
-        if(isDiagonallyAbove){
+        if (isDiagonallyAbove) {
             console.log("Trying to find the transparent");
             while (queue.length > 0) {
                 const { x, y, z } = queue.shift();
                 const key = `${x},${y},${z}`;
-        
+
                 if (visited.has(key) || !this.game.camera.blocksMap[key]) continue; // Skip visited or non-existing
-    
+
                 visited.add(key); // Mark as visited
                 let isInRadius = Math.abs(x - playerX) <= this.radiusXY && Math.abs(y - playerY) <= this.radiusXY && Math.abs(z - playerZ) <= this.radiusZ;
-    
+
                 if (isInRadius) {
                     const block = this.game.camera.blocksMap[key];
-                  
+
                     // Queue neighbors for exploration
                     this.getNeighborPositions(x, y, z).forEach(({ dx, dy, dz }) => {
                         let newX = x + dx, newY = y + dy, newZ = z + dz;
 
                         //let currentZ = newZ + 1; // Start checking from one block above the current one.
-                        
-                        if (this.isMovable(x, y, z, dx, dy, dz) ) {
-                            while(newZ + count <= playerZ + this.radiusZ) {
-                                let X = newX+count;
-                                let Y = newY+count;
-                                let Z = newZ+count;
+
+                        if (this.isMovable(x, y, z, dx, dy, dz)) {
+                            while (newZ + count <= playerZ + this.radiusZ) {
+                                let X = newX + count;
+                                let Y = newY + count;
+                                let Z = newZ + count;
 
                                 let aboveKey = `${X},${Y},${Z}`;
-                                transparency.add(`${X},${Y},${Z+1}`);
-                                transparency.add(`${X},${Y},${Z+1}`);
+                                transparency.add(`${X},${Y},${Z + 1}`);
+                                transparency.add(`${X},${Y},${Z + 1}`);
 
-                                if(this.game.camera.blocksMap[aboveKey]) {
+                                if (this.game.camera.blocksMap[aboveKey]) {
                                     // If there is a block directly above, mark it for transparency.
                                     // Assuming you have a mechanism to mark blocks as transparent, e.g., adding to a map or modifying the block object.
                                     transparency.add(aboveKey);
@@ -145,8 +143,8 @@ class StaticArt {
                                 }
                                 count++; // Move one block further up.
                             }
-                            if(flag === true){
-                               queue.push({ x: newX, y: newY, z: newZ });
+                            if (flag === true) {
+                                queue.push({ x: newX, y: newY, z: newZ });
                             }
                         }
                         flag = false;
@@ -175,17 +173,16 @@ class StaticArt {
         // Target position based on the intended direction of movement
         const targetKey = `${currX + dx},${currY + dy},${currZ + dz}`;
         const targetBlock = this.game.camera.blocksMap[targetKey];
-    
         // Blocks directly above the target position
         const oneAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 1}`;
         const twoAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 2}`;
         const oneAboveTargetBlock = this.game.camera.blocksMap[oneAboveTargetKey];
         const twoAboveTargetBlock = this.game.camera.blocksMap[twoAboveTargetKey];
-    
+
         // Block directly above the current position
         const blockAboveCurrentKey = `${currX},${currY},${currZ + 1}`;
         const blockAboveCurrent = this.game.camera.blocksMap[blockAboveCurrentKey];
-    
+
         // Ensure the target block exists and there are no blocks directly above it, allowing for movement.
         // Additionally, check if the block above the current position is clear to allow for potential jumping.
         // This implementation assumes a simple movement model where the player cannot move if there's a block directly above them.
@@ -200,6 +197,7 @@ class StaticArt {
         }
     }
     
+
 
     calculateBlockDrawingParams(block) {
         const { steve, isoCameraX, isoCameraY, imageWidth, imageHeight, sizeFactor } = this.game.camera;

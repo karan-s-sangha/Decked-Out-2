@@ -12,8 +12,11 @@ class SceneManager {
         this.level = null;
         this.gameOver = false;
         this.frontend = new FrontEnd(game, this);
-       // this.titlescreen = new Titlescreen(game, this);
-        this.loadSceneManager(this.level, false);
+       
+        // this.titlescreen = new Titlescreen(game, this);
+        this.loadSceneManager(this.frontend.selectedLevel, false);
+      
+    
     };
 
     loadSceneManager(level, isTransition) {
@@ -23,6 +26,12 @@ class SceneManager {
             && this.frontend.isShowInstructions == false) {
             this.game.play = true;
         } 
+    }
+
+    updateGameDifficulty(level) {
+        if (this.game.camera) {
+            this.game.camera.updateDifficulty(level);
+        }
     }
 
     updateAudio() {
