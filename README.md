@@ -33,7 +33,7 @@ Discover the mysteries waiting in the depths of Decked Out 2 with our official g
 
 Watch the Trailer
 
-https://www.youtube.com/watch?v=twIb8laOm_U
+[![Watch the video](https://img.youtube.com/vi/twIb8laOm_U/0.jpg)](https://www.youtube.com/watch?v=twIb8laOm_U)
 
 
 Join us in the adventure of a lifetime with Decked Out 2 - where strategy, courage, and a bit of luck are your keys to success.
