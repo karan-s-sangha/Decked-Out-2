@@ -20,9 +20,6 @@ class StaticArt {
         let playerZ = Math.ceil(this.game.camera.steve.playerZ);
         let key = `${playerX},${playerY},${playerZ}`;
 
-        //console.log(playerX," ",playerY," ",playerZ);
-        //console.log(this.game.camera.steve.playerX," ",this.game.camera.steve.playerY," ",this.game.camera.steve.playerZ);
-
         let count = 0;
         while (!this.game.camera.blocksMap[key]) {
             playerZ = playerZ - 1;
@@ -95,7 +92,6 @@ class StaticArt {
                 });
             }
         }
-        console.log(isDiagonallyAbove);
 
         visited = new Set(); // Tracks all visited blocks for expansion
         let transparency = new Set(); // Map to track blocks that should be transparent
@@ -105,7 +101,6 @@ class StaticArt {
         let flag = false;
 
         if (isDiagonallyAbove) {
-            console.log("Trying to find the transparent");
             while (queue.length > 0) {
                 const { x, y, z } = queue.shift();
                 const key = `${x},${y},${z}`;

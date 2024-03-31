@@ -46,7 +46,7 @@ class Camera {
 
     };
     async initializeAndLoadLevel() {
-        console.log("In initialization");
+        //console.log("In initialization");
         try {
             for (let i = 0; i < this.layerCount; i++) {
                 const response = await fetch(`./map/layer_${i}.txt`);
@@ -91,7 +91,6 @@ class Camera {
     // loadLevel is supposed to add the entities of the first level
 
     loadLevel(steve) {
-        console.log("this should be running unless the map finish loading");
         // Adding the first upper level static art
         this.blocksUnderPlayer = new BlocksUnderPlayer(this.staticArt);
         this.blocksAtOrAbovePlayer = new BlocksAtOrAbovePlayer(this.staticArt);

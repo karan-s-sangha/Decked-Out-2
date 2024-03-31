@@ -1,14 +1,14 @@
 
 var ASSET_MANAGER = new AssetManager();
 
-// Image for the Upper Level One
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png");
+// // Image for the Upper Level One
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView.png");
 
-// Image for the Upper Level One Collision
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
+// // Image for the Upper Level One Collision
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Level_1_UpperView_Collision.png");
 
-// Animation for the Upper Level One
-ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
+// // Animation for the Upper Level One
+// ASSET_MANAGER.queueDownload("./Art/Level_1_UpperView_Art/Animation.png");
 
 
 // Animation for the Ravager
@@ -30,10 +30,10 @@ ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player - Converted3.png"
 // ASSET_MANAGER.queueDownload("./Art/Steve_Animations/Iso/player.png");
 
 
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
-ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
+// ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - running.png");
+// ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching-sideways.png");
+// ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouching.png");
+// ASSET_MANAGER.queueDownload("./Art/Steve_Animations/player - crouched.png");
 ASSET_MANAGER.queueDownload("./Art/Player/health.png");
 ASSET_MANAGER.queueDownload("./Art/Player/hunger.png");
 // Image for the compass
@@ -67,20 +67,19 @@ ASSET_MANAGER.queueDownload("./Art/Currency/Coin.png");
 ASSET_MANAGER.queueDownload("./Art/Currency/Frost-Ember.png");
 
 // Image for the losing and wining
-ASSET_MANAGER.queueDownload("./Art/lose.png");
-ASSET_MANAGER.queueDownload("./Art/bruh.png");
-ASSET_MANAGER.queueDownload("./Art/losing_background.png");
-ASSET_MANAGER.queueDownload("./Art/win.png");
-ASSET_MANAGER.queueDownload("./Art/youWin.png");
-ASSET_MANAGER.queueDownload("./Art/steveWin.png");
-ASSET_MANAGER.queueDownload("./Art/background.png");
+// ASSET_MANAGER.queueDownload("./Art/lose.png");
+// ASSET_MANAGER.queueDownload("./Art/bruh.png");
+// ASSET_MANAGER.queueDownload("./Art/losing_background.png");
+// ASSET_MANAGER.queueDownload("./Art/win.png");
+// ASSET_MANAGER.queueDownload("./Art/youWin.png");
+// ASSET_MANAGER.queueDownload("./Art/steveWin.png");
+// ASSET_MANAGER.queueDownload("./Art/background.png");
 
 //Images for the Block in Game
-ASSET_MANAGER.queueDownload("./Art/Blocks/Minecrat_Grass.jpg");
-ASSET_MANAGER.queueDownload("./Art/Blocks/BlockOfGold.png");
-ASSET_MANAGER.queueDownload("./Art/Blocks/Observer.png");
-
-ASSET_MANAGER.queueDownload("./Art/resources/Isometric_cube.png");
+// ASSET_MANAGER.queueDownload("./Art/Blocks/Minecrat_Grass.jpg");
+// ASSET_MANAGER.queueDownload("./Art/Blocks/BlockOfGold.png");
+// ASSET_MANAGER.queueDownload("./Art/Blocks/Observer.png");
+// ASSET_MANAGER.queueDownload("./Art/resources/Isometric_cube.png");
 
 //Images of the blocks in the game
 ASSET_MANAGER.queueDownload("./Art/resources/amethyst.png");
@@ -268,12 +267,7 @@ ASSET_MANAGER.queueDownload("./Art/resources/wither_skeleton_skul.png");
 ASSET_MANAGER.queueDownload("./Art/resources/wither_skeleton_skull.png");
 ASSET_MANAGER.queueDownload("./Art/resources/wither_skeleton_wall_skull.png");
 
-
-//Text File for Level
-//ASSET_MANAGER.queueDownload("./Art/Map/testMap0.txt");
-
 // music
-ASSET_MANAGER.queueDownload("./Art/music/Decked_Out.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/titleMusic.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/winningSound.mp3");
 ASSET_MANAGER.queueDownload("./Art/music/walksound1.mp3");
