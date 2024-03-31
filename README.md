@@ -1,7 +1,7 @@
 # Decked Out 2 - Game Overview
 
 ## Introduction
-Decked Out 2 is an adventurous and thrilling game inspired by the original Minecraft mini-game, Decked Out. Developed with a focus on exploration, strategy, and survival, Decked Out 2 brings a new level of excitement and challenges for players. The game is designed to capture the essence of exploration within a mysterious dungeon filled with artifacts, ravagers, and treasures.
+Decked Out 2 is an adventurous and thrilling game inspired by the original Minecraft mini-game, Decked Out. Created by a passionate team of developers and artists including **Karan Sangha, Ingeun Hwang, and Khin Win**, the game elevates the concept of exploration, strategy, and survival. Decked Out 2 introduces players to a realm of excitement and challenges within a dungeon brimming with secrets, artifacts, and menacing ravagers.
 
 ## Features
 - **Exploration:** Navigate through a dynamically generated dungeon with intricate layouts and secrets waiting to be discovered.
