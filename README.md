@@ -15,7 +15,7 @@ Decked Out 2 is an adventurous and thrilling game inspired by the original Minec
 ## Installation
 The game is built using web technologies and can be played directly in your browser. No installation is necessary. Simply navigate to the game's URL, and you're ready to play!
 
-https://www.youtube.com/watch?v=twIb8laOm_U
+https://karan-s-sangha.github.io/Decked-Out-2/
 
 ## Controls
 - **Movement:** Use WASD or arrow keys to move your character.
@@ -33,10 +33,13 @@ Discover the mysteries waiting in the depths of Decked Out 2 with our official g
 
 Watch the Trailer
 
+https://www.youtube.com/watch?v=twIb8laOm_U
+
+
 Join us in the adventure of a lifetime with Decked Out 2 - where strategy, courage, and a bit of luck are your keys to success.
 
 We hope you enjoy playing Decked Out 2 as much as we enjoyed creating it. For updates, discussions, and more, follow us on GitHub and join our community. Happy exploring!
 
 Start Playing Decked Out 2
 
-https://www.youtube.com/watch?v=twIb8laOm_U
+https://karan-s-sangha.github.io/Decked-Out-2/
