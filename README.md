@@ -31,7 +31,7 @@ Decked Out 2 is an open-source project, and contributions are welcome. Whether y
 ## YouTube Trailer
 Discover the mysteries waiting in the depths of Decked Out 2 with our official game trailer. Experience a glimpse of the challenges, the excitement, and the adventure that awaits. Watch the trailer now on YouTube and embark on your journey through the dungeon. Will you emerge victorious with the artifacts in hand, or will the ravagers claim another soul? The choice is yours.
 
-Watch the Trailer
+### Watch the Trailer
 
 [![Watch the video](https://img.youtube.com/vi/twIb8laOm_U/0.jpg)](https://www.youtube.com/watch?v=twIb8laOm_U)
 
@@ -43,3 +43,10 @@ We hope you enjoy playing Decked Out 2 as much as we enjoyed creating it. For up
 Start Playing Decked Out 2
 
 https://karan-s-sangha.github.io/Decked-Out-2/
+
+
+## Images from game
+<img width="600" alt="Screenshot 2024-03-31 154518" src="https://github.com/karan-s-sangha/Decked-Out-2/assets/122415428/14fd7a84-89d5-41c9-bf7c-9a0c4db2be24">
+<img width="600" alt="Screenshot 2024-03-31 154835" src="https://github.com/karan-s-sangha/Decked-Out-2/assets/122415428/de3b91c8-17e4-450e-b99c-301bd5330294">
+<img width="600" alt="Screenshot 2024-03-31 155022" src="https://github.com/karan-s-sangha/Decked-Out-2/assets/122415428/5b22ecae-b7a0-4f85-b566-b93d4de79ad3">
+
