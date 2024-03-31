@@ -43,12 +43,10 @@ class StaticArt {
 
     drawBlock(ctx, block) {
         const { isoX, isoY, blockImage, sizeFactor } = this.calculateBlockDrawingParams(block);
-
         // Check if the blockImage exists and is loaded. Skip drawing if not.
         if (!blockImage || blockImage.complete === false || blockImage.naturalWidth === 0) {
             return; // Skip the drawing code below
         }
-
         const blockKey = `${block.x},${block.y},${block.z}`;
 
         ctx.save(); // Save the current context state
@@ -60,16 +58,16 @@ class StaticArt {
 
         // Draw the block
         ctx.drawImage(blockImage, isoX, isoY, blockImage.width * sizeFactor, blockImage.height * sizeFactor);
-
+    
         ctx.restore(); // Restore the context state, resetting globalAlpha among other properties
     }
-
-
+    
+    
     expandAroundSteve(playerX, playerY, playerZ) {
         let visited = new Set(); // Tracks all visited blocks for expansion
         this.blocks = []; // Reset the blocks list
         this.reachableBlocks = []; // Reset the reachable blocks list
-
+    
         let queue = [{ x: playerX, y: playerY, z: playerZ, isReachable: true }]; // Starting point
         let isDiagonallyAbove = false;
 
@@ -158,8 +156,8 @@ class StaticArt {
         this.transparency = transparency; // Store the map for use in drawBlock
 
     }
-
-
+    
+    
     sortBlocksForDrawing(blocks) {
         // Sort by Z first to ensure vertical positioning is respected
         // Then sort by the sum of X and Y for proper isometric depth sorting
@@ -175,7 +173,6 @@ class StaticArt {
         // Target position based on the intended direction of movement
         const targetKey = `${currX + dx},${currY + dy},${currZ + dz}`;
         const targetBlock = this.game.camera.blocksMap[targetKey];
-
         // Blocks directly above the target position
         const oneAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 1}`;
         const twoAboveTargetKey = `${currX + dx},${currY + dy},${currZ + dz + 2}`;
@@ -199,6 +196,7 @@ class StaticArt {
             return targetBlock && !oneAboveTargetBlock && !twoAboveTargetBlock;
         }
     }
+    
 
 
     calculateBlockDrawingParams(block) {
