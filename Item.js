@@ -84,49 +84,7 @@ class Item {
             }
         });
 
-        // if(this.steve.jumped) {
-        //     if(!this.jumpFlag) {
-        //         this.jumpComplete = false;
-        //         this.jumpFlag = true;
-        //     }
-
-        //     let x = [];
-        //     let y = [];
-
-
-        //     this.items.forEach(item => {   
-        //         x.push(item.x / this.gameScale);
-        //         y.push(item.y / this.gameScale);
-        //     });
-
-
-        //     if(this.gameScale > 3.6 && !this.jumpComplete) {
-        //         this.items.forEach(item => {
-        //             item.itemSize -= this.game.clockTick * 0.1;
-        //         });
-        //         this.gameScale -= this.game.clockTick * 1.5; 
-        //     } else {
-        //         this.jumpComplete = true;
-        //     }
-
-        //     if(this.gameScale < 4 && this.jumpComplete) {
-        //         this.items.forEach(item => {
-        //             item.itemSize += this.game.clockTick * 0.1;
-        //         });
-        //         this.gameScale += this.game.clockTick * 1.5; 
-        //     }
-
-        //     if(this.gameScale >= 4 && this.jumpComplete) {
-        //         this.jumpFlag = false;
-        //     }
-
-        //     for(let i = 0; i < this.items.length; i++) {
-        //         this.items[i].x = x[i] * this.gameScale;
-        //         this.items[i].y = y[i] * this.gameScale;
-        //     }
-        //console.log(this.gameScale);
-        //}
-
+      
 
         // Remove items that have been picked up or expired
         this.items = this.items.filter(item => {
@@ -178,8 +136,6 @@ class Item {
             item.pickedUp = true; // Mark as picked up to remove it later
             this.picked = true;
 
-            //  console.log("steve picked up item")
-            //   console.log(this.steve.win);
         }
     }
 
