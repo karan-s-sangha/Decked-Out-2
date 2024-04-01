@@ -33,7 +33,8 @@ Discover the mysteries waiting in the depths of Decked Out 2 with our official g
 
 ### Watch the Trailer
 
-[![Watch the video](![Screenshot 2024-03-31 190031](https://github.com/karan-s-sangha/Decked-Out-2/assets/131113666/4310f93b-3c92-41e4-99f7-65a174969530))](https://www.youtube.com/watch?v=twIb8laOm_U)
+[![Watch the video](https://github.com/karan-s-sangha/Decked-Out-2/assets/131113666/4310f93b-3c92-41e4-99f7-65a174969530)](https://www.youtube.com/watch?v=twIb8laOm_U)
+[Watch the video](https://www.youtube.com/watch?v=twIb8laOm_U)
 
 
 
